@@ -9,20 +9,42 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void updateFIO(object sender, EventArgs e)
         {
-
+            this.fio = comboBox1.Text;
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void updateMeasure(object sender, EventArgs e)
         {
-
+            this.measurementName = nameComboBox.Text;
         }
 
-        private void label2_Click(object sender, EventArgs e)
+      
+        private int UpdateIntTextBox(TextBox textBox)
         {
-
+            int result;
+            if (int.TryParse(textBox.Text, out result))
+                textBox.BackColor = Color.White;
+            else 
+                textBox.BackColor = Color.Red;
+            return result;
         }
+        
+        private void updateStep(object sender, EventArgs e)
+        {
+            this.step = UpdateIntTextBox(measurementStepTextPanel);
+        }
+
+        private void updateAdmLength(object sender, EventArgs e)
+        {
+            this.admLenght = UpdateIntTextBox(admLenghtTextBox);
+        }
+
+        private void updateAdmPerMeter(object sender, EventArgs e)
+        {
+            this.admPerMeter = UpdateIntTextBox(admPerMeterTextBox);
+        }
+        
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {

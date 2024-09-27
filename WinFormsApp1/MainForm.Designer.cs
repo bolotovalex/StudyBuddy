@@ -67,12 +67,12 @@
             measurementStepPanel = new Panel();
             measurementStepTextPanel = new TextBox();
             dateTimePicker9 = new DateTimePicker();
-            fillDataFormButton = new Button();
             graphicButton = new Button();
             button1 = new Button();
             exitButton = new Button();
             loadFileButton = new Button();
             saveButton = new Button();
+            fillDataFormButton = new Button();
             datePanel.SuspendLayout();
             namePanel.SuspendLayout();
             panel1.SuspendLayout();
@@ -100,7 +100,7 @@
             dateTimePicker.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dateTimePicker.Checked = false;
             dateTimePicker.Enabled = false;
-            dateTimePicker.Location = new Point(507, 3);
+            dateTimePicker.Location = new Point(364, 3);
             dateTimePicker.MinDate = new DateTime(2024, 9, 26, 0, 0, 0, 0);
             dateTimePicker.Name = "dateTimePicker";
             dateTimePicker.Size = new Size(126, 23);
@@ -112,17 +112,22 @@
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(206, 3);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(427, 23);
+            comboBox1.RightToLeft = RightToLeft.Yes;
+            comboBox1.Size = new Size(284, 23);
             comboBox1.TabIndex = 1;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            comboBox1.TextUpdate += updateFIO;
             // 
             // nameComboBox
             // 
+            nameComboBox.FlatStyle = FlatStyle.System;
             nameComboBox.FormattingEnabled = true;
             nameComboBox.Location = new Point(206, 3);
             nameComboBox.Name = "nameComboBox";
-            nameComboBox.Size = new Size(427, 23);
+            nameComboBox.RightToLeft = RightToLeft.Yes;
+            nameComboBox.Size = new Size(284, 23);
             nameComboBox.TabIndex = 2;
+            nameComboBox.TextChanged += updateMeasure;
             // 
             // nameLabel
             // 
@@ -213,7 +218,7 @@
             datePanel.Controls.Add(dateTimePicker);
             datePanel.Location = new Point(8, 12);
             datePanel.Name = "datePanel";
-            datePanel.Size = new Size(638, 31);
+            datePanel.Size = new Size(495, 31);
             datePanel.TabIndex = 15;
             // 
             // namePanel
@@ -224,13 +229,13 @@
             namePanel.Controls.Add(nameComboBox);
             namePanel.Location = new Point(8, 49);
             namePanel.Name = "namePanel";
-            namePanel.Size = new Size(638, 31);
+            namePanel.Size = new Size(495, 31);
             namePanel.TabIndex = 16;
             // 
             // dateTimePicker1
             // 
             dateTimePicker1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker1.Location = new Point(840, 3);
+            dateTimePicker1.Location = new Point(697, 3);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(251, 23);
             dateTimePicker1.TabIndex = 0;
@@ -243,13 +248,13 @@
             panel1.Controls.Add(label3);
             panel1.Location = new Point(8, 86);
             panel1.Name = "panel1";
-            panel1.Size = new Size(638, 31);
+            panel1.Size = new Size(495, 31);
             panel1.TabIndex = 17;
             // 
             // dateTimePicker2
             // 
             dateTimePicker2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker2.Location = new Point(840, 3);
+            dateTimePicker2.Location = new Point(697, 3);
             dateTimePicker2.Name = "dateTimePicker2";
             dateTimePicker2.Size = new Size(251, 23);
             dateTimePicker2.TabIndex = 0;
@@ -262,13 +267,15 @@
             maxDeviationPanel.Controls.Add(maxDeviationLabel);
             maxDeviationPanel.Location = new Point(8, 123);
             maxDeviationPanel.Name = "maxDeviationPanel";
-            maxDeviationPanel.Size = new Size(638, 31);
+            maxDeviationPanel.Size = new Size(495, 31);
             maxDeviationPanel.TabIndex = 18;
             // 
             // maxDeviationTextBox
             // 
-            maxDeviationTextBox.Location = new Point(533, 3);
+            maxDeviationTextBox.BackColor = SystemColors.Control;
+            maxDeviationTextBox.Location = new Point(390, 3);
             maxDeviationTextBox.Name = "maxDeviationTextBox";
+            maxDeviationTextBox.ReadOnly = true;
             maxDeviationTextBox.Size = new Size(100, 23);
             maxDeviationTextBox.TabIndex = 7;
             maxDeviationTextBox.Text = "0";
@@ -277,7 +284,7 @@
             // dateTimePicker3
             // 
             dateTimePicker3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker3.Location = new Point(840, 3);
+            dateTimePicker3.Location = new Point(697, 3);
             dateTimePicker3.Name = "dateTimePicker3";
             dateTimePicker3.Size = new Size(251, 23);
             dateTimePicker3.TabIndex = 0;
@@ -290,13 +297,15 @@
             minDeviationPanel.Controls.Add(minDeviationLabel);
             minDeviationPanel.Location = new Point(8, 160);
             minDeviationPanel.Name = "minDeviationPanel";
-            minDeviationPanel.Size = new Size(638, 31);
+            minDeviationPanel.Size = new Size(495, 31);
             minDeviationPanel.TabIndex = 19;
             // 
             // minDeviationTextBox
             // 
-            minDeviationTextBox.Location = new Point(533, 3);
+            minDeviationTextBox.BackColor = SystemColors.Control;
+            minDeviationTextBox.Location = new Point(390, 3);
             minDeviationTextBox.Name = "minDeviationTextBox";
+            minDeviationTextBox.ReadOnly = true;
             minDeviationTextBox.Size = new Size(100, 23);
             minDeviationTextBox.TabIndex = 8;
             minDeviationTextBox.Text = "0";
@@ -305,7 +314,7 @@
             // dateTimePicker4
             // 
             dateTimePicker4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker4.Location = new Point(840, 3);
+            dateTimePicker4.Location = new Point(697, 3);
             dateTimePicker4.Name = "dateTimePicker4";
             dateTimePicker4.Size = new Size(251, 23);
             dateTimePicker4.TabIndex = 0;
@@ -318,13 +327,15 @@
             verticalDeviationPanel.Controls.Add(verticalDeviationLabel);
             verticalDeviationPanel.Location = new Point(8, 197);
             verticalDeviationPanel.Name = "verticalDeviationPanel";
-            verticalDeviationPanel.Size = new Size(638, 31);
+            verticalDeviationPanel.Size = new Size(495, 31);
             verticalDeviationPanel.TabIndex = 20;
             // 
             // verticalDeviationTextBox
             // 
-            verticalDeviationTextBox.Location = new Point(533, 3);
+            verticalDeviationTextBox.BackColor = SystemColors.Control;
+            verticalDeviationTextBox.Location = new Point(390, 3);
             verticalDeviationTextBox.Name = "verticalDeviationTextBox";
+            verticalDeviationTextBox.ReadOnly = true;
             verticalDeviationTextBox.Size = new Size(100, 23);
             verticalDeviationTextBox.TabIndex = 9;
             verticalDeviationTextBox.Text = "0";
@@ -333,7 +344,7 @@
             // dateTimePicker5
             // 
             dateTimePicker5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker5.Location = new Point(1298, 3);
+            dateTimePicker5.Location = new Point(1155, 3);
             dateTimePicker5.Name = "dateTimePicker5";
             dateTimePicker5.Size = new Size(251, 23);
             dateTimePicker5.TabIndex = 0;
@@ -346,13 +357,15 @@
             lineDeviationPanel.Controls.Add(lineDeviationLabel);
             lineDeviationPanel.Location = new Point(8, 234);
             lineDeviationPanel.Name = "lineDeviationPanel";
-            lineDeviationPanel.Size = new Size(638, 31);
+            lineDeviationPanel.Size = new Size(495, 31);
             lineDeviationPanel.TabIndex = 21;
             // 
             // lineDeviationTextBox
             // 
-            lineDeviationTextBox.Location = new Point(533, 3);
+            lineDeviationTextBox.BackColor = SystemColors.Control;
+            lineDeviationTextBox.Location = new Point(390, 3);
             lineDeviationTextBox.Name = "lineDeviationTextBox";
+            lineDeviationTextBox.ReadOnly = true;
             lineDeviationTextBox.Size = new Size(100, 23);
             lineDeviationTextBox.TabIndex = 10;
             lineDeviationTextBox.Text = "0";
@@ -361,7 +374,7 @@
             // dateTimePicker6
             // 
             dateTimePicker6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker6.Location = new Point(1298, 3);
+            dateTimePicker6.Location = new Point(1155, 3);
             dateTimePicker6.Name = "dateTimePicker6";
             dateTimePicker6.Size = new Size(251, 23);
             dateTimePicker6.TabIndex = 0;
@@ -374,22 +387,23 @@
             admLenghtPanel.Controls.Add(admLengthLabel);
             admLenghtPanel.Location = new Point(8, 271);
             admLenghtPanel.Name = "admLenghtPanel";
-            admLenghtPanel.Size = new Size(638, 31);
+            admLenghtPanel.Size = new Size(495, 31);
             admLenghtPanel.TabIndex = 22;
             // 
             // admLenghtTextBox
             // 
-            admLenghtTextBox.Location = new Point(533, 3);
+            admLenghtTextBox.Location = new Point(390, 3);
             admLenghtTextBox.Name = "admLenghtTextBox";
             admLenghtTextBox.Size = new Size(100, 23);
             admLenghtTextBox.TabIndex = 11;
             admLenghtTextBox.Text = "0";
             admLenghtTextBox.TextAlign = HorizontalAlignment.Right;
+            admLenghtTextBox.TextChanged += updateAdmLength;
             // 
             // dateTimePicker7
             // 
             dateTimePicker7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker7.Location = new Point(1298, 3);
+            dateTimePicker7.Location = new Point(1155, 3);
             dateTimePicker7.Name = "dateTimePicker7";
             dateTimePicker7.Size = new Size(251, 23);
             dateTimePicker7.TabIndex = 0;
@@ -402,22 +416,23 @@
             admPerMeterPanel.Controls.Add(label9);
             admPerMeterPanel.Location = new Point(8, 308);
             admPerMeterPanel.Name = "admPerMeterPanel";
-            admPerMeterPanel.Size = new Size(638, 31);
+            admPerMeterPanel.Size = new Size(495, 31);
             admPerMeterPanel.TabIndex = 23;
             // 
             // admPerMeterTextBox
             // 
-            admPerMeterTextBox.Location = new Point(533, 3);
+            admPerMeterTextBox.Location = new Point(390, 3);
             admPerMeterTextBox.Name = "admPerMeterTextBox";
             admPerMeterTextBox.Size = new Size(100, 23);
             admPerMeterTextBox.TabIndex = 12;
             admPerMeterTextBox.Text = "0";
             admPerMeterTextBox.TextAlign = HorizontalAlignment.Right;
+            admPerMeterTextBox.TextChanged += updateAdmPerMeter;
             // 
             // dateTimePicker8
             // 
             dateTimePicker8.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker8.Location = new Point(1298, 3);
+            dateTimePicker8.Location = new Point(1155, 3);
             dateTimePicker8.Name = "dateTimePicker8";
             dateTimePicker8.Size = new Size(251, 23);
             dateTimePicker8.TabIndex = 0;
@@ -430,25 +445,72 @@
             measurementStepPanel.Controls.Add(label10);
             measurementStepPanel.Location = new Point(8, 345);
             measurementStepPanel.Name = "measurementStepPanel";
-            measurementStepPanel.Size = new Size(638, 31);
+            measurementStepPanel.Size = new Size(495, 31);
             measurementStepPanel.TabIndex = 24;
             // 
             // measurementStepTextPanel
             // 
-            measurementStepTextPanel.Location = new Point(533, 3);
+            measurementStepTextPanel.Location = new Point(390, 3);
             measurementStepTextPanel.Name = "measurementStepTextPanel";
             measurementStepTextPanel.Size = new Size(100, 23);
             measurementStepTextPanel.TabIndex = 13;
             measurementStepTextPanel.Text = "0";
             measurementStepTextPanel.TextAlign = HorizontalAlignment.Right;
+            measurementStepTextPanel.TextChanged += updateStep;
             // 
             // dateTimePicker9
             // 
             dateTimePicker9.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker9.Location = new Point(1298, 3);
+            dateTimePicker9.Location = new Point(1155, 3);
             dateTimePicker9.Name = "dateTimePicker9";
             dateTimePicker9.Size = new Size(251, 23);
             dateTimePicker9.TabIndex = 0;
+            // 
+            // graphicButton
+            // 
+            graphicButton.Location = new Point(178, 382);
+            graphicButton.Name = "graphicButton";
+            graphicButton.Size = new Size(155, 31);
+            graphicButton.TabIndex = 26;
+            graphicButton.Text = "График";
+            graphicButton.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(8, 419);
+            button1.Name = "button1";
+            button1.Size = new Size(155, 31);
+            button1.TabIndex = 27;
+            button1.Text = "Выгрузить PDF";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // exitButton
+            // 
+            exitButton.Location = new Point(348, 419);
+            exitButton.Name = "exitButton";
+            exitButton.Size = new Size(155, 31);
+            exitButton.TabIndex = 28;
+            exitButton.Text = "Выход";
+            exitButton.UseVisualStyleBackColor = true;
+            exitButton.Click += exitButton_Click;
+            // 
+            // loadFileButton
+            // 
+            loadFileButton.Location = new Point(348, 382);
+            loadFileButton.Name = "loadFileButton";
+            loadFileButton.Size = new Size(155, 31);
+            loadFileButton.TabIndex = 29;
+            loadFileButton.Text = "Загрузить";
+            loadFileButton.UseVisualStyleBackColor = true;
+            // 
+            // saveButton
+            // 
+            saveButton.Location = new Point(178, 419);
+            saveButton.Name = "saveButton";
+            saveButton.Size = new Size(155, 31);
+            saveButton.TabIndex = 30;
+            saveButton.Text = "Сохранить";
+            saveButton.UseVisualStyleBackColor = true;
             // 
             // fillDataFormButton
             // 
@@ -460,57 +522,11 @@
             fillDataFormButton.UseVisualStyleBackColor = true;
             fillDataFormButton.Click += fillDataFormButton_Click;
             // 
-            // graphicButton
-            // 
-            graphicButton.Location = new Point(169, 382);
-            graphicButton.Name = "graphicButton";
-            graphicButton.Size = new Size(155, 31);
-            graphicButton.TabIndex = 26;
-            graphicButton.Text = "График";
-            graphicButton.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(330, 382);
-            button1.Name = "button1";
-            button1.Size = new Size(155, 31);
-            button1.TabIndex = 27;
-            button1.Text = "Выгрузить PDF";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // exitButton
-            // 
-            exitButton.Location = new Point(491, 419);
-            exitButton.Name = "exitButton";
-            exitButton.Size = new Size(155, 31);
-            exitButton.TabIndex = 28;
-            exitButton.Text = "Выход";
-            exitButton.UseVisualStyleBackColor = true;
-            exitButton.Click += exitButton_Click;
-            // 
-            // loadFileButton
-            // 
-            loadFileButton.Location = new Point(491, 382);
-            loadFileButton.Name = "loadFileButton";
-            loadFileButton.Size = new Size(155, 31);
-            loadFileButton.TabIndex = 29;
-            loadFileButton.Text = "Загрузить";
-            loadFileButton.UseVisualStyleBackColor = true;
-            // 
-            // saveButton
-            // 
-            saveButton.Location = new Point(330, 419);
-            saveButton.Name = "saveButton";
-            saveButton.Size = new Size(155, 31);
-            saveButton.TabIndex = 30;
-            saveButton.Text = "Сохранить";
-            saveButton.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(651, 455);
+            ClientSize = new Size(511, 455);
             Controls.Add(saveButton);
             Controls.Add(loadFileButton);
             Controls.Add(exitButton);
@@ -589,7 +605,6 @@
         private DateTimePicker dateTimePicker8;
         private Panel measurementStepPanel;
         private DateTimePicker dateTimePicker9;
-        private Button fillDataFormButton;
         private Button graphicButton;
         private Button button1;
         private Button exitButton;
@@ -602,5 +617,12 @@
         private TextBox measurementStepTextPanel;
         private Button loadFileButton;
         private Button saveButton;
+        private int step;
+        private int admPerMeter;
+        private int admLenght;
+        private DateTime dateTime;
+        private string measurementName;
+        private string fio;
+        private Button fillDataFormButton;
     }
 }
