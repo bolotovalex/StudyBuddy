@@ -1,4 +1,8 @@
-﻿namespace WinFormsApp1
+﻿using System.Data;
+using System.Data.Common;
+using Pryamolineynost;
+
+namespace WinFormsApp1
 {
     partial class MainForm
     {
@@ -93,7 +97,7 @@
             dateLabel.Size = new Size(32, 15);
             dateLabel.TabIndex = 3;
             dateLabel.Text = "Дата";
-            dateLabel.Click += label1_Click;
+            
             // 
             // dateTimePicker
             // 
@@ -115,7 +119,6 @@
             comboBox1.RightToLeft = RightToLeft.Yes;
             comboBox1.Size = new Size(284, 23);
             comboBox1.TabIndex = 1;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             comboBox1.TextUpdate += updateFIO;
             // 
             // nameComboBox
@@ -137,7 +140,6 @@
             nameLabel.Size = new Size(169, 15);
             nameLabel.TabIndex = 4;
             nameLabel.Text = "Наименование/Обозначение";
-            nameLabel.Click += label2_Click;
             // 
             // label3
             // 
@@ -571,6 +573,7 @@
             ResumeLayout(false);
         }
 
+
         #endregion
 
         private DateTimePicker dateTimePicker;
@@ -624,5 +627,6 @@
         private string measurementName;
         private string fio;
         private Button fillDataFormButton;
+        private DataList dList = new DataList();
     }
 }

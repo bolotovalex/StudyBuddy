@@ -8,6 +8,11 @@ namespace Pryamolineynost
 {
     class DataList
     {
-     
+        public List<DataRow> data = new List<DataRow>();
+
+        public DataList()
+        {
+            this.data.Add(new DataRow());
+        }
     }
 }

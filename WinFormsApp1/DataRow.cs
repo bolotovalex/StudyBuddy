@@ -8,14 +8,14 @@ namespace Pryamolineynost
 {
     internal class DataRow
     {
-        public int id;
-        public int length;
-        public float factCheckedProfileLength;
-        public float adjStraight;
-        public float deviation;
-        public float devationPerMeter;
-        public float midValue;
-        public float fStroke;
-        public float revStroke;
+        public int id = 0;
+        public int length = 0;
+        public float factCheckedProfileLength = 0;
+        public float adjStraight = 0;
+        public float deviation = 0;
+        public float devationPerMeter = 0;
+        public float midValue = 0;
+        public float fStroke = 0;
+        public float revStroke = 0;
     }
 }

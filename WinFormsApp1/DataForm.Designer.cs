@@ -28,48 +28,116 @@
         /// </summary>
         private void InitializeComponent()
         {
-            vScrollBar1 = new VScrollBar();
-            tableLayoutPanel1 = new TableLayoutPanel();
+            dataGrid = new DataGridView();
+            id = new DataGridViewTextBoxColumn();
+            length = new DataGridViewTextBoxColumn();
+            factProfile = new DataGridViewTextBoxColumn();
+            straight = new DataGridViewTextBoxColumn();
+            deviation = new DataGridViewTextBoxColumn();
+            deviationPerMeter = new DataGridViewTextBoxColumn();
+            advValue = new DataGridViewTextBoxColumn();
+            fStroke = new DataGridViewTextBoxColumn();
+            rStroke = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)dataGrid).BeginInit();
             SuspendLayout();
             // 
-            // vScrollBar1
+            // dataGrid
             // 
-            vScrollBar1.Location = new Point(735, 8);
-            vScrollBar1.Name = "vScrollBar1";
-            vScrollBar1.Size = new Size(10, 433);
-            vScrollBar1.TabIndex = 2;
+            dataGrid.AllowUserToDeleteRows = false;
+            dataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGrid.Columns.AddRange(new DataGridViewColumn[] { id, length, factProfile, straight, deviation, deviationPerMeter, advValue, fStroke, rStroke });
+            dataGrid.Location = new Point(3, 2);
+            dataGrid.Name = "dataGrid";
+            dataGrid.Size = new Size(915, 580);
+            dataGrid.TabIndex = 3;
+            dataGrid.CellValueChanged += dataGrid_CellValueChanged;
+            dataGrid.DataContextChanged += DataForm_SizeChanged;
             // 
-            // tableLayoutPanel1
+            // id
             // 
-            tableLayoutPanel1.ColumnCount = 5;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 51.7241364F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48.2758636F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 86F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 408F));
-            tableLayoutPanel1.Location = new Point(12, 9);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(720, 100);
-            tableLayoutPanel1.TabIndex = 3;
+            id.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            id.HeaderText = "№ изм(точка)";
+            id.Name = "id";
+            id.ReadOnly = true;
+            id.Resizable = DataGridViewTriState.False;
+            // 
+            // length
+            // 
+            length.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            length.HeaderText = "Длина измерения, мм";
+            length.Name = "length";
+            length.ReadOnly = true;
+            // 
+            // factProfile
+            // 
+            factProfile.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            factProfile.HeaderText = "Фактический профиль проверяемой поверхности, мкм";
+            factProfile.Name = "factProfile";
+            factProfile.ReadOnly = true;
+            // 
+            // straight
+            // 
+            straight.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            straight.HeaderText = "Прилегающая прямая, мкм";
+            straight.Name = "straight";
+            straight.ReadOnly = true;
+            // 
+            // deviation
+            // 
+            deviation.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            deviation.HeaderText = "Отклонение, мкм";
+            deviation.Name = "deviation";
+            deviation.ReadOnly = true;
+            // 
+            // deviationPerMeter
+            // 
+            deviationPerMeter.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            deviationPerMeter.HeaderText = "Отклонение на метре, мкм";
+            deviationPerMeter.Name = "deviationPerMeter";
+            deviationPerMeter.ReadOnly = true;
+            // 
+            // advValue
+            // 
+            advValue.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            advValue.HeaderText = "Среднее значение, мкм";
+            advValue.Name = "advValue";
+            advValue.ReadOnly = true;
+            // 
+            // fStroke
+            // 
+            fStroke.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            fStroke.HeaderText = "Прямой ход, мкм";
+            fStroke.Name = "fStroke";
+            // 
+            // rStroke
+            // 
+            rStroke.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            rStroke.HeaderText = "Обратный ход, мкм";
+            rStroke.Name = "rStroke";
             // 
             // DataForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(753, 450);
-            Controls.Add(tableLayoutPanel1);
-            Controls.Add(vScrollBar1);
+            ClientSize = new Size(921, 616);
+            Controls.Add(dataGrid);
             Name = "DataForm";
             Text = "DataForm";
+            Resize += DataForm_SizeChanged;
+            ((System.ComponentModel.ISupportInitialize)dataGrid).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private VScrollBar vScrollBar1;
-        private TableLayoutPanel tableLayoutPanel1;
+        private DataGridView dataGrid;
+        private DataGridViewTextBoxColumn id;
+        private DataGridViewTextBoxColumn length;
+        private DataGridViewTextBoxColumn factProfile;
+        private DataGridViewTextBoxColumn straight;
+        private DataGridViewTextBoxColumn deviation;
+        private DataGridViewTextBoxColumn deviationPerMeter;
+        private DataGridViewTextBoxColumn advValue;
+        private DataGridViewTextBoxColumn fStroke;
+        private DataGridViewTextBoxColumn rStroke;
     }
 }
