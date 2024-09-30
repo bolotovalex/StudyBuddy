@@ -50,7 +50,7 @@
             dataGrid.Name = "dataGrid";
             dataGrid.Size = new Size(915, 580);
             dataGrid.TabIndex = 3;
-            dataGrid.CellValueChanged += dataGrid_CellValueChanged;
+            dataGrid.RowsAdded += dataGrid_RowsAdded;
             dataGrid.DataContextChanged += DataForm_SizeChanged;
             // 
             // id
@@ -123,6 +123,7 @@
             Controls.Add(dataGrid);
             Name = "DataForm";
             Text = "DataForm";
+            Load += DataForm_Load;
             Resize += DataForm_SizeChanged;
             ((System.ComponentModel.ISupportInitialize)dataGrid).EndInit();
             ResumeLayout(false);

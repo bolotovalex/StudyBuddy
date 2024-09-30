@@ -2,10 +2,11 @@ namespace Pryamolineynost
 {
     public partial class MainForm : Form
     {
-        
+        private DataList dataList;
         public MainForm()
         {
             InitializeComponent();
+            this.dataList = new DataList();
         }
 
         
@@ -58,7 +59,7 @@ namespace Pryamolineynost
 
         private void fillDataFormButton_Click(object sender, EventArgs e)
         {
-            DataForm dataForm = new DataForm();
+            DataForm dataForm = new DataForm(dataList);
             dataForm.Show();
         }
         

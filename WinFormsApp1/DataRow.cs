@@ -6,16 +6,25 @@ using System.Threading.Tasks;
 
 namespace Pryamolineynost
 {
-    internal class DataRow
+    public class DataRow
     {
-        public int id = 0;
-        public int length = 0;
-        public float factCheckedProfileLength = 0;
-        public float adjStraight = 0;
-        public float deviation = 0;
-        public float devationPerMeter = 0;
-        public float midValue = 0;
-        public float fStroke = 0;
-        public float revStroke = 0;
+        public int Step { get; }
+        public int Length { get; }
+        public float FactCheckedProfileLength { get; }
+        public float AdjStraight { get; }
+        public float Deviation { get; }
+        public float DevationPerMeter { get; }
+        public float MidValue { get; }
+        public float FStroke { get; }
+        public float RevStroke { get; }
+        public int Count { get; }
+
+
+        public DataRow(float fStroke, float revStroke)
+        {
+            this.FStroke = fStroke;
+            this.RevStroke = revStroke;
+            this.Count = 9;
+        }
     }
 }
