@@ -2,7 +2,7 @@
 using System.Data.Common;
 using Pryamolineynost;
 
-namespace WinFormsApp1
+namespace Pryamolineynost
 {
     partial class MainForm
     {
@@ -627,6 +627,5 @@ namespace WinFormsApp1
         private string measurementName;
         private string fio;
         private Button fillDataFormButton;
-        private DataList dList = new DataList();
     }
 }

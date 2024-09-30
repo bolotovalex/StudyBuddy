@@ -1,10 +1,8 @@
-using Pryamolineynost;
-
-namespace WinFormsApp1
+namespace Pryamolineynost
 {
     public partial class MainForm : Form
     {
-        DataList dataList = new DataList();
+        
         public MainForm()
         {
             InitializeComponent();
@@ -46,21 +44,6 @@ namespace WinFormsApp1
         {
             this.admPerMeter = UpdateIntTextBox(admPerMeterTextBox);
         }
-        
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
@@ -75,8 +58,11 @@ namespace WinFormsApp1
 
         private void fillDataFormButton_Click(object sender, EventArgs e)
         {
-            DataForm dataForm = new DataForm(this.step, this.admLenght, this.admPerMeter, dataList);
+            DataForm dataForm = new DataForm();
             dataForm.Show();
         }
-    }
+        
+    } 
+
+   
 }
