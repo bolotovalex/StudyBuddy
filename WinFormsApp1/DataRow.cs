@@ -15,16 +15,28 @@ namespace Pryamolineynost
         public float Deviation { get; }
         public float DevationPerMeter { get; }
         public float MidValue { get; }
-        public float FStroke { get; }
-        public float RevStroke { get; }
+        public float FStroke { get; set; }
+        public float RevStroke { get; set; }
         public int Count { get; }
 
 
+        private void CalculateFields()
+        {
+
+        }
+        
         public DataRow(float fStroke, float revStroke)
         {
             this.FStroke = fStroke;
             this.RevStroke = revStroke;
             this.Count = 9;
+        }
+
+        public void UpdateRow(float fStroke, float revStroke)
+        {
+            this.FStroke = fStroke;
+            this.RevStroke = revStroke;
+            CalculateFields();
         }
     }
 }

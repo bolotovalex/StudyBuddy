@@ -25,6 +25,10 @@ namespace Pryamolineynost
             this.dataList.Add(new DataRow(fStroke, revStroke));
         }
 
+        public void UpdateRow(int index, float fStroke, float revStroke) {
+             
+        }
+        
         public int RowsCount() => dataList.Count;
         public int ColsCount() => dataList[0].Count;
     }

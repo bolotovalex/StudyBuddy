@@ -50,7 +50,6 @@
             dataGrid.Name = "dataGrid";
             dataGrid.Size = new Size(915, 580);
             dataGrid.TabIndex = 3;
-            dataGrid.RowsAdded += dataGrid_RowsAdded;
             dataGrid.DataContextChanged += DataForm_SizeChanged;
             // 
             // id
