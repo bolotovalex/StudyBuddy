@@ -102,7 +102,7 @@ namespace Pryamolineynost
             {
                 var row = this.dataList[index];
                 var prevRow = this.dataList[index - 1];
-                row.UpdateRow(value, prevRow.GetLength() + this.measurementStep, row.GetLength(), prevRow);
+                row.UpdateRow(value, this.measurementStep, row.GetLength(), prevRow);
                 this.UpdateProgramFactors();
                 row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
                 row.UpdateDeviation();
@@ -115,7 +115,7 @@ namespace Pryamolineynost
             {
                 var row = this.dataList[index];
                 var prevRow = this.dataList[index - 1];
-                row.UpdateRow(row.GetFStroke(), value, prevRow.GetLength() + this.measurementStep, prevRow);
+                row.UpdateRow(row.GetFStroke(), value, this.measurementStep, prevRow);
                 this.UpdateProgramFactors();
                 row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
                 row.UpdateDeviation();

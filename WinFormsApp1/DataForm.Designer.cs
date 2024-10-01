@@ -13,11 +13,11 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
+            //if (disposing && (components != null))
+            //{
+            //    components.Dispose();
+            //}
+            //base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
@@ -123,9 +123,11 @@
             Controls.Add(dataGrid);
             Name = "DataForm";
             Text = "DataForm";
+            FormClosing += DataForm_FormClosing;
             Load += DataForm_Load;
             Resize += DataForm_SizeChanged;
             ((System.ComponentModel.ISupportInitialize)dataGrid).EndInit();
+            //ControlBox = false;
             ResumeLayout(false);
         }
 

@@ -67,6 +67,10 @@ namespace Pryamolineynost
 
         private void fillDataFormButton_Click(object sender, EventArgs e)
         {
+            if (this.dataForm == null)
+            {
+                this.dataForm = new DataForm(dB);
+            }
             this.dataForm.Show();
         }
 
