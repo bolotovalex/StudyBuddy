@@ -2,13 +2,10 @@
 {
     public partial class DataForm : Form
     {
-        private DataList dataList;
-        public DataForm(DataList data)
+        private DB db;
+        public DataForm(DB db)
         {
-            this.dataList = data;
-            this.dataList.AddRow(1, 1);
-            this.dataList.AddRow(2, 2);
-
+            this.db = db;
             InitializeComponent();
 
         }
@@ -20,43 +17,43 @@
 
 
 
-        private void DataForm_Load(object sender, EventArgs e)
-        {
-            dataGrid.Rows.Clear();
-            for (var i = 0; i < dataList.RowsCount(); i++)
-            {
-                dataGrid.Rows.Add();
-                var row = dataList.GetRow(i);
-                dataGrid.Rows[i].Cells[0].Value = row.Step;
-                dataGrid.Rows[i].Cells[1].Value = row.Length;
-                dataGrid.Rows[i].Cells[2].Value = row.FactCheckedProfileLength;
-                dataGrid.Rows[i].Cells[3].Value = row.AdjStraight;
-                dataGrid.Rows[i].Cells[4].Value = row.Deviation;
-                dataGrid.Rows[i].Cells[5].Value = row.DevationPerMeter;
-                dataGrid.Rows[i].Cells[6].Value = row.MidValue;
-                dataGrid.Rows[i].Cells[7].Value = row.FStroke;
-                dataGrid.Rows[i].Cells[8].Value = row.RevStroke;
-            }
-        }
+        //private void DataForm_Load(object sender, EventArgs e)
+        //{
+        //    dataGrid.Rows.Clear();
+        //    for (var i = 0; i < dataList.RowsCount(); i++)
+        //    {
+        //        dataGrid.Rows.Add();
+        //        var row = dataList.GetRow(i);
+        //        dataGrid.Rows[i].Cells[0].Value = row.Step;
+        //        dataGrid.Rows[i].Cells[1].Value = row.Length;
+        //        dataGrid.Rows[i].Cells[2].Value = row.FactCheckedProfileLength;
+        //        dataGrid.Rows[i].Cells[3].Value = row.AdjStraight;
+        //        dataGrid.Rows[i].Cells[4].Value = row.Deviation;
+        //        dataGrid.Rows[i].Cells[5].Value = row.DevationPerMeter;
+        //        dataGrid.Rows[i].Cells[6].Value = row.MidValue;
+        //        dataGrid.Rows[i].Cells[7].Value = row.FStroke;
+        //        dataGrid.Rows[i].Cells[8].Value = row.RevStroke;
+        //    }
+        //}
 
-        public void DataForm_ReLoad()
-        {
-            dataGrid.Rows.Clear();
-            for (var i = 0; i < dataList.RowsCount(); i++)
-            {
-                dataGrid.Rows.Add();
-                var row = dataList.GetRow(i);
-                dataGrid.Rows[i].Cells[0].Value = row.Step;
-                dataGrid.Rows[i].Cells[1].Value = row.Length;
-                dataGrid.Rows[i].Cells[2].Value = row.FactCheckedProfileLength;
-                dataGrid.Rows[i].Cells[3].Value = row.AdjStraight;
-                dataGrid.Rows[i].Cells[4].Value = row.Deviation;
-                dataGrid.Rows[i].Cells[5].Value = row.DevationPerMeter;
-                dataGrid.Rows[i].Cells[6].Value = row.MidValue;
-                dataGrid.Rows[i].Cells[7].Value = row.FStroke;
-                dataGrid.Rows[i].Cells[8].Value = row.RevStroke;
-            }
-        }
+        //public void DataForm_ReLoad()
+        //{
+        //    dataGrid.Rows.Clear();
+        //    for (var i = 0; i < dataList.RowsCount(); i++)
+        //    {
+        //        dataGrid.Rows.Add();
+        //        var row = dataList.GetRow(i);
+        //        dataGrid.Rows[i].Cells[0].Value = row.Step;
+        //        dataGrid.Rows[i].Cells[1].Value = row.Length;
+        //        dataGrid.Rows[i].Cells[2].Value = row.FactCheckedProfileLength;
+        //        dataGrid.Rows[i].Cells[3].Value = row.AdjStraight;
+        //        dataGrid.Rows[i].Cells[4].Value = row.Deviation;
+        //        dataGrid.Rows[i].Cells[5].Value = row.DevationPerMeter;
+        //        dataGrid.Rows[i].Cells[6].Value = row.MidValue;
+        //        dataGrid.Rows[i].Cells[7].Value = row.FStroke;
+        //        dataGrid.Rows[i].Cells[8].Value = row.RevStroke;
+        //    }
+        //}
 
         private float UpdateIntTextBox(int row, int col)
         {

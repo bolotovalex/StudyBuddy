@@ -8,35 +8,61 @@ namespace Pryamolineynost
 {
     public class DataRow
     {
-        public int Step { get; }
-        public int Length { get; }
-        public float FactCheckedProfileLength { get; }
-        public float AdjStraight { get; }
-        public float Deviation { get; }
-        public float DevationPerMeter { get; }
-        public float MidValue { get; }
-        public float FStroke { get; set; }
-        public float RevStroke { get; set; }
-        public int Count { get; }
+        private int Length = 0; //Длина измерения, мм
+        private float FactCheckedProfileLength = 0; //Фактический профиль проверяемой поверхности, мкм
+        private float AdjStraight = 0; //Прилегающая прямая, мкм
+        private float Deviation = 0; //Отклонение, мкм
+        private float DevationPerMeter = 0; //Отклонение на метре, мкм
+        private float MidValue = 0; //Среднее значение, мкм
+        private float FStroke = 0; //Прямой ход, мкм
+        private float RevStroke = 0; //Обратный ход, мкм
 
-
-        private void CalculateFields()
-        {
-
+        public DataRow() { 
+            this.Length = 0;
+            this.FactCheckedProfileLength = 0; 
+            this.AdjStraight = 0;
+            this.Deviation = 0;
+            this.DevationPerMeter = 0;
+            this.MidValue = 0;
+            this.FStroke = 0;
+            this.RevStroke = 0;
         }
         
-        public DataRow(float fStroke, float revStroke)
-        {
-            this.FStroke = fStroke;
-            this.RevStroke = revStroke;
-            this.Count = 9;
+        public DataRow(int step, float FStroke, float RevStroke, DataRow prevDataRow)
+        { 
+            this.FStroke = FStroke;
+            this.RevStroke = RevStroke;
         }
 
-        public void UpdateRow(float fStroke, float revStroke)
+        public void UpdateRow(int step, DataRow prevRow)
         {
-            this.FStroke = fStroke;
-            this.RevStroke = revStroke;
-            CalculateFields();
+            this.Length = step + prevRow.GetLength();
+            this.MidValue = this.FStroke == 0 ? this.RevStroke : (this.RevStroke + this.FStroke) / 2;
+            this.FactCheckedProfileLength = this.MidValue * step /1000 + prevRow.GetFactProfileLength();
         }
+
+        public int GetLength() => this.Length;
+
+        public float GetFactProfileLength() => this.FactCheckedProfileLength;
+
+
+        //private void CalculateFields()
+        //{
+
+        //}
+
+        //public DataRow(float fStroke, float revStroke)
+        //{
+        //    this.FStroke = fStroke;
+        //    this.RevStroke = revStroke;
+        //    //this.prevRow = prevRow;
+        //}
+
+        //public void UpdateRow(float fStroke, float revStroke)
+        //{
+        //    this.FStroke = fStroke;
+        //    this.RevStroke = revStroke;
+        //    CalculateFields();
+        //}
     }
 }
