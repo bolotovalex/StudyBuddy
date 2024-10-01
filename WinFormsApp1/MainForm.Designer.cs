@@ -97,7 +97,6 @@ namespace Pryamolineynost
             dateLabel.Size = new Size(32, 15);
             dateLabel.TabIndex = 3;
             dateLabel.Text = "Дата";
-            
             // 
             // dateTimePicker
             // 

@@ -14,7 +14,7 @@
             dataGrid.Size = new Size(this.ClientSize.Width - 23, this.ClientSize.Height - 75);
         }
 
-        private void DataForm_Load(object sender, EventArgs e)
+        public void DataForm_Load(object sender, EventArgs e)
         {
             dataGrid.Rows.Clear();
             for (var i = 0; i < db.GetDataList().Count; i++)

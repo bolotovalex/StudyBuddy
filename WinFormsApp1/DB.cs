@@ -25,6 +25,7 @@ namespace Pryamolineynost
         private float programFactor1; //Программный коэффициент
         private float programFactor2; //Программный коэффициент
         private List<DataRow> dataList; //Таблица измерений
+        public bool dbChanged { get; set; }
 
         public void SetDate(DateTime date) { this.dateTime = date; }
         public DateTime GetDate() => this.dateTime;
