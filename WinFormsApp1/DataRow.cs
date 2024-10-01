@@ -14,7 +14,7 @@ namespace Pryamolineynost
         private float Deviation = 0; //Отклонение, мкм
         private float DevationPerMeter = 0; //Отклонение на метре, мкм
         private float MidValue = 0; //Среднее значение, мкм
-        private float FStroke = 0; //Прямой ход, мкм
+        private float FStroke; //Прямой ход, мкм
         private float RevStroke = 0; //Обратный ход, мкм
 
         public DataRow() { 
@@ -24,45 +24,39 @@ namespace Pryamolineynost
             this.Deviation = 0;
             this.DevationPerMeter = 0;
             this.MidValue = 0;
-            this.FStroke = 0;
+            this.FStroke = 0; //TODO Нужно добавить вохможно Null
             this.RevStroke = 0;
         }
         
-        public DataRow(int step, float FStroke, float RevStroke, DataRow prevDataRow)
+        public DataRow(float FStroke, float RevStroke, int step, DataRow prevRow)
         { 
             this.FStroke = FStroke;
             this.RevStroke = RevStroke;
-        }
-
-        public void UpdateRow(int step, DataRow prevRow)
-        {
             this.Length = step + prevRow.GetLength();
             this.MidValue = this.FStroke == 0 ? this.RevStroke : (this.RevStroke + this.FStroke) / 2;
-            this.FactCheckedProfileLength = this.MidValue * step /1000 + prevRow.GetFactProfileLength();
+            this.FactCheckedProfileLength = this.MidValue * step / 1000 + prevRow.GetFactProfileLength();
+        }
+
+        public void UpdateAdjStraight(float programFactor1, float programFactor2)
+        {
+            this.AdjStraight = programFactor1 * this.Length + programFactor2;
+        }
+
+        public void UpdateDeviation()
+        {
+            this.Deviation = this.AdjStraight - this.FactCheckedProfileLength;
         }
 
         public int GetLength() => this.Length;
-
         public float GetFactProfileLength() => this.FactCheckedProfileLength;
+        public float GetAdjStraight() => this.AdjStraight;
+        public float GetDeviation() => this.Deviation;
+        public float GetDeviationPerMeter() => this.DevationPerMeter;
+        public float GetMidValue() => this.MidValue;
+        public float GetFStroke() => this.FStroke;
+        public float GetRevStroke() => this.RevStroke;
 
 
-        //private void CalculateFields()
-        //{
 
-        //}
-
-        //public DataRow(float fStroke, float revStroke)
-        //{
-        //    this.FStroke = fStroke;
-        //    this.RevStroke = revStroke;
-        //    //this.prevRow = prevRow;
-        //}
-
-        //public void UpdateRow(float fStroke, float revStroke)
-        //{
-        //    this.FStroke = fStroke;
-        //    this.RevStroke = revStroke;
-        //    CalculateFields();
-        //}
     }
 }

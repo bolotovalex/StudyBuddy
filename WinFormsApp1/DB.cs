@@ -55,8 +55,19 @@ namespace Pryamolineynost
             this.dataList.Add(new DataRow());
         }
 
+        public void UpdateProgramFactors()
+        {
+            this.programFactor1 = this.dataList[this.dataList.Count - 1].GetFactProfileLength() / this.dataList[this.dataList.Count - 1].GetLength();
+            this.programFactor2 = 0; //TODO Доделать програмный коэфициент. В примере он всегда будет равен 0
+        }
 
-
-
+        public void AddRow(float fStroke, float revStroke)
+        {
+            DataRow row = new DataRow(fStroke, revStroke, this.measurementStep, this.dataList[this.dataList.Count - 1]);
+            this.dataList.Add(row);
+            this.UpdateProgramFactors();
+            row.UpdateAdjStraight(programFactor1, programFactor2);
+            row.UpdateDeviation();
+        }
     }
 }
