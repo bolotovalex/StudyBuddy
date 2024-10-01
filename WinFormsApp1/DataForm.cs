@@ -11,7 +11,8 @@
 
         private void DataForm_SizeChanged(object sender, EventArgs e)
         {
-            dataGrid.Size = new Size(this.ClientSize.Width - 23, this.ClientSize.Height - 75);
+            dataGrid.Size = new Size(this.ClientSize.Width - 6, this.ClientSize.Height - 36);
+            closeButton.Location = new Point(ClientSize.Width - 79, this.ClientSize.Height - 28);
         }
 
         public void DataForm_Load(object sender, EventArgs e)
@@ -86,6 +87,11 @@
         }
 
         private void DataForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void closeButton_Click(object sender, EventArgs e)
         {
             this.Hide();
         }

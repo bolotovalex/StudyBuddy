@@ -38,6 +38,7 @@
             advValue = new DataGridViewTextBoxColumn();
             fStroke = new DataGridViewTextBoxColumn();
             rStroke = new DataGridViewTextBoxColumn();
+            closeButton = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -115,11 +116,22 @@
             rStroke.HeaderText = "Обратный ход, мкм";
             rStroke.Name = "rStroke";
             // 
+            // closeButton
+            // 
+            closeButton.Location = new Point(843, 588);
+            closeButton.Name = "closeButton";
+            closeButton.Size = new Size(75, 23);
+            closeButton.TabIndex = 4;
+            closeButton.Text = "Закрыть";
+            closeButton.UseVisualStyleBackColor = true;
+            closeButton.Click += closeButton_Click;
+            // 
             // DataForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(921, 616);
+            Controls.Add(closeButton);
             Controls.Add(dataGrid);
             Name = "DataForm";
             Text = "DataForm";
@@ -127,7 +139,6 @@
             Load += DataForm_Load;
             Resize += DataForm_SizeChanged;
             ((System.ComponentModel.ISupportInitialize)dataGrid).EndInit();
-            //ControlBox = false;
             ResumeLayout(false);
         }
 
@@ -142,5 +153,6 @@
         private DataGridViewTextBoxColumn advValue;
         private DataGridViewTextBoxColumn fStroke;
         private DataGridViewTextBoxColumn rStroke;
+        private Button closeButton;
     }
 }
