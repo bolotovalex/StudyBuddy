@@ -21,7 +21,7 @@ namespace Pryamolineynost
         private int meterTolerance = 0; //Допуск на 1 метр, мкм -
         private int localLength = 0; //Локальный участок, мм
         private int bedLength = 0; //Длина станины, мм
-        private int measurementStep = 500; //Шаг измерения (расстояние между опорами мостика), мм
+        private int measurementStep = 200; //Шаг измерения (расстояние между опорами мостика), мм
         private float programFactor1; //Программный коэффициент
         private float programFactor2; //Программный коэффициент
         private List<DataRow> dataList; //Таблица измерений
@@ -49,6 +49,7 @@ namespace Pryamolineynost
         public float GetProgramFactor2() => this.programFactor2;
         public List<DataRow> GetDataList() => this.dataList;
         public DataRow GetDataRow(int index) => this.dataList[index];
+        public int GetLength() => this.dataList.Count;
 
         public DB()
         {
@@ -64,16 +65,60 @@ namespace Pryamolineynost
 
         public void AddRow(float fStroke, float revStroke)
         {
-            DataRow row = new DataRow(fStroke, revStroke, this.measurementStep, this.dataList[this.dataList.Count - 1]);
+            DataRow row = new DataRow();
+            DataRow prevRow = this.dataList[this.dataList.Count - 1];
+            row.UpdateRow(fStroke, revStroke, this.measurementStep, prevRow);
             this.dataList.Add(row);
             this.UpdateProgramFactors();
-            row.UpdateAdjStraight(programFactor1, programFactor2);
+            row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
             row.UpdateDeviation();
+            for (var i = 1; i < this.GetLength(); i++)
+            {
+                prevRow = this.dataList[i - 1];
+                var selRow = this.dataList[i];
+                selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), this.measurementStep, prevRow);
+                selRow.UpdateAdjStraight(this.programFactor1, this.programFactor2);
+                selRow.UpdateDeviation();
+            }
         }
 
-        public void UpdateDeviations()
+        public void UpdateAllRows()
         {
+            this.UpdateProgramFactors();
+            for (var i = 1; i < this.GetLength(); i++)
+            {
+                var selRow = this.dataList[i];
+                var prevRow = this.dataList[i - 1];
+                this.dataList[i].UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), selRow.GetLength(), prevRow);
+                selRow.UpdateAdjStraight(this.programFactor1, this.programFactor2);
+                selRow.UpdateDeviation();
+            }
+        }
 
+        public void UpdateFStrokeRow(int index, int value)
+        {
+            if (index > 0)
+            {
+                var row = this.dataList[index];
+                var prevRow = this.dataList[index - 1];
+                row.UpdateRow(value, prevRow.GetLength() + this.measurementStep, row.GetLength(), prevRow);
+                this.UpdateProgramFactors();
+                row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
+                row.UpdateDeviation();
+            }
+            
+        }
+        public void UpdateRevStrokeRow(int index, int value)
+        {
+            if (index > 0)
+            {
+                var row = this.dataList[index];
+                var prevRow = this.dataList[index - 1];
+                row.UpdateRow(row.GetFStroke(), value, prevRow.GetLength() + this.measurementStep, prevRow);
+                this.UpdateProgramFactors();
+                row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
+                row.UpdateDeviation();
+            }
         }
     }
 }

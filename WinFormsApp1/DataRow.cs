@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Pryamolineynost
 {
@@ -17,9 +18,9 @@ namespace Pryamolineynost
         private float FStroke; //Прямой ход, мкм
         private float RevStroke = 0; //Обратный ход, мкм
 
-        public DataRow() { 
+        public DataRow() {
             this.Length = 0;
-            this.FactCheckedProfileLength = 0; 
+            this.FactCheckedProfileLength = 0;
             this.AdjStraight = 0;
             this.Deviation = 0;
             this.DevationPerMeter = 0;
@@ -27,14 +28,15 @@ namespace Pryamolineynost
             this.FStroke = 0; //TODO Нужно добавить вохможно Null
             this.RevStroke = 0;
         }
-        
-        public DataRow(float FStroke, float RevStroke, int step, DataRow prevRow)
-        { 
+
+               
+        public void UpdateRow(float FStroke, float RevStroke, int step, DataRow prevDataRow)
+        {
             this.FStroke = FStroke;
             this.RevStroke = RevStroke;
-            this.Length = step + prevRow.GetLength();
-            this.MidValue = this.FStroke == 0 ? this.RevStroke : (this.RevStroke + this.FStroke) / 2;
-            this.FactCheckedProfileLength = this.MidValue * step / 1000 + prevRow.GetFactProfileLength();
+            this.Length = prevDataRow.GetLength() + step;
+            this.MidValue = this.RevStroke == int.MinValue ? this.FStroke : (this.RevStroke + this.FStroke) / 2;
+            this.FactCheckedProfileLength = ( this.MidValue * step / 1000 ) + prevDataRow.GetFactProfileLength();
         }
 
         public void UpdateAdjStraight(float programFactor1, float programFactor2)
@@ -44,8 +46,18 @@ namespace Pryamolineynost
 
         public void UpdateDeviation()
         {
-            this.Deviation = this.AdjStraight - this.FactCheckedProfileLength;
+            this.Deviation = this.FactCheckedProfileLength - this.AdjStraight;
         }
+
+        //public void UpdateFStroke(float value, float factCheckedProfileLength)
+        //{
+        //    this.UpdateRow(value, this.RevStroke, this.Length, factCheckedProfileLength);
+        //}
+
+        //public void UpdateRevStroke(float value, float factCheckedProfileLength)
+        //{
+        //    this.UpdateRow(this.FStroke, value, this.Length, factCheckedProfileLength);
+        //}
 
 
         public int GetLength() => this.Length;
@@ -56,8 +68,5 @@ namespace Pryamolineynost
         public float GetMidValue() => this.MidValue;
         public float GetFStroke() => this.FStroke;
         public float GetRevStroke() => this.RevStroke;
-
-
-
     }
 }
