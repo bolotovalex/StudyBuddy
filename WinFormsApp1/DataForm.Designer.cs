@@ -122,6 +122,7 @@
             Controls.Add(dataGrid);
             Name = "DataForm";
             Text = "DataForm";
+            Load += DataForm_Load;
             Resize += DataForm_SizeChanged;
             ((System.ComponentModel.ISupportInitialize)dataGrid).EndInit();
             ResumeLayout(false);

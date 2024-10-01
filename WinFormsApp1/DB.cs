@@ -47,7 +47,8 @@ namespace Pryamolineynost
         public int GetMeasurementStep() => this.measurementStep;
         public float GetProgramFactor1() => this.programFactor1;
         public float GetProgramFactor2() => this.programFactor2;
-        public List<DataRow> GetDataList => this.dataList;
+        public List<DataRow> GetDataList() => this.dataList;
+        public DataRow GetDataRow(int index) => this.dataList[index];
 
         public DB()
         {
@@ -68,6 +69,11 @@ namespace Pryamolineynost
             this.UpdateProgramFactors();
             row.UpdateAdjStraight(programFactor1, programFactor2);
             row.UpdateDeviation();
+        }
+
+        public void UpdateDeviations()
+        {
+
         }
     }
 }

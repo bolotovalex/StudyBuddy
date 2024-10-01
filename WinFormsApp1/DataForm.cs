@@ -15,26 +15,26 @@
             dataGrid.Size = new Size(this.ClientSize.Width - 23, this.ClientSize.Height - 75);
         }
 
-
-
-        //private void DataForm_Load(object sender, EventArgs e)
-        //{
-        //    dataGrid.Rows.Clear();
-        //    for (var i = 0; i < dataList.RowsCount(); i++)
-        //    {
-        //        dataGrid.Rows.Add();
-        //        var row = dataList.GetRow(i);
-        //        dataGrid.Rows[i].Cells[0].Value = row.Step;
-        //        dataGrid.Rows[i].Cells[1].Value = row.Length;
-        //        dataGrid.Rows[i].Cells[2].Value = row.FactCheckedProfileLength;
-        //        dataGrid.Rows[i].Cells[3].Value = row.AdjStraight;
-        //        dataGrid.Rows[i].Cells[4].Value = row.Deviation;
-        //        dataGrid.Rows[i].Cells[5].Value = row.DevationPerMeter;
-        //        dataGrid.Rows[i].Cells[6].Value = row.MidValue;
-        //        dataGrid.Rows[i].Cells[7].Value = row.FStroke;
-        //        dataGrid.Rows[i].Cells[8].Value = row.RevStroke;
-        //    }
-        //}
+        private void DataForm_Load(object sender, EventArgs e)
+        {
+            dataGrid.Rows.Clear();
+            for (var i = 0; i < db.GetDataList().Count; i++)
+            {
+                {
+                    dataGrid.Rows.Add();
+                    var row = db.GetDataRow(i);
+                    dataGrid.Rows[i].Cells[0].Value = i;
+                    dataGrid.Rows[i].Cells[1].Value = row.GetLength();
+                    dataGrid.Rows[i].Cells[2].Value = row.GetFactProfileLength();
+                    dataGrid.Rows[i].Cells[3].Value = row.GetAdjStraight();
+                    dataGrid.Rows[i].Cells[4].Value = row.GetDeviation();
+                    dataGrid.Rows[i].Cells[5].Value = row.GetDeviationPerMeter();
+                    dataGrid.Rows[i].Cells[6].Value = row.GetMidValue();
+                    dataGrid.Rows[i].Cells[7].Value = row.GetFStroke();
+                    dataGrid.Rows[i].Cells[8].Value = row.GetRevStroke();
+                }
+            }
+        }
 
         //public void DataForm_ReLoad()
         //{

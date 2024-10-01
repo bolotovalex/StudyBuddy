@@ -47,6 +47,7 @@ namespace Pryamolineynost
             this.Deviation = this.AdjStraight - this.FactCheckedProfileLength;
         }
 
+
         public int GetLength() => this.Length;
         public float GetFactProfileLength() => this.FactCheckedProfileLength;
         public float GetAdjStraight() => this.AdjStraight;
