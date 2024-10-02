@@ -481,7 +481,7 @@ namespace Pryamolineynost
             // 
             // graphicButton
             // 
-            graphicButton.Location = new Point(173, 496);
+            graphicButton.Location = new Point(8, 531);
             graphicButton.Name = "graphicButton";
             graphicButton.Size = new Size(155, 31);
             graphicButton.TabIndex = 26;
@@ -490,7 +490,7 @@ namespace Pryamolineynost
             // 
             // button1
             // 
-            button1.Location = new Point(8, 530);
+            button1.Location = new Point(339, 496);
             button1.Name = "button1";
             button1.Size = new Size(155, 31);
             button1.TabIndex = 27;
@@ -509,7 +509,7 @@ namespace Pryamolineynost
             // 
             // loadFileButton
             // 
-            loadFileButton.Location = new Point(339, 496);
+            loadFileButton.Location = new Point(173, 531);
             loadFileButton.Name = "loadFileButton";
             loadFileButton.Size = new Size(155, 31);
             loadFileButton.TabIndex = 29;
@@ -518,7 +518,7 @@ namespace Pryamolineynost
             // 
             // saveButton
             // 
-            saveButton.Location = new Point(173, 531);
+            saveButton.Location = new Point(173, 496);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(155, 31);
             saveButton.TabIndex = 30;
@@ -631,8 +631,8 @@ namespace Pryamolineynost
             Controls.Add(bedPanelLength);
             Controls.Add(localAreaPanel);
             Controls.Add(panel2);
-            Controls.Add(saveButton);
             Controls.Add(loadFileButton);
+            Controls.Add(saveButton);
             Controls.Add(exitButton);
             Controls.Add(button1);
             Controls.Add(graphicButton);

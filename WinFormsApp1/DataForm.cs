@@ -27,11 +27,11 @@
                     var row = db.GetDataRow(i);
                     dataGrid.Rows[i].Cells[0].Value = i;
                     dataGrid.Rows[i].Cells[1].Value = row.GetLength();
-                    dataGrid.Rows[i].Cells[2].Value = row.GetFactProfileLength();
-                    dataGrid.Rows[i].Cells[3].Value = row.GetAdjStraight();
-                    dataGrid.Rows[i].Cells[4].Value = row.GetDeviation();
-                    dataGrid.Rows[i].Cells[5].Value = row.GetDeviationPerMeter();
-                    dataGrid.Rows[i].Cells[6].Value = row.GetMidValue();
+                    dataGrid.Rows[i].Cells[2].Value = Math.Round(row.GetFactProfileLength(),2);
+                    dataGrid.Rows[i].Cells[3].Value = Math.Round(row.GetAdjStraight(),2);
+                    dataGrid.Rows[i].Cells[4].Value = Math.Round(row.GetDeviation(),2);
+                    dataGrid.Rows[i].Cells[5].Value = Math.Round(row.GetDeviationPerMeter(),2);
+                    dataGrid.Rows[i].Cells[6].Value = Math.Round(row.GetMidValue(),2);
                     dataGrid.Rows[i].Cells[7].Value = row.GetFStroke() == int.MinValue ? "" : row.GetFStroke();
                     dataGrid.Rows[i].Cells[8].Value = row.GetRevStroke() == int.MinValue ? "" : row.GetRevStroke();
                 }
