@@ -9,7 +9,7 @@ namespace Pryamolineynost
             InitializeComponent();
             //this.dataList = new DataList();
             this.dB = new DB();
-            this.dataForm = new DataForm(dB);
+            this.dataForm = new DataForm(dB, this);
             this.measurementStepTextPanel.Text = this.dB.GetMeasurementStep().ToString();
         }
 
@@ -39,13 +39,14 @@ namespace Pryamolineynost
         {
             this.dB.SetMeasurementStep(UpdateIntTextBox(measurementStepTextPanel));
             this.dB.UpdateAllRows();
+            this.UpdateAllFields();
             this.dataForm.DataForm_Load(sender, e);
-            
+
         }
 
         private void updateAdmLength(object sender, EventArgs e)
         {
-            
+
             this.admLenght = UpdateIntTextBox(admLenghtTextBox);
         }
 
@@ -69,13 +70,22 @@ namespace Pryamolineynost
         {
             if (this.dataForm == null)
             {
-                this.dataForm = new DataForm(dB);
+                this.dataForm = new DataForm(dB, this);
             }
             this.dataForm.Show();
         }
 
-        
+        public void UpdateAllFields()
+        {
+            this.minDeviationTextBox.Text = this.dB.GetMinDeviation().ToString();
+            this.maxDeviationTextBox.Text = this.dB.GetMaxDeviation().ToString();
+            this.localAreaTextBox.Text = (1000 / this.dB.GetMeasurementStep() * this.dB.GetMeasurementStep()).ToString();
+
+
+
+            this.verticalDeviationTextBox.Text = (this.dB.GetMaxDeviation() + (this.dB.GetMinDeviation() * (-1))).ToString();
+
+            this.bedLengthTextBox.Text = this.dB.GetLastDataRow().GetLength().ToString();
+        }
     }
-
-
 }

@@ -3,9 +3,11 @@
     public partial class DataForm : Form
     {
         private DB db;
-        public DataForm(DB db)
+        private MainForm mainForm;
+        public DataForm(DB db, MainForm parrentForm)
         {
             this.db = db;
+            this.mainForm = parrentForm;
             InitializeComponent();
         }
 
@@ -34,6 +36,7 @@
                     dataGrid.Rows[i].Cells[8].Value = row.GetRevStroke() == int.MinValue ? "" : row.GetRevStroke();
                 }
             }
+            
         }
 
         private void dataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -83,7 +86,8 @@
 
 
             this.DataForm_Load(sender, e);
-            Console.WriteLine(dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+            this.mainForm.UpdateAllFields();
+            //Console.WriteLine(dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
         }
 
         private void DataForm_FormClosing(object sender, FormClosingEventArgs e)

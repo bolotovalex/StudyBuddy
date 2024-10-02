@@ -11,7 +11,7 @@ namespace Pryamolineynost
     {
         private DateTime dateTime = DateTime.Now; //Дата
         private string name; //Наименование
-        private string designation; //Обозначение
+        private string description; //Обозначение
         private string fio; //Измерения произвел
         private float minDeviation; //Наибольшее отклонение, мкм
         private float maxDeviation; //Наименьшее отклонение, мкм
@@ -19,8 +19,8 @@ namespace Pryamolineynost
         private float meterDeflection; //Отклонение от прямолинейности на 1 метр, мкм - 
         private int fullTolerance = 0; //Допуск на всю длину, мкм -
         private int meterTolerance = 0; //Допуск на 1 метр, мкм -
-        private int localLength = 0; //Локальный участок, мм
-        private int bedLength = 0; //Длина станины, мм
+        private int localAreaLength = 0; //Локальный участок, мм
+        private int bedAreaLength = 0; //Длина станины, мм
         private int measurementStep = 200; //Шаг измерения (расстояние между опорами мостика), мм
         private float programFactor1; //Программный коэффициент
         private float programFactor2; //Программный коэффициент
@@ -42,8 +42,8 @@ namespace Pryamolineynost
         public int GetFullTolerance() => this.fullTolerance;
         public void SetMeterTolerance(int meterTolerance) { this.meterTolerance = meterTolerance; }
         public int GetMeterTolerance() => this.meterTolerance;
-        public int GetLocalLength() => this.localLength;
-        public int GetBedLength() => this.bedLength;
+        public int GetLocalLength() => this.localAreaLength;
+        public int GetBedLength() => this.bedAreaLength;
         public void SetMeasurementStep(int measurementStep) { this.measurementStep = measurementStep; }
         public int GetMeasurementStep() => this.measurementStep;
         public float GetProgramFactor1() => this.programFactor1;
@@ -51,6 +51,8 @@ namespace Pryamolineynost
         public List<DataRow> GetDataList() => this.dataList;
         public DataRow GetDataRow(int index) => this.dataList[index];
         public int GetLength() => this.dataList.Count;
+
+        public DataRow GetLastDataRow() => this.dataList[GetLength() - 1];
 
         public DB()
         {
@@ -73,26 +75,32 @@ namespace Pryamolineynost
             this.UpdateProgramFactors();
             row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
             row.UpdateDeviation();
-            for (var i = 1; i < this.GetLength(); i++)
-            {
-                prevRow = this.dataList[i - 1];
-                var selRow = this.dataList[i];
-                selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), this.measurementStep, prevRow);
-                selRow.UpdateAdjStraight(this.programFactor1, this.programFactor2);
-                selRow.UpdateDeviation();
-            }
+            this.UpdateAllRows();
+            
         }
 
         public void UpdateAllRows()
         {
             this.UpdateProgramFactors();
+            this.maxDeviation = 0;
+            this.minDeviation = 0;
             for (var i = 1; i < this.GetLength(); i++)
             {
                 var selRow = this.dataList[i];
                 var prevRow = this.dataList[i - 1];
-                this.dataList[i].UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), selRow.GetLength(), prevRow);
+                
+                selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), this.measurementStep, prevRow);
                 selRow.UpdateAdjStraight(this.programFactor1, this.programFactor2);
                 selRow.UpdateDeviation();
+                var deviationValue = selRow.GetDeviation();
+                if (deviationValue > this.maxDeviation)
+                {
+                    this.maxDeviation = deviationValue;
+                }
+                else if (deviationValue < this.minDeviation)
+                {
+                    this.minDeviation = deviationValue;
+                }
             }
         }
 
@@ -100,12 +108,8 @@ namespace Pryamolineynost
         {
             if (index > 0)
             {
-                var row = this.dataList[index];
-                var prevRow = this.dataList[index - 1];
-                row.UpdateRow(value, row.GetRevStroke(), this.measurementStep, prevRow);
-                this.UpdateProgramFactors();
-                row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
-                row.UpdateDeviation();
+                this.dataList[index].UpdateRow(value, this.dataList[index].GetRevStroke(), this.measurementStep, this.dataList[index - 1]);
+                UpdateAllRows();
             }
             
         }
@@ -113,12 +117,8 @@ namespace Pryamolineynost
         {
             if (index > 0)
             {
-                var row = this.dataList[index];
-                var prevRow = this.dataList[index - 1];
-                row.UpdateRow(row.GetFStroke(), value, this.measurementStep, prevRow);
-                this.UpdateProgramFactors();
-                row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
-                row.UpdateDeviation();
+                this.dataList[index].UpdateRow(this.dataList[index].GetFStroke(), value, this.measurementStep, this.dataList[index - 1]);
+                UpdateAllRows();
             }
         }
     }
