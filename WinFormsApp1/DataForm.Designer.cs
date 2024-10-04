@@ -39,6 +39,7 @@
             fStroke = new DataGridViewTextBoxColumn();
             rStroke = new DataGridViewTextBoxColumn();
             closeButton = new Button();
+            clearDBButton = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -126,11 +127,22 @@
             closeButton.UseVisualStyleBackColor = true;
             closeButton.Click += closeButton_Click;
             // 
+            // clearDBButton
+            // 
+            clearDBButton.Location = new Point(3, 588);
+            clearDBButton.Name = "clearDBButton";
+            clearDBButton.Size = new Size(75, 23);
+            clearDBButton.TabIndex = 5;
+            clearDBButton.Text = "Очистить";
+            clearDBButton.UseVisualStyleBackColor = true;
+            clearDBButton.Click += clearDBButton_Click;
+            // 
             // DataForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(921, 616);
+            Controls.Add(clearDBButton);
             Controls.Add(closeButton);
             Controls.Add(dataGrid);
             Name = "DataForm";
@@ -154,5 +166,6 @@
         private DataGridViewTextBoxColumn fStroke;
         private DataGridViewTextBoxColumn rStroke;
         private Button closeButton;
+        private Button clearDBButton;
     }
 }

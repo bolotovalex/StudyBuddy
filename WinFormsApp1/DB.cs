@@ -129,24 +129,37 @@ namespace Pryamolineynost
             }
             return maxDeviation-minDeviation;
         }
-        
+
+        public void UpdateMeterDeflection()
+        {
+            double maxDeflection = 0;
+            double minDeflection = 0;
+            for (var i = 1; i <= this.dataList.Count - this.stepsPerMeter; i++)
+            {
+                var rowDeviationPerMeter = this.dataList[i].GetDeviationPerMeter();
+                if (rowDeviationPerMeter > maxDeflection)
+                    maxDeflection = rowDeviationPerMeter;
+                else if ( rowDeviationPerMeter < minDeflection)
+                    minDeflection = rowDeviationPerMeter;
+            }
+            this.meterDeflection = Math.Max(maxDeflection, -1 * minDeflection);
+        }
+
         public void UpdateAllRows()
         {
             this.UpdateProgramFactors();
             this.maxDeviation = 0;
             this.minDeviation = 0;
-            var maxMeterDefl = 0.0;
-            var minMeterDefl = 0.0;
 
             for (var i = 1; i < this.dataList.Count; i++)
             {
                 var selRow = this.dataList[i];
                 var prevRow = this.dataList[i - 1];
-                
+
                 selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), this.measurementStep, prevRow);
                 selRow.UpdateAdjStraight(this.programFactor1, this.programFactor2);
                 selRow.UpdateDeviation();
-                
+
                 var deviationValue = selRow.GetDeviation();
                 if (deviationValue > this.maxDeviation)
                     this.maxDeviation = deviationValue;
@@ -156,29 +169,11 @@ namespace Pryamolineynost
 
                 if (this.dataList.Count - i == 1 && this.dataList.Count > this.stepsPerMeter)
                 {
-                    var rowDeviationPerMeter = GetMaxDeviationPerMeterForStep(i);
-                    
-                    this.dataList[i - this.stepsPerMeter + 1].SetDeviationPerMeter(rowDeviationPerMeter);
-                    if (rowDeviationPerMeter > maxMeterDefl)
-                        maxMeterDefl = rowDeviationPerMeter;
-                    else if (rowDeviationPerMeter < minMeterDefl)
-                        minMeterDefl = rowDeviationPerMeter;
+                    this.dataList[i - this.stepsPerMeter + 1].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
                 }
             }
-
-
-            ///
-            /// Устанавливаем максимальное отклонение по всей таблице
-            /// 
-            var a = Math.Max(maxMeterDefl, minMeterDefl * (-1));
-            if (this.dataList.Count < 6)
-            {
-                this.meterDeflection = 0;
-            }
-            else
-            {
-                this.meterDeflection = Math.Max(maxMeterDefl, minMeterDefl * (-1));
-            }
+            
+            UpdateMeterDeflection();
             
         }
 
@@ -198,6 +193,15 @@ namespace Pryamolineynost
                 this.dataList[index].UpdateRow(this.dataList[index].GetFStroke(), value, this.measurementStep, this.dataList[index - 1]);
                 UpdateAllRows();
             }
+        }
+
+        public void CleanDB()
+        {
+            this.dataList = new List<DataRow>();
+            this.UpdateStepsPerMeter(this.measurementStep);
+            this.dataList.Add(new DataRow());
+            UpdateAllRows();
+            
         }
     }
 }

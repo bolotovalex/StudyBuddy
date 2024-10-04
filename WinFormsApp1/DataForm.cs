@@ -106,5 +106,13 @@
         {
             this.Hide();
         }
+
+        private void clearDBButton_Click(object sender, EventArgs e)
+        {
+            this.db.CleanDB();
+            dataGrid.Rows.Clear();
+            UpdateForm(sender, e);
+            this.mainForm.UpdateAllFields();
+        }
     }
 }
