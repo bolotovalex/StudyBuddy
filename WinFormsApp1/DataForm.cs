@@ -20,23 +20,35 @@
         public void DataForm_Load(object sender, EventArgs e)
         {
             dataGrid.Rows.Clear();
+            dataGrid.Rows.Add();
+            UpdateForm(sender, e);
+            
+
+        }
+
+
+
+        public void UpdateForm(object sender, EventArgs e)
+        {
             for (var i = 0; i < db.GetDataList().Count; i++)
             {
-                {
-                    dataGrid.Rows.Add();
-                    var row = db.GetDataRow(i);
-                    dataGrid.Rows[i].Cells[0].Value = i;
-                    dataGrid.Rows[i].Cells[1].Value = row.GetLength();
-                    dataGrid.Rows[i].Cells[2].Value = Math.Round(row.GetFactProfileLength(),2);
-                    dataGrid.Rows[i].Cells[3].Value = Math.Round(row.GetAdjStraight(),2);
-                    dataGrid.Rows[i].Cells[4].Value = Math.Round(row.GetDeviation(),2);
-                    dataGrid.Rows[i].Cells[5].Value = Math.Round(row.GetDeviationPerMeter(),2);
-                    dataGrid.Rows[i].Cells[6].Value = Math.Round(row.GetMidValue(),2);
-                    dataGrid.Rows[i].Cells[7].Value = row.GetFStroke() == int.MinValue ? "" : row.GetFStroke();
-                    dataGrid.Rows[i].Cells[8].Value = row.GetRevStroke() == int.MinValue ? "" : row.GetRevStroke();
-                }
+                var row = db.GetDataRow(i);
+                dataGrid.Rows[i].Cells[0].Value = i;
+                dataGrid.Rows[i].Cells[1].Value = row.GetLength();
+                dataGrid.Rows[i].Cells[2].Value = Math.Round(row.GetFactProfileLength(), 2);
+                dataGrid.Rows[i].Cells[3].Value = Math.Round(row.GetAdjStraight(), 2);
+                dataGrid.Rows[i].Cells[4].Value = Math.Round(row.GetDeviation(), 2);
+                dataGrid.Rows[i].Cells[5].Value = Math.Round(row.GetDeviationPerMeter(), 2);
+                dataGrid.Rows[i].Cells[6].Value = Math.Round(row.GetMidValue(), 2);
+                dataGrid.Rows[i].Cells[7].Value = row.GetFStroke() == int.MinValue ? "" : row.GetFStroke();
+                dataGrid.Rows[i].Cells[8].Value = row.GetRevStroke() == int.MinValue ? "" : row.GetRevStroke();
             }
-            
+        }
+
+        public void AddRow(object sender, EventArgs e)
+        {
+            //dataGrid.Rows.Add();
+            UpdateForm(sender, e);
         }
 
         private void dataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -85,9 +97,8 @@
             }
 
 
-            this.DataForm_Load(sender, e);
+            this.UpdateForm(sender, e);
             this.mainForm.UpdateAllFields();
-            //Console.WriteLine(dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
         }
 
         private void DataForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -98,6 +109,11 @@
         private void closeButton_Click(object sender, EventArgs e)
         {
             this.Hide();
+        }
+
+        private void dataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            Console.WriteLine("asd");
         }
     }
 }

@@ -26,7 +26,6 @@ namespace Pryamolineynost
         private float programFactor2; //Программный коэффициент
         private List<DataRow> dataList; //Таблица измерений
         public bool dbChanged { get; set; }
-
         public void SetDate(DateTime date) { this.dateTime = date; }
         public DateTime GetDate() => this.dateTime;
         public void UpdateDateTime() => this.dateTime = DateTime.Now;
@@ -101,6 +100,7 @@ namespace Pryamolineynost
                 {
                     this.minDeviation = deviationValue;
                 }
+                this.verticalDeflection = (this.GetMaxDeviation() + (this.GetMinDeviation() * (-1)));
             }
         }
 

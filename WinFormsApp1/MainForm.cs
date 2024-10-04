@@ -1,5 +1,3 @@
-using LiveChartsCore;
-
 namespace Pryamolineynost
 {
     public partial class MainForm : Form
@@ -9,7 +7,6 @@ namespace Pryamolineynost
         public MainForm()
         {
             InitializeComponent();
-            //this.dataList = new DataList();
             this.dB = new DB();
             this.dataForm = new DataForm(dB, this);
             this.measurementStepTextPanel.Text = this.dB.GetMeasurementStep().ToString();
@@ -82,11 +79,7 @@ namespace Pryamolineynost
             this.minDeviationTextBox.Text = Math.Round(this.dB.GetMinDeviation(),2).ToString();
             this.maxDeviationTextBox.Text = Math.Round(this.dB.GetMaxDeviation(),2).ToString();
             this.localAreaTextBox.Text = (1000 / this.dB.GetMeasurementStep() * this.dB.GetMeasurementStep()).ToString();
-
-
-
-            this.verticalDeviationTextBox.Text = Math.Round((this.dB.GetMaxDeviation() + (this.dB.GetMinDeviation() * (-1))),2).ToString();
-
+            this.verticalDeviationTextBox.Text = Math.Round(this.dB.GetVerticalDeflection(), 2).ToString();
             this.bedLengthTextBox.Text = this.dB.GetLastDataRow().GetLength().ToString();
         }
     }

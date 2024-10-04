@@ -25,7 +25,7 @@ namespace Pryamolineynost
             this.Deviation = 0;
             this.DevationPerMeter = 0;
             this.MidValue = 0;
-            this.FStroke = 0; //TODO Нужно добавить вохможно Null
+            this.FStroke = 0;
             this.RevStroke = 0;
         }
 
@@ -48,17 +48,6 @@ namespace Pryamolineynost
         {
             this.Deviation = this.FactCheckedProfileLength - this.AdjStraight;
         }
-
-        //public void UpdateFStroke(float value, float factCheckedProfileLength)
-        //{
-        //    this.UpdateRow(value, this.RevStroke, this.Length, factCheckedProfileLength);
-        //}
-
-        //public void UpdateRevStroke(float value, float factCheckedProfileLength)
-        //{
-        //    this.UpdateRow(this.FStroke, value, this.Length, factCheckedProfileLength);
-        //}
-
 
         public int GetLength() => this.Length;
         public float GetFactProfileLength() => this.FactCheckedProfileLength;
