@@ -39,6 +39,7 @@ namespace Pryamolineynost
             this.dB.SetMeasurementStep(UpdateIntTextBox(measurementStepTextPanel));
             this.dB.UpdateStepsPerMeter(this.dB.GetMeasurementStep());
             this.dB.UpdateAllRows();
+            
             this.UpdateAllFields();
             this.dataForm.DataForm_Load(sender, e);
 
@@ -79,6 +80,7 @@ namespace Pryamolineynost
         {
             this.minDeviationTextBox.Text = Math.Round(this.dB.GetMinDeviation(),2).ToString();
             this.maxDeviationTextBox.Text = Math.Round(this.dB.GetMaxDeviation(),2).ToString();
+            this.lineDeviationTextBox.Text = Math.Round(this.dB.GetMeterDeflection(),2).ToString();
             this.localAreaTextBox.Text = (1000 / this.dB.GetMeasurementStep() * this.dB.GetMeasurementStep()).ToString();
             this.verticalDeviationTextBox.Text = Math.Round(this.dB.GetVerticalDeflection(), 2).ToString();
             this.bedLengthTextBox.Text = this.dB.GetLastDataRow().GetLength().ToString();

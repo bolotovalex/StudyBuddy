@@ -10,13 +10,13 @@ namespace Pryamolineynost
     public class DataRow
     {
         private int Length = 0; //Длина измерения, мм
-        private float FactCheckedProfileLength = 0; //Фактический профиль проверяемой поверхности, мкм
-        private float AdjStraight = 0; //Прилегающая прямая, мкм
-        private float Deviation = 0; //Отклонение, мкм
-        private float DevationPerMeter = 0; //Отклонение на метре, мкм
-        private float MidValue = 0; //Среднее значение, мкм
-        private float FStroke; //Прямой ход, мкм
-        private float RevStroke = 0; //Обратный ход, мкм
+        private double FactCheckedProfileLength = 0; //Фактический профиль проверяемой поверхности, мкм
+        private double AdjStraight = 0; //Прилегающая прямая, мкм
+        private double Deviation = 0; //Отклонение, мкм
+        private double DevationPerMeter = 0; //Отклонение на метре, мкм
+        private double MidValue = 0; //Среднее значение, мкм
+        private double FStroke; //Прямой ход, мкм
+        private double RevStroke = 0; //Обратный ход, мкм
 
         public DataRow() {
             this.Length = 0;
@@ -30,7 +30,7 @@ namespace Pryamolineynost
         }
 
                
-        public void UpdateRow(float FStroke, float RevStroke, int step, DataRow prevDataRow)
+        public void UpdateRow(double FStroke, double RevStroke, int step, DataRow prevDataRow)
         {
             this.FStroke = FStroke;
             this.RevStroke = RevStroke;
@@ -39,7 +39,7 @@ namespace Pryamolineynost
             this.FactCheckedProfileLength = ( this.MidValue * step / 1000 ) + prevDataRow.GetFactProfileLength();
         }
 
-        public void UpdateAdjStraight(float programFactor1, float programFactor2)
+        public void UpdateAdjStraight(double programFactor1, double programFactor2)
         {
             this.AdjStraight = programFactor1 * this.Length + programFactor2;
         }
@@ -50,12 +50,17 @@ namespace Pryamolineynost
         }
 
         public int GetLength() => this.Length;
-        public float GetFactProfileLength() => this.FactCheckedProfileLength;
-        public float GetAdjStraight() => this.AdjStraight;
-        public float GetDeviation() => this.Deviation;
-        public float GetDeviationPerMeter() => this.DevationPerMeter;
-        public float GetMidValue() => this.MidValue;
-        public float GetFStroke() => this.FStroke;
-        public float GetRevStroke() => this.RevStroke;
+        public double GetFactProfileLength() => this.FactCheckedProfileLength;
+        public double GetAdjStraight() => this.AdjStraight;
+        public double GetDeviation() => this.Deviation;
+        public double GetDeviationPerMeter() => this.DevationPerMeter;
+
+        public void SetDeviationPerMeter(double value)
+        {
+            this.DevationPerMeter = value;
+        }
+        public double GetMidValue() => this.MidValue;
+        public double GetFStroke() => this.FStroke;
+        public double GetRevStroke() => this.RevStroke;
     }
 }

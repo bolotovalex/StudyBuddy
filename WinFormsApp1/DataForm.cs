@@ -22,11 +22,7 @@
             dataGrid.Rows.Clear();
             dataGrid.Rows.Add();
             UpdateForm(sender, e);
-            
-
         }
-
-
 
         public void UpdateForm(object sender, EventArgs e)
         {
@@ -58,7 +54,7 @@
             if (cellValue != null)
             {
                 value = int.Parse(cellValue.ToString());
-                if (e.RowIndex == db.GetLength())
+                if (e.RowIndex == db.GetDataList().Count)
                 {
                     switch (e.ColumnIndex)
                     {
@@ -109,11 +105,6 @@
         private void closeButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-        }
-
-        private void dataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-
         }
     }
 }
