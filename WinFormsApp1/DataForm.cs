@@ -113,7 +113,7 @@
 
         private void dataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            Console.WriteLine("asd");
+
         }
     }
 }

@@ -37,6 +37,7 @@ namespace Pryamolineynost
         private void updateStep(object sender, EventArgs e)
         {
             this.dB.SetMeasurementStep(UpdateIntTextBox(measurementStepTextPanel));
+            this.dB.UpdateStepsPerMeter(this.dB.GetMeasurementStep());
             this.dB.UpdateAllRows();
             this.UpdateAllFields();
             this.dataForm.DataForm_Load(sender, e);

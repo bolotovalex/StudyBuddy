@@ -25,6 +25,7 @@ namespace Pryamolineynost
         private float programFactor1; //Программный коэффициент
         private float programFactor2; //Программный коэффициент
         private List<DataRow> dataList; //Таблица измерений
+        private int stepsPerMeter;
         public bool dbChanged { get; set; }
         public void SetDate(DateTime date) { this.dateTime = date; }
         public DateTime GetDate() => this.dateTime;
@@ -45,19 +46,28 @@ namespace Pryamolineynost
         public int GetBedLength() => this.bedAreaLength;
         public void SetMeasurementStep(int measurementStep) { this.measurementStep = measurementStep; }
         public int GetMeasurementStep() => this.measurementStep;
-        public float GetProgramFactor1() => this.programFactor1;
-        public float GetProgramFactor2() => this.programFactor2;
         public List<DataRow> GetDataList() => this.dataList;
         public DataRow GetDataRow(int index) => this.dataList[index];
         public int GetLength() => this.dataList.Count;
 
         public DataRow GetLastDataRow() => this.dataList[GetLength() - 1];
 
+      
+
         public DB()
         {
             this.dataList = new List<DataRow>();
+            this.UpdateStepsPerMeter(this.measurementStep);
             this.dataList.Add(new DataRow());
         }
+
+        public void UpdateStepsPerMeter(int stepsLength)
+        {
+            if (1000 % stepsLength >= 5)
+                this.stepsPerMeter = 1000 / stepsLength + 1;
+            this.stepsPerMeter = 1000 / stepsLength;
+        }
+
 
         public void UpdateProgramFactors()
         {
@@ -75,7 +85,6 @@ namespace Pryamolineynost
             row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
             row.UpdateDeviation();
             this.UpdateAllRows();
-            
         }
 
         public void UpdateAllRows()
@@ -91,15 +100,12 @@ namespace Pryamolineynost
                 selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), this.measurementStep, prevRow);
                 selRow.UpdateAdjStraight(this.programFactor1, this.programFactor2);
                 selRow.UpdateDeviation();
+                
                 var deviationValue = selRow.GetDeviation();
                 if (deviationValue > this.maxDeviation)
-                {
                     this.maxDeviation = deviationValue;
-                }
                 else if (deviationValue < this.minDeviation)
-                {
                     this.minDeviation = deviationValue;
-                }
                 this.verticalDeflection = (this.GetMaxDeviation() + (this.GetMinDeviation() * (-1)));
             }
         }
