@@ -66,11 +66,13 @@ namespace Pryamolineynost
             this.dataList = new List<DataRow>();
             this.UpdateStepsPerMeter(this.measurementStep);
             this.dataList.Add(new DataRow());
+            this.UpdateStepsPerMeter(200);
         }
 
         public void UpdateStepsPerMeter(int stepsLength)
         {
             this.stepsPerMeter = 1000 % stepsLength >= 5 ? 1000 / stepsLength + 1 : 1000 / stepsLength;
+            this.localAreaLength = 1000 / stepsLength * stepsLength;
         }
 
 
