@@ -110,9 +110,11 @@
         private void clearDBButton_Click(object sender, EventArgs e)
         {
             this.db.CleanDB();
+            this.mainForm.CleanForm();
             dataGrid.Rows.Clear();
             UpdateForm(sender, e);
             this.mainForm.UpdateAllFields();
+            var a = 1;
         }
     }
 }

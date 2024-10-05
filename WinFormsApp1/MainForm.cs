@@ -76,12 +76,17 @@ namespace Pryamolineynost
             this.dataForm.Show();
         }
 
+        public void CleanForm()
+        {
+            this.dataForm.Dispose();
+        }
+        
         public void UpdateAllFields()
         {
             this.minDeviationTextBox.Text = Math.Round(this.dB.GetMinDeviation(),2).ToString();
             this.maxDeviationTextBox.Text = Math.Round(this.dB.GetMaxDeviation(),2).ToString();
             this.lineDeviationTextBox.Text = Math.Round(this.dB.GetMeterDeflection(),2).ToString();
-            this.localAreaTextBox.Text = (1000 / this.dB.GetMeasurementStep() * this.dB.GetMeasurementStep()).ToString();
+            this.localAreaTextBox.Text =  this.dB.GetLocalAreaLength().ToString();
             this.verticalDeviationTextBox.Text = Math.Round(this.dB.GetVerticalDeflection(), 2).ToString();
             this.bedLengthTextBox.Text = this.dB.GetLastDataRow().GetLength().ToString();
         }

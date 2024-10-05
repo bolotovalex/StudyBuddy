@@ -10,13 +10,13 @@ namespace Pryamolineynost
     public class DataRow
     {
         private int Length = 0; //Длина измерения, мм
-        private double FactCheckedProfileLength = 0; //Фактический профиль проверяемой поверхности, мкм
-        private double AdjStraight = 0; //Прилегающая прямая, мкм
-        private double Deviation = 0; //Отклонение, мкм
-        private double DevationPerMeter = 0; //Отклонение на метре, мкм
-        private double MidValue = 0; //Среднее значение, мкм
-        private double FStroke; //Прямой ход, мкм
-        private double RevStroke = 0; //Обратный ход, мкм
+        private decimal FactCheckedProfileLength = 0; //Фактический профиль проверяемой поверхности, мкм
+        private decimal AdjStraight = 0; //Прилегающая прямая, мкм
+        private decimal Deviation = 0; //Отклонение, мкм
+        private decimal DevationPerMeter = 0; //Отклонение на метре, мкм
+        private decimal MidValue = 0; //Среднее значение, мкм
+        private decimal FStroke; //Прямой ход, мкм
+        private decimal RevStroke = 0; //Обратный ход, мкм
 
         public DataRow() {
             this.Length = 0;
@@ -30,7 +30,7 @@ namespace Pryamolineynost
         }
 
                
-        public void UpdateRow(double FStroke, double RevStroke, int step, DataRow prevDataRow)
+        public void UpdateRow(decimal FStroke, decimal RevStroke, int step, DataRow prevDataRow)
         {
             this.FStroke = FStroke;
             this.RevStroke = RevStroke;
@@ -39,7 +39,7 @@ namespace Pryamolineynost
             this.FactCheckedProfileLength = ( this.MidValue * step / 1000 ) + prevDataRow.GetFactProfileLength();
         }
 
-        public void UpdateAdjStraight(double programFactor1, double programFactor2)
+        public void UpdateAdjStraight(decimal programFactor1, decimal programFactor2)
         {
             this.AdjStraight = programFactor1 * this.Length + programFactor2;
         }
@@ -50,17 +50,17 @@ namespace Pryamolineynost
         }
 
         public int GetLength() => this.Length;
-        public double GetFactProfileLength() => this.FactCheckedProfileLength;
-        public double GetAdjStraight() => this.AdjStraight;
-        public double GetDeviation() => this.Deviation;
-        public double GetDeviationPerMeter() => this.DevationPerMeter;
+        public decimal GetFactProfileLength() => this.FactCheckedProfileLength;
+        public decimal GetAdjStraight() => this.AdjStraight;
+        public decimal GetDeviation() => this.Deviation;
+        public decimal GetDeviationPerMeter() => this.DevationPerMeter;
 
-        public void SetDeviationPerMeter(double value)
+        public void SetDeviationPerMeter(decimal value)
         {
             this.DevationPerMeter = value;
         }
-        public double GetMidValue() => this.MidValue;
-        public double GetFStroke() => this.FStroke;
-        public double GetRevStroke() => this.RevStroke;
+        public decimal GetMidValue() => this.MidValue;
+        public decimal GetFStroke() => this.FStroke;
+        public decimal GetRevStroke() => this.RevStroke;
     }
 }

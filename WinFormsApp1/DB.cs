@@ -13,22 +13,22 @@ namespace Pryamolineynost
         private string name; //Наименование
         private string description; //Обозначение
         private string fio; //Измерения произвел
-        private double minDeviation; //Наибольшее отклонение, мкм
-        private double maxDeviation; //Наименьшее отклонение, мкм
-        private double verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
+        private decimal minDeviation; //Наибольшее отклонение, мкм
+        private decimal maxDeviation; //Наименьшее отклонение, мкм
+        private decimal verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
 
-        private double meterDeflection; //TODO Отклонение от прямолинейности на 1 метр, мкм - 
+        private decimal meterDeflection; //TODO Отклонение от прямолинейности на 1 метр, мкм - 
         
-        private double maxMeterDeflection; //TODO Доделать
-        private double minMeterDeflection; //TODO Доделать
+        private decimal maxMeterDeflection; //TODO Доделать
+        private decimal minMeterDeflection; //TODO Доделать
 
         private int fullTolerance = 0; //Допуск на всю длину, мкм -
         private int meterTolerance = 0; //Допуск на 1 метр, мкм -
         private int localAreaLength = 0; //Локальный участок, мм
         private int bedAreaLength = 0; //Длина станины, мм
         private int measurementStep = 200; //Шаг измерения (расстояние между опорами мостика), мм
-        private double programFactor1; //Программный коэффициент
-        private double programFactor2; //Программный коэффициент
+        private decimal programFactor1; //Программный коэффициент
+        private decimal programFactor2; //Программный коэффициент
         private List<DataRow> dataList; //Таблица измерений
         private int stepsPerMeter;
         public bool dbChanged { get; set; }
@@ -39,15 +39,18 @@ namespace Pryamolineynost
         public string GetName() => this.name;
         public void SetFIO(string fio) { this.fio = fio; }
         public string GetFio() => this.fio;
-        public double GetMinDeviation() => this.minDeviation;
-        public double GetMaxDeviation() => this.maxDeviation;
-        public double GetVerticalDeflection() => this.verticalDeflection;
-        public double GetMeterDeflection() => this.meterDeflection;
+        public void SetDescription(string description) { this.description = description; }
+        public string GetDescription() => this.description;
+
+        public decimal GetMinDeviation() => this.minDeviation;
+        public decimal GetMaxDeviation() => this.maxDeviation;
+        public decimal GetVerticalDeflection() => this.verticalDeflection;
+        public decimal GetMeterDeflection() => this.meterDeflection;
         public void SetFullTolerance(int fullTolerance) { this.fullTolerance = fullTolerance; }
         public int GetFullTolerance() => this.fullTolerance;
         public void SetMeterTolerance(int meterTolerance) { this.meterTolerance = meterTolerance; }
         public int GetMeterTolerance() => this.meterTolerance;
-        public int GetLocalLength() => this.localAreaLength;
+        public int GetLocalAreaLength() => this.localAreaLength;
         public int GetBedLength() => this.bedAreaLength;
         public void SetMeasurementStep(int measurementStep) { this.measurementStep = measurementStep; }
         public int GetMeasurementStep() => this.measurementStep;
@@ -73,11 +76,15 @@ namespace Pryamolineynost
 
         public void UpdateProgramFactors()
         {
-            this.programFactor1 = this.dataList[this.dataList.Count - 1].GetFactProfileLength() / this.dataList[this.dataList.Count - 1].GetLength();
-            this.programFactor2 = 0; //TODO Доделать програмный коэфициент. В примере он всегда будет равен 0
+            if (this.dataList[this.dataList.Count - 1].GetLength() != 0)
+            {
+                this.programFactor1 = this.dataList[this.dataList.Count - 1].GetFactProfileLength() / this.dataList[this.dataList.Count - 1].GetLength();
+                this.programFactor2 = 0; //TODO Доделать програмный коэфициент. В примере он всегда будет равен 0
+            }
+            
         }
 
-        public void AddRow(double fStroke, double revStroke)
+        public void AddRow(decimal fStroke, decimal revStroke)
         {
             DataRow row = new DataRow();
             DataRow prevRow = this.dataList[this.dataList.Count - 1];
@@ -89,18 +96,18 @@ namespace Pryamolineynost
             this.UpdateAllRows();
         }
 
-        public double GetMaxDeviationPerMeterForStep(int maxIndex)
+        public decimal GetMaxDeviationPerMeterForStep(int maxIndex)
         {
             //var maxIndex = startStep + this.stepsPerMeter - 1;
             //if (this.dataList.Count <= this.stepsPerMeter || maxIndex >= this.dataList.Count)
             //    return 0;
             var startIndex = maxIndex - this.stepsPerMeter + 1;
-            var lengthOnMeter = new List<double>() {};
+            var lengthOnMeter = new List<decimal>() {};
             for ( var length = 0; length <= 1000; length += 1000 / this.stepsPerMeter)
                 lengthOnMeter.Add(length);
 
 
-            var factProfileList = new List<double>() {0};
+            var factProfileList = new List<decimal>() {0};
 
             for (var i = startIndex;  i < this.dataList.Count && i <= maxIndex; i++)
             {
@@ -112,9 +119,9 @@ namespace Pryamolineynost
             var a = factProfileList[factProfileList.Count - 1];
             var b = this.dataList[maxIndex].GetLength();
             var lastProfileKoef = factProfileList[factProfileList.Count - 1] / lengthOnMeter[lengthOnMeter.Count - 1];
-            var listDeviations = new List<double>() { 0 };
-            double maxDeviation = 0;
-            double minDeviation = 0;
+            var listDeviations = new List<decimal>() { 0 };
+            decimal maxDeviation = 0;
+            decimal minDeviation = 0;
 
             for(var i = startIndex; i < this.dataList.Count && i <= maxIndex; i++)
             {
@@ -132,8 +139,8 @@ namespace Pryamolineynost
 
         public void UpdateMeterDeflection()
         {
-            double maxDeflection = 0;
-            double minDeflection = 0;
+            decimal maxDeflection = 0;
+            decimal minDeflection = 0;
             for (var i = 1; i <= this.dataList.Count - this.stepsPerMeter; i++)
             {
                 var rowDeviationPerMeter = this.dataList[i].GetDeviationPerMeter();
@@ -197,7 +204,11 @@ namespace Pryamolineynost
 
         public void CleanDB()
         {
+            this.UpdateDateTime();
             this.dataList = new List<DataRow>();
+            this.programFactor1 = 0;
+            this.programFactor2 = 0;
+            this.verticalDeflection = 0;
             this.UpdateStepsPerMeter(this.measurementStep);
             this.dataList.Add(new DataRow());
             UpdateAllRows();
