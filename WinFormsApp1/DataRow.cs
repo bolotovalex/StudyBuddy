@@ -15,8 +15,8 @@ namespace Pryamolineynost
         private decimal Deviation = 0; //Отклонение, мкм
         private decimal DevationPerMeter = 0; //Отклонение на метре, мкм
         private decimal MidValue = 0; //Среднее значение, мкм
-        private decimal FStroke; //Прямой ход, мкм
-        private decimal RevStroke = 0; //Обратный ход, мкм
+        public decimal FStroke { get; set; } //Прямой ход, мкм
+        public decimal RevStroke { get; set; } //Обратный ход, мкм
 
         public DataRow() {
             this.Length = 0;

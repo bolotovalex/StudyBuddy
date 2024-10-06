@@ -3,35 +3,32 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Pryamolineynost
 {
     public class DB
     {
-        private DateTime dateTime = DateTime.Now; //Дата
-        private string name; //Наименование
-        private string description; //Обозначение
-        private string fio; //Измерения произвел
+        public DateTime dateTime { get; set; } //Дата
+        public string name { get; set;  } //Наименование
+        public string description { get; set; } //Обозначение
+        public string fio { get; set; } //Измерения произвел
         private decimal minDeviation; //Наибольшее отклонение, мкм
         private decimal maxDeviation; //Наименьшее отклонение, мкм
         private decimal verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
-
         private decimal meterDeflection; //TODO Отклонение от прямолинейности на 1 метр, мкм - 
-        
         private decimal maxMeterDeflection; //TODO Доделать
         private decimal minMeterDeflection; //TODO Доделать
-
-        private int fullTolerance = 0; //Допуск на всю длину, мкм -
-        private int meterTolerance = 0; //Допуск на 1 метр, мкм -
+        public int fullTolerance { get; set; } //Допуск на всю длину, мкм -
+        public int meterTolerance { get; set; } //Допуск на 1 метр, мкм -
         private int localAreaLength = 0; //Локальный участок, мм
         private int bedAreaLength = 0; //Длина станины, мм
-        private int measurementStep = 200; //Шаг измерения (расстояние между опорами мостика), мм
+        public int measurementStep { get; set; } //Шаг измерения (расстояние между опорами мостика), мм
         private decimal programFactor1; //Программный коэффициент
         private decimal programFactor2; //Программный коэффициент
-        private List<DataRow> dataList; //Таблица измерений
+        public List<DataRow> dataList { get; set; } //Таблица измерений
         private int stepsPerMeter;
-        public bool dbChanged { get; set; }
         public void SetDate(DateTime date) { this.dateTime = date; }
         public DateTime GetDate() => this.dateTime;
         public void UpdateDateTime() => this.dateTime = DateTime.Now;
@@ -64,9 +61,24 @@ namespace Pryamolineynost
         public DB()
         {
             this.dataList = new List<DataRow>();
+            this.dateTime = DateTime.Now;
+            this.measurementStep = 200;
             this.UpdateStepsPerMeter(this.measurementStep);
             this.dataList.Add(new DataRow());
-            this.UpdateStepsPerMeter(200);
+        }
+
+        public DB(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance, int step, List<DataRow> dataList)
+        {
+            this.dateTime = datetime;
+            this.name = name;
+            this.description = description;
+            this.fio = fio;
+            this.fullTolerance = fullTolearance;
+            this.meterTolerance = meterTolerance;
+            this.measurementStep = step;
+            this.dataList = dataList;
+            this.UpdateStepsPerMeter(this.measurementStep);
+            this.UpdateAllRows();
         }
 
         public void UpdateStepsPerMeter(int stepsLength)
@@ -217,7 +229,12 @@ namespace Pryamolineynost
             this.UpdateStepsPerMeter(this.measurementStep);
             this.dataList.Add(new DataRow());
             UpdateAllRows();
-            
+        }
+
+
+        public void LoadDB()
+        {
+
         }
     }
 }

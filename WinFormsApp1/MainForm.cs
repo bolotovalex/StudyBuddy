@@ -1,4 +1,7 @@
+using System;
+using System.IO;
 using System.Text.Json;
+using static System.Net.Mime.MediaTypeNames;
 namespace Pryamolineynost
 {
     public partial class MainForm : Form
@@ -108,11 +111,26 @@ namespace Pryamolineynost
             this.bedLengthTextBox.Text = this.dB.GetLastDataRow().GetLength().ToString();
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        async private void saveButton_Click(object sender, EventArgs e)
         {
-            (decimal fStroke, decimal rStroke) rowParams = (this.dB.GetDataRow(1).GetFStroke(), this.dB.GetDataRow(1).GetRevStroke());
-            string json = JsonSerializer.Serialize(rowParams);
-            Console.WriteLine(json);
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Json|*.json";
+            saveFileDialog1.Title = "Save json file";
+            saveFileDialog1.ShowDialog();
+
+            if (saveFileDialog1.FileName != "")
+            {
+                using (StreamWriter writer = new StreamWriter(saveFileDialog1.OpenFile()))
+                {
+                    await writer.WriteLineAsync(JsonSerializer.Serialize(this.dB));
+                    writer.Close();
+                }
+                
+
+
+            }
+                
+            
         }
     }
 }
