@@ -524,6 +524,7 @@ namespace Pryamolineynost
             saveButton.TabIndex = 30;
             saveButton.Text = "Сохранить";
             saveButton.UseVisualStyleBackColor = true;
+            saveButton.Click += saveButton_Click;
             // 
             // fillDataFormButton
             // 

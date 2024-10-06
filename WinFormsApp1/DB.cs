@@ -71,8 +71,11 @@ namespace Pryamolineynost
 
         public void UpdateStepsPerMeter(int stepsLength)
         {
-            this.stepsPerMeter = 1000 % stepsLength >= 5 ? 1000 / stepsLength + 1 : 1000 / stepsLength;
-            this.localAreaLength = 1000 / stepsLength * stepsLength;
+            if (stepsLength != null && stepsLength != 0)
+            {
+                this.stepsPerMeter = 1000 % stepsLength >= 5 ? 1000 / stepsLength + 1 : 1000 / stepsLength;
+                this.localAreaLength = 1000 / stepsLength * stepsLength;
+            }        
         }
 
 

@@ -1,3 +1,4 @@
+using System.Text.Json;
 namespace Pryamolineynost
 {
     public partial class MainForm : Form
@@ -24,36 +25,52 @@ namespace Pryamolineynost
         }
 
 
-        private int UpdateIntTextBox(TextBox textBox)
+        private int CheckTextBoxIntValue(TextBox textBox)
         {
             int result;
-            if (int.TryParse(textBox.Text, out result))
-                textBox.BackColor = Color.White;
+            if (int.TryParse(textBox.Text, out result)) { }
+            //textBox.BackColor = Color.White;
             else
-                textBox.BackColor = Color.Red;
+            {
+                //var tr = new Thread(textbox => BlinkTextBox(textBox));
+                //tr.Start(textBox);
+                textBox.Text = "0";
+            }
             return result;
         }
 
+        //private void BlinkTextBox(TextBox textbox)
+        //{
+        //    for (int i = 0; i < 10; i++)
+        //    {
+        //        textbox.BackColor = Color.Red;
+        //        Thread.Sleep(300);
+        //        textbox.BackColor = Color.White;
+        //    }
+
+        //}
+
         private void updateStep(object sender, EventArgs e)
         {
-            this.dB.SetMeasurementStep(UpdateIntTextBox(measurementStepTextPanel));
+
+            this.dB.SetMeasurementStep(CheckTextBoxIntValue(measurementStepTextPanel));
+
             this.dB.UpdateStepsPerMeter(this.dB.GetMeasurementStep());
             this.dB.UpdateAllRows();
-            
+
             this.UpdateAllFields();
             this.dataForm.DataForm_Load(sender, e);
-
         }
 
         private void updateAdmLength(object sender, EventArgs e)
         {
 
-            this.admLenght = UpdateIntTextBox(admLenghtTextBox);
+            this.admLenght = CheckTextBoxIntValue(admLenghtTextBox);
         }
 
         private void updateAdmPerMeter(object sender, EventArgs e)
         {
-            this.admPerMeter = UpdateIntTextBox(admPerMeterTextBox);
+            this.admPerMeter = CheckTextBoxIntValue(admPerMeterTextBox);
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -80,15 +97,22 @@ namespace Pryamolineynost
         {
             this.dataForm.Dispose();
         }
-        
+
         public void UpdateAllFields()
         {
-            this.minDeviationTextBox.Text = Math.Round(this.dB.GetMinDeviation(),2).ToString();
-            this.maxDeviationTextBox.Text = Math.Round(this.dB.GetMaxDeviation(),2).ToString();
-            this.lineDeviationTextBox.Text = Math.Round(this.dB.GetMeterDeflection(),2).ToString();
-            this.localAreaTextBox.Text =  this.dB.GetLocalAreaLength().ToString();
+            this.minDeviationTextBox.Text = Math.Round(this.dB.GetMinDeviation(), 2).ToString();
+            this.maxDeviationTextBox.Text = Math.Round(this.dB.GetMaxDeviation(), 2).ToString();
+            this.lineDeviationTextBox.Text = Math.Round(this.dB.GetMeterDeflection(), 2).ToString();
+            this.localAreaTextBox.Text = this.dB.GetLocalAreaLength().ToString();
             this.verticalDeviationTextBox.Text = Math.Round(this.dB.GetVerticalDeflection(), 2).ToString();
             this.bedLengthTextBox.Text = this.dB.GetLastDataRow().GetLength().ToString();
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            (decimal fStroke, decimal rStroke) rowParams = (this.dB.GetDataRow(1).GetFStroke(), this.dB.GetDataRow(1).GetRevStroke());
+            string json = JsonSerializer.Serialize(rowParams);
+            Console.WriteLine(json);
         }
     }
 }
