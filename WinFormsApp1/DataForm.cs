@@ -12,12 +12,12 @@ public partial class DataForm : Form
         InitializeComponent();
     }
 
-    public void ReloadDataForm(Db db, MainForm parrentForm) 
+    public void ReloadDataForm(Db db, MainForm parrentForm)
     {
         this.db = db;
         mainForm = parrentForm;
-        this.dataGrid.Rows.Clear();
-        this.UpdateForm(null, null);
+        dataGrid.Rows.Clear();
+        UpdateForm(null, null);
     }
 
 
@@ -33,6 +33,7 @@ public partial class DataForm : Form
         dataGrid.Rows.Add();
         UpdateForm(sender, e);
     }
+
     public void UpdateForm(object sender, EventArgs e)
     {
         if (dataGrid.Rows.Count < db.DataList.Count)
@@ -103,15 +104,12 @@ public partial class DataForm : Form
 
     private void closeButton_Click(object sender, EventArgs e)
     {
-        this.Close();
+        Close();
     }
 
     private void clearDBButton_Click(object sender, EventArgs e)
     {
-        while (dataGrid.RowCount > 2)
-        {
-            dataGrid.Rows.RemoveAt(1);
-        }
+        while (dataGrid.RowCount > 2) dataGrid.Rows.RemoveAt(1);
         db.CleanDb();
         mainForm.UpdateAllFields();
         UpdateForm(sender, e);

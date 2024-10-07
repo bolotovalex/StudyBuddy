@@ -45,7 +45,7 @@ public class Db
 
     public void SetName(string name)
     {
-        this.Name = name;
+        Name = name;
     }
 
     public string GetName()
@@ -55,7 +55,7 @@ public class Db
 
     public void SetFio(string fio)
     {
-        this.Fio = fio;
+        Fio = fio;
     }
 
     public string GetFio()
@@ -65,7 +65,7 @@ public class Db
 
     public void SetDescription(string description)
     {
-        this.Description = description;
+        Description = description;
     }
 
     public string GetDescription()
@@ -95,7 +95,7 @@ public class Db
 
     public void SetFullTolerance(int fullTolerance)
     {
-        this.FullTolerance = fullTolerance;
+        FullTolerance = fullTolerance;
     }
 
     public int GetFullTolerance()
@@ -105,7 +105,7 @@ public class Db
 
     public void SetMeterTolerance(int meterTolerance)
     {
-        this.MeterTolerance = meterTolerance;
+        MeterTolerance = meterTolerance;
     }
 
     public int GetMeterTolerance()
@@ -125,7 +125,7 @@ public class Db
 
     public void SetMeasurementStep(int measurementStep)
     {
-        this.MeasurementStep = measurementStep;
+        MeasurementStep = measurementStep;
     }
 
     public int GetMeasurementStep()
@@ -163,13 +163,13 @@ public class Db
         int step, List<DataRow> dataList, decimal maxDeviation, decimal maxMeterDeflection, decimal minMeterDeflection)
     {
         date = datetime;
-        this.Name = name;
-        this.Description = description;
-        this.Fio = fio;
+        Name = name;
+        Description = description;
+        Fio = fio;
         FullTolerance = fullTolearance;
-        this.MeterTolerance = meterTolerance;
+        MeterTolerance = meterTolerance;
         MeasurementStep = step;
-        this.DataList = dataList;
+        DataList = dataList;
         _maxDeviation = maxDeviation;
         UpdateStepsPerMeter(MeasurementStep);
         UpdateAllRows();
@@ -191,7 +191,7 @@ public class Db
         if (DataList[^1].GetLength() != 0)
         {
             _programFactor1 = DataList[^1].GetFactProfileLength() /
-                             DataList[^1].GetLength();
+                              DataList[^1].GetLength();
             _programFactor2 = 0; //TODO Доделать програмный коэфициент. В примере он всегда будет равен 0
         }
     }

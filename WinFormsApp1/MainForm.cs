@@ -79,23 +79,8 @@ public partial class MainForm : Form
 
     private void fillDataFormButton_Click(object sender, EventArgs e)
     {
-        //if (!dataForm.Disposing)
-        //{
-        //dataForm = new DataForm(dB, this);
-        //}
         dataForm = new DataForm(dB, this);
         dataForm.Show();
-    }
-
-    
-
-    public void CleanForm()
-    {
-        //dataForm.Dispose();
-        //dataForm = new DataForm(dB, this);
-        //dataForm.Show();
-        UpdateAllFields();
-        //dataForm.UpdateForm();
     }
 
     public void UpdateAllFields()
