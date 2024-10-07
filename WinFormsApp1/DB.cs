@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-
-namespace Pryamolineynost;
+﻿namespace Pryamolineynost;
 
 public class Db
 {
@@ -314,7 +306,6 @@ public class Db
             UpdateAllRows();
         }
     }
-
     public void CleanDb()
     {
         UpdateDateTime();
