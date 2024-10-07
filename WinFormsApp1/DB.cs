@@ -6,235 +6,333 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Pryamolineynost
+namespace Pryamolineynost;
+
+public class Db
 {
-    public class DB
+    public DateTime DateTime { get; set; } //Дата
+    public string Name { get; set; } //Наименование
+    public string Description { get; set; } //Обозначение
+    public string Fio { get; set; } //Измерения произвел
+    private decimal _minDeviation; //Наибольшее отклонение, мкм
+    private decimal _maxDeviation; //Наименьшее отклонение, мкм
+    private decimal _verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
+    private decimal _meterDeflection; //TODO Отклонение от прямолинейности на 1 метр, мкм - 
+    public int FullTolerance { get; set; } //Допуск на всю длину, мкм -
+    public int MeterTolerance { get; set; } //Допуск на 1 метр, мкм -
+    private int _localAreaLength = 0; //Локальный участок, мм
+    private int _bedAreaLength = 0; //Длина станины, мм
+    public int MeasurementStep { get; set; } //Шаг измерения (расстояние между опорами мостика), мм
+    private decimal _programFactor1; //Программный коэффициент
+    private decimal _programFactor2; //Программный коэффициент
+    public List<DataRow> DataList { get; set; } //Таблица измерений
+    private int _stepsPerMeter;
+
+    public void SetDate(DateTime date)
     {
-        public DateTime dateTime { get; set; } //Дата
-        public string name { get; set;  } //Наименование
-        public string description { get; set; } //Обозначение
-        public string fio { get; set; } //Измерения произвел
-        private decimal minDeviation; //Наибольшее отклонение, мкм
-        private decimal maxDeviation; //Наименьшее отклонение, мкм
-        private decimal verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
-        private decimal meterDeflection; //TODO Отклонение от прямолинейности на 1 метр, мкм - 
-        private decimal maxMeterDeflection; //TODO Доделать
-        private decimal minMeterDeflection; //TODO Доделать
-        public int fullTolerance { get; set; } //Допуск на всю длину, мкм -
-        public int meterTolerance { get; set; } //Допуск на 1 метр, мкм -
-        private int localAreaLength = 0; //Локальный участок, мм
-        private int bedAreaLength = 0; //Длина станины, мм
-        public int measurementStep { get; set; } //Шаг измерения (расстояние между опорами мостика), мм
-        private decimal programFactor1; //Программный коэффициент
-        private decimal programFactor2; //Программный коэффициент
-        public List<DataRow> dataList { get; set; } //Таблица измерений
-        private int stepsPerMeter;
-        public void SetDate(DateTime date) { this.dateTime = date; }
-        public DateTime GetDate() => this.dateTime;
-        public void UpdateDateTime() => this.dateTime = DateTime.Now;
-        public void SetName(string name) { this.name = name; }
-        public string GetName() => this.name;
-        public void SetFIO(string fio) { this.fio = fio; }
-        public string GetFio() => this.fio;
-        public void SetDescription(string description) { this.description = description; }
-        public string GetDescription() => this.description;
+        DateTime = date;
+    }
 
-        public decimal GetMinDeviation() => this.minDeviation;
-        public decimal GetMaxDeviation() => this.maxDeviation;
-        public decimal GetVerticalDeflection() => this.verticalDeflection;
-        public decimal GetMeterDeflection() => this.meterDeflection;
-        public void SetFullTolerance(int fullTolerance) { this.fullTolerance = fullTolerance; }
-        public int GetFullTolerance() => this.fullTolerance;
-        public void SetMeterTolerance(int meterTolerance) { this.meterTolerance = meterTolerance; }
-        public int GetMeterTolerance() => this.meterTolerance;
-        public int GetLocalAreaLength() => this.localAreaLength;
-        public int GetBedLength() => this.bedAreaLength;
-        public void SetMeasurementStep(int measurementStep) { this.measurementStep = measurementStep; }
-        public int GetMeasurementStep() => this.measurementStep;
-        public List<DataRow> GetDataList() => this.dataList;
-        public DataRow GetDataRow(int index) => this.dataList[index];
+    public DateTime GetDate()
+    {
+        return DateTime;
+    }
 
-        public DataRow GetLastDataRow() => this.dataList[this.dataList.Count - 1];
+    public void UpdateDateTime()
+    {
+        DateTime = DateTime.Now;
+    }
 
-      
+    public void SetName(string name)
+    {
+        this.Name = name;
+    }
 
-        public DB()
+    public string GetName()
+    {
+        return Name;
+    }
+
+    public void SetFio(string fio)
+    {
+        this.Fio = fio;
+    }
+
+    public string GetFio()
+    {
+        return Fio;
+    }
+
+    public void SetDescription(string description)
+    {
+        this.Description = description;
+    }
+
+    public string GetDescription()
+    {
+        return Description;
+    }
+
+    public decimal GetMinDeviation()
+    {
+        return _minDeviation;
+    }
+
+    public decimal GetMaxDeviation()
+    {
+        return _maxDeviation;
+    }
+
+    public decimal GetVerticalDeflection()
+    {
+        return _verticalDeflection;
+    }
+
+    public decimal GetMeterDeflection()
+    {
+        return _meterDeflection;
+    }
+
+    public void SetFullTolerance(int fullTolerance)
+    {
+        this.FullTolerance = fullTolerance;
+    }
+
+    public int GetFullTolerance()
+    {
+        return FullTolerance;
+    }
+
+    public void SetMeterTolerance(int meterTolerance)
+    {
+        this.MeterTolerance = meterTolerance;
+    }
+
+    public int GetMeterTolerance()
+    {
+        return MeterTolerance;
+    }
+
+    public int GetLocalAreaLength()
+    {
+        return _localAreaLength;
+    }
+
+    public int GetBedLength()
+    {
+        return _bedAreaLength;
+    }
+
+    public void SetMeasurementStep(int measurementStep)
+    {
+        this.MeasurementStep = measurementStep;
+    }
+
+    public int GetMeasurementStep()
+    {
+        return MeasurementStep;
+    }
+
+    public List<DataRow> GetDataList()
+    {
+        return DataList;
+    }
+
+    public DataRow GetDataRow(int index)
+    {
+        return DataList[index];
+    }
+
+    public DataRow GetLastDataRow()
+    {
+        return DataList[DataList.Count - 1];
+    }
+
+
+    public Db()
+    {
+        _maxDeviation = 0;
+        DataList = new List<DataRow>();
+        DateTime = DateTime.Now;
+        MeasurementStep = 200;
+        UpdateStepsPerMeter(MeasurementStep);
+        DataList.Add(new DataRow());
+    }
+
+    public Db(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance,
+        int step, List<DataRow> dataList, decimal maxDeviation, decimal maxMeterDeflection, decimal minMeterDeflection)
+    {
+        DateTime = datetime;
+        this.Name = name;
+        this.Description = description;
+        this.Fio = fio;
+        FullTolerance = fullTolearance;
+        this.MeterTolerance = meterTolerance;
+        MeasurementStep = step;
+        this.DataList = dataList;
+        _maxDeviation = maxDeviation;
+        UpdateStepsPerMeter(MeasurementStep);
+        UpdateAllRows();
+    }
+
+    public void UpdateStepsPerMeter(int stepsLength)
+    {
+        if (stepsLength != 0)
         {
-            this.dataList = new List<DataRow>();
-            this.dateTime = DateTime.Now;
-            this.measurementStep = 200;
-            this.UpdateStepsPerMeter(this.measurementStep);
-            this.dataList.Add(new DataRow());
+            _stepsPerMeter = 1000 % stepsLength >= 5 ? 1000 / stepsLength + 1 : 1000 / stepsLength;
+            _localAreaLength = 1000 / stepsLength * stepsLength;
+        }
+    }
+
+
+    private void UpdateProgramFactors()
+    {
+        if (DataList[^1].GetLength() != 0)
+        {
+            _programFactor1 = DataList[^1].GetFactProfileLength() /
+                             DataList[^1].GetLength();
+            _programFactor2 = 0; //TODO Доделать програмный коэфициент. В примере он всегда будет равен 0
+        }
+    }
+
+    public void AddRow(decimal fStroke, decimal revStroke)
+    {
+        var row = new DataRow();
+        var prevRow = DataList[^1];
+        row.UpdateRow(fStroke, revStroke, MeasurementStep, prevRow);
+        DataList.Add(row);
+        UpdateProgramFactors();
+        row.UpdateAdjStraight(_programFactor1, _programFactor2);
+        row.UpdateDeviation();
+        UpdateAllRows();
+    }
+
+    private decimal GetMaxDeviationPerMeterForStep(int maxIndex)
+    {
+        //var maxIndex = startStep + this.stepsPerMeter - 1;
+        //if (this.dataList.Count <= this.stepsPerMeter || maxIndex >= this.dataList.Count)
+        //    return 0;
+        var startIndex = maxIndex - _stepsPerMeter + 1;
+        var lengthOnMeter = new List<decimal>() { };
+        for (var length = 0; length <= 1000; length += 1000 / _stepsPerMeter)
+            lengthOnMeter.Add(length);
+
+
+        var factProfileList = new List<decimal>() { 0 };
+
+        for (var i = startIndex; i < DataList.Count && i <= maxIndex; i++)
+        {
+            var factProfile = DataList[i].GetFStroke() * MeasurementStep / 1000 + factProfileList[i - startIndex];
+            factProfileList.Add(factProfile);
         }
 
-        public DB(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance, int step, List<DataRow> dataList)
+
+        var a = factProfileList[^1];
+        var b = DataList[maxIndex].GetLength();
+        var lastProfileKoef = factProfileList[^1] / lengthOnMeter[^1];
+        var listDeviations = new List<decimal>() { 0 };
+        decimal maxDeviation = 0;
+        decimal minDeviation = 0;
+
+        for (var i = startIndex; i < DataList.Count && i <= maxIndex; i++)
         {
-            this.dateTime = datetime;
-            this.name = name;
-            this.description = description;
-            this.fio = fio;
-            this.fullTolerance = fullTolearance;
-            this.meterTolerance = meterTolerance;
-            this.measurementStep = step;
-            this.dataList = dataList;
-            this.UpdateStepsPerMeter(this.measurementStep);
-            this.UpdateAllRows();
+            var prilPryamaya =
+                lastProfileKoef * lengthOnMeter[i - startIndex + 1] +
+                0; //TODO в документе указано ссылка на T15, но она пустая.
+
+            var deviation = factProfileList[i - startIndex + 1] - prilPryamaya;
+            listDeviations.Add(deviation);
+            if (maxDeviation < deviation)
+                maxDeviation = deviation;
+            else if (minDeviation > deviation)
+                minDeviation = deviation;
         }
 
-        public void UpdateStepsPerMeter(int stepsLength)
+        return maxDeviation - minDeviation;
+    }
+
+    public void UpdateMeterDeflection()
+    {
+        decimal maxDeflection = 0;
+        decimal minDeflection = 0;
+        for (var i = 1; i <= DataList.Count - _stepsPerMeter; i++)
         {
-            if (stepsLength != null && stepsLength != 0)
-            {
-                this.stepsPerMeter = 1000 % stepsLength >= 5 ? 1000 / stepsLength + 1 : 1000 / stepsLength;
-                this.localAreaLength = 1000 / stepsLength * stepsLength;
-            }        
+            var rowDeviationPerMeter = DataList[i].GetDeviationPerMeter();
+            if (rowDeviationPerMeter > maxDeflection)
+                maxDeflection = rowDeviationPerMeter;
+            else if (rowDeviationPerMeter < minDeflection)
+                minDeflection = rowDeviationPerMeter;
         }
 
+        _meterDeflection = Math.Max(maxDeflection, -1 * minDeflection);
+    }
 
-        public void UpdateProgramFactors()
+    public void UpdateAllRows()
+    {
+        UpdateProgramFactors();
+        _maxDeviation = 0;
+        _minDeviation = 0;
+
+        for (var i = 1; i < DataList.Count; i++)
         {
-            if (this.dataList[this.dataList.Count - 1].GetLength() != 0)
-            {
-                this.programFactor1 = this.dataList[this.dataList.Count - 1].GetFactProfileLength() / this.dataList[this.dataList.Count - 1].GetLength();
-                this.programFactor2 = 0; //TODO Доделать програмный коэфициент. В примере он всегда будет равен 0
-            }
-            
+            var selRow = DataList[i];
+            var prevRow = DataList[i - 1];
+
+            selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), MeasurementStep, prevRow);
+            selRow.UpdateAdjStraight(_programFactor1, _programFactor2);
+            selRow.UpdateDeviation();
+
+            var deviationValue = selRow.GetDeviation();
+            if (deviationValue > _maxDeviation)
+                _maxDeviation = deviationValue;
+            else if (deviationValue < _minDeviation)
+                _minDeviation = deviationValue;
+            _verticalDeflection = GetMaxDeviation() + GetMinDeviation() * -1;
+
+            if (DataList.Count - i == 1 && DataList.Count > _stepsPerMeter)
+                DataList[i - _stepsPerMeter + 1].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
         }
 
-        public void AddRow(decimal fStroke, decimal revStroke)
+        UpdateMeterDeflection();
+    }
+
+    public void UpdateFStrokeRow(int index, int value)
+    {
+        if (index > 0)
         {
-            DataRow row = new DataRow();
-            DataRow prevRow = this.dataList[this.dataList.Count - 1];
-            row.UpdateRow(fStroke, revStroke, this.measurementStep, prevRow);
-            this.dataList.Add(row);
-            this.UpdateProgramFactors();
-            row.UpdateAdjStraight(this.programFactor1, this.programFactor2);
-            row.UpdateDeviation();
-            this.UpdateAllRows();
-        }
-
-        public decimal GetMaxDeviationPerMeterForStep(int maxIndex)
-        {
-            //var maxIndex = startStep + this.stepsPerMeter - 1;
-            //if (this.dataList.Count <= this.stepsPerMeter || maxIndex >= this.dataList.Count)
-            //    return 0;
-            var startIndex = maxIndex - this.stepsPerMeter + 1;
-            var lengthOnMeter = new List<decimal>() {};
-            for ( var length = 0; length <= 1000; length += 1000 / this.stepsPerMeter)
-                lengthOnMeter.Add(length);
-
-
-            var factProfileList = new List<decimal>() {0};
-
-            for (var i = startIndex;  i < this.dataList.Count && i <= maxIndex; i++)
-            {
-                var factProfile = this.dataList[i].GetFStroke() * this.measurementStep / 1000 + factProfileList[i - startIndex];
-                factProfileList.Add(factProfile);
-            }
-
-
-            var a = factProfileList[factProfileList.Count - 1];
-            var b = this.dataList[maxIndex].GetLength();
-            var lastProfileKoef = factProfileList[factProfileList.Count - 1] / lengthOnMeter[lengthOnMeter.Count - 1];
-            var listDeviations = new List<decimal>() { 0 };
-            decimal maxDeviation = 0;
-            decimal minDeviation = 0;
-
-            for(var i = startIndex; i < this.dataList.Count && i <= maxIndex; i++)
-            {
-                var prilPryamaya = lastProfileKoef * lengthOnMeter[i - startIndex + 1] + 0;//TODO в документе указано ссылка на T15, но она пустая.
-                
-                var deviation = factProfileList[i - startIndex + 1] - prilPryamaya;
-                listDeviations.Add(deviation);
-                if (maxDeviation < deviation)
-                    maxDeviation = deviation;
-                else if (minDeviation > deviation)
-                    minDeviation = deviation;
-            }
-            return maxDeviation-minDeviation;
-        }
-
-        public void UpdateMeterDeflection()
-        {
-            decimal maxDeflection = 0;
-            decimal minDeflection = 0;
-            for (var i = 1; i <= this.dataList.Count - this.stepsPerMeter; i++)
-            {
-                var rowDeviationPerMeter = this.dataList[i].GetDeviationPerMeter();
-                if (rowDeviationPerMeter > maxDeflection)
-                    maxDeflection = rowDeviationPerMeter;
-                else if ( rowDeviationPerMeter < minDeflection)
-                    minDeflection = rowDeviationPerMeter;
-            }
-            this.meterDeflection = Math.Max(maxDeflection, -1 * minDeflection);
-        }
-
-        public void UpdateAllRows()
-        {
-            this.UpdateProgramFactors();
-            this.maxDeviation = 0;
-            this.minDeviation = 0;
-
-            for (var i = 1; i < this.dataList.Count; i++)
-            {
-                var selRow = this.dataList[i];
-                var prevRow = this.dataList[i - 1];
-
-                selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), this.measurementStep, prevRow);
-                selRow.UpdateAdjStraight(this.programFactor1, this.programFactor2);
-                selRow.UpdateDeviation();
-
-                var deviationValue = selRow.GetDeviation();
-                if (deviationValue > this.maxDeviation)
-                    this.maxDeviation = deviationValue;
-                else if (deviationValue < this.minDeviation)
-                    this.minDeviation = deviationValue;
-                this.verticalDeflection = (this.GetMaxDeviation() + (this.GetMinDeviation() * (-1)));
-
-                if (this.dataList.Count - i == 1 && this.dataList.Count > this.stepsPerMeter)
-                {
-                    this.dataList[i - this.stepsPerMeter + 1].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
-                }
-            }
-            
-            UpdateMeterDeflection();
-            
-        }
-
-        public void UpdateFStrokeRow(int index, int value)
-        {
-            if (index > 0)
-            {
-                this.dataList[index].UpdateRow(value, this.dataList[index].GetRevStroke(), this.measurementStep, this.dataList[index - 1]);
-                UpdateAllRows();
-            }
-            
-        }
-        public void UpdateRevStrokeRow(int index, int value)
-        {
-            if (index > 0)
-            {
-                this.dataList[index].UpdateRow(this.dataList[index].GetFStroke(), value, this.measurementStep, this.dataList[index - 1]);
-                UpdateAllRows();
-            }
-        }
-
-        public void CleanDB()
-        {
-            this.UpdateDateTime();
-            this.dataList = new List<DataRow>();
-            this.programFactor1 = 0;
-            this.programFactor2 = 0;
-            this.verticalDeflection = 0;
-            this.UpdateStepsPerMeter(this.measurementStep);
-            this.dataList.Add(new DataRow());
+            DataList[index].UpdateRow(value, DataList[index].GetRevStroke(), MeasurementStep, DataList[index - 1]);
             UpdateAllRows();
         }
+    }
 
-
-        public void LoadDB()
+    public void UpdateRevStrokeRow(int index, int value)
+    {
+        if (index > 0)
         {
-
+            DataList[index].UpdateRow(DataList[index].GetFStroke(), value, MeasurementStep, DataList[index - 1]);
+            UpdateAllRows();
         }
+    }
+
+    public void CleanDb()
+    {
+        UpdateDateTime();
+        DataList = new List<DataRow>();
+        _programFactor1 = 0;
+        _programFactor2 = 0;
+        _verticalDeflection = 0;
+        UpdateStepsPerMeter(MeasurementStep);
+        DataList.Add(new DataRow());
+        UpdateAllRows();
+    }
+
+
+    public void LoadDb()
+    {
+    }
+
+    public string GetJsonDb()
+    {
+        return JsonSerializer.Serialize(this);
     }
 }

@@ -34,21 +34,21 @@ namespace Pryamolineynost
         {
             dateLabel = new Label();
             dateTimePicker = new DateTimePicker();
-            comboBox1 = new ComboBox();
+            fioComboBox = new ComboBox();
             nameComboBox = new ComboBox();
             nameLabel = new Label();
-            label3 = new Label();
+            fioLabel = new Label();
             maxDeviationLabel = new Label();
             minDeviationLabel = new Label();
             verticalDeviationLabel = new Label();
             lineDeviationLabel = new Label();
-            admLengthLabel = new Label();
-            label9 = new Label();
-            label10 = new Label();
+            tolerLengthLabel = new Label();
+            tolerPerMeterLabel = new Label();
+            stepLabel = new Label();
             datePanel = new Panel();
             namePanel = new Panel();
             dateTimePicker1 = new DateTimePicker();
-            panel1 = new Panel();
+            fioPanel = new Panel();
             dateTimePicker2 = new DateTimePicker();
             maxDeviationPanel = new Panel();
             maxDeviationTextBox = new TextBox();
@@ -62,14 +62,14 @@ namespace Pryamolineynost
             lineDeviationPanel = new Panel();
             lineDeviationTextBox = new TextBox();
             dateTimePicker6 = new DateTimePicker();
-            admLenghtPanel = new Panel();
-            admLenghtTextBox = new TextBox();
+            tolerLenghtPanel = new Panel();
+            tolerLenghtTextBox = new TextBox();
             dateTimePicker7 = new DateTimePicker();
-            admPerMeterPanel = new Panel();
-            admPerMeterTextBox = new TextBox();
+            tolerPerMeterPanel = new Panel();
+            tolerPerMeterTextBox = new TextBox();
             dateTimePicker8 = new DateTimePicker();
-            measurementStepPanel = new Panel();
-            measurementStepTextPanel = new TextBox();
+            stepPanel = new Panel();
+            stepTextPanel = new TextBox();
             dateTimePicker9 = new DateTimePicker();
             graphicButton = new Button();
             button1 = new Button();
@@ -77,7 +77,7 @@ namespace Pryamolineynost
             loadFileButton = new Button();
             saveButton = new Button();
             fillDataFormButton = new Button();
-            panel2 = new Panel();
+            descriptionPanel = new Panel();
             descriptionComboBox = new ComboBox();
             descriptionLabel = new Label();
             localAreaPanel = new Panel();
@@ -88,15 +88,15 @@ namespace Pryamolineynost
             bedLengthLabel = new Label();
             datePanel.SuspendLayout();
             namePanel.SuspendLayout();
-            panel1.SuspendLayout();
+            fioPanel.SuspendLayout();
             maxDeviationPanel.SuspendLayout();
             minDeviationPanel.SuspendLayout();
             verticalDeviationPanel.SuspendLayout();
             lineDeviationPanel.SuspendLayout();
-            admLenghtPanel.SuspendLayout();
-            admPerMeterPanel.SuspendLayout();
-            measurementStepPanel.SuspendLayout();
-            panel2.SuspendLayout();
+            tolerLenghtPanel.SuspendLayout();
+            tolerPerMeterPanel.SuspendLayout();
+            stepPanel.SuspendLayout();
+            descriptionPanel.SuspendLayout();
             localAreaPanel.SuspendLayout();
             bedPanelLength.SuspendLayout();
             SuspendLayout();
@@ -122,15 +122,15 @@ namespace Pryamolineynost
             dateTimePicker.TabIndex = 0;
             dateTimePicker.ValueChanged += dateTimePicker1_ValueChanged;
             // 
-            // comboBox1
+            // fioComboBox
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(140, 3);
-            comboBox1.Name = "comboBox1";
-            comboBox1.RightToLeft = RightToLeft.Yes;
-            comboBox1.Size = new Size(340, 23);
-            comboBox1.TabIndex = 1;
-            comboBox1.TextUpdate += updateFIO;
+            fioComboBox.FormattingEnabled = true;
+            fioComboBox.Location = new Point(140, 3);
+            fioComboBox.Name = "fioComboBox";
+            fioComboBox.RightToLeft = RightToLeft.Yes;
+            fioComboBox.Size = new Size(340, 23);
+            fioComboBox.TabIndex = 1;
+            fioComboBox.TextUpdate += UpdateFio;
             // 
             // nameComboBox
             // 
@@ -141,7 +141,7 @@ namespace Pryamolineynost
             nameComboBox.RightToLeft = RightToLeft.Yes;
             nameComboBox.Size = new Size(374, 23);
             nameComboBox.TabIndex = 2;
-            nameComboBox.TextChanged += updateMeasure;
+            nameComboBox.TextChanged += UpdateProjectName;
             // 
             // nameLabel
             // 
@@ -152,14 +152,14 @@ namespace Pryamolineynost
             nameLabel.TabIndex = 4;
             nameLabel.Text = "Наименование";
             // 
-            // label3
+            // fioLabel
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(10, 7);
-            label3.Name = "label3";
-            label3.Size = new Size(124, 15);
-            label3.TabIndex = 5;
-            label3.Text = "Измерение произвел";
+            fioLabel.AutoSize = true;
+            fioLabel.Location = new Point(10, 7);
+            fioLabel.Name = "fioLabel";
+            fioLabel.Size = new Size(124, 15);
+            fioLabel.TabIndex = 5;
+            fioLabel.Text = "Измерение произвел";
             // 
             // maxDeviationLabel
             // 
@@ -197,32 +197,32 @@ namespace Pryamolineynost
             lineDeviationLabel.TabIndex = 9;
             lineDeviationLabel.Text = "Отклонение от прямолинейности на 1 метр, мкм";
             // 
-            // admLengthLabel
+            // tolerLengthLabel
             // 
-            admLengthLabel.AutoSize = true;
-            admLengthLabel.Location = new Point(10, 7);
-            admLengthLabel.Name = "admLengthLabel";
-            admLengthLabel.Size = new Size(154, 15);
-            admLengthLabel.TabIndex = 10;
-            admLengthLabel.Text = "Допуск на всю длину, мкм";
+            tolerLengthLabel.AutoSize = true;
+            tolerLengthLabel.Location = new Point(10, 7);
+            tolerLengthLabel.Name = "tolerLengthLabel";
+            tolerLengthLabel.Size = new Size(154, 15);
+            tolerLengthLabel.TabIndex = 10;
+            tolerLengthLabel.Text = "Допуск на всю длину, мкм";
             // 
-            // label9
+            // tolerPerMeterLabel
             // 
-            label9.AutoSize = true;
-            label9.Location = new Point(10, 7);
-            label9.Name = "label9";
-            label9.Size = new Size(132, 15);
-            label9.TabIndex = 11;
-            label9.Text = "Допуск на 1 метр, мкм";
+            tolerPerMeterLabel.AutoSize = true;
+            tolerPerMeterLabel.Location = new Point(10, 7);
+            tolerPerMeterLabel.Name = "tolerPerMeterLabel";
+            tolerPerMeterLabel.Size = new Size(132, 15);
+            tolerPerMeterLabel.TabIndex = 11;
+            tolerPerMeterLabel.Text = "Допуск на 1 метр, мкм";
             // 
-            // label10
+            // stepLabel
             // 
-            label10.AutoSize = true;
-            label10.Location = new Point(10, 7);
-            label10.Name = "label10";
-            label10.Size = new Size(331, 15);
-            label10.TabIndex = 12;
-            label10.Text = "Шаг измерения (расстояние между опорами мостика), мм";
+            stepLabel.AutoSize = true;
+            stepLabel.Location = new Point(10, 7);
+            stepLabel.Name = "stepLabel";
+            stepLabel.Size = new Size(331, 15);
+            stepLabel.TabIndex = 12;
+            stepLabel.Text = "Шаг измерения (расстояние между опорами мостика), мм";
             // 
             // datePanel
             // 
@@ -253,16 +253,16 @@ namespace Pryamolineynost
             dateTimePicker1.Size = new Size(251, 23);
             dateTimePicker1.TabIndex = 0;
             // 
-            // panel1
+            // fioPanel
             // 
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(dateTimePicker2);
-            panel1.Controls.Add(comboBox1);
-            panel1.Controls.Add(label3);
-            panel1.Location = new Point(8, 123);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(485, 31);
-            panel1.TabIndex = 17;
+            fioPanel.BorderStyle = BorderStyle.FixedSingle;
+            fioPanel.Controls.Add(dateTimePicker2);
+            fioPanel.Controls.Add(fioComboBox);
+            fioPanel.Controls.Add(fioLabel);
+            fioPanel.Location = new Point(8, 123);
+            fioPanel.Name = "fioPanel";
+            fioPanel.Size = new Size(485, 31);
+            fioPanel.TabIndex = 17;
             // 
             // dateTimePicker2
             // 
@@ -392,26 +392,26 @@ namespace Pryamolineynost
             dateTimePicker6.Size = new Size(251, 23);
             dateTimePicker6.TabIndex = 0;
             // 
-            // admLenghtPanel
+            // tolerLenghtPanel
             // 
-            admLenghtPanel.BorderStyle = BorderStyle.FixedSingle;
-            admLenghtPanel.Controls.Add(admLenghtTextBox);
-            admLenghtPanel.Controls.Add(dateTimePicker7);
-            admLenghtPanel.Controls.Add(admLengthLabel);
-            admLenghtPanel.Location = new Point(8, 382);
-            admLenghtPanel.Name = "admLenghtPanel";
-            admLenghtPanel.Size = new Size(485, 31);
-            admLenghtPanel.TabIndex = 22;
+            tolerLenghtPanel.BorderStyle = BorderStyle.FixedSingle;
+            tolerLenghtPanel.Controls.Add(tolerLenghtTextBox);
+            tolerLenghtPanel.Controls.Add(dateTimePicker7);
+            tolerLenghtPanel.Controls.Add(tolerLengthLabel);
+            tolerLenghtPanel.Location = new Point(8, 382);
+            tolerLenghtPanel.Name = "tolerLenghtPanel";
+            tolerLenghtPanel.Size = new Size(485, 31);
+            tolerLenghtPanel.TabIndex = 22;
             // 
-            // admLenghtTextBox
+            // tolerLenghtTextBox
             // 
-            admLenghtTextBox.Location = new Point(390, 3);
-            admLenghtTextBox.Name = "admLenghtTextBox";
-            admLenghtTextBox.Size = new Size(90, 23);
-            admLenghtTextBox.TabIndex = 11;
-            admLenghtTextBox.Text = "0";
-            admLenghtTextBox.TextAlign = HorizontalAlignment.Right;
-            admLenghtTextBox.TextChanged += updateAdmLength;
+            tolerLenghtTextBox.Location = new Point(390, 3);
+            tolerLenghtTextBox.Name = "tolerLenghtTextBox";
+            tolerLenghtTextBox.Size = new Size(90, 23);
+            tolerLenghtTextBox.TabIndex = 11;
+            tolerLenghtTextBox.Text = "0";
+            tolerLenghtTextBox.TextAlign = HorizontalAlignment.Right;
+            tolerLenghtTextBox.TextChanged += UpdateFullTolerance;
             // 
             // dateTimePicker7
             // 
@@ -421,26 +421,26 @@ namespace Pryamolineynost
             dateTimePicker7.Size = new Size(251, 23);
             dateTimePicker7.TabIndex = 0;
             // 
-            // admPerMeterPanel
+            // tolerPerMeterPanel
             // 
-            admPerMeterPanel.BorderStyle = BorderStyle.FixedSingle;
-            admPerMeterPanel.Controls.Add(admPerMeterTextBox);
-            admPerMeterPanel.Controls.Add(dateTimePicker8);
-            admPerMeterPanel.Controls.Add(label9);
-            admPerMeterPanel.Location = new Point(8, 419);
-            admPerMeterPanel.Name = "admPerMeterPanel";
-            admPerMeterPanel.Size = new Size(485, 31);
-            admPerMeterPanel.TabIndex = 23;
+            tolerPerMeterPanel.BorderStyle = BorderStyle.FixedSingle;
+            tolerPerMeterPanel.Controls.Add(tolerPerMeterTextBox);
+            tolerPerMeterPanel.Controls.Add(dateTimePicker8);
+            tolerPerMeterPanel.Controls.Add(tolerPerMeterLabel);
+            tolerPerMeterPanel.Location = new Point(8, 419);
+            tolerPerMeterPanel.Name = "tolerPerMeterPanel";
+            tolerPerMeterPanel.Size = new Size(485, 31);
+            tolerPerMeterPanel.TabIndex = 23;
             // 
-            // admPerMeterTextBox
+            // tolerPerMeterTextBox
             // 
-            admPerMeterTextBox.Location = new Point(390, 3);
-            admPerMeterTextBox.Name = "admPerMeterTextBox";
-            admPerMeterTextBox.Size = new Size(90, 23);
-            admPerMeterTextBox.TabIndex = 12;
-            admPerMeterTextBox.Text = "0";
-            admPerMeterTextBox.TextAlign = HorizontalAlignment.Right;
-            admPerMeterTextBox.TextChanged += updateAdmPerMeter;
+            tolerPerMeterTextBox.Location = new Point(390, 3);
+            tolerPerMeterTextBox.Name = "tolerPerMeterTextBox";
+            tolerPerMeterTextBox.Size = new Size(90, 23);
+            tolerPerMeterTextBox.TabIndex = 12;
+            tolerPerMeterTextBox.Text = "0";
+            tolerPerMeterTextBox.TextAlign = HorizontalAlignment.Right;
+            tolerPerMeterTextBox.TextChanged += UpdateAdmPerMeter;
             // 
             // dateTimePicker8
             // 
@@ -450,26 +450,26 @@ namespace Pryamolineynost
             dateTimePicker8.Size = new Size(251, 23);
             dateTimePicker8.TabIndex = 0;
             // 
-            // measurementStepPanel
+            // stepPanel
             // 
-            measurementStepPanel.BorderStyle = BorderStyle.FixedSingle;
-            measurementStepPanel.Controls.Add(measurementStepTextPanel);
-            measurementStepPanel.Controls.Add(dateTimePicker9);
-            measurementStepPanel.Controls.Add(label10);
-            measurementStepPanel.Location = new Point(8, 456);
-            measurementStepPanel.Name = "measurementStepPanel";
-            measurementStepPanel.Size = new Size(485, 31);
-            measurementStepPanel.TabIndex = 24;
+            stepPanel.BorderStyle = BorderStyle.FixedSingle;
+            stepPanel.Controls.Add(stepTextPanel);
+            stepPanel.Controls.Add(dateTimePicker9);
+            stepPanel.Controls.Add(stepLabel);
+            stepPanel.Location = new Point(8, 456);
+            stepPanel.Name = "stepPanel";
+            stepPanel.Size = new Size(485, 31);
+            stepPanel.TabIndex = 24;
             // 
-            // measurementStepTextPanel
+            // stepTextPanel
             // 
-            measurementStepTextPanel.Location = new Point(390, 3);
-            measurementStepTextPanel.Name = "measurementStepTextPanel";
-            measurementStepTextPanel.Size = new Size(90, 23);
-            measurementStepTextPanel.TabIndex = 13;
-            measurementStepTextPanel.Text = "0";
-            measurementStepTextPanel.TextAlign = HorizontalAlignment.Right;
-            measurementStepTextPanel.TextChanged += updateStep;
+            stepTextPanel.Location = new Point(390, 3);
+            stepTextPanel.Name = "stepTextPanel";
+            stepTextPanel.Size = new Size(90, 23);
+            stepTextPanel.TabIndex = 13;
+            stepTextPanel.Text = "0";
+            stepTextPanel.TextAlign = HorizontalAlignment.Right;
+            stepTextPanel.TextChanged += UpdateStep;
             // 
             // dateTimePicker9
             // 
@@ -536,15 +536,15 @@ namespace Pryamolineynost
             fillDataFormButton.UseVisualStyleBackColor = true;
             fillDataFormButton.Click += fillDataFormButton_Click;
             // 
-            // panel2
+            // descriptionPanel
             // 
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(descriptionComboBox);
-            panel2.Controls.Add(descriptionLabel);
-            panel2.Location = new Point(8, 86);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(485, 31);
-            panel2.TabIndex = 32;
+            descriptionPanel.BorderStyle = BorderStyle.FixedSingle;
+            descriptionPanel.Controls.Add(descriptionComboBox);
+            descriptionPanel.Controls.Add(descriptionLabel);
+            descriptionPanel.Location = new Point(8, 86);
+            descriptionPanel.Name = "descriptionPanel";
+            descriptionPanel.Size = new Size(485, 31);
+            descriptionPanel.TabIndex = 32;
             // 
             // descriptionComboBox
             // 
@@ -555,6 +555,7 @@ namespace Pryamolineynost
             descriptionComboBox.RightToLeft = RightToLeft.Yes;
             descriptionComboBox.Size = new Size(374, 23);
             descriptionComboBox.TabIndex = 6;
+            descriptionComboBox.TextChanged += descriptionComboBox_TextChanged;
             // 
             // descriptionLabel
             // 
@@ -631,21 +632,21 @@ namespace Pryamolineynost
             ClientSize = new Size(501, 566);
             Controls.Add(bedPanelLength);
             Controls.Add(localAreaPanel);
-            Controls.Add(panel2);
+            Controls.Add(descriptionPanel);
             Controls.Add(loadFileButton);
             Controls.Add(saveButton);
             Controls.Add(exitButton);
             Controls.Add(button1);
             Controls.Add(graphicButton);
             Controls.Add(fillDataFormButton);
-            Controls.Add(measurementStepPanel);
-            Controls.Add(admPerMeterPanel);
-            Controls.Add(admLenghtPanel);
+            Controls.Add(stepPanel);
+            Controls.Add(tolerPerMeterPanel);
+            Controls.Add(tolerLenghtPanel);
             Controls.Add(lineDeviationPanel);
             Controls.Add(verticalDeviationPanel);
             Controls.Add(minDeviationPanel);
             Controls.Add(maxDeviationPanel);
-            Controls.Add(panel1);
+            Controls.Add(fioPanel);
             Controls.Add(namePanel);
             Controls.Add(datePanel);
             FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -657,8 +658,8 @@ namespace Pryamolineynost
             datePanel.PerformLayout();
             namePanel.ResumeLayout(false);
             namePanel.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            fioPanel.ResumeLayout(false);
+            fioPanel.PerformLayout();
             maxDeviationPanel.ResumeLayout(false);
             maxDeviationPanel.PerformLayout();
             minDeviationPanel.ResumeLayout(false);
@@ -667,14 +668,14 @@ namespace Pryamolineynost
             verticalDeviationPanel.PerformLayout();
             lineDeviationPanel.ResumeLayout(false);
             lineDeviationPanel.PerformLayout();
-            admLenghtPanel.ResumeLayout(false);
-            admLenghtPanel.PerformLayout();
-            admPerMeterPanel.ResumeLayout(false);
-            admPerMeterPanel.PerformLayout();
-            measurementStepPanel.ResumeLayout(false);
-            measurementStepPanel.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            tolerLenghtPanel.ResumeLayout(false);
+            tolerLenghtPanel.PerformLayout();
+            tolerPerMeterPanel.ResumeLayout(false);
+            tolerPerMeterPanel.PerformLayout();
+            stepPanel.ResumeLayout(false);
+            stepPanel.PerformLayout();
+            descriptionPanel.ResumeLayout(false);
+            descriptionPanel.PerformLayout();
             localAreaPanel.ResumeLayout(false);
             localAreaPanel.PerformLayout();
             bedPanelLength.ResumeLayout(false);
@@ -686,22 +687,22 @@ namespace Pryamolineynost
         #endregion
 
         private DateTimePicker dateTimePicker;
-        private ComboBox comboBox1;
+        private ComboBox fioComboBox;
         private ComboBox nameComboBox;
         private Label dateLabel;
         private Label nameLabel;
-        private Label label3;
+        private Label fioLabel;
         private Label maxDeviationLabel;
         private Label minDeviationLabel;
         private Label verticalDeviationLabel;
         private Label lineDeviationLabel;
-        private Label admLengthLabel;
-        private Label label9;
-        private Label label10;
+        private Label tolerLengthLabel;
+        private Label tolerPerMeterLabel;
+        private Label stepLabel;
         private Panel datePanel;
         private Panel namePanel;
         private DateTimePicker dateTimePicker1;
-        private Panel panel1;
+        private Panel fioPanel;
         private DateTimePicker dateTimePicker2;
         private Panel maxDeviationPanel;
         private DateTimePicker dateTimePicker3;
@@ -711,11 +712,11 @@ namespace Pryamolineynost
         private DateTimePicker dateTimePicker5;
         private Panel lineDeviationPanel;
         private DateTimePicker dateTimePicker6;
-        private Panel admLenghtPanel;
+        private Panel tolerLenghtPanel;
         private DateTimePicker dateTimePicker7;
-        private Panel admPerMeterPanel;
+        private Panel tolerPerMeterPanel;
         private DateTimePicker dateTimePicker8;
-        private Panel measurementStepPanel;
+        private Panel stepPanel;
         private DateTimePicker dateTimePicker9;
         private Button graphicButton;
         private Button button1;
@@ -724,19 +725,14 @@ namespace Pryamolineynost
         private TextBox minDeviationTextBox;
         private TextBox verticalDeviationTextBox;
         private TextBox lineDeviationTextBox;
-        private TextBox admLenghtTextBox;
-        private TextBox admPerMeterTextBox;
-        private TextBox measurementStepTextPanel;
+        private TextBox tolerLenghtTextBox;
+        private TextBox tolerPerMeterTextBox;
+        private TextBox stepTextPanel;
         private Button loadFileButton;
         private Button saveButton;
-        private int step;
-        private int admPerMeter;
-        private int admLenght;
         private DateTime dateTime;
-        private string measurementName;
-        private string fio;
         private Button fillDataFormButton;
-        private Panel panel2;
+        private Panel descriptionPanel;
         private ComboBox descriptionComboBox;
         private Label descriptionLabel;
         private Panel localAreaPanel;
