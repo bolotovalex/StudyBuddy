@@ -10,7 +10,7 @@ namespace Pryamolineynost;
 
 public class Db
 {
-    public DateTime DateTime { get; set; } //Дата
+    public DateTime date { get; set; } //Дата
     public string Name { get; set; } //Наименование
     public string Description { get; set; } //Обозначение
     public string Fio { get; set; } //Измерения произвел
@@ -30,17 +30,17 @@ public class Db
 
     public void SetDate(DateTime date)
     {
-        DateTime = date;
+        this.date = date;
     }
 
     public DateTime GetDate()
     {
-        return DateTime;
+        return date;
     }
 
     public void UpdateDateTime()
     {
-        DateTime = DateTime.Now;
+        date = DateTime.Now;
     }
 
     public void SetName(string name)
@@ -153,7 +153,7 @@ public class Db
     {
         _maxDeviation = 0;
         DataList = new List<DataRow>();
-        DateTime = DateTime.Now;
+        date = DateTime.Now;
         MeasurementStep = 200;
         UpdateStepsPerMeter(MeasurementStep);
         DataList.Add(new DataRow());
@@ -162,7 +162,7 @@ public class Db
     public Db(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance,
         int step, List<DataRow> dataList, decimal maxDeviation, decimal maxMeterDeflection, decimal minMeterDeflection)
     {
-        DateTime = datetime;
+        date = datetime;
         this.Name = name;
         this.Description = description;
         this.Fio = fio;
@@ -174,6 +174,7 @@ public class Db
         UpdateStepsPerMeter(MeasurementStep);
         UpdateAllRows();
     }
+
 
     public void UpdateStepsPerMeter(int stepsLength)
     {
@@ -324,15 +325,5 @@ public class Db
         UpdateStepsPerMeter(MeasurementStep);
         DataList.Add(new DataRow());
         UpdateAllRows();
-    }
-
-
-    public void LoadDb()
-    {
-    }
-
-    public string GetJsonDb()
-    {
-        return JsonSerializer.Serialize(this);
     }
 }

@@ -12,6 +12,15 @@ public partial class DataForm : Form
         InitializeComponent();
     }
 
+    public void ReloadDataForm(Db db, MainForm parrentForm) 
+    {
+        this.db = db;
+        mainForm = parrentForm;
+        this.dataGrid.Rows.Clear();
+        this.UpdateForm(null, null);
+    }
+
+
     private void DataForm_SizeChanged(object sender, EventArgs e)
     {
         dataGrid.Size = new Size(ClientSize.Width - 6, ClientSize.Height - 36);
@@ -24,10 +33,13 @@ public partial class DataForm : Form
         dataGrid.Rows.Add();
         UpdateForm(sender, e);
     }
-
     public void UpdateForm(object sender, EventArgs e)
     {
-        for (var i = 0; i < db.GetDataList().Count; i++)
+        if (dataGrid.Rows.Count < db.DataList.Count)
+            for (var i = dataGrid.Rows.Count; i <= db.DataList.Count; i++)
+                dataGrid.Rows.Add();
+
+        for (var i = 0; i < db.DataList.Count; i++)
         {
             var row = db.GetDataRow(i);
             dataGrid.Rows[i].Cells[0].Value = i;
@@ -40,12 +52,6 @@ public partial class DataForm : Form
             dataGrid.Rows[i].Cells[7].Value = row.GetFStroke() == int.MinValue ? "" : row.GetFStroke();
             dataGrid.Rows[i].Cells[8].Value = row.GetRevStroke() == int.MinValue ? "" : row.GetRevStroke();
         }
-    }
-
-    public void AddRow(object sender, EventArgs e)
-    {
-        //dataGrid.Rows.Add();
-        UpdateForm(sender, e);
     }
 
     private void dataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -94,23 +100,20 @@ public partial class DataForm : Form
         mainForm.UpdateAllFields();
     }
 
-    private void DataForm_FormClosing(object sender, FormClosingEventArgs e)
-    {
-        Hide();
-    }
 
     private void closeButton_Click(object sender, EventArgs e)
     {
-        Hide();
+        this.Close();
     }
 
     private void clearDBButton_Click(object sender, EventArgs e)
     {
+        while (dataGrid.RowCount > 2)
+        {
+            dataGrid.Rows.RemoveAt(1);
+        }
         db.CleanDb();
-        mainForm.CleanForm();
-        dataGrid.Rows.Clear();
-        UpdateForm(sender, e);
         mainForm.UpdateAllFields();
-        var a = 1;
+        UpdateForm(sender, e);
     }
 }

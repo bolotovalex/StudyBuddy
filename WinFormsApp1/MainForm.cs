@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Pryamolineynost;
@@ -69,7 +70,6 @@ public partial class MainForm : Form
     private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
     {
         var date = (DateTime)dateTimePicker1.Value;
-        Console.WriteLine(date);
     }
 
     private void exitButton_Click(object sender, EventArgs e)
@@ -79,14 +79,23 @@ public partial class MainForm : Form
 
     private void fillDataFormButton_Click(object sender, EventArgs e)
     {
-        //if (dataForm == null) dataForm = new DataForm(dB, this);
+        //if (!dataForm.Disposing)
+        //{
+        //dataForm = new DataForm(dB, this);
+        //}
         dataForm = new DataForm(dB, this);
         dataForm.Show();
     }
 
+    
+
     public void CleanForm()
     {
-        dataForm.Dispose();
+        //dataForm.Dispose();
+        //dataForm = new DataForm(dB, this);
+        //dataForm.Show();
+        UpdateAllFields();
+        //dataForm.UpdateForm();
     }
 
     public void UpdateAllFields()
@@ -109,7 +118,7 @@ public partial class MainForm : Form
         if (saveFileDialog1.FileName != "")
             using (var writer = new StreamWriter(saveFileDialog1.OpenFile()))
             {
-                await writer.WriteLineAsync(dB.GetJsonDb());
+                await writer.WriteLineAsync(JsonSerializer.Serialize<Db>(dB));
                 writer.Close();
             }
     }
@@ -117,5 +126,19 @@ public partial class MainForm : Form
     private void descriptionComboBox_TextChanged(object sender, EventArgs e)
     {
         dB.Description = descriptionComboBox.Text;
+    }
+
+    private async void loadFileButton_Click(object sender, EventArgs e)
+    {
+        var openFileDialog = new OpenFileDialog();
+        openFileDialog.Filter = "Json|*.json";
+        openFileDialog.Title = "Load json file";
+        openFileDialog.ShowDialog();
+        var reader = new StreamReader(openFileDialog.OpenFile());
+        var data = await reader.ReadToEndAsync();
+        var newDB = JsonSerializer.Deserialize<Db>(data);
+        dB = newDB;
+        dB.UpdateAllRows();
+        UpdateAllFields();
     }
 }

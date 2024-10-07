@@ -17,6 +17,7 @@ namespace Pryamolineynost
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
+            //this.Close();
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -515,6 +516,7 @@ namespace Pryamolineynost
             loadFileButton.TabIndex = 29;
             loadFileButton.Text = "Загрузить";
             loadFileButton.UseVisualStyleBackColor = true;
+            loadFileButton.Click += loadFileButton_Click;
             // 
             // saveButton
             // 
