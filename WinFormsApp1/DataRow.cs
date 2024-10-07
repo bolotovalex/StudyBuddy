@@ -9,7 +9,7 @@ namespace Pryamolineynost;
 
 public class DataRow
 {
-    private int Length = 0; //Длина измерения, мм
+    private int Position = 0; //Длина измерения, мм
     private decimal FactCheckedProfileLength = 0; //Фактический профиль проверяемой поверхности, мкм
     private decimal AdjStraight = 0; //Прилегающая прямая, мкм
     private decimal Deviation = 0; //Отклонение, мкм
@@ -20,7 +20,7 @@ public class DataRow
 
     public DataRow()
     {
-        Length = 0;
+        Position = 0;
         FactCheckedProfileLength = 0;
         AdjStraight = 0;
         Deviation = 0;
@@ -35,14 +35,14 @@ public class DataRow
     {
         this.FStroke = FStroke;
         this.RevStroke = RevStroke;
-        Length = prevDataRow.GetLength() + step;
+        Position = prevDataRow.GetLength() + step;
         MidValue = this.RevStroke == int.MinValue ? this.FStroke : (this.RevStroke + this.FStroke) / 2;
         FactCheckedProfileLength = MidValue * step / 1000 + prevDataRow.GetFactProfileLength();
     }
 
     public void UpdateAdjStraight(decimal programFactor1, decimal programFactor2)
     {
-        AdjStraight = programFactor1 * Length + programFactor2;
+        AdjStraight = programFactor1 * Position + programFactor2;
     }
 
     public void UpdateDeviation()
@@ -53,7 +53,7 @@ public class DataRow
 
     public int GetLength()
     {
-        return Length;
+        return Position;
     }
 
     public decimal GetFactProfileLength()
@@ -95,4 +95,5 @@ public class DataRow
     {
         return RevStroke;
     }
+
 }

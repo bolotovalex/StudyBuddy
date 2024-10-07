@@ -1,4 +1,6 @@
-﻿namespace Pryamolineynost;
+﻿using System.CodeDom;
+
+namespace Pryamolineynost;
 
 public class Db
 {
@@ -8,17 +10,29 @@ public class Db
     public string Fio { get; set; } //Измерения произвел
     private decimal _minDeviation; //Наибольшее отклонение, мкм
     private decimal _maxDeviation; //Наименьшее отклонение, мкм
-    private decimal _verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
-    private decimal _meterDeflection; //TODO Отклонение от прямолинейности на 1 метр, мкм - 
+    private decimal _verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - //TODO Нет индикации выхода за пределы
+    private decimal _meterDeflection; //TODO Отклонение от прямолинейности на 1 метр, мкм - //TODO Нет индикации выхода за пределы
     public int FullTolerance { get; set; } //Допуск на всю длину, мкм -
     public int MeterTolerance { get; set; } //Допуск на 1 метр, мкм -
     private int _localAreaLength = 0; //Локальный участок, мм
     private int _bedAreaLength = 0; //Длина станины, мм
-    public int MeasurementStep { get; set; } //Шаг измерения (расстояние между опорами мостика), мм
+    public int Step { get; set; } //Шаг измерения (расстояние между опорами мостика), мм
     private decimal _programFactor1; //Программный коэффициент
     private decimal _programFactor2; //Программный коэффициент
     public List<DataRow> DataList { get; set; } //Таблица измерений
     private int _stepsPerMeter;
+
+    public enum Column
+    {
+        Position = 0,
+        FactProfilePosition = 1,
+        AdjStraight = 2,
+        Deviation = 3,
+        DeviationPerMeter = 4,
+        MidValue = 5,
+        FStroke = 6,
+        RevStroke = 7
+    }
 
     public void SetDate(DateTime date)
     {
@@ -117,12 +131,12 @@ public class Db
 
     public void SetMeasurementStep(int measurementStep)
     {
-        MeasurementStep = measurementStep;
+        Step = measurementStep;
     }
 
     public int GetMeasurementStep()
     {
-        return MeasurementStep;
+        return Step;
     }
 
     public List<DataRow> GetDataList()
@@ -146,8 +160,8 @@ public class Db
         _maxDeviation = 0;
         DataList = new List<DataRow>();
         date = DateTime.Now;
-        MeasurementStep = 200;
-        UpdateStepsPerMeter(MeasurementStep);
+        Step = 200;
+        UpdateStepsPerMeter(Step);
         DataList.Add(new DataRow());
     }
 
@@ -160,10 +174,10 @@ public class Db
         Fio = fio;
         FullTolerance = fullTolearance;
         MeterTolerance = meterTolerance;
-        MeasurementStep = step;
+        Step = step;
         DataList = dataList;
         _maxDeviation = maxDeviation;
-        UpdateStepsPerMeter(MeasurementStep);
+        UpdateStepsPerMeter(Step);
         UpdateAllRows();
     }
 
@@ -192,7 +206,7 @@ public class Db
     {
         var row = new DataRow();
         var prevRow = DataList[^1];
-        row.UpdateRow(fStroke, revStroke, MeasurementStep, prevRow);
+        row.UpdateRow(fStroke, revStroke, Step, prevRow);
         DataList.Add(row);
         UpdateProgramFactors();
         row.UpdateAdjStraight(_programFactor1, _programFactor2);
@@ -215,7 +229,7 @@ public class Db
 
         for (var i = startIndex; i < DataList.Count && i <= maxIndex; i++)
         {
-            var factProfile = DataList[i].GetFStroke() * MeasurementStep / 1000 + factProfileList[i - startIndex];
+            var factProfile = DataList[i].GetFStroke() * Step / 1000 + factProfileList[i - startIndex];
             factProfileList.Add(factProfile);
         }
 
@@ -271,7 +285,7 @@ public class Db
             var selRow = DataList[i];
             var prevRow = DataList[i - 1];
 
-            selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), MeasurementStep, prevRow);
+            selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), Step, prevRow);
             selRow.UpdateAdjStraight(_programFactor1, _programFactor2);
             selRow.UpdateDeviation();
 
@@ -293,7 +307,7 @@ public class Db
     {
         if (index > 0)
         {
-            DataList[index].UpdateRow(value, DataList[index].GetRevStroke(), MeasurementStep, DataList[index - 1]);
+            DataList[index].UpdateRow(value, DataList[index].GetRevStroke(), Step, DataList[index - 1]);
             UpdateAllRows();
         }
     }
@@ -302,7 +316,7 @@ public class Db
     {
         if (index > 0)
         {
-            DataList[index].UpdateRow(DataList[index].GetFStroke(), value, MeasurementStep, DataList[index - 1]);
+            DataList[index].UpdateRow(DataList[index].GetFStroke(), value, Step, DataList[index - 1]);
             UpdateAllRows();
         }
     }
@@ -313,8 +327,23 @@ public class Db
         _programFactor1 = 0;
         _programFactor2 = 0;
         _verticalDeflection = 0;
-        UpdateStepsPerMeter(MeasurementStep);
+        UpdateStepsPerMeter(Step);
         DataList.Add(new DataRow());
         UpdateAllRows();
+    }
+
+    public (double[] positions, double[] graph1, double[] graph2) GetGraphicPoints() 
+    {
+        var pos = new double[DataList.Count];
+        var graph1 = new double[DataList.Count];
+        var graph2 = new double[DataList.Count];
+        for (int i = 0; i < DataList.Count; i++)
+        {
+            pos[i] = decimal.ToDouble(DataList[i].GetLength());
+            graph1[i] = decimal.ToDouble(DataList[i].GetFactProfileLength());
+            graph2[i] = decimal.ToDouble(DataList[i].GetAdjStraight());
+        }
+
+        return new (pos, graph1, graph2);
     }
 }

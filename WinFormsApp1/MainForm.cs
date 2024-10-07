@@ -7,6 +7,7 @@ public partial class MainForm : Form
 {
     private Db _dB;
     private DataForm _dataForm;
+    private GraphicsForm _graphicsForm;
 
     public MainForm()
     {
@@ -112,5 +113,12 @@ public partial class MainForm : Form
         _dB = newDb;
         _dB.UpdateAllRows();
         UpdateAllFields();
+        _dataForm.UpdateForm(null, null);
+    }
+
+    private void graphicButton_Click(object sender, EventArgs e)
+    {
+        _graphicsForm = new GraphicsForm(_dB, this);
+        _graphicsForm.Show();
     }
 }

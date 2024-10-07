@@ -488,6 +488,7 @@ namespace Pryamolineynost
             graphicButton.TabIndex = 26;
             graphicButton.Text = "График";
             graphicButton.UseVisualStyleBackColor = true;
+            graphicButton.Click += graphicButton_Click;
             // 
             // button1
             // 
