@@ -4,11 +4,13 @@ public partial class DataForm : Form
 {
     private Db db;
     private MainForm mainForm;
+    private GraphicsForm _graphicsForm;
 
-    public DataForm(Db db, MainForm parrentForm)
+    public DataForm(Db db, MainForm parrentForm, GraphicsForm graphicsForm)
     {
         this.db = db;
         mainForm = parrentForm;
+        this._graphicsForm = graphicsForm;
         InitializeComponent();
     }
 
@@ -58,6 +60,7 @@ public partial class DataForm : Form
             dataGrid.Rows[i].Cells[7].Value = row.GetFStroke() == int.MinValue ? "" : row.GetFStroke();
             dataGrid.Rows[i].Cells[8].Value = row.GetRevStroke() == int.MinValue ? "" : row.GetRevStroke();
         }
+        
     }
 
     private void dataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -104,6 +107,7 @@ public partial class DataForm : Form
 
         UpdateForm(sender, e);
         mainForm.UpdateAllFields();
+        _graphicsForm.UpdatePlot();
     }
 
 
@@ -118,5 +122,6 @@ public partial class DataForm : Form
         db.CleanDb();
         mainForm.UpdateAllFields();
         UpdateForm(sender, e);
+        _graphicsForm.UpdatePlot();
     }
 }

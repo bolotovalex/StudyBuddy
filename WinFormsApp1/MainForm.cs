@@ -1,5 +1,12 @@
 using System.Globalization;
 using System.Text.Json;
+using static Pryamolineynost.PdfService;
+
+//using OxyPlot.Series;
+//using OxyPlot.WindowsForms;
+//using OxyPlot;
+//using PdfSharp.Drawing;
+//using PdfSharp.Pdf;
 
 namespace Pryamolineynost;
 
@@ -13,8 +20,9 @@ public partial class MainForm : Form
     {
         InitializeComponent();
         _dB = new Db();
-        _dataForm = new DataForm(_dB, this);
+        _dataForm = new DataForm(_dB, this, _graphicsForm);
         stepTextPanel.Text = _dB.GetMeasurementStep().ToString();
+        _graphicsForm = new GraphicsForm(_dB, this);
     }
 
 
@@ -67,7 +75,7 @@ public partial class MainForm : Form
 
     private void fillDataFormButton_Click(object sender, EventArgs e)
     {
-        _dataForm = new DataForm(_dB, this);
+        _dataForm = new DataForm(_dB, this, _graphicsForm);
         _dataForm.Show();
     }
 
@@ -107,6 +115,8 @@ public partial class MainForm : Form
 
     private async void loadFileButton_Click(object sender, EventArgs e)
     {
+        _dataForm.Close();
+        _graphicsForm.Close();
         var openFileDialog = new OpenFileDialog();
         openFileDialog.Filter = @"Json|*.json";
         openFileDialog.Title = @"Load json file";
@@ -118,6 +128,7 @@ public partial class MainForm : Form
         _dB.UpdateAllRows();
         UpdateAllFields();
         _dataForm.UpdateForm(null, null);
+        _graphicsForm.UpdatePlot();
         reader.Close();
     }
 
@@ -125,5 +136,12 @@ public partial class MainForm : Form
     {
         _graphicsForm = new GraphicsForm(_dB, this);
         _graphicsForm.Show();
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        var pdfService = new PdfService();
+        var document = pdfService.CreateDocument(_dB.GetPrintStrings());
+        document.Save("1234.pdf");
     }
 }

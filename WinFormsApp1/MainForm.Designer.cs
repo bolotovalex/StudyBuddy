@@ -498,6 +498,7 @@ namespace Pryamolineynost
             button1.TabIndex = 27;
             button1.Text = "Выгрузить PDF";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // exitButton
             // 

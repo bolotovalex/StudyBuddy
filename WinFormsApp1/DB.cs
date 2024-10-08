@@ -199,7 +199,7 @@ public class Db
         {
             _programFactor1 = DataList[^1].GetFactProfileLength() /
                               DataList[^1].GetLength();
-            _programFactor2 = 0; //TODO Доделать програмный коэфициент. В примере он всегда будет равен 0
+            _programFactor2 = 0; //TODO Доделать програмный коэфициент 2. В примере он всегда будет равен 0
         }
     }
 
@@ -337,6 +337,11 @@ public class Db
         }
     }
 
+    public void UpdateBedLenth()
+    {
+        _bedAreaLength = GetLastDataRow().GetLength();
+    }
+
     public void UpdateAllRows()
     {
         //TODO Не оптимально. Множественные проходы. Нужно оптимизировать, но набор данных не большой. Пока сделано, чтобы считалось так-же как в excel
@@ -346,6 +351,7 @@ public class Db
         UpdateMinMaxDeviations();
         UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
+        UpdateBedLenth();
 
         // TODO Не работает если не посчитаны program factors
         //UpdateProgramFactors();
@@ -393,7 +399,7 @@ public class Db
     public void CleanDb()
     {
         UpdateDateTime();
-        DataList = new List<DataRow>();
+        DataList.Clear(); //= new List<DataRow>();
         _programFactor1 = 0;
         _programFactor2 = 0;
         _verticalDeflection = 0;
@@ -402,6 +408,27 @@ public class Db
         UpdateAllRows();
     }
 
+    public string[][] GetPrintStrings()
+    {
+        return new string[][]
+        {
+            new string[] { "Дата", GetDate().ToString() },
+            new string[] { "Наименование", GetName() },
+            new string[] { "Обозначение", GetDescription() },
+            new string[] { "Измерения произвел",GetFio() },
+            new string[] { "Наибольшее отклонение",Math.Round(GetMaxDeviation(), 2).ToString() },
+            new string[] { "Наименьшее отклонение",Math.Round(GetMinDeviation(), 2).ToString() },
+            new string[] { "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(GetVerticalDeflection(), 2).ToString() },
+            new string[] { "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(GetMeterDeflection(), 2).ToString() },
+            new string[] { "Допуск на всю длину, мкм",  GetFullTolerance().ToString() },
+            new string[] { "Допуск на 1 метр (или локальный), мкм",  GetMeterTolerance().ToString() },
+            new string[] { "Локальный участок, мм",  GetLocalAreaLength().ToString() },
+            new string[] { "Длина станины, мм",  GetBedLength().ToString() },
+            new string[] { "Шаг измерения (расстояние между опорами мостика), мм", GetMeasurementStep().ToString() }
+        };
+
+    }
+    
     public (double[] positions, double[] graph1, double[] graph2) GetGraphicPoints() 
     {
         var pos = new double[DataList.Count];

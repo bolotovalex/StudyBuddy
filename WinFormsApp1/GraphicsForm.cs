@@ -83,6 +83,5 @@ namespace Pryamolineynost
             plotView1.Model = plotModel;
             this.Controls.Add(plotView1);
         }
-
     }
 }
