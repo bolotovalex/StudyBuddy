@@ -73,6 +73,10 @@ public partial class MainForm : Form
 
     public void UpdateAllFields()
     {
+        dateTimePicker.Value = _dB.GetDate();
+        nameComboBox.Text = _dB.Name;
+        descriptionComboBox.Text = _dB.Description;
+        fioComboBox.Text = _dB.Fio;
         minDeviationTextBox.Text = Math.Round(_dB.GetMinDeviation(), 2).ToString(CultureInfo.InvariantCulture);
         maxDeviationTextBox.Text = Math.Round(_dB.GetMaxDeviation(), 2).ToString(CultureInfo.InvariantCulture);
         lineDeviationTextBox.Text = Math.Round(_dB.GetMeterDeflection(), 2).ToString(CultureInfo.InvariantCulture);
@@ -90,7 +94,7 @@ public partial class MainForm : Form
 
         if (saveFileDialog1.FileName != "")
         {
-            await using var writer = new StreamWriter(saveFileDialog1.OpenFile());
+            using var writer = new StreamWriter(saveFileDialog1.OpenFile());
             await writer.WriteLineAsync(JsonSerializer.Serialize(_dB));
             writer.Close();
         }
@@ -114,6 +118,7 @@ public partial class MainForm : Form
         _dB.UpdateAllRows();
         UpdateAllFields();
         _dataForm.UpdateForm(null, null);
+        reader.Close();
     }
 
     private void graphicButton_Click(object sender, EventArgs e)

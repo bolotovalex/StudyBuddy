@@ -1,4 +1,5 @@
 ﻿using System.CodeDom;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Pryamolineynost;
 
@@ -274,9 +275,40 @@ public class Db
         _meterDeflection = Math.Max(maxDeflection, -1 * minDeflection);
     }
 
-    public void UpdateAllRows()
+    public void UpdateAllAdjStrokeDataList()
     {
         UpdateProgramFactors();
+        for (var i = 1; i < DataList.Count; i++)
+        {
+            var selRow = DataList[i];
+            var prevRow = DataList[i - 1];
+
+            selRow.UpdateAdjStraight(_programFactor1, _programFactor2);
+        } 
+    }
+
+    public void UpdateAllStroksDataList()
+    {
+        for (var i = 1; i < DataList.Count; i++)
+        {
+            var selRow = DataList[i];
+            var prevRow = DataList[i - 1];
+
+            selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), Step, prevRow);
+        } 
+    }
+
+    public void UpdateAllDeviationsDataList()
+    {
+        for (var i = 1;i < DataList.Count; i++)
+        {
+            var selRow = DataList[i];
+            selRow.UpdateDeviation();
+        }
+    }
+
+    public void UpdateMinMaxDeviations()
+    {
         _maxDeviation = 0;
         _minDeviation = 0;
 
@@ -284,23 +316,61 @@ public class Db
         {
             var selRow = DataList[i];
             var prevRow = DataList[i - 1];
-
-            selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), Step, prevRow);
-            selRow.UpdateAdjStraight(_programFactor1, _programFactor2);
-            selRow.UpdateDeviation();
-
             var deviationValue = selRow.GetDeviation();
             if (deviationValue > _maxDeviation)
                 _maxDeviation = deviationValue;
             else if (deviationValue < _minDeviation)
                 _minDeviation = deviationValue;
-            _verticalDeflection = GetMaxDeviation() + GetMinDeviation() * -1;
-
-            if (DataList.Count - i == 1 && DataList.Count > _stepsPerMeter)
-                DataList[i - _stepsPerMeter + 1].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
         }
+        _verticalDeflection = _maxDeviation + _minDeviation * -1;
+    }
 
+    public void UpdateMeterDeflectionAllDataList()
+    {
+        for (var i = 1; i < DataList.Count; i++)
+        {
+            var selRow = DataList[i];
+            var prevRow = DataList[i - 1];
+            var index = i - _stepsPerMeter + 1;
+            if (DataList.Count - i >= 1 && DataList.Count > _stepsPerMeter && index >= 1)
+                DataList[index].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
+        }
+    }
+
+    public void UpdateAllRows()
+    {
+        //TODO Не оптимально. Множественные проходы. Нужно оптимизировать, но набор данных не большой. Пока сделано, чтобы считалось так-же как в excel
+        UpdateAllStroksDataList();
+        UpdateAllAdjStrokeDataList();
+        UpdateAllDeviationsDataList();
+        UpdateMinMaxDeviations();
+        UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
+
+        // TODO Не работает если не посчитаны program factors
+        //UpdateProgramFactors();
+        //_maxDeviation = 0;
+        //_minDeviation = 0;
+
+        //for (var i = 1; i < DataList.Count; i++)
+        //{
+        //    var selRow = DataList[i];
+        //    var prevRow = DataList[i - 1];
+
+        //    selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), Step, prevRow);
+        //selRow.UpdateAdjStraight(_programFactor1, _programFactor2);
+        //selRow.UpdateDeviation();
+
+        //var deviationValue = selRow.GetDeviation();
+        //if (deviationValue > _maxDeviation)
+        //    _maxDeviation = deviationValue;
+        //else if (deviationValue < _minDeviation)
+        //    _minDeviation = deviationValue;
+        //_verticalDeflection = GetMaxDeviation() + GetMinDeviation() * -1;
+
+        //if (DataList.Count - i == 1 && DataList.Count > _stepsPerMeter)
+        //    DataList[i - _stepsPerMeter + 1].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
+        //}
     }
 
     public void UpdateFStrokeRow(int index, int value)

@@ -37,8 +37,13 @@ public partial class DataForm : Form
     public void UpdateForm(object sender, EventArgs e)
     {
         if (dataGrid.Rows.Count < db.DataList.Count)
+        {
+            if (dataGrid.Columns.Count == 0)
+                InitializeComponent();
             for (var i = dataGrid.Rows.Count; i <= db.DataList.Count; i++)
                 dataGrid.Rows.Add();
+        }
+            
 
         for (var i = 0; i < db.DataList.Count; i++)
         {
