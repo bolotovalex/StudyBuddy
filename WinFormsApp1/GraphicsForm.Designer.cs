@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             plotView1 = new OxyPlot.WindowsForms.PlotView();
-            button1 = new Button();
             SuspendLayout();
             // 
             // plotView1
@@ -46,25 +45,14 @@
             plotView1.ZoomRectangleCursor = Cursors.SizeNWSE;
             plotView1.ZoomVerticalCursor = Cursors.SizeNS;
             // 
-            // button1
-            // 
-            button1.Location = new Point(746, 526);
-            button1.Name = "button1";
-            button1.Size = new Size(26, 23);
-            button1.TabIndex = 1;
-            button1.Text = "R";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // GraphicsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(784, 561);
-            Controls.Add(button1);
             Controls.Add(plotView1);
             Name = "GraphicsForm";
-            Text = "GraphicsForm";
+            Text = "График";
             Resize += GraphicsForm_Resize;
             ResumeLayout(false);
         }
@@ -72,6 +60,5 @@
         #endregion
 
         private OxyPlot.WindowsForms.PlotView plotView1;
-        private Button button1;
     }
 }
