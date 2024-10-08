@@ -42,7 +42,7 @@ namespace Pryamolineynost
                     row.Cells[j].AddParagraph(printParams[i][j]);
                     if ( i % 2 == 0 )
                     {
-                        row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(50, 50, 50, 1);
+                        row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
                     }
                     row.BottomPadding = 5;
                     row.TopPadding = 5;
