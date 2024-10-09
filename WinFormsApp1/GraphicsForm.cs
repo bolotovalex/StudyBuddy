@@ -32,18 +32,21 @@ namespace Pryamolineynost
             plotView1.Size = new Size(this.Width - 16, this.Height - 100);
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            InitializeComponent();
-            plotView1.Refresh();
-            UpdatePlot();
+        public void UpdatePlot() {
+            var plotModel = new PlotModel { Title = "График отклонений от прямолинейности в вертикальной плоскости" };
+            BuildGraphic(plotModel);
+            this.Controls.Add(plotView1);
         }
 
-        public void UpdatePlot()
+        public PlotModel GetPlotModel()
+        {
+            var plotModel = new PlotModel { Title = "График отклонений от прямолинейности в вертикальной плоскости" };
+            BuildGraphic(plotModel);
+            return plotModel;
+        }
+        public void BuildGraphic(PlotModel plotModel)
         {
             //plotView1.Dock = DockStyle.Fill;
-            var plotModel = new PlotModel { Title = "График отклонений от прямолинейности в вертикальной плоскости" };
-
             var xAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom, // Ось внизу
@@ -81,7 +84,6 @@ namespace Pryamolineynost
             plotModel.Legends.Add(legend);
             plotModel.IsLegendVisible = true;
             plotView1.Model = plotModel;
-            this.Controls.Add(plotView1);
         }
     }
 }

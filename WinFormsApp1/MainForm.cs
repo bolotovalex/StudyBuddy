@@ -165,7 +165,7 @@ public partial class MainForm : Form
     private void savePdfButton_Click(object sender, EventArgs e)
     {
         var pdfService = new PdfService();
-        var document = pdfService.CreateDocument(_dB.GetPrintStrings());
+        var document = pdfService.CreateDocument(_dB.GetPrintStrings(), new GraphicsForm(_dB, this).GetPlotModel());
         var fileName = GetSaveFileName(FileFormat.PDF);
         document.Save(fileName);
     }
