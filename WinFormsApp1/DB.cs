@@ -284,7 +284,7 @@ public class Db
             var prevRow = DataList[i - 1];
 
             selRow.UpdateAdjStraight(_programFactor1, _programFactor2);
-        } 
+        }
     }
 
     public void UpdateAllStroksDataList()
@@ -295,12 +295,12 @@ public class Db
             var prevRow = DataList[i - 1];
 
             selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), Step, prevRow);
-        } 
+        }
     }
 
     public void UpdateAllDeviationsDataList()
     {
-        for (var i = 1;i < DataList.Count; i++)
+        for (var i = 1; i < DataList.Count; i++)
         {
             var selRow = DataList[i];
             selRow.UpdateDeviation();
@@ -408,9 +408,9 @@ public class Db
         UpdateAllRows();
     }
 
-    public string[][] GetPrintStrings()
+    public (string[][] dbValues, string[][] dataListValues ) GetPrintStrings()
     {
-        return new string[][]
+        var dbValues = new string[][]
         {
             new string[] { "Дата", GetDate().ToString() },
             new string[] { "Наименование", GetName() },
@@ -426,6 +426,23 @@ public class Db
             new string[] { "Длина станины, мм",  GetBedLength().ToString() },
             new string[] { "Шаг измерения (расстояние между опорами мостика), мм", GetMeasurementStep().ToString() }
         };
+
+        var dataListValues = new string[DataList.Count + 1][];
+        dataListValues[0] = new string[] { 
+            "Длина измерения, мм", 
+            "Фактический профиль проверяемой поверхности, мкм", 
+            "Прилегающая прямая, мкм", 
+            "Отклонение, мкм", 
+            "Отклонение на метре, мкм", 
+            "Среднее значение, мкм", 
+            "Прямой ход, мкм", 
+            "Обратный ход, мкм" };
+        for (var i = 0; i<DataList.Count; i++)
+        {
+            dataListValues[i+1] = DataList[i].GetAllCellsStringArray();
+        }
+        
+        return (dbValues, dataListValues);
 
     }
     
