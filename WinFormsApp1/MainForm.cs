@@ -118,20 +118,23 @@ public partial class MainForm : Form
 
     private string GetSaveFileName(FileFormat format)
     {
-        var openFileDialog = new OpenFileDialog();
+        var saveFileDialog = new SaveFileDialog();
+        
         switch (format)
         {
             case FileFormat.PDF:
-                openFileDialog.Filter = @"PDF|*.pdf";
-                openFileDialog.Title = @"Select PDF file";
+                saveFileDialog.Filter = @"PDF|*.pdf";
+                saveFileDialog.Title = @"Select PDF file";
                 break;
             case FileFormat.JSON:
-                openFileDialog.Filter = @"JSON|*.json";
-                openFileDialog.Title = @"Select JSON file";
+                saveFileDialog.Filter = @"JSON|*.json";
+                saveFileDialog.Title = @"Select JSON file";
                 break;
         }
 
-        return openFileDialog.FileName;
+        saveFileDialog.ShowDialog();
+
+        return saveFileDialog.FileName;
     }
 
         private async void loadFileButton_Click(object sender, EventArgs e)

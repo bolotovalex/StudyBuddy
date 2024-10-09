@@ -498,7 +498,7 @@ namespace Pryamolineynost
             savePdfButton.TabIndex = 27;
             savePdfButton.Text = "Выгрузить PDF";
             savePdfButton.UseVisualStyleBackColor = true;
-            savePdfButton.Click += saveButton_Click;
+            savePdfButton.Click += savePdfButton_Click;
             // 
             // exitButton
             // 
