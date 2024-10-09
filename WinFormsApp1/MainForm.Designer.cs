@@ -728,7 +728,6 @@ namespace Pryamolineynost
         private TextBox maxDeviationTextBox;
         private TextBox minDeviationTextBox;
         private TextBox verticalDeviationTextBox;
-        private TextBox lineDeviationTextBox;
         private TextBox tolerLenghtTextBox;
         private TextBox tolerPerMeterTextBox;
         private TextBox stepTextPanel;
@@ -745,5 +744,6 @@ namespace Pryamolineynost
         private Label bedLengthLabel;
         private TextBox localAreaTextBox;
         private TextBox bedLengthTextBox;
+        internal TextBox lineDeviationTextBox;
     }
 }

@@ -10,8 +10,8 @@ namespace Pryamolineynost
 {
     public class PdfService
     {
-        public const int GraphicWidth = 550;
-        public const int GraphicHeight = 480;
+        public const int GraphicWidth = 575;
+        //public const int GraphicHeight = 370;
         public PdfDocument CreateDocument(string[][] dbValues, string[][] dataListValues, PlotModel plotModel)
         {
             var document = new Document();
@@ -26,7 +26,7 @@ namespace Pryamolineynost
         private MemoryStream GetPNG(PlotModel plotModel)
         {
             var stream = new MemoryStream();
-            var pngExporter = new PngExporter { Width = GraphicWidth, Height = GraphicHeight };
+            var pngExporter = new PngExporter { Width = 1280, Height = 1024 };
             pngExporter.Export(plotModel, stream);
             return stream;
         }
@@ -89,7 +89,6 @@ namespace Pryamolineynost
             var imageArray = png.ToArray();
             var image = section.AddImage("base64:" + Convert.ToBase64String(imageArray.ToArray()));
             image.Width = Unit.FromPoint(GraphicWidth);
-            image.Height = Unit.FromPoint(GraphicHeight);
         }
 
         private void BuildDocument(Document document, string[][] dbValues, string[][] dataListValues, MemoryStream png)

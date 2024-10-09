@@ -1,12 +1,5 @@
 using System.Globalization;
 using System.Text.Json;
-using static Pryamolineynost.PdfService;
-
-//using OxyPlot.Series;
-//using OxyPlot.WindowsForms;
-//using OxyPlot;
-//using PdfSharp.Drawing;
-//using PdfSharp.Pdf;
 
 namespace Pryamolineynost;
 
@@ -62,11 +55,13 @@ public partial class MainForm : Form
     private void UpdateFullTolerance(object sender, EventArgs e)
     {
         _dB.FullTolerance = CheckTextBoxIntValue(tolerLenghtTextBox);
+        UpdateAllFields();
     }
 
     private void UpdateAdmPerMeter(object sender, EventArgs e)
     {
         _dB.MeterTolerance = CheckTextBoxIntValue(tolerPerMeterTextBox);
+        UpdateAllFields();
     }
 
     private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -85,6 +80,11 @@ public partial class MainForm : Form
         _dataForm.Show();
     }
 
+    public string GetSrting(decimal value)
+    {
+        return Math.Round(value, 2).ToString(CultureInfo.InvariantCulture).ToString();
+    }
+    
     public void UpdateAllFields()
     {
         dateTimePicker.Value = _dB.GetDate();
@@ -93,10 +93,39 @@ public partial class MainForm : Form
         fioComboBox.Text = _dB.Fio;
         minDeviationTextBox.Text = Math.Round(_dB.GetMinDeviation(), 2).ToString(CultureInfo.InvariantCulture);
         maxDeviationTextBox.Text = Math.Round(_dB.GetMaxDeviation(), 2).ToString(CultureInfo.InvariantCulture);
-        lineDeviationTextBox.Text = Math.Round(_dB.GetMeterDeflection(), 2).ToString(CultureInfo.InvariantCulture);
         localAreaTextBox.Text = _dB.GetLocalAreaLength().ToString();
-        verticalDeviationTextBox.Text = Math.Round(_dB.GetVerticalDeflection(), 2).ToString(CultureInfo.InvariantCulture);
         bedLengthTextBox.Text = _dB.GetLastDataRow().GetLength().ToString();
+        tolerLenghtTextBox.Text = _dB.GetFullTolerance().ToString(CultureInfo.InvariantCulture);
+        tolerPerMeterTextBox.Text = _dB.GetMeterTolerance().ToString(CultureInfo.InvariantCulture);
+        
+        if (InTolearance(_dB.GetVerticalDeflection(), _dB.GetFullTolerance()))
+        {
+            verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
+            verticalDeviationTextBox.BackColor = Color.White;
+        }
+        else
+        {
+            verticalDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetVerticalDeflection())}";
+            verticalDeviationTextBox.BackColor = Color.Red;
+        }
+
+        if (InTolearance(_dB.GetMeterDeflection(), _dB.GetMeterTolerance()))
+        {
+            lineDeviationTextBox.Text = GetSrting(_dB.GetMeterDeflection());
+            lineDeviationTextBox.BackColor = Color.White;
+        }
+        else
+        {
+            lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetMeterDeflection())}";
+            lineDeviationTextBox.BackColor = Color.Red;
+        }
+
+        lineDeviationTextBox.Text = Math.Round(_dB.GetMeterDeflection(), 2).ToString(CultureInfo.InvariantCulture);
+    }
+
+    public bool InTolearance(decimal value, int tolerance)
+    {
+        return value < tolerance;
     }
 
     private async void saveButton_Click(object sender, EventArgs e)
