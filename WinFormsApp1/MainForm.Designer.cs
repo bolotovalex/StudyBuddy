@@ -73,7 +73,7 @@ namespace Pryamolineynost
             stepTextPanel = new TextBox();
             dateTimePicker9 = new DateTimePicker();
             graphicButton = new Button();
-            button1 = new Button();
+            savePdfButton = new Button();
             exitButton = new Button();
             loadFileButton = new Button();
             saveButton = new Button();
@@ -490,15 +490,15 @@ namespace Pryamolineynost
             graphicButton.UseVisualStyleBackColor = true;
             graphicButton.Click += graphicButton_Click;
             // 
-            // button1
+            // savePdfButton
             // 
-            button1.Location = new Point(339, 496);
-            button1.Name = "button1";
-            button1.Size = new Size(155, 31);
-            button1.TabIndex = 27;
-            button1.Text = "Выгрузить PDF";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            savePdfButton.Location = new Point(339, 496);
+            savePdfButton.Name = "savePdfButton";
+            savePdfButton.Size = new Size(155, 31);
+            savePdfButton.TabIndex = 27;
+            savePdfButton.Text = "Выгрузить PDF";
+            savePdfButton.UseVisualStyleBackColor = true;
+            savePdfButton.Click += saveButton_Click;
             // 
             // exitButton
             // 
@@ -640,7 +640,7 @@ namespace Pryamolineynost
             Controls.Add(loadFileButton);
             Controls.Add(saveButton);
             Controls.Add(exitButton);
-            Controls.Add(button1);
+            Controls.Add(savePdfButton);
             Controls.Add(graphicButton);
             Controls.Add(fillDataFormButton);
             Controls.Add(stepPanel);
@@ -723,7 +723,7 @@ namespace Pryamolineynost
         private Panel stepPanel;
         private DateTimePicker dateTimePicker9;
         private Button graphicButton;
-        private Button button1;
+        private Button savePdfButton;
         private Button exitButton;
         private TextBox maxDeviationTextBox;
         private TextBox minDeviationTextBox;

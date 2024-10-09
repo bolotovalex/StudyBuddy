@@ -16,6 +16,12 @@ public partial class MainForm : Form
     private DataForm _dataForm;
     private GraphicsForm _graphicsForm;
 
+    enum FileFormat
+    {
+        JSON,
+        PDF
+    }
+
     public MainForm()
     {
         InitializeComponent();
@@ -95,14 +101,11 @@ public partial class MainForm : Form
 
     private async void saveButton_Click(object sender, EventArgs e)
     {
-        var saveFileDialog1 = new SaveFileDialog();
-        saveFileDialog1.Filter = @"Json|*.json";
-        saveFileDialog1.Title = @"Save json file";
-        saveFileDialog1.ShowDialog();
+        var filename = GetSaveFileName(FileFormat.JSON);
 
-        if (saveFileDialog1.FileName != "")
+        if (filename != "")
         {
-            using var writer = new StreamWriter(saveFileDialog1.OpenFile());
+            using var writer = new StreamWriter(filename);
             await writer.WriteLineAsync(JsonSerializer.Serialize(_dB));
             writer.Close();
         }
@@ -113,7 +116,25 @@ public partial class MainForm : Form
         _dB.Description = descriptionComboBox.Text;
     }
 
-    private async void loadFileButton_Click(object sender, EventArgs e)
+    private string GetSaveFileName(FileFormat format)
+    {
+        var openFileDialog = new OpenFileDialog();
+        switch (format)
+        {
+            case FileFormat.PDF:
+                openFileDialog.Filter = @"PDF|*.pdf";
+                openFileDialog.Title = @"Select PDF file";
+                break;
+            case FileFormat.JSON:
+                openFileDialog.Filter = @"JSON|*.json";
+                openFileDialog.Title = @"Select JSON file";
+                break;
+        }
+
+        return openFileDialog.FileName;
+    }
+
+        private async void loadFileButton_Click(object sender, EventArgs e)
     {
         _dataForm.Close();
         _graphicsForm.Close();
@@ -138,10 +159,11 @@ public partial class MainForm : Form
         _graphicsForm.Show();
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void savePdfButton_Click(object sender, EventArgs e)
     {
         var pdfService = new PdfService();
         var document = pdfService.CreateDocument(_dB.GetPrintStrings());
-        document.Save("1234.pdf");
+        var fileName = GetSaveFileName(FileFormat.PDF);
+        document.Save(fileName);
     }
 }
