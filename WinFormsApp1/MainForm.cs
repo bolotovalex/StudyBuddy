@@ -106,9 +106,11 @@ public partial class MainForm : Form
         else
         {
             verticalDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetVerticalDeflection())}";
-            verticalDeviationTextBox.BackColor = Color.Red;
+            verticalDeviationTextBox.BackColor = Color.LightCoral;
         }
 
+        
+        
         if (InTolearance(_dB.GetMeterDeflection(), _dB.GetMeterTolerance()))
         {
             lineDeviationTextBox.Text = GetSrting(_dB.GetMeterDeflection());
@@ -117,10 +119,8 @@ public partial class MainForm : Form
         else
         {
             lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetMeterDeflection())}";
-            lineDeviationTextBox.BackColor = Color.Red;
+            lineDeviationTextBox.BackColor = Color.LightCoral;
         }
-
-        lineDeviationTextBox.Text = Math.Round(_dB.GetMeterDeflection(), 2).ToString(CultureInfo.InvariantCulture);
     }
 
     public bool InTolearance(decimal value, int tolerance)

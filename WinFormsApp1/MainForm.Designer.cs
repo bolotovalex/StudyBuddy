@@ -116,10 +116,10 @@ namespace Pryamolineynost
             dateTimePicker.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dateTimePicker.Checked = false;
             dateTimePicker.Enabled = false;
-            dateTimePicker.Location = new Point(354, 3);
+            dateTimePicker.Location = new Point(374, 3);
             dateTimePicker.MinDate = new DateTime(2024, 9, 26, 0, 0, 0, 0);
             dateTimePicker.Name = "dateTimePicker";
-            dateTimePicker.Size = new Size(126, 23);
+            dateTimePicker.Size = new Size(148, 23);
             dateTimePicker.TabIndex = 0;
             dateTimePicker.ValueChanged += dateTimePicker1_ValueChanged;
             // 
@@ -129,7 +129,7 @@ namespace Pryamolineynost
             fioComboBox.Location = new Point(140, 3);
             fioComboBox.Name = "fioComboBox";
             fioComboBox.RightToLeft = RightToLeft.Yes;
-            fioComboBox.Size = new Size(340, 23);
+            fioComboBox.Size = new Size(382, 23);
             fioComboBox.TabIndex = 1;
             fioComboBox.TextUpdate += UpdateFio;
             // 
@@ -137,10 +137,10 @@ namespace Pryamolineynost
             // 
             nameComboBox.FlatStyle = FlatStyle.System;
             nameComboBox.FormattingEnabled = true;
-            nameComboBox.Location = new Point(106, 3);
+            nameComboBox.Location = new Point(108, 3);
             nameComboBox.Name = "nameComboBox";
             nameComboBox.RightToLeft = RightToLeft.Yes;
-            nameComboBox.Size = new Size(374, 23);
+            nameComboBox.Size = new Size(414, 23);
             nameComboBox.TabIndex = 2;
             nameComboBox.TextChanged += UpdateProjectName;
             // 
@@ -232,7 +232,7 @@ namespace Pryamolineynost
             datePanel.Controls.Add(dateTimePicker);
             datePanel.Location = new Point(8, 12);
             datePanel.Name = "datePanel";
-            datePanel.Size = new Size(485, 31);
+            datePanel.Size = new Size(527, 31);
             datePanel.TabIndex = 15;
             // 
             // namePanel
@@ -243,13 +243,13 @@ namespace Pryamolineynost
             namePanel.Controls.Add(nameComboBox);
             namePanel.Location = new Point(8, 49);
             namePanel.Name = "namePanel";
-            namePanel.Size = new Size(485, 31);
+            namePanel.Size = new Size(527, 31);
             namePanel.TabIndex = 16;
             // 
             // dateTimePicker1
             // 
             dateTimePicker1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker1.Location = new Point(687, 3);
+            dateTimePicker1.Location = new Point(729, 3);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(251, 23);
             dateTimePicker1.TabIndex = 0;
@@ -262,13 +262,13 @@ namespace Pryamolineynost
             fioPanel.Controls.Add(fioLabel);
             fioPanel.Location = new Point(8, 123);
             fioPanel.Name = "fioPanel";
-            fioPanel.Size = new Size(485, 31);
+            fioPanel.Size = new Size(527, 31);
             fioPanel.TabIndex = 17;
             // 
             // dateTimePicker2
             // 
             dateTimePicker2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker2.Location = new Point(687, 3);
+            dateTimePicker2.Location = new Point(729, 3);
             dateTimePicker2.Name = "dateTimePicker2";
             dateTimePicker2.Size = new Size(251, 23);
             dateTimePicker2.TabIndex = 0;
@@ -281,7 +281,7 @@ namespace Pryamolineynost
             maxDeviationPanel.Controls.Add(maxDeviationLabel);
             maxDeviationPanel.Location = new Point(8, 160);
             maxDeviationPanel.Name = "maxDeviationPanel";
-            maxDeviationPanel.Size = new Size(485, 31);
+            maxDeviationPanel.Size = new Size(527, 31);
             maxDeviationPanel.TabIndex = 18;
             // 
             // maxDeviationTextBox
@@ -290,7 +290,7 @@ namespace Pryamolineynost
             maxDeviationTextBox.Location = new Point(390, 3);
             maxDeviationTextBox.Name = "maxDeviationTextBox";
             maxDeviationTextBox.ReadOnly = true;
-            maxDeviationTextBox.Size = new Size(90, 23);
+            maxDeviationTextBox.Size = new Size(132, 23);
             maxDeviationTextBox.TabIndex = 7;
             maxDeviationTextBox.Text = "0";
             maxDeviationTextBox.TextAlign = HorizontalAlignment.Right;
@@ -298,7 +298,7 @@ namespace Pryamolineynost
             // dateTimePicker3
             // 
             dateTimePicker3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker3.Location = new Point(687, 3);
+            dateTimePicker3.Location = new Point(729, 3);
             dateTimePicker3.Name = "dateTimePicker3";
             dateTimePicker3.Size = new Size(251, 23);
             dateTimePicker3.TabIndex = 0;
@@ -311,7 +311,7 @@ namespace Pryamolineynost
             minDeviationPanel.Controls.Add(minDeviationLabel);
             minDeviationPanel.Location = new Point(8, 197);
             minDeviationPanel.Name = "minDeviationPanel";
-            minDeviationPanel.Size = new Size(485, 31);
+            minDeviationPanel.Size = new Size(527, 31);
             minDeviationPanel.TabIndex = 19;
             // 
             // minDeviationTextBox
@@ -320,7 +320,7 @@ namespace Pryamolineynost
             minDeviationTextBox.Location = new Point(390, 3);
             minDeviationTextBox.Name = "minDeviationTextBox";
             minDeviationTextBox.ReadOnly = true;
-            minDeviationTextBox.Size = new Size(90, 23);
+            minDeviationTextBox.Size = new Size(132, 23);
             minDeviationTextBox.TabIndex = 8;
             minDeviationTextBox.Text = "0";
             minDeviationTextBox.TextAlign = HorizontalAlignment.Right;
@@ -328,7 +328,7 @@ namespace Pryamolineynost
             // dateTimePicker4
             // 
             dateTimePicker4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker4.Location = new Point(687, 3);
+            dateTimePicker4.Location = new Point(729, 3);
             dateTimePicker4.Name = "dateTimePicker4";
             dateTimePicker4.Size = new Size(251, 23);
             dateTimePicker4.TabIndex = 0;
@@ -341,7 +341,7 @@ namespace Pryamolineynost
             verticalDeviationPanel.Controls.Add(verticalDeviationLabel);
             verticalDeviationPanel.Location = new Point(8, 234);
             verticalDeviationPanel.Name = "verticalDeviationPanel";
-            verticalDeviationPanel.Size = new Size(485, 31);
+            verticalDeviationPanel.Size = new Size(527, 31);
             verticalDeviationPanel.TabIndex = 20;
             // 
             // verticalDeviationTextBox
@@ -350,7 +350,7 @@ namespace Pryamolineynost
             verticalDeviationTextBox.Location = new Point(390, 3);
             verticalDeviationTextBox.Name = "verticalDeviationTextBox";
             verticalDeviationTextBox.ReadOnly = true;
-            verticalDeviationTextBox.Size = new Size(90, 23);
+            verticalDeviationTextBox.Size = new Size(132, 23);
             verticalDeviationTextBox.TabIndex = 9;
             verticalDeviationTextBox.Text = "0";
             verticalDeviationTextBox.TextAlign = HorizontalAlignment.Right;
@@ -358,7 +358,7 @@ namespace Pryamolineynost
             // dateTimePicker5
             // 
             dateTimePicker5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker5.Location = new Point(1145, 3);
+            dateTimePicker5.Location = new Point(1187, 3);
             dateTimePicker5.Name = "dateTimePicker5";
             dateTimePicker5.Size = new Size(251, 23);
             dateTimePicker5.TabIndex = 0;
@@ -371,7 +371,7 @@ namespace Pryamolineynost
             lineDeviationPanel.Controls.Add(lineDeviationLabel);
             lineDeviationPanel.Location = new Point(8, 271);
             lineDeviationPanel.Name = "lineDeviationPanel";
-            lineDeviationPanel.Size = new Size(485, 31);
+            lineDeviationPanel.Size = new Size(527, 31);
             lineDeviationPanel.TabIndex = 21;
             // 
             // lineDeviationTextBox
@@ -380,7 +380,7 @@ namespace Pryamolineynost
             lineDeviationTextBox.Location = new Point(390, 3);
             lineDeviationTextBox.Name = "lineDeviationTextBox";
             lineDeviationTextBox.ReadOnly = true;
-            lineDeviationTextBox.Size = new Size(90, 23);
+            lineDeviationTextBox.Size = new Size(132, 23);
             lineDeviationTextBox.TabIndex = 10;
             lineDeviationTextBox.Text = "0";
             lineDeviationTextBox.TextAlign = HorizontalAlignment.Right;
@@ -388,7 +388,7 @@ namespace Pryamolineynost
             // dateTimePicker6
             // 
             dateTimePicker6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker6.Location = new Point(1145, 3);
+            dateTimePicker6.Location = new Point(1187, 3);
             dateTimePicker6.Name = "dateTimePicker6";
             dateTimePicker6.Size = new Size(251, 23);
             dateTimePicker6.TabIndex = 0;
@@ -401,14 +401,14 @@ namespace Pryamolineynost
             tolerLenghtPanel.Controls.Add(tolerLengthLabel);
             tolerLenghtPanel.Location = new Point(8, 382);
             tolerLenghtPanel.Name = "tolerLenghtPanel";
-            tolerLenghtPanel.Size = new Size(485, 31);
+            tolerLenghtPanel.Size = new Size(527, 31);
             tolerLenghtPanel.TabIndex = 22;
             // 
             // tolerLenghtTextBox
             // 
             tolerLenghtTextBox.Location = new Point(390, 3);
             tolerLenghtTextBox.Name = "tolerLenghtTextBox";
-            tolerLenghtTextBox.Size = new Size(90, 23);
+            tolerLenghtTextBox.Size = new Size(132, 23);
             tolerLenghtTextBox.TabIndex = 11;
             tolerLenghtTextBox.Text = "0";
             tolerLenghtTextBox.TextAlign = HorizontalAlignment.Right;
@@ -417,7 +417,7 @@ namespace Pryamolineynost
             // dateTimePicker7
             // 
             dateTimePicker7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker7.Location = new Point(1145, 3);
+            dateTimePicker7.Location = new Point(1187, 3);
             dateTimePicker7.Name = "dateTimePicker7";
             dateTimePicker7.Size = new Size(251, 23);
             dateTimePicker7.TabIndex = 0;
@@ -430,14 +430,14 @@ namespace Pryamolineynost
             tolerPerMeterPanel.Controls.Add(tolerPerMeterLabel);
             tolerPerMeterPanel.Location = new Point(8, 419);
             tolerPerMeterPanel.Name = "tolerPerMeterPanel";
-            tolerPerMeterPanel.Size = new Size(485, 31);
+            tolerPerMeterPanel.Size = new Size(527, 31);
             tolerPerMeterPanel.TabIndex = 23;
             // 
             // tolerPerMeterTextBox
             // 
             tolerPerMeterTextBox.Location = new Point(390, 3);
             tolerPerMeterTextBox.Name = "tolerPerMeterTextBox";
-            tolerPerMeterTextBox.Size = new Size(90, 23);
+            tolerPerMeterTextBox.Size = new Size(132, 23);
             tolerPerMeterTextBox.TabIndex = 12;
             tolerPerMeterTextBox.Text = "0";
             tolerPerMeterTextBox.TextAlign = HorizontalAlignment.Right;
@@ -446,7 +446,7 @@ namespace Pryamolineynost
             // dateTimePicker8
             // 
             dateTimePicker8.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker8.Location = new Point(1145, 3);
+            dateTimePicker8.Location = new Point(1187, 3);
             dateTimePicker8.Name = "dateTimePicker8";
             dateTimePicker8.Size = new Size(251, 23);
             dateTimePicker8.TabIndex = 0;
@@ -459,14 +459,14 @@ namespace Pryamolineynost
             stepPanel.Controls.Add(stepLabel);
             stepPanel.Location = new Point(8, 456);
             stepPanel.Name = "stepPanel";
-            stepPanel.Size = new Size(485, 31);
+            stepPanel.Size = new Size(527, 31);
             stepPanel.TabIndex = 24;
             // 
             // stepTextPanel
             // 
             stepTextPanel.Location = new Point(390, 3);
             stepTextPanel.Name = "stepTextPanel";
-            stepTextPanel.Size = new Size(90, 23);
+            stepTextPanel.Size = new Size(132, 23);
             stepTextPanel.TabIndex = 13;
             stepTextPanel.Text = "0";
             stepTextPanel.TextAlign = HorizontalAlignment.Right;
@@ -475,7 +475,7 @@ namespace Pryamolineynost
             // dateTimePicker9
             // 
             dateTimePicker9.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker9.Location = new Point(1145, 3);
+            dateTimePicker9.Location = new Point(1187, 3);
             dateTimePicker9.Name = "dateTimePicker9";
             dateTimePicker9.Size = new Size(251, 23);
             dateTimePicker9.TabIndex = 0;
@@ -492,7 +492,7 @@ namespace Pryamolineynost
             // 
             // savePdfButton
             // 
-            savePdfButton.Location = new Point(339, 496);
+            savePdfButton.Location = new Point(380, 496);
             savePdfButton.Name = "savePdfButton";
             savePdfButton.Size = new Size(155, 31);
             savePdfButton.TabIndex = 27;
@@ -502,7 +502,7 @@ namespace Pryamolineynost
             // 
             // exitButton
             // 
-            exitButton.Location = new Point(339, 531);
+            exitButton.Location = new Point(380, 531);
             exitButton.Name = "exitButton";
             exitButton.Size = new Size(155, 31);
             exitButton.TabIndex = 28;
@@ -512,7 +512,7 @@ namespace Pryamolineynost
             // 
             // loadFileButton
             // 
-            loadFileButton.Location = new Point(173, 531);
+            loadFileButton.Location = new Point(195, 531);
             loadFileButton.Name = "loadFileButton";
             loadFileButton.Size = new Size(155, 31);
             loadFileButton.TabIndex = 29;
@@ -522,7 +522,7 @@ namespace Pryamolineynost
             // 
             // saveButton
             // 
-            saveButton.Location = new Point(173, 496);
+            saveButton.Location = new Point(195, 496);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(155, 31);
             saveButton.TabIndex = 30;
@@ -547,17 +547,17 @@ namespace Pryamolineynost
             descriptionPanel.Controls.Add(descriptionLabel);
             descriptionPanel.Location = new Point(8, 86);
             descriptionPanel.Name = "descriptionPanel";
-            descriptionPanel.Size = new Size(485, 31);
+            descriptionPanel.Size = new Size(527, 31);
             descriptionPanel.TabIndex = 32;
             // 
             // descriptionComboBox
             // 
             descriptionComboBox.FlatStyle = FlatStyle.System;
             descriptionComboBox.FormattingEnabled = true;
-            descriptionComboBox.Location = new Point(106, 3);
+            descriptionComboBox.Location = new Point(108, 3);
             descriptionComboBox.Name = "descriptionComboBox";
             descriptionComboBox.RightToLeft = RightToLeft.Yes;
-            descriptionComboBox.Size = new Size(374, 23);
+            descriptionComboBox.Size = new Size(414, 23);
             descriptionComboBox.TabIndex = 6;
             descriptionComboBox.TextChanged += descriptionComboBox_TextChanged;
             // 
@@ -577,7 +577,7 @@ namespace Pryamolineynost
             localAreaPanel.Controls.Add(localAreaLabel);
             localAreaPanel.Location = new Point(8, 308);
             localAreaPanel.Name = "localAreaPanel";
-            localAreaPanel.Size = new Size(485, 31);
+            localAreaPanel.Size = new Size(527, 31);
             localAreaPanel.TabIndex = 33;
             // 
             // localAreaTextBox
@@ -586,7 +586,7 @@ namespace Pryamolineynost
             localAreaTextBox.Location = new Point(390, 3);
             localAreaTextBox.Name = "localAreaTextBox";
             localAreaTextBox.ReadOnly = true;
-            localAreaTextBox.Size = new Size(90, 23);
+            localAreaTextBox.Size = new Size(132, 23);
             localAreaTextBox.TabIndex = 1;
             localAreaTextBox.Text = "0";
             localAreaTextBox.TextAlign = HorizontalAlignment.Right;
@@ -607,7 +607,7 @@ namespace Pryamolineynost
             bedPanelLength.Controls.Add(bedLengthLabel);
             bedPanelLength.Location = new Point(8, 345);
             bedPanelLength.Name = "bedPanelLength";
-            bedPanelLength.Size = new Size(485, 31);
+            bedPanelLength.Size = new Size(527, 31);
             bedPanelLength.TabIndex = 34;
             // 
             // bedLengthTextBox
@@ -615,7 +615,7 @@ namespace Pryamolineynost
             bedLengthTextBox.Location = new Point(390, 3);
             bedLengthTextBox.Name = "bedLengthTextBox";
             bedLengthTextBox.ReadOnly = true;
-            bedLengthTextBox.Size = new Size(90, 23);
+            bedLengthTextBox.Size = new Size(132, 23);
             bedLengthTextBox.TabIndex = 2;
             bedLengthTextBox.Text = "0";
             bedLengthTextBox.TextAlign = HorizontalAlignment.Right;
@@ -633,7 +633,7 @@ namespace Pryamolineynost
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(501, 566);
+            ClientSize = new Size(541, 566);
             Controls.Add(bedPanelLength);
             Controls.Add(localAreaPanel);
             Controls.Add(descriptionPanel);
