@@ -50,6 +50,10 @@ public partial class DataForm : Form
         for (var i = 0; i < db.DataList.Count; i++)
         {
             var row = db.GetDataRow(i);
+            for (var cellNumber = 0; cellNumber < dataGrid.ColumnCount - 2; cellNumber++)
+            {
+                dataGrid.Rows[i].Cells[cellNumber].Style.BackColor = Color.LightGray;
+            }
             dataGrid.Rows[i].Cells[0].Value = i;
             dataGrid.Rows[i].Cells[1].Value = row.GetLength();
             dataGrid.Rows[i].Cells[2].Value = Math.Round(row.GetFactProfileLength(), 2);
@@ -63,10 +67,8 @@ public partial class DataForm : Form
             if (Math.Round(row.GetDeviationPerMeter(), 2) > this.db.GetMeterTolerance())
                 dataGrid.Rows[i].Cells[5].Style.BackColor = Color.LightCoral;
             else
-                dataGrid.Rows[i].Cells[5].Style.BackColor = Color.White;
-
+                dataGrid.Rows[i].Cells[5].Style.BackColor = Color.LightGray;
         }
-
     }
 
     private void DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
