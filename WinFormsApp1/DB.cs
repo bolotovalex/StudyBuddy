@@ -1,7 +1,4 @@
-﻿using System.CodeDom;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-
-namespace Pryamolineynost;
+﻿namespace Pryamolineynost;
 
 public class Db
 {

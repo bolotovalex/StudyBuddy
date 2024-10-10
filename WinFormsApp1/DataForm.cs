@@ -60,7 +60,7 @@ public partial class DataForm : Form
             dataGrid.Rows[i].Cells[7].Value = row.GetFStroke() == int.MinValue ? "" : row.GetFStroke();
             dataGrid.Rows[i].Cells[8].Value = row.GetRevStroke() == int.MinValue ? "" : row.GetRevStroke();
             
-            if (Math.Round(row.GetDeviationPerMeter(), 2) >= this.db.GetMeterTolerance()) 
+            if (Math.Round(row.GetDeviationPerMeter(), 2) > this.db.GetMeterTolerance()) 
                 dataGrid.Rows[i].Cells[5].Style.BackColor = Color.LightCoral;
             else
                 dataGrid.Rows[i].Cells[5].Style.BackColor = Color.White;

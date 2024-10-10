@@ -1,10 +1,8 @@
 ﻿using PdfSharp.Pdf;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
-using MigraDoc.DocumentObjectModel.Tables;
 using OxyPlot;
 using OxyPlot.WindowsForms;
-using PdfSharp.Drawing;
 
 namespace Pryamolineynost
 {

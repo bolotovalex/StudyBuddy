@@ -119,13 +119,13 @@ public partial class MainForm : Form
         else
         {
             lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetMeterDeflection())}";
-            lineDeviationTextBox.BackColor = Color.LightCoral;
+            lineDeviationTextBox.BackColor = Color.LightCoral   ;
         }
     }
 
     public bool InTolearance(decimal value, int tolerance)
     {
-        return value < tolerance;
+        return value <= tolerance;
     }
 
     private async void saveButton_Click(object sender, EventArgs e)
@@ -174,15 +174,18 @@ public partial class MainForm : Form
         openFileDialog.Filter = @"Json|*.json";
         openFileDialog.Title = @"Load json file";
         openFileDialog.ShowDialog();
-        var reader = new StreamReader(openFileDialog.OpenFile());
-        var data = await reader.ReadToEndAsync();
-        var newDb = JsonSerializer.Deserialize<Db>(data); //TODO Нужно сделать проверку на правлиьность файла и данных в нем
-        _dB = newDb;
-        _dB.UpdateAllRows();
-        UpdateAllFields();
-        _dataForm.UpdateForm(null, null);
-        _graphicsForm.UpdatePlot();
-        reader.Close();
+        if (openFileDialog.FileName != "")
+        {
+            var reader = new StreamReader(openFileDialog.OpenFile());
+            var data = await reader.ReadToEndAsync();
+            var newDb = JsonSerializer.Deserialize<Db>(data); //TODO Нужно сделать проверку на правлиьность файла и данных в нем
+            _dB = newDb;
+            _dB.UpdateAllRows();
+            UpdateAllFields();
+            _dataForm.UpdateForm(null, null);
+            _graphicsForm.UpdatePlot();
+            reader.Close();
+        }
     }
 
     private void graphicButton_Click(object sender, EventArgs e)
