@@ -52,7 +52,7 @@ public partial class DataForm : Form
             var row = db.GetDataRow(i);
             for (var cellNumber = 0; cellNumber < dataGrid.ColumnCount - 2; cellNumber++)
             {
-                dataGrid.Rows[i].Cells[cellNumber].Style.BackColor = Color.LightGray;
+                dataGrid.Rows[i].Cells[cellNumber].Style.BackColor = Color.WhiteSmoke;
             }
             dataGrid.Rows[i].Cells[0].Value = i;
             dataGrid.Rows[i].Cells[1].Value = row.GetLength();

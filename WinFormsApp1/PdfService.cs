@@ -9,7 +9,7 @@ namespace Pryamolineynost
     public class PdfService
     {
         public const int GraphicWidth = 575;
-        //public const int GraphicHeight = 370;
+       
         public static PdfDocument CreateDocument(string[][] dbValues, string[][] dataListValues, PlotModel plotModel)
         {
             var document = new Document();
@@ -45,9 +45,7 @@ namespace Pryamolineynost
                 {
                     row.Cells[j].AddParagraph(dbValues[i][j]);
                     if (i % 2 == 0)
-                    {
                         row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
-                    }
                     row.BottomPadding = 5;
                     row.TopPadding = 5;
 
@@ -62,10 +60,7 @@ namespace Pryamolineynost
             table.Borders.Width = 0.1;
             double cellsWidth = 20.0 / dataListValues[0].Length;
             for (var i = 0; i < dataListValues[0].Length; i++)
-            {
                 table.AddColumn($"{cellsWidth}cm");
-            }
-
 
             for (var i = 0; i < dataListValues.Length; i++)
             {
@@ -75,9 +70,7 @@ namespace Pryamolineynost
                 {
                     row.Cells[j].AddParagraph(dataListValues[i][j]);
                     if (i % 2 == 0)
-                    {
                         row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
-                    }
                     row.BottomPadding = 5;
                     row.TopPadding = 5;
                 }
@@ -98,7 +91,7 @@ namespace Pryamolineynost
             section.PageSetup.PageFormat = PageFormat.A4;
             section.PageSetup.Orientation = MigraDoc.DocumentObjectModel.Orientation.Portrait;
             section.PageSetup.BottomMargin = 10;
-            section.PageSetup.TopMargin = 20;
+            section.PageSetup.TopMargin = 30;
             section.PageSetup.LeftMargin = 20;
             section.PageSetup.RightMargin = 10;
 

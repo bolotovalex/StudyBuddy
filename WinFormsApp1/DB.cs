@@ -1,4 +1,6 @@
-﻿namespace Pryamolineynost;
+﻿using System.Globalization;
+
+namespace Pryamolineynost;
 
 public class Db
 {
@@ -91,6 +93,14 @@ public class Db
     {
         return _verticalDeflection;
     }
+
+    public string GetVerticalDeflectionSrting()
+    {
+        return _verticalDeflection > FullTolerance 
+            ? $"Не в допуске {Math.Round(_verticalDeflection, 2)}" 
+            : Math.Round(_verticalDeflection, 2).ToString(CultureInfo.CurrentCulture);
+    }
+    
 
     public decimal GetMeterDeflection()
     {
@@ -395,6 +405,32 @@ public class Db
         UpdateAllRows();
     }
 
+    public (string Name, object Value)[] GetDBFields()
+    {
+        return [
+            ( "Дата", Date),
+            ( "Наименование", Name ),
+            ( "Обозначение", Description ),
+            ( "Измерения произвел", Fio ),
+            ( "Наибольшее отклонение", _maxDeviation ),
+            ( "Наименьшее отклонение", _minDeviation ),
+            ( "Отклонение от прямолинейности в вертикальной плоскости, мкм", _verticalDeflection ),
+            ( "Отклонение от прямолинейности на 1 метр, мкм",  _meterDeflection ),
+            ( "Допуск на всю длину, мкм",  FullTolerance ),
+            ( "Допуск на 1 метр (или локальный), мкм",  MeterTolerance ),
+            ( "Локальный участок, мм",  _localAreaLength ),
+            ( "Длина станины, мм",  _bedAreaLength ),
+            ( "Шаг измерения (расстояние между опорами мостика), мм", Step)
+        ];
+    }
+
+    //public (string Name, object[] Values)[] GetDataList()
+    //{
+    //    var a = new (string Name, object[] Values)[DataList.Count];
+
+    //}
+
+
     public (string[][] dbValues, string[][] dataListValues) GetPrintStrings()
     {
         string[][] dbValues = [
@@ -404,8 +440,8 @@ public class Db
             [ "Измерения произвел",GetFio() ],
             [ "Наибольшее отклонение",Math.Round(GetMaxDeviation(), 2).ToString() ],
             [ "Наименьшее отклонение",Math.Round(GetMinDeviation(), 2).ToString() ],
-            [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(GetVerticalDeflection(), 2).ToString() ], //TODO нужно добавить добавление надписи не в допуске
-            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(GetMeterDeflection(), 2).ToString() ], //TODO нужно добавить добавление надписи не в допуске
+            [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(GetVerticalDeflection(),2).ToString() ],
+            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(GetMeterDeflection(), 2).ToString() ],
             [ "Допуск на всю длину, мкм",  GetFullTolerance().ToString() ],
             [ "Допуск на 1 метр (или локальный), мкм",  GetMeterTolerance().ToString() ],
             [ "Локальный участок, мм",  GetLocalAreaLength().ToString() ],
@@ -425,7 +461,7 @@ public class Db
 
         for (var i = 0; i < DataList.Count; i++)
         {
-            dataListValues[i + 1] = DataList[i].GetAllCellsStringArray(); //Todo нужно добавить окраску ячейки при нахождении не в допуске
+            dataListValues[i + 1] = DataList[i].GetAllCellsStringArray();
         }
 
         return (dbValues, dataListValues);
