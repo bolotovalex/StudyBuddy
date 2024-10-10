@@ -4,7 +4,7 @@ public partial class DataForm : Form
 {
     private Db db;
     private MainForm mainForm;
-    private GraphicsForm _graphicsForm;
+    private readonly GraphicsForm _graphicsForm;
 
     public DataForm(Db db, MainForm parrentForm, GraphicsForm graphicsForm)
     {
@@ -36,7 +36,7 @@ public partial class DataForm : Form
         UpdateForm(sender, e);
     }
 
-    public void UpdateForm(object sender, EventArgs e)
+    public void UpdateForm(object? sender, EventArgs? e)
     {
         if (dataGrid.Rows.Count < db.DataList.Count)
         {
@@ -45,7 +45,7 @@ public partial class DataForm : Form
             for (var i = dataGrid.Rows.Count; i <= db.DataList.Count; i++)
                 dataGrid.Rows.Add();
         }
-            
+
 
         for (var i = 0; i < db.DataList.Count; i++)
         {
@@ -59,23 +59,23 @@ public partial class DataForm : Form
             dataGrid.Rows[i].Cells[6].Value = Math.Round(row.GetMidValue(), 2);
             dataGrid.Rows[i].Cells[7].Value = row.GetFStroke() == int.MinValue ? "" : row.GetFStroke();
             dataGrid.Rows[i].Cells[8].Value = row.GetRevStroke() == int.MinValue ? "" : row.GetRevStroke();
-            
-            if (Math.Round(row.GetDeviationPerMeter(), 2) > this.db.GetMeterTolerance()) 
+
+            if (Math.Round(row.GetDeviationPerMeter(), 2) > this.db.GetMeterTolerance())
                 dataGrid.Rows[i].Cells[5].Style.BackColor = Color.LightCoral;
             else
                 dataGrid.Rows[i].Cells[5].Style.BackColor = Color.White;
 
         }
-        
+
     }
 
-    private void dataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+    private void DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
-        var cellValue = dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-        int value;
+        object? cellValue = dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value ?? "0";
+        var value = int.Parse(cellValue.ToString());
+        
         if (cellValue != null)
         {
-            value = int.Parse(cellValue.ToString());
             if (e.RowIndex == db.GetDataList().Count)
                 switch (e.ColumnIndex)
                 {
@@ -110,19 +110,18 @@ public partial class DataForm : Form
             }
         }
 
-
         UpdateForm(sender, e);
         mainForm.UpdateAllFields();
         _graphicsForm.UpdatePlot();
     }
 
 
-    private void closeButton_Click(object sender, EventArgs e)
+    private void CloseButton_Click(object sender, EventArgs e)
     {
         Close();
     }
 
-    private void clearDBButton_Click(object sender, EventArgs e)
+    private void ClearDBButton_Click(object sender, EventArgs e)
     {
         while (dataGrid.RowCount > 2) dataGrid.Rows.RemoveAt(1);
         db.CleanDb();

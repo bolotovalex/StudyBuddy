@@ -2,10 +2,10 @@
 
 public class Db
 {
-    public DateTime date { get; set; } //Дата
-    public string Name { get; set; } //Наименование
-    public string Description { get; set; } //Обозначение
-    public string Fio { get; set; } //Измерения произвел
+    public DateTime Date { get; set; } //Дата
+    public required string Name { get; set; } //Наименование
+    public required string Description { get; set; } //Обозначение
+    public required string Fio { get; set; } //Измерения произвел
     private decimal _minDeviation; //Наибольшее отклонение, мкм
     private decimal _maxDeviation; //Наименьшее отклонение, мкм
     private decimal _verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - //TODO Нет индикации выхода за пределы
@@ -34,17 +34,17 @@ public class Db
 
     public void SetDate(DateTime date)
     {
-        this.date = date;
+        this.Date = date;
     }
 
     public DateTime GetDate()
     {
-        return date;
+        return Date;
     }
 
     public void UpdateDateTime()
     {
-        date = DateTime.Now;
+        Date = DateTime.Now;
     }
 
     public void SetName(string name)
@@ -149,24 +149,24 @@ public class Db
 
     public DataRow GetLastDataRow()
     {
-        return DataList[DataList.Count - 1];
+        return DataList[^1];
     }
 
 
     public Db()
     {
         _maxDeviation = 0;
-        DataList = new List<DataRow>();
-        date = DateTime.Now;
+        DataList = [];
+        Date = DateTime.Now;
         Step = 200;
         UpdateStepsPerMeter(Step);
         DataList.Add(new DataRow());
     }
 
     public Db(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance,
-        int step, List<DataRow> dataList, decimal maxDeviation, decimal maxMeterDeflection, decimal minMeterDeflection)
+        int step, List<DataRow> dataList, decimal maxDeviation)
     {
-        date = datetime;
+        Date = datetime;
         Name = name;
         Description = description;
         Fio = fio;
@@ -214,9 +214,6 @@ public class Db
 
     private decimal GetMaxDeviationPerMeterForStep(int maxIndex)
     {
-        //var maxIndex = startStep + this.stepsPerMeter - 1;
-        //if (this.dataList.Count <= this.stepsPerMeter || maxIndex >= this.dataList.Count)
-        //    return 0;
         var startIndex = maxIndex - _stepsPerMeter + 1;
         var lengthOnMeter = new List<decimal>() { };
         for (var length = 0; length <= 1000; length += 1000 / _stepsPerMeter)
@@ -232,8 +229,6 @@ public class Db
         }
 
 
-        var a = factProfileList[^1];
-        var b = DataList[maxIndex].GetLength();
         var lastProfileKoef = factProfileList[^1] / lengthOnMeter[^1];
         var listDeviations = new List<decimal>() { 0 };
         decimal maxDeviation = 0;
@@ -278,8 +273,6 @@ public class Db
         for (var i = 1; i < DataList.Count; i++)
         {
             var selRow = DataList[i];
-            var prevRow = DataList[i - 1];
-
             selRow.UpdateAdjStraight(_programFactor1, _programFactor2);
         }
     }
@@ -312,7 +305,6 @@ public class Db
         for (var i = 1; i < DataList.Count; i++)
         {
             var selRow = DataList[i];
-            var prevRow = DataList[i - 1];
             var deviationValue = selRow.GetDeviation();
             if (deviationValue > _maxDeviation)
                 _maxDeviation = deviationValue;
@@ -326,8 +318,6 @@ public class Db
     {
         for (var i = 1; i < DataList.Count; i++)
         {
-            var selRow = DataList[i];
-            var prevRow = DataList[i - 1];
             var index = i - _stepsPerMeter + 1;
             if (DataList.Count - i >= 1 && DataList.Count > _stepsPerMeter && index >= 1)
                 DataList[index].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
@@ -405,45 +395,44 @@ public class Db
         UpdateAllRows();
     }
 
-    public (string[][] dbValues, string[][] dataListValues ) GetPrintStrings()
+    public (string[][] dbValues, string[][] dataListValues) GetPrintStrings()
     {
-        var dbValues = new string[][]
-        {
-            new string[] { "Дата", GetDate().ToString() },
-            new string[] { "Наименование", GetName() },
-            new string[] { "Обозначение", GetDescription() },
-            new string[] { "Измерения произвел",GetFio() },
-            new string[] { "Наибольшее отклонение",Math.Round(GetMaxDeviation(), 2).ToString() },
-            new string[] { "Наименьшее отклонение",Math.Round(GetMinDeviation(), 2).ToString() },
-            new string[] { "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(GetVerticalDeflection(), 2).ToString() },
-            new string[] { "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(GetMeterDeflection(), 2).ToString() },
-            new string[] { "Допуск на всю длину, мкм",  GetFullTolerance().ToString() },
-            new string[] { "Допуск на 1 метр (или локальный), мкм",  GetMeterTolerance().ToString() },
-            new string[] { "Локальный участок, мм",  GetLocalAreaLength().ToString() },
-            new string[] { "Длина станины, мм",  GetBedLength().ToString() },
-            new string[] { "Шаг измерения (расстояние между опорами мостика), мм", GetMeasurementStep().ToString() }
-        };
+        string[][] dbValues = [
+            [ "Дата", GetDate().ToString() ],
+            [ "Наименование", GetName() ],
+            [ "Обозначение", GetDescription() ],
+            [ "Измерения произвел",GetFio() ],
+            [ "Наибольшее отклонение",Math.Round(GetMaxDeviation(), 2).ToString() ],
+            [ "Наименьшее отклонение",Math.Round(GetMinDeviation(), 2).ToString() ],
+            [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(GetVerticalDeflection(), 2).ToString() ], //TODO нужно добавить добавление надписи не в допуске
+            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(GetMeterDeflection(), 2).ToString() ], //TODO нужно добавить добавление надписи не в допуске
+            [ "Допуск на всю длину, мкм",  GetFullTolerance().ToString() ],
+            [ "Допуск на 1 метр (или локальный), мкм",  GetMeterTolerance().ToString() ],
+            [ "Локальный участок, мм",  GetLocalAreaLength().ToString() ],
+            [ "Длина станины, мм",  GetBedLength().ToString() ],
+            [ "Шаг измерения (расстояние между опорами мостика), мм", GetMeasurementStep().ToString() ]];
 
         var dataListValues = new string[DataList.Count + 1][];
-        dataListValues[0] = new string[] { 
-            "Длина измерения, мм", 
-            "Фактический профиль проверяемой поверхности, мкм", 
-            "Прилегающая прямая, мкм", 
-            "Отклонение, мкм", 
-            "Отклонение на метре, мкм", 
-            "Среднее значение, мкм", 
-            "Прямой ход, мкм", 
-            "Обратный ход, мкм" };
-        for (var i = 0; i<DataList.Count; i++)
+        dataListValues[0] = [
+            "Длина измерения, мм",
+            "Фактический профиль проверяемой поверхности, мкм",
+            "Прилегающая прямая, мкм",
+            "Отклонение, мкм",
+            "Отклонение на метре, мкм",
+            "Среднее значение, мкм",
+            "Прямой ход, мкм",
+            "Обратный ход, мкм" ];
+
+        for (var i = 0; i < DataList.Count; i++)
         {
-            dataListValues[i+1] = DataList[i].GetAllCellsStringArray();
+            dataListValues[i + 1] = DataList[i].GetAllCellsStringArray(); //Todo нужно добавить окраску ячейки при нахождении не в допуске
         }
-        
+
         return (dbValues, dataListValues);
 
     }
-    
-    public (double[] positions, double[] graph1, double[] graph2) GetGraphicPoints() 
+
+    public (double[] positions, double[] graph1, double[] graph2) GetGraphicPoints()
     {
         var pos = new double[DataList.Count];
         var graph1 = new double[DataList.Count];
@@ -455,6 +444,6 @@ public class Db
             graph2[i] = decimal.ToDouble(DataList[i].GetAdjStraight());
         }
 
-        return new (pos, graph1, graph2);
+        return new(pos, graph1, graph2);
     }
 }

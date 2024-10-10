@@ -92,15 +92,14 @@ public class DataRow
 
     public string[] GetAllCellsStringArray()
     {
-        return new string[] {
-            Position.ToString(),
-            Math.Round(FactCheckedProfileLength,2).ToString(),
-            Math.Round(AdjStraight,2).ToString(),
-            Math.Round(Deviation,2).ToString(),
-            Math.Round(DevationPerMeter,2).ToString(),
-            Math.Round(MidValue,2).ToString(),
-            FStroke == int.MinValue ? "0": FStroke.ToString(),
-            RevStroke == int.MinValue ? "0" : RevStroke.ToString()
-        };
+        return [Position.ToString(),
+                Math.Round(FactCheckedProfileLength,2).ToString(),
+                Math.Round(AdjStraight,2).ToString(),
+                Math.Round(Deviation,2).ToString(),
+                Math.Round(DevationPerMeter,2).ToString(),
+                Math.Round(MidValue,2).ToString(),
+                FStroke == int.MinValue ? "0": FStroke.ToString(),
+                RevStroke == int.MinValue ? "0" : RevStroke.ToString()];
+            
     }
 }

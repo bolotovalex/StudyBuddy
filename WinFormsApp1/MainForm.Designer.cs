@@ -121,7 +121,7 @@ namespace Pryamolineynost
             dateTimePicker.Name = "dateTimePicker";
             dateTimePicker.Size = new Size(148, 23);
             dateTimePicker.TabIndex = 0;
-            dateTimePicker.ValueChanged += dateTimePicker1_ValueChanged;
+            dateTimePicker.ValueChanged += DateTimePicker1_ValueChanged;
             // 
             // fioComboBox
             // 
@@ -488,7 +488,7 @@ namespace Pryamolineynost
             graphicButton.TabIndex = 26;
             graphicButton.Text = "График";
             graphicButton.UseVisualStyleBackColor = true;
-            graphicButton.Click += graphicButton_Click;
+            graphicButton.Click += GraphicButton_Click;
             // 
             // savePdfButton
             // 
@@ -498,7 +498,7 @@ namespace Pryamolineynost
             savePdfButton.TabIndex = 27;
             savePdfButton.Text = "Выгрузить PDF";
             savePdfButton.UseVisualStyleBackColor = true;
-            savePdfButton.Click += savePdfButton_Click;
+            savePdfButton.Click += SavePdfButton_Click;
             // 
             // exitButton
             // 
@@ -508,7 +508,7 @@ namespace Pryamolineynost
             exitButton.TabIndex = 28;
             exitButton.Text = "Выход";
             exitButton.UseVisualStyleBackColor = true;
-            exitButton.Click += exitButton_Click;
+            exitButton.Click += ExitButton_Click;
             // 
             // loadFileButton
             // 
@@ -518,7 +518,7 @@ namespace Pryamolineynost
             loadFileButton.TabIndex = 29;
             loadFileButton.Text = "Загрузить";
             loadFileButton.UseVisualStyleBackColor = true;
-            loadFileButton.Click += loadFileButton_Click;
+            loadFileButton.Click += LoadFileButton_Click;
             // 
             // saveButton
             // 
@@ -528,7 +528,7 @@ namespace Pryamolineynost
             saveButton.TabIndex = 30;
             saveButton.Text = "Сохранить";
             saveButton.UseVisualStyleBackColor = true;
-            saveButton.Click += saveButton_Click;
+            saveButton.Click += SaveButton_Click;
             // 
             // fillDataFormButton
             // 
@@ -538,7 +538,7 @@ namespace Pryamolineynost
             fillDataFormButton.TabIndex = 25;
             fillDataFormButton.Text = "Заполнить данные";
             fillDataFormButton.UseVisualStyleBackColor = true;
-            fillDataFormButton.Click += fillDataFormButton_Click;
+            fillDataFormButton.Click += FillDataFormButton_Click;
             // 
             // descriptionPanel
             // 
@@ -559,7 +559,7 @@ namespace Pryamolineynost
             descriptionComboBox.RightToLeft = RightToLeft.Yes;
             descriptionComboBox.Size = new Size(414, 23);
             descriptionComboBox.TabIndex = 6;
-            descriptionComboBox.TextChanged += descriptionComboBox_TextChanged;
+            descriptionComboBox.TextChanged += DescriptionComboBox_TextChanged;
             // 
             // descriptionLabel
             // 

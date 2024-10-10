@@ -52,7 +52,7 @@
             dataGrid.Name = "dataGrid";
             dataGrid.Size = new Size(915, 580);
             dataGrid.TabIndex = 3;
-            dataGrid.CellEndEdit += dataGrid_CellEndEdit;
+            dataGrid.CellEndEdit += DataGrid_CellEndEdit;
             dataGrid.DataContextChanged += DataForm_SizeChanged;
             // 
             // id
@@ -125,7 +125,7 @@
             closeButton.TabIndex = 4;
             closeButton.Text = "Закрыть";
             closeButton.UseVisualStyleBackColor = true;
-            closeButton.Click += closeButton_Click;
+            closeButton.Click += CloseButton_Click;
             // 
             // clearDBButton
             // 
@@ -135,7 +135,7 @@
             clearDBButton.TabIndex = 5;
             clearDBButton.Text = "Очистить";
             clearDBButton.UseVisualStyleBackColor = true;
-            clearDBButton.Click += clearDBButton_Click;
+            clearDBButton.Click += ClearDBButton_Click;
             // 
             // DataForm
             // 

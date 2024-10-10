@@ -22,7 +22,8 @@ namespace Pryamolineynost
             plotView1.Size = new Size(this.Width - 16, this.Height - 100);
         }
 
-        public void UpdatePlot() {
+        public void UpdatePlot()
+        {
             var plotModel = new PlotModel { Title = "График отклонений от прямолинейности в вертикальной плоскости" };
             BuildGraphic(plotModel);
             this.Controls.Add(plotView1);

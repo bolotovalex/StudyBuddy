@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 
+
 namespace Pryamolineynost;
 
 public partial class MainForm : Form
@@ -18,8 +19,8 @@ public partial class MainForm : Form
     public MainForm()
     {
         InitializeComponent();
-        _dB = new Db();
-        _dataForm = new DataForm(_dB, this, _graphicsForm);
+        _dB = new Db() { Description="", Name="", Fio=""};
+        _dataForm = new DataForm(_dB, this, graphicsForm: _graphicsForm);
         stepTextPanel.Text = _dB.GetMeasurementStep().ToString();
         _graphicsForm = new GraphicsForm(_dB, this);
     }
@@ -36,10 +37,9 @@ public partial class MainForm : Form
     }
 
 
-    private int CheckTextBoxIntValue(TextBox textBox)
+    private static int CheckTextBoxIntValue(TextBox textBox)
     {
-        int result;
-        return int.TryParse(textBox.Text, out result) ? result : 0;
+        return int.TryParse(textBox.Text, out int result) ? result : 0;
     }
 
 
@@ -64,27 +64,27 @@ public partial class MainForm : Form
         UpdateAllFields();
     }
 
-    private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+    private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
     {
-        var date = (DateTime)dateTimePicker1.Value;
+        this.dateTime = (DateTime)dateTimePicker1.Value;
     }
 
-    private void exitButton_Click(object sender, EventArgs e)
+    private void ExitButton_Click(object sender, EventArgs e)
     {
         Close();
     }
 
-    private void fillDataFormButton_Click(object sender, EventArgs e)
+    private void FillDataFormButton_Click(object sender, EventArgs e)
     {
         _dataForm = new DataForm(_dB, this, _graphicsForm);
         _dataForm.Show();
     }
 
-    public string GetSrting(decimal value)
+    public static string GetSrting(decimal value)
     {
         return Math.Round(value, 2).ToString(CultureInfo.InvariantCulture).ToString();
     }
-    
+
     public void UpdateAllFields()
     {
         dateTimePicker.Value = _dB.GetDate();
@@ -97,7 +97,7 @@ public partial class MainForm : Form
         bedLengthTextBox.Text = _dB.GetLastDataRow().GetLength().ToString();
         tolerLenghtTextBox.Text = _dB.GetFullTolerance().ToString(CultureInfo.InvariantCulture);
         tolerPerMeterTextBox.Text = _dB.GetMeterTolerance().ToString(CultureInfo.InvariantCulture);
-        
+
         if (InTolearance(_dB.GetVerticalDeflection(), _dB.GetFullTolerance()))
         {
             verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
@@ -109,8 +109,8 @@ public partial class MainForm : Form
             verticalDeviationTextBox.BackColor = Color.LightCoral;
         }
 
-        
-        
+
+
         if (InTolearance(_dB.GetMeterDeflection(), _dB.GetMeterTolerance()))
         {
             lineDeviationTextBox.Text = GetSrting(_dB.GetMeterDeflection());
@@ -119,16 +119,16 @@ public partial class MainForm : Form
         else
         {
             lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetMeterDeflection())}";
-            lineDeviationTextBox.BackColor = Color.LightCoral   ;
+            lineDeviationTextBox.BackColor = Color.LightCoral;
         }
     }
 
-    public bool InTolearance(decimal value, int tolerance)
+    public static bool InTolearance(decimal value, int tolerance)
     {
         return value <= tolerance;
     }
 
-    private async void saveButton_Click(object sender, EventArgs e)
+    private async void SaveButton_Click(object sender, EventArgs e)
     {
         var filename = GetSaveFileName(FileFormat.JSON);
 
@@ -140,15 +140,15 @@ public partial class MainForm : Form
         }
     }
 
-    private void descriptionComboBox_TextChanged(object sender, EventArgs e)
+    private void DescriptionComboBox_TextChanged(object sender, EventArgs e)
     {
         _dB.Description = descriptionComboBox.Text;
     }
 
-    private string GetSaveFileName(FileFormat format)
+    private static string GetSaveFileName(FileFormat format)
     {
         var saveFileDialog = new SaveFileDialog();
-        
+
         switch (format)
         {
             case FileFormat.PDF:
@@ -166,19 +166,21 @@ public partial class MainForm : Form
         return saveFileDialog.FileName;
     }
 
-        private async void loadFileButton_Click(object sender, EventArgs e)
+    private async void LoadFileButton_Click(object sender, EventArgs e)
     {
         _dataForm.Close();
         _graphicsForm.Close();
-        var openFileDialog = new OpenFileDialog();
-        openFileDialog.Filter = @"Json|*.json";
-        openFileDialog.Title = @"Load json file";
+        var openFileDialog = new OpenFileDialog
+        {
+            Filter = @"Json|*.json",
+            Title = @"Load json file"
+        };
         openFileDialog.ShowDialog();
         if (openFileDialog.FileName != "")
         {
             var reader = new StreamReader(openFileDialog.OpenFile());
             var data = await reader.ReadToEndAsync();
-            var newDb = JsonSerializer.Deserialize<Db>(data); //TODO Нужно сделать проверку на правлиьность файла и данных в нем
+            Db? newDb = JsonSerializer.Deserialize<Db>(data) ?? new Db() { Description="" , Name="", Fio=""}; //TODO Нужно сделать проверку на правлиьность файла и данных в нем
             _dB = newDb;
             _dB.UpdateAllRows();
             UpdateAllFields();
@@ -188,17 +190,19 @@ public partial class MainForm : Form
         }
     }
 
-    private void graphicButton_Click(object sender, EventArgs e)
+    private void GraphicButton_Click(object sender, EventArgs e)
     {
         _graphicsForm = new GraphicsForm(_dB, this);
         _graphicsForm.Show();
     }
 
-    private void savePdfButton_Click(object sender, EventArgs e)
+    private void SavePdfButton_Click(object sender, EventArgs e)
     {
-        var pdfService = new PdfService();
-        var printParams = _dB.GetPrintStrings();
-        var document = pdfService.CreateDocument(printParams.dbValues, printParams.dataListValues, new GraphicsForm(_dB, this).GetPlotModel());
+        var document = PdfService.CreateDocument(
+            _dB.GetPrintStrings().dbValues,
+           _dB.GetPrintStrings().dataListValues, 
+           new GraphicsForm(_dB, this).GetPlotModel());
+
         var fileName = GetSaveFileName(FileFormat.PDF);
         document.Save(fileName);
     }
