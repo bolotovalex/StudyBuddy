@@ -22,61 +22,10 @@ public class Db
     public List<DataRow> DataList { get; set; } //Таблица измерений
     private int _stepsPerMeter;
 
-    public enum Column
-    {
-        Position = 0,
-        FactProfilePosition = 1,
-        AdjStraight = 2,
-        Deviation = 3,
-        DeviationPerMeter = 4,
-        MidValue = 5,
-        FStroke = 6,
-        RevStroke = 7
-    }
-
-    public void SetDate(DateTime date)
-    {
-        this.Date = date;
-    }
-
-    public DateTime GetDate()
-    {
-        return Date;
-    }
 
     public void UpdateDateTime()
     {
         Date = DateTime.Now;
-    }
-
-    public void SetName(string name)
-    {
-        Name = name;
-    }
-
-    public string GetName()
-    {
-        return Name;
-    }
-
-    public void SetFio(string fio)
-    {
-        Fio = fio;
-    }
-
-    public string GetFio()
-    {
-        return Fio;
-    }
-
-    public void SetDescription(string description)
-    {
-        Description = description;
-    }
-
-    public string GetDescription()
-    {
-        return Description;
     }
 
     public decimal GetMinDeviation()
@@ -94,32 +43,15 @@ public class Db
         return _verticalDeflection;
     }
 
-    public string GetVerticalDeflectionSrting()
-    {
-        return _verticalDeflection > FullTolerance 
-            ? $"Не в допуске {Math.Round(_verticalDeflection, 2)}" 
-            : Math.Round(_verticalDeflection, 2).ToString(CultureInfo.CurrentCulture);
-    }
-    
 
     public decimal GetMeterDeflection()
     {
         return _meterDeflection;
     }
 
-    public void SetFullTolerance(int fullTolerance)
-    {
-        FullTolerance = fullTolerance;
-    }
-
     public int GetFullTolerance()
     {
         return FullTolerance;
-    }
-
-    public void SetMeterTolerance(int meterTolerance)
-    {
-        MeterTolerance = meterTolerance;
     }
 
     public int GetMeterTolerance()
@@ -130,11 +62,6 @@ public class Db
     public int GetLocalAreaLength()
     {
         return _localAreaLength;
-    }
-
-    public int GetBedLength()
-    {
-        return _bedAreaLength;
     }
 
     public void SetMeasurementStep(int measurementStep)
@@ -173,21 +100,21 @@ public class Db
         DataList.Add(new DataRow());
     }
 
-    public Db(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance,
-        int step, List<DataRow> dataList, decimal maxDeviation)
-    {
-        Date = datetime;
-        Name = name;
-        Description = description;
-        Fio = fio;
-        FullTolerance = fullTolearance;
-        MeterTolerance = meterTolerance;
-        Step = step;
-        DataList = dataList;
-        _maxDeviation = maxDeviation;
-        UpdateStepsPerMeter(Step);
-        UpdateAllRows();
-    }
+    //public Db(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance,
+    //    int step, List<DataRow> dataList, decimal maxDeviation)
+    //{
+    //    Date = datetime;
+    //    Name = name;
+    //    Description = description;
+    //    Fio = fio;
+    //    FullTolerance = fullTolearance;
+    //    MeterTolerance = meterTolerance;
+    //    Step = step;
+    //    DataList = dataList;
+    //    _maxDeviation = maxDeviation;
+    //    UpdateStepsPerMeter(Step);
+    //    UpdateAllRows();
+    //}
 
 
     public void UpdateStepsPerMeter(int stepsLength)
@@ -424,31 +351,25 @@ public class Db
         ];
     }
 
-    //public (string Name, object[] Values)[] GetDataList()
-    //{
-    //    var a = new (string Name, object[] Values)[DataList.Count];
-
-    //}
-
-
     public (string[][] dbValues, string[][] dataListValues) GetPrintStrings()
     {
         string[][] dbValues = [
-            [ "Дата", GetDate().ToString() ],
-            [ "Наименование", GetName() ],
-            [ "Обозначение", GetDescription() ],
-            [ "Измерения произвел",GetFio() ],
-            [ "Наибольшее отклонение",Math.Round(GetMaxDeviation(), 2).ToString() ],
-            [ "Наименьшее отклонение",Math.Round(GetMinDeviation(), 2).ToString() ],
-            [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(GetVerticalDeflection(),2).ToString() ],
-            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(GetMeterDeflection(), 2).ToString() ],
-            [ "Допуск на всю длину, мкм",  GetFullTolerance().ToString() ],
-            [ "Допуск на 1 метр (или локальный), мкм",  GetMeterTolerance().ToString() ],
-            [ "Локальный участок, мм",  GetLocalAreaLength().ToString() ],
-            [ "Длина станины, мм",  GetBedLength().ToString() ],
-            [ "Шаг измерения (расстояние между опорами мостика), мм", GetMeasurementStep().ToString() ]];
+            [ "Дата", Date.ToString() ],
+            [ "Наименование", Name ],
+            [ "Обозначение", Description ],
+            [ "Измерения произвел",Fio ],
+            [ "Наибольшее отклонение", _maxDeviation.ToString() ],
+            [ "Наименьшее отклонение", _minDeviation.ToString() ],
+            [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(_verticalDeflection, 2).ToString() ],
+            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(_meterDeflection, 2).ToString() ],
+            [ "Допуск на всю длину, мкм", FullTolerance.ToString() ],
+            [ "Допуск на 1 метр (или локальный), мкм", MeterTolerance.ToString() ],
+            [ "Локальный участок, мм", _localAreaLength.ToString() ],
+            [ "Длина станины, мм", _bedAreaLength.ToString() ],
+            [ "Шаг измерения (расстояние между опорами мостика), мм", Step.ToString() ]];
 
         var dataListValues = new string[DataList.Count + 1][];
+        
         dataListValues[0] = [
             "Длина измерения, мм",
             "Фактический профиль проверяемой поверхности, мкм",

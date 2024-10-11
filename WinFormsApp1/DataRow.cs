@@ -2,6 +2,18 @@
 
 public class DataRow
 {
+    public enum Field
+    {
+        Position,
+        FactCheckedProfileLength,
+        AdjStraight,
+        Deviation,
+        DevationPerMeter,
+        MidValue,
+        FStroke,
+        RevStroke
+    }
+    
     private int Position = 0; //Длина измерения, мм
     private decimal FactCheckedProfileLength = 0; //Фактический профиль проверяемой поверхности, мкм
     private decimal AdjStraight = 0; //Прилегающая прямая, мкм

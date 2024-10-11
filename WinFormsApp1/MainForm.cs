@@ -87,7 +87,7 @@ public partial class MainForm : Form
 
     public void UpdateAllFields()
     {
-        dateTimePicker.Value = _dB.GetDate();
+        dateTimePicker.Value = _dB.Date;
         nameComboBox.Text = _dB.Name;
         descriptionComboBox.Text = _dB.Description;
         fioComboBox.Text = _dB.Fio;
