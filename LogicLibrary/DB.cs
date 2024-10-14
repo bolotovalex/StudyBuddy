@@ -23,7 +23,7 @@ public class DB
 
     public void UpdateDateTime()
     {
-        Date = DateTime.Now;
+        Date = DateTime.Now.Date;
     }
 
     public decimal GetMinDeviation()
@@ -86,7 +86,7 @@ public class DB
     {
         _maxDeviation = 0;
         DataList = [];
-        Date = DateTime.Now;
+        Date = DateTime.Now.Date;
         Step = 200;
         UpdateStepsPerMeter(Step);
         DataList.Add(new DataRow());
@@ -265,6 +265,7 @@ public class DB
         UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
         UpdateBedLenth();
+        
 
         //TODO Не работает если не посчитаны program factors
         //UpdateProgramFactors();
@@ -324,7 +325,7 @@ public class DB
     public (string Name, object Value)[] GetDBFields()
     {
         return [
-            ( "Дата", Date),
+            ( "Дата", Date.Date),
             ( "Наименование", Name ),
             ( "Обозначение", Description ),
             ( "Измерения произвел", Fio ),
@@ -347,8 +348,8 @@ public class DB
             [ "Наименование", Name ],
             [ "Обозначение", Description ],
             [ "Измерения произвел",Fio ],
-            [ "Наибольшее отклонение", _maxDeviation.ToString() ],
-            [ "Наименьшее отклонение", _minDeviation.ToString() ],
+            [ "Наибольшее отклонение", Math.Round(_maxDeviation,2).ToString() ],
+            [ "Наименьшее отклонение", Math.Round(_minDeviation, 2).ToString() ],
             [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(_verticalDeflection, 2).ToString() ],
             [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(_meterDeflection, 2).ToString() ],
             [ "Допуск на всю длину, мкм", FullTolerance.ToString() ],

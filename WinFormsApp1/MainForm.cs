@@ -20,7 +20,7 @@ public partial class MainForm : Form
     public MainForm()
     {
         InitializeComponent();
-        _dB = new DB() { Description="", Name="", Fio=""};
+        _dB = new DB() { Description = "", Name = "", Fio = "" };
         _dataForm = new DataForm(_dB, this, _graphicsForm);
         stepTextPanel.Text = _dB.GetMeasurementStep().ToString();
         _graphicsForm = new GraphicsForm(_dB, this);
@@ -65,10 +65,6 @@ public partial class MainForm : Form
         UpdateAllFields();
     }
 
-    private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
-    {
-        this.dateTime = (DateTime)dateTimePicker1.Value;
-    }
 
     private void ExitButton_Click(object sender, EventArgs e)
     {
@@ -181,7 +177,7 @@ public partial class MainForm : Form
         {
             var reader = new StreamReader(openFileDialog.OpenFile());
             var data = await reader.ReadToEndAsync();
-            DB? newDb = JsonSerializer.Deserialize<DB>(data) ?? new DB() { Description="" , Name="", Fio=""};
+            DB? newDb = JsonSerializer.Deserialize<DB>(data) ?? new DB() { Description = "", Name = "", Fio = "" };
             _dB = newDb;
             _dB.UpdateAllRows();
             UpdateAllFields();
@@ -201,10 +197,15 @@ public partial class MainForm : Form
     {
         var document = PdfService.CreateDocument(
             _dB.GetPrintStrings().dbValues,
-           _dB.GetPrintStrings().dataListValues, 
+           _dB.GetPrintStrings().dataListValues,
            new GraphicsForm(_dB, this).GetPlotModel());
 
         var fileName = GetSaveFileName(FileFormat.Pdf);
         document.Save(fileName);
+    }
+
+    private void dateTimePicker_DropDown(object sender, EventArgs e)
+    {
+        _dB.Date = dateTimePicker.Value.Date;
     }
 }

@@ -48,30 +48,21 @@ namespace Pryamolineynost
             stepLabel = new Label();
             datePanel = new Panel();
             namePanel = new Panel();
-            dateTimePicker1 = new DateTimePicker();
             fioPanel = new Panel();
-            dateTimePicker2 = new DateTimePicker();
             maxDeviationPanel = new Panel();
             maxDeviationTextBox = new TextBox();
-            dateTimePicker3 = new DateTimePicker();
             minDeviationPanel = new Panel();
             minDeviationTextBox = new TextBox();
-            dateTimePicker4 = new DateTimePicker();
             verticalDeviationPanel = new Panel();
             verticalDeviationTextBox = new TextBox();
-            dateTimePicker5 = new DateTimePicker();
             lineDeviationPanel = new Panel();
             lineDeviationTextBox = new TextBox();
-            dateTimePicker6 = new DateTimePicker();
             tolerLenghtPanel = new Panel();
             tolerLenghtTextBox = new TextBox();
-            dateTimePicker7 = new DateTimePicker();
             tolerPerMeterPanel = new Panel();
             tolerPerMeterTextBox = new TextBox();
-            dateTimePicker8 = new DateTimePicker();
             stepPanel = new Panel();
             stepTextPanel = new TextBox();
-            dateTimePicker9 = new DateTimePicker();
             graphicButton = new Button();
             savePdfButton = new Button();
             exitButton = new Button();
@@ -114,14 +105,14 @@ namespace Pryamolineynost
             // dateTimePicker
             // 
             dateTimePicker.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker.Checked = false;
-            dateTimePicker.Enabled = false;
-            dateTimePicker.Location = new Point(374, 3);
-            dateTimePicker.MinDate = new DateTime(2024, 9, 26, 0, 0, 0, 0);
+            dateTimePicker.CustomFormat = "dd MMMM yyyy";
+            dateTimePicker.Location = new Point(400, 3);
+            dateTimePicker.MinDate = new DateTime(2024, 9, 1, 0, 0, 0, 0);
             dateTimePicker.Name = "dateTimePicker";
-            dateTimePicker.Size = new Size(148, 23);
+            dateTimePicker.RightToLeft = RightToLeft.No;
+            dateTimePicker.Size = new Size(122, 23);
             dateTimePicker.TabIndex = 0;
-            dateTimePicker.ValueChanged += DateTimePicker1_ValueChanged;
+            dateTimePicker.CloseUp += dateTimePicker_DropDown;
             // 
             // fioComboBox
             // 
@@ -239,25 +230,15 @@ namespace Pryamolineynost
             // 
             namePanel.BorderStyle = BorderStyle.FixedSingle;
             namePanel.Controls.Add(nameLabel);
-            namePanel.Controls.Add(dateTimePicker1);
             namePanel.Controls.Add(nameComboBox);
             namePanel.Location = new Point(8, 49);
             namePanel.Name = "namePanel";
             namePanel.Size = new Size(527, 31);
             namePanel.TabIndex = 16;
             // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker1.Location = new Point(729, 3);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(251, 23);
-            dateTimePicker1.TabIndex = 0;
-            // 
             // fioPanel
             // 
             fioPanel.BorderStyle = BorderStyle.FixedSingle;
-            fioPanel.Controls.Add(dateTimePicker2);
             fioPanel.Controls.Add(fioComboBox);
             fioPanel.Controls.Add(fioLabel);
             fioPanel.Location = new Point(8, 123);
@@ -265,19 +246,10 @@ namespace Pryamolineynost
             fioPanel.Size = new Size(527, 31);
             fioPanel.TabIndex = 17;
             // 
-            // dateTimePicker2
-            // 
-            dateTimePicker2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker2.Location = new Point(729, 3);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(251, 23);
-            dateTimePicker2.TabIndex = 0;
-            // 
             // maxDeviationPanel
             // 
             maxDeviationPanel.BorderStyle = BorderStyle.FixedSingle;
             maxDeviationPanel.Controls.Add(maxDeviationTextBox);
-            maxDeviationPanel.Controls.Add(dateTimePicker3);
             maxDeviationPanel.Controls.Add(maxDeviationLabel);
             maxDeviationPanel.Location = new Point(8, 160);
             maxDeviationPanel.Name = "maxDeviationPanel";
@@ -295,19 +267,10 @@ namespace Pryamolineynost
             maxDeviationTextBox.Text = "0";
             maxDeviationTextBox.TextAlign = HorizontalAlignment.Right;
             // 
-            // dateTimePicker3
-            // 
-            dateTimePicker3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker3.Location = new Point(729, 3);
-            dateTimePicker3.Name = "dateTimePicker3";
-            dateTimePicker3.Size = new Size(251, 23);
-            dateTimePicker3.TabIndex = 0;
-            // 
             // minDeviationPanel
             // 
             minDeviationPanel.BorderStyle = BorderStyle.FixedSingle;
             minDeviationPanel.Controls.Add(minDeviationTextBox);
-            minDeviationPanel.Controls.Add(dateTimePicker4);
             minDeviationPanel.Controls.Add(minDeviationLabel);
             minDeviationPanel.Location = new Point(8, 197);
             minDeviationPanel.Name = "minDeviationPanel";
@@ -325,19 +288,10 @@ namespace Pryamolineynost
             minDeviationTextBox.Text = "0";
             minDeviationTextBox.TextAlign = HorizontalAlignment.Right;
             // 
-            // dateTimePicker4
-            // 
-            dateTimePicker4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker4.Location = new Point(729, 3);
-            dateTimePicker4.Name = "dateTimePicker4";
-            dateTimePicker4.Size = new Size(251, 23);
-            dateTimePicker4.TabIndex = 0;
-            // 
             // verticalDeviationPanel
             // 
             verticalDeviationPanel.BorderStyle = BorderStyle.FixedSingle;
             verticalDeviationPanel.Controls.Add(verticalDeviationTextBox);
-            verticalDeviationPanel.Controls.Add(dateTimePicker5);
             verticalDeviationPanel.Controls.Add(verticalDeviationLabel);
             verticalDeviationPanel.Location = new Point(8, 234);
             verticalDeviationPanel.Name = "verticalDeviationPanel";
@@ -355,19 +309,10 @@ namespace Pryamolineynost
             verticalDeviationTextBox.Text = "0";
             verticalDeviationTextBox.TextAlign = HorizontalAlignment.Right;
             // 
-            // dateTimePicker5
-            // 
-            dateTimePicker5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker5.Location = new Point(1187, 3);
-            dateTimePicker5.Name = "dateTimePicker5";
-            dateTimePicker5.Size = new Size(251, 23);
-            dateTimePicker5.TabIndex = 0;
-            // 
             // lineDeviationPanel
             // 
             lineDeviationPanel.BorderStyle = BorderStyle.FixedSingle;
             lineDeviationPanel.Controls.Add(lineDeviationTextBox);
-            lineDeviationPanel.Controls.Add(dateTimePicker6);
             lineDeviationPanel.Controls.Add(lineDeviationLabel);
             lineDeviationPanel.Location = new Point(8, 271);
             lineDeviationPanel.Name = "lineDeviationPanel";
@@ -385,19 +330,10 @@ namespace Pryamolineynost
             lineDeviationTextBox.Text = "0";
             lineDeviationTextBox.TextAlign = HorizontalAlignment.Right;
             // 
-            // dateTimePicker6
-            // 
-            dateTimePicker6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker6.Location = new Point(1187, 3);
-            dateTimePicker6.Name = "dateTimePicker6";
-            dateTimePicker6.Size = new Size(251, 23);
-            dateTimePicker6.TabIndex = 0;
-            // 
             // tolerLenghtPanel
             // 
             tolerLenghtPanel.BorderStyle = BorderStyle.FixedSingle;
             tolerLenghtPanel.Controls.Add(tolerLenghtTextBox);
-            tolerLenghtPanel.Controls.Add(dateTimePicker7);
             tolerLenghtPanel.Controls.Add(tolerLengthLabel);
             tolerLenghtPanel.Location = new Point(8, 382);
             tolerLenghtPanel.Name = "tolerLenghtPanel";
@@ -414,19 +350,10 @@ namespace Pryamolineynost
             tolerLenghtTextBox.TextAlign = HorizontalAlignment.Right;
             tolerLenghtTextBox.TextChanged += UpdateFullTolerance;
             // 
-            // dateTimePicker7
-            // 
-            dateTimePicker7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker7.Location = new Point(1187, 3);
-            dateTimePicker7.Name = "dateTimePicker7";
-            dateTimePicker7.Size = new Size(251, 23);
-            dateTimePicker7.TabIndex = 0;
-            // 
             // tolerPerMeterPanel
             // 
             tolerPerMeterPanel.BorderStyle = BorderStyle.FixedSingle;
             tolerPerMeterPanel.Controls.Add(tolerPerMeterTextBox);
-            tolerPerMeterPanel.Controls.Add(dateTimePicker8);
             tolerPerMeterPanel.Controls.Add(tolerPerMeterLabel);
             tolerPerMeterPanel.Location = new Point(8, 419);
             tolerPerMeterPanel.Name = "tolerPerMeterPanel";
@@ -443,19 +370,10 @@ namespace Pryamolineynost
             tolerPerMeterTextBox.TextAlign = HorizontalAlignment.Right;
             tolerPerMeterTextBox.TextChanged += UpdateAdmPerMeter;
             // 
-            // dateTimePicker8
-            // 
-            dateTimePicker8.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker8.Location = new Point(1187, 3);
-            dateTimePicker8.Name = "dateTimePicker8";
-            dateTimePicker8.Size = new Size(251, 23);
-            dateTimePicker8.TabIndex = 0;
-            // 
             // stepPanel
             // 
             stepPanel.BorderStyle = BorderStyle.FixedSingle;
             stepPanel.Controls.Add(stepTextPanel);
-            stepPanel.Controls.Add(dateTimePicker9);
             stepPanel.Controls.Add(stepLabel);
             stepPanel.Location = new Point(8, 456);
             stepPanel.Name = "stepPanel";
@@ -471,14 +389,6 @@ namespace Pryamolineynost
             stepTextPanel.Text = "0";
             stepTextPanel.TextAlign = HorizontalAlignment.Right;
             stepTextPanel.TextChanged += UpdateStep;
-            // 
-            // dateTimePicker9
-            // 
-            dateTimePicker9.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dateTimePicker9.Location = new Point(1187, 3);
-            dateTimePicker9.Name = "dateTimePicker9";
-            dateTimePicker9.Size = new Size(251, 23);
-            dateTimePicker9.TabIndex = 0;
             // 
             // graphicButton
             // 
@@ -705,23 +615,14 @@ namespace Pryamolineynost
         private Label stepLabel;
         private Panel datePanel;
         private Panel namePanel;
-        private DateTimePicker dateTimePicker1;
         private Panel fioPanel;
-        private DateTimePicker dateTimePicker2;
         private Panel maxDeviationPanel;
-        private DateTimePicker dateTimePicker3;
         private Panel minDeviationPanel;
-        private DateTimePicker dateTimePicker4;
         private Panel verticalDeviationPanel;
-        private DateTimePicker dateTimePicker5;
         private Panel lineDeviationPanel;
-        private DateTimePicker dateTimePicker6;
         private Panel tolerLenghtPanel;
-        private DateTimePicker dateTimePicker7;
         private Panel tolerPerMeterPanel;
-        private DateTimePicker dateTimePicker8;
         private Panel stepPanel;
-        private DateTimePicker dateTimePicker9;
         private Button graphicButton;
         private Button savePdfButton;
         private Button exitButton;
