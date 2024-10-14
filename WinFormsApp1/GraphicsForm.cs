@@ -1,4 +1,5 @@
-﻿using OxyPlot;
+﻿using LogicLibrary;
+using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Legends;
 using OxyPlot.Series;
@@ -7,9 +8,9 @@ namespace Pryamolineynost
 {
     public partial class GraphicsForm : Form
     {
-        Db db;
+        DB db;
         MainForm mainForm;
-        public GraphicsForm(Db db, MainForm mainForm)
+        public GraphicsForm(DB db, MainForm mainForm)
         {
             this.db = db;
             this.mainForm = mainForm;

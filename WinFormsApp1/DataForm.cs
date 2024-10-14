@@ -1,12 +1,13 @@
-﻿namespace Pryamolineynost;
+﻿using LogicLibrary;
+namespace Pryamolineynost;
 
 public partial class DataForm : Form
 {
-    private Db db;
+    private DB db;
     private MainForm mainForm;
     private readonly GraphicsForm _graphicsForm;
 
-    public DataForm(Db db, MainForm parrentForm, GraphicsForm graphicsForm)
+    public DataForm(DB db, MainForm parrentForm, GraphicsForm graphicsForm)
     {
         this.db = db;
         mainForm = parrentForm;
@@ -14,7 +15,7 @@ public partial class DataForm : Form
         InitializeComponent();
     }
 
-    public void ReloadDataForm(Db db, MainForm parrentForm)
+    public void ReloadDataForm(DB db, MainForm parrentForm)
     {
         this.db = db;
         mainForm = parrentForm;
@@ -49,7 +50,7 @@ public partial class DataForm : Form
 
         for (var i = 0; i < db.DataList.Count; i++)
         {
-            var row = db.GetDataRow(i);
+            var row = db.DataList[i];
             for (var cellNumber = 0; cellNumber < dataGrid.ColumnCount - 2; cellNumber++)
             {
                 dataGrid.Rows[i].Cells[cellNumber].Style.BackColor = Color.WhiteSmoke;

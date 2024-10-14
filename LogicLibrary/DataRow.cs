@@ -1,4 +1,4 @@
-﻿namespace Pryamolineynost;
+﻿namespace LogicLibrary;
 
 public class DataRow
 {

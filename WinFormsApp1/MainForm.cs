@@ -1,26 +1,27 @@
 using System.Globalization;
 using System.Text.Json;
+using LogicLibrary;
 
 
 namespace Pryamolineynost;
 
 public partial class MainForm : Form
 {
-    private Db _dB;
+    private DB _dB;
     private DataForm _dataForm;
     private GraphicsForm _graphicsForm;
 
     enum FileFormat
     {
-        JSON,
-        PDF
+        Json,
+        Pdf
     }
 
     public MainForm()
     {
         InitializeComponent();
-        _dB = new Db() { Description="", Name="", Fio=""};
-        _dataForm = new DataForm(_dB, this, graphicsForm: _graphicsForm);
+        _dB = new DB() { Description="", Name="", Fio=""};
+        _dataForm = new DataForm(_dB, this, _graphicsForm);
         stepTextPanel.Text = _dB.GetMeasurementStep().ToString();
         _graphicsForm = new GraphicsForm(_dB, this);
     }
@@ -130,7 +131,7 @@ public partial class MainForm : Form
 
     private async void SaveButton_Click(object sender, EventArgs e)
     {
-        var filename = GetSaveFileName(FileFormat.JSON);
+        var filename = GetSaveFileName(FileFormat.Json);
 
         if (filename != "")
         {
@@ -151,11 +152,11 @@ public partial class MainForm : Form
 
         switch (format)
         {
-            case FileFormat.PDF:
+            case FileFormat.Pdf:
                 saveFileDialog.Filter = @"PDF|*.pdf";
                 saveFileDialog.Title = @"Select PDF file";
                 break;
-            case FileFormat.JSON:
+            case FileFormat.Json:
                 saveFileDialog.Filter = @"JSON|*.json";
                 saveFileDialog.Title = @"Select JSON file";
                 break;
@@ -180,7 +181,7 @@ public partial class MainForm : Form
         {
             var reader = new StreamReader(openFileDialog.OpenFile());
             var data = await reader.ReadToEndAsync();
-            Db? newDb = JsonSerializer.Deserialize<Db>(data) ?? new Db() { Description="" , Name="", Fio=""}; //TODO Нужно сделать проверку на правлиьность файла и данных в нем
+            DB? newDb = JsonSerializer.Deserialize<DB>(data) ?? new DB() { Description="" , Name="", Fio=""};
             _dB = newDb;
             _dB.UpdateAllRows();
             UpdateAllFields();
@@ -203,7 +204,7 @@ public partial class MainForm : Form
            _dB.GetPrintStrings().dataListValues, 
            new GraphicsForm(_dB, this).GetPlotModel());
 
-        var fileName = GetSaveFileName(FileFormat.PDF);
+        var fileName = GetSaveFileName(FileFormat.Pdf);
         document.Save(fileName);
     }
 }

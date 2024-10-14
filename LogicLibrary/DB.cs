@@ -1,8 +1,6 @@
-﻿using System.Globalization;
+﻿namespace LogicLibrary;
 
-namespace Pryamolineynost;
-
-public class Db
+public class DB
 {
     public DateTime Date { get; set; } //Дата
     public required string Name { get; set; } //Наименование
@@ -10,8 +8,8 @@ public class Db
     public required string Fio { get; set; } //Измерения произвел
     private decimal _minDeviation; //Наибольшее отклонение, мкм
     private decimal _maxDeviation; //Наименьшее отклонение, мкм
-    private decimal _verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - //TODO Нет индикации выхода за пределы
-    private decimal _meterDeflection; //TODO Отклонение от прямолинейности на 1 метр, мкм - //TODO Нет индикации выхода за пределы
+    private decimal _verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
+    private decimal _meterDeflection; //Отклонение от прямолинейности на 1 метр, мкм -
     public int FullTolerance { get; set; } //Допуск на всю длину, мкм -
     public int MeterTolerance { get; set; } //Допуск на 1 метр, мкм -
     private int _localAreaLength = 0; //Локальный участок, мм
@@ -79,18 +77,12 @@ public class Db
         return DataList;
     }
 
-    public DataRow GetDataRow(int index)
-    {
-        return DataList[index];
-    }
-
     public DataRow GetLastDataRow()
     {
         return DataList[^1];
     }
 
-
-    public Db()
+    public DB()
     {
         _maxDeviation = 0;
         DataList = [];
@@ -100,7 +92,7 @@ public class Db
         DataList.Add(new DataRow());
     }
 
-    //public Db(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance,
+    //public DB(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance,
     //    int step, List<DataRow> dataList, decimal maxDeviation)
     //{
     //    Date = datetime;
@@ -116,7 +108,6 @@ public class Db
     //    UpdateAllRows();
     //}
 
-
     public void UpdateStepsPerMeter(int stepsLength)
     {
         if (stepsLength != 0)
@@ -125,7 +116,6 @@ public class Db
             _localAreaLength = 1000 / stepsLength * stepsLength;
         }
     }
-
 
     private void UpdateProgramFactors()
     {
@@ -164,7 +154,6 @@ public class Db
             var factProfile = DataList[i].GetFStroke() * Step / 1000 + factProfileList[i - startIndex];
             factProfileList.Add(factProfile);
         }
-
 
         var lastProfileKoef = factProfileList[^1] / lengthOnMeter[^1];
         var listDeviations = new List<decimal>() { 0 };
@@ -277,7 +266,7 @@ public class Db
         UpdateMeterDeflection();
         UpdateBedLenth();
 
-        // TODO Не работает если не посчитаны program factors
+        //TODO Не работает если не посчитаны program factors
         //UpdateProgramFactors();
         //_maxDeviation = 0;
         //_minDeviation = 0;
