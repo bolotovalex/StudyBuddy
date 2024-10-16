@@ -242,12 +242,21 @@ public class DB
 
     public void UpdateMeterDeflectionAllDataList()
     {
+        
+        //for (var i = DataList.Count - 1; i >= 0; i--)
+        //{
+
+        //}
         for (var i = 1; i < DataList.Count; i++)
         {
             var index = i - _stepsPerMeter + 1;
             if (DataList.Count - i >= 1 && DataList.Count > _stepsPerMeter && index >= 1)
             {
                 DataList[index].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
+            }
+            if (DataList.Count - i < _stepsPerMeter)
+            {
+                DataList[i].SetDeviationPerMeter(0);
             }
                 
         }
