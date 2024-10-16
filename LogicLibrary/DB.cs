@@ -246,7 +246,10 @@ public class DB
         {
             var index = i - _stepsPerMeter + 1;
             if (DataList.Count - i >= 1 && DataList.Count > _stepsPerMeter && index >= 1)
+            {
                 DataList[index].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
+            }
+                
         }
     }
 

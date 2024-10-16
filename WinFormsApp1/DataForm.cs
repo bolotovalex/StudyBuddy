@@ -74,11 +74,11 @@ public partial class DataForm : Form
 
     private void DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
-        object? cellValue = dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value ?? "0";
-        var value = int.Parse(cellValue.ToString());
+        object? cellValue = dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value ?? "";
         
-        if (cellValue != null)
+        if (cellValue != "")
         {
+            var value = int.Parse(cellValue.ToString());
             if (e.RowIndex == db.GetDataList().Count)
                 switch (e.ColumnIndex)
                 {
@@ -105,12 +105,30 @@ public partial class DataForm : Form
             switch (e.ColumnIndex)
             {
                 case 7:
-                    db.UpdateFStrokeRow(e.RowIndex, int.MinValue);
+                    if (this.db.DataList[e.RowIndex].RevStroke == int.MinValue)
+                    {
+                        this.db.DataList.RemoveAt(e.RowIndex);
+                        dataGrid.Rows.RemoveAt(e.RowIndex);
+                    }
+                    else
+                    {
+                        db.UpdateFStrokeRow(e.RowIndex, int.MinValue);
+                        dataGrid.Rows.RemoveAt(e.RowIndex);
+                    }
                     break;
                 case 8:
-                    db.UpdateRevStrokeRow(e.RowIndex, int.MinValue);
+                    if (this.db.DataList[e.RowIndex].FStroke == int.MinValue)
+                    {
+                        this.db.DataList.RemoveAt(e.RowIndex);
+                    }
+                    else
+                    {
+                        db.UpdateRevStrokeRow(e.RowIndex, int.MinValue);
+                    }
                     break;
             }
+            this.db.UpdateAllRows();
+            
         }
 
         UpdateForm(sender, e);
