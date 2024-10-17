@@ -19,6 +19,7 @@ public class DB
     private decimal _programFactor2; //Программный коэффициент
     public List<DataRow> DataList { get; set; } //Таблица измерений
     private int _stepsPerMeter;
+    public bool RevStrokeEnbled = false;
 
 
     public void UpdateDateTime()
@@ -131,7 +132,7 @@ public class DB
     {
         var row = new DataRow();
         var prevRow = DataList[^1];
-        row.UpdateRow(fStroke, revStroke, Step, prevRow);
+        row.UpdateRow(fStroke, revStroke, Step, prevRow, RevStrokeEnbled);
         DataList.Add(row);
         UpdateProgramFactors();
         row.UpdateAdjStraight(_programFactor1, _programFactor2);
@@ -213,7 +214,7 @@ public class DB
             var selRow = DataList[i];
             var prevRow = DataList[i - 1];
 
-            selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), Step, prevRow);
+            selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), Step, prevRow, RevStrokeEnbled);
         }
     }
 
@@ -312,7 +313,7 @@ public class DB
     {
         if (index > 0)
         {
-            DataList[index].UpdateRow(value, DataList[index].GetRevStroke(), Step, DataList[index - 1]);
+            DataList[index].UpdateRow(value, DataList[index].GetRevStroke(), Step, DataList[index - 1], RevStrokeEnbled);
             UpdateAllRows();
         }
     }
@@ -321,7 +322,7 @@ public class DB
     {
         if (index > 0)
         {
-            DataList[index].UpdateRow(DataList[index].GetFStroke(), value, Step, DataList[index - 1]);
+            DataList[index].UpdateRow(DataList[index].GetFStroke(), value, Step, DataList[index - 1], RevStrokeEnbled);
             UpdateAllRows();
         }
     }

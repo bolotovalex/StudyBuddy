@@ -37,12 +37,12 @@ public class DataRow
     }
 
 
-    public void UpdateRow(decimal FStroke, decimal RevStroke, int step, DataRow prevDataRow)
+    public void UpdateRow(decimal FStroke, decimal RevStroke, int step, DataRow prevDataRow, bool revStrokeEnabled)
     {
         this.FStroke = FStroke;
         this.RevStroke = RevStroke;
         Position = prevDataRow.GetLength() + step;
-        MidValue = this.RevStroke == int.MinValue ? this.FStroke : (this.RevStroke + this.FStroke) / 2;
+        MidValue = this.RevStroke == int.MinValue || !revStrokeEnabled ? this.FStroke : (this.RevStroke + this.FStroke) / 2;
         FactCheckedProfileLength = MidValue * step / 1000 + prevDataRow.GetFactProfileLength();
     }
 

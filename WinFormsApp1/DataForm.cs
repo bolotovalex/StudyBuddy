@@ -75,7 +75,7 @@ public partial class DataForm : Form
     private void DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
         object? cellValue = dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value ?? "";
-        
+
         if (cellValue != "")
         {
             var value = int.Parse(cellValue.ToString());
@@ -128,7 +128,7 @@ public partial class DataForm : Form
                     break;
             }
             this.db.UpdateAllRows();
-            
+
         }
 
         UpdateForm(sender, e);
@@ -149,5 +149,23 @@ public partial class DataForm : Form
         mainForm.UpdateAllFields();
         UpdateForm(sender, e);
         _graphicsForm.UpdatePlot();
+    }
+
+    private void revStrokeCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        if (revStrokeCheckBox.Checked)
+        {
+            db.RevStrokeEnbled = true;
+            dataGrid.Columns[6].Visible = true;
+            dataGrid.Columns[8].Visible = true;
+        }
+        else
+        {
+            db.RevStrokeEnbled = false;
+            dataGrid.Columns[6].Visible = false;
+            dataGrid.Columns[8].Visible = false;
+        }
+
+        db.UpdateAllRows();
     }
 }
