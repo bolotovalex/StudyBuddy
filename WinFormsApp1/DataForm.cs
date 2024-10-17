@@ -70,6 +70,19 @@ public partial class DataForm : Form
             else
                 dataGrid.Rows[i].Cells[5].Style.BackColor = Color.LightGray;
         }
+
+        if (db.RevStrokeEnbled)
+        {
+            dataGrid.Columns[6].Visible = true;
+            dataGrid.Columns[8].Visible = true;
+            revStrokeCheckBox.Checked = true;
+        }
+        else
+        {
+            dataGrid.Columns[6].Visible = false;
+            dataGrid.Columns[8].Visible = false;
+            revStrokeCheckBox.Checked = false;
+        }
     }
 
     private void DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
