@@ -359,7 +359,7 @@ public class DB
     public (string[][] dbValues, string[][] dataListValues) GetPrintStrings()
     {
         string[][] dbValues = [
-            [ "Дата", Date.Date.ToString() ],
+            [ "Дата", Date.ToString().Split(" ")[0]],
             [ "Наименование", Name ],
             [ "Обозначение", Description ],
             [ "Измерения произвел",Fio ],
