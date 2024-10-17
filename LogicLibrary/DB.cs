@@ -348,10 +348,10 @@ public class DB
             ( "Наименьшее отклонение", _minDeviation ),
             ( "Отклонение от прямолинейности в вертикальной плоскости, мкм", _verticalDeflection ),
             ( "Отклонение от прямолинейности на 1 метр, мкм",  _meterDeflection ),
-            ( "Допуск на всю длину, мкм",  FullTolerance ),
+            ( "Допуск на всю длину измерения, мкм",  FullTolerance ),
             ( "Допуск на 1 метр (или локальный), мкм",  MeterTolerance ),
             ( "Локальный участок, мм",  _localAreaLength ),
-            ( "Длина станины, мм",  _bedAreaLength ),
+            ( "Длина измерения, мм",  _bedAreaLength ),
             ( "Шаг измерения (расстояние между опорами мостика), мм", Step)
         ];
     }
@@ -359,7 +359,7 @@ public class DB
     public (string[][] dbValues, string[][] dataListValues) GetPrintStrings()
     {
         string[][] dbValues = [
-            [ "Дата", Date.ToString() ],
+            [ "Дата", Date.Date.ToString() ],
             [ "Наименование", Name ],
             [ "Обозначение", Description ],
             [ "Измерения произвел",Fio ],
@@ -367,10 +367,10 @@ public class DB
             [ "Наименьшее отклонение", Math.Round(_minDeviation, 2).ToString() ],
             [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(_verticalDeflection, 2).ToString() ],
             [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(_meterDeflection, 2).ToString() ],
-            [ "Допуск на всю длину, мкм", FullTolerance.ToString() ],
+            [ "Допуск на всю длину измерения, мкм", FullTolerance.ToString() ],
             [ "Допуск на 1 метр (или локальный), мкм", MeterTolerance.ToString() ],
             [ "Локальный участок, мм", _localAreaLength.ToString() ],
-            [ "Длина станины, мм", _bedAreaLength.ToString() ],
+            [ "Длина измерения, мм", _bedAreaLength.ToString() ],
             [ "Шаг измерения (расстояние между опорами мостика), мм", Step.ToString() ]];
 
         var dataListValues = new string[DataList.Count + 1][];
