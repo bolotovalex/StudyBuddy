@@ -141,11 +141,14 @@ public class DB
 
     private decimal GetMaxDeviationPerMeterForStep(int maxIndex)
     {
-        var startIndex = maxIndex - _stepsPerMeter + 1;
-        var lengthOnMeter = new List<decimal>() { };
-        for (var length = 0; length <= 1000; length += 1000 / _stepsPerMeter)
-            lengthOnMeter.Add(length);
+        //Нужно для расчета при шаге более 500мм
+        var delimeter = _stepsPerMeter >= 2 ? _stepsPerMeter : 2; 
 
+        var startIndex = maxIndex - delimeter + 1;
+        var lengthOnMeter = new List<decimal>() { };
+        
+        for (var length = 0; length <= 1000; length += 1000 / delimeter)
+            lengthOnMeter.Add(length);
 
         var factProfileList = new List<decimal>() { 0 };
 
@@ -155,7 +158,7 @@ public class DB
             factProfileList.Add(factProfile);
         }
 
-        var lastProfileKoef = factProfileList[^1] / lengthOnMeter[^1];
+        var coefficient = factProfileList[^1] / lengthOnMeter[^1];
         var listDeviations = new List<decimal>() { 0 };
         decimal maxDeviation = 0;
         decimal minDeviation = 0;
@@ -163,8 +166,8 @@ public class DB
         for (var i = startIndex; i < DataList.Count && i <= maxIndex; i++)
         {
             var prilPryamaya =
-                lastProfileKoef * lengthOnMeter[i - startIndex + 1] +
-                0; //TODO в документе указано ссылка на T15, но она пустая.
+                coefficient * lengthOnMeter[i - startIndex + 1] +
+                0; //TODO в документе указано ссылка на T15, но она пустая всегда.
 
             var deviation = factProfileList[i - startIndex + 1] - prilPryamaya;
             listDeviations.Add(deviation);
