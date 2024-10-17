@@ -93,22 +93,6 @@ public class DB
         DataList.Add(new DataRow());
     }
 
-    //public DB(DateTime datetime, string name, string description, string fio, int fullTolearance, int meterTolerance,
-    //    int step, List<DataRow> dataList, decimal maxDeviation)
-    //{
-    //    Date = datetime;
-    //    Name = name;
-    //    Description = description;
-    //    Fio = fio;
-    //    FullTolerance = fullTolearance;
-    //    MeterTolerance = meterTolerance;
-    //    Step = step;
-    //    DataList = dataList;
-    //    _maxDeviation = maxDeviation;
-    //    UpdateStepsPerMeter(Step);
-    //    UpdateAllRows();
-    //}
-
     public void UpdateStepsPerMeter(int stepsLength)
     {
         if (stepsLength != 0)
@@ -155,7 +139,7 @@ public class DB
 
         for (var i = startIndex; i < DataList.Count && i <= maxIndex; i++)
         {
-            var factProfile = DataList[i].GetFStroke() * Step / 1000 + factProfileList[i - startIndex];
+            var factProfile = DataList[i].GetMidValue() * Step / 1000 + factProfileList[i - startIndex];
             factProfileList.Add(factProfile);
         }
 
@@ -246,11 +230,6 @@ public class DB
 
     public void UpdateMeterDeflectionAllDataList()
     {
-        
-        //for (var i = DataList.Count - 1; i >= 0; i--)
-        //{
-
-        //}
         for (var i = 1; i < DataList.Count; i++)
         {
             var index = i - _stepsPerMeter + 1;

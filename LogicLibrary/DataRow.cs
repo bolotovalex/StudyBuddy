@@ -42,7 +42,7 @@ public class DataRow
         this.FStroke = FStroke;
         this.RevStroke = RevStroke;
         Position = prevDataRow.GetLength() + step;
-        MidValue = this.RevStroke == int.MinValue || !revStrokeEnabled ? this.FStroke : (this.RevStroke + this.FStroke) / 2;
+        MidValue = this.RevStroke != int.MinValue && revStrokeEnabled ? (this.RevStroke + this.FStroke) / 2 : this.FStroke;
         FactCheckedProfileLength = MidValue * step / 1000 + prevDataRow.GetFactProfileLength();
     }
 

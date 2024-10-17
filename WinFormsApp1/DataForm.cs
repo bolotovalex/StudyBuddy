@@ -167,5 +167,7 @@ public partial class DataForm : Form
         }
 
         db.UpdateAllRows();
+        UpdateForm(sender, e);
+        mainForm.UpdateAllFields() ;
     }
 }
