@@ -73,6 +73,7 @@ public partial class MainForm : Form
 
     private void FillDataFormButton_Click(object sender, EventArgs e)
     {
+        _dataForm.Dispose();
         _dataForm = new DataForm(_dB, this, _graphicsForm);
         _dataForm.Show();
     }
@@ -189,19 +190,22 @@ public partial class MainForm : Form
 
     private void GraphicButton_Click(object sender, EventArgs e)
     {
+        _graphicsForm.Dispose();
         _graphicsForm = new GraphicsForm(_dB, this);
         _graphicsForm.Show();
     }
 
     private void SavePdfButton_Click(object sender, EventArgs e)
     {
-        var document = PdfService.CreateDocument(
-            _dB.GetPrintStrings().dbValues,
-           _dB.GetPrintStrings().dataListValues,
-           new GraphicsForm(_dB, this).GetPlotModel());
-
         var fileName = GetSaveFileName(FileFormat.Pdf);
-        document.Save(fileName);
+        if (fileName != "")
+        {
+            var document = PdfService.CreateDocument(
+                _dB.GetPrintStrings().dbValues,
+                _dB.GetPrintStrings().dataListValues,
+                new GraphicsForm(_dB, this).GetPlotModel());
+            document.Save(fileName);
+        }
     }
 
     private void dateTimePicker_DropDown(object sender, EventArgs e)
