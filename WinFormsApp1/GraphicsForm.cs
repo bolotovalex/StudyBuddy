@@ -38,13 +38,16 @@ namespace Pryamolineynost
         }
         public void BuildGraphic(PlotModel plotModel)
         {
-            //plotView1.Dock = DockStyle.Fill;
+            plotView1.Dock = DockStyle.Fill;
             var xAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom, // Ось внизу
                 Title = "Длина измерения, мм", // Подпись для оси X
+                MajorStep = db.Step, //Задаем шаг на оси y
+                //MinorStep = db.Step,
                 MajorGridlineStyle = LineStyle.Solid, // Основная сетка
-                MinorGridlineStyle = LineStyle.Dot // Вспомогательная сетка
+                MinorGridlineStyle = LineStyle.Dot, // Вспомогательная сетка
+                
             };
 
             var yAxis = new LinearAxis
@@ -54,6 +57,7 @@ namespace Pryamolineynost
                 MajorGridlineStyle = LineStyle.Solid, // Основная сетка
                 MinorGridlineStyle = LineStyle.Dot // Вспомогательная сетка
             };
+
 
             plotModel.Axes.Add(xAxis);
             plotModel.Axes.Add(yAxis);
