@@ -50,7 +50,7 @@ namespace Pryamolineynost
             var yAxis = new LinearAxis
             {
                 Position = AxisPosition.Left, //Ось слева
-                Title = "Показания электронного уровня, мкм", //Подпись оси слева
+                Title = "Показания уровня, мкм", //Подпись оси слева
                 MajorGridlineStyle = LineStyle.Solid, // Основная сетка
                 MinorGridlineStyle = LineStyle.Dot // Вспомогательная сетка
             };
