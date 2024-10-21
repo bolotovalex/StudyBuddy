@@ -167,8 +167,6 @@ public partial class MainForm : Form
 
     private async void LoadFileButton_Click(object sender, EventArgs e)
     {
-        _dataForm.Close();
-        _graphicsForm.Close();
         var openFileDialog = new OpenFileDialog
         {
             Filter = @"Json|*.json",
@@ -177,6 +175,10 @@ public partial class MainForm : Form
         openFileDialog.ShowDialog();
         if (openFileDialog.FileName != "")
         {
+            _dataForm.Close();
+            _graphicsForm.Close();
+            //_dataForm.Close();
+            //_graphicsForm.Close();
             var reader = new StreamReader(openFileDialog.OpenFile());
             var data = await reader.ReadToEndAsync();
             DB? newDb = JsonSerializer.Deserialize<DB>(data) ?? new DB() { Description = "", Name = "", Fio = "" };

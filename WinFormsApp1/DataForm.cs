@@ -33,6 +33,9 @@ public partial class DataForm : Form
     public void DataForm_Load(object sender, EventArgs e)
     {
         dataGrid.Rows.Clear();
+        if (dataGrid.Columns.Count == 0) 
+            InitializeComponent();
+        
         dataGrid.Rows.Add();
         UpdateForm(sender, e);
     }
