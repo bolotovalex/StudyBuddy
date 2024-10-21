@@ -22,7 +22,7 @@ public partial class MainForm : Form
         InitializeComponent();
         _dB = new DB() { Description = "", Name = "", Fio = "" };
         _dataForm = new DataForm(_dB, this, _graphicsForm);
-        stepTextPanel.Text = _dB.GetMeasurementStep().ToString();
+        stepTextBox.Text = _dB.GetMeasurementStep().ToString();
         _graphicsForm = new GraphicsForm(_dB, this);
     }
 
@@ -46,7 +46,7 @@ public partial class MainForm : Form
 
     private void UpdateStep(object sender, EventArgs e)
     {
-        _dB.SetMeasurementStep(CheckTextBoxIntValue(stepTextPanel));
+        _dB.SetMeasurementStep(CheckTextBoxIntValue(stepTextBox));
         _dB.UpdateStepsPerMeter(_dB.GetMeasurementStep());
         _dB.UpdateAllRows();
         _dataForm.DataForm_Load(sender, e);
@@ -95,6 +95,7 @@ public partial class MainForm : Form
         bedLengthTextBox.Text = _dB.GetLastDataRow().GetLength().ToString();
         tolerLenghtTextBox.Text = _dB.GetFullTolerance().ToString(CultureInfo.InvariantCulture);
         tolerPerMeterTextBox.Text = _dB.GetMeterTolerance().ToString(CultureInfo.InvariantCulture);
+        stepTextBox.Text = _dB.Step.ToString();
 
         if (InTolearance(_dB.GetVerticalDeflection(), _dB.GetFullTolerance()))
         {

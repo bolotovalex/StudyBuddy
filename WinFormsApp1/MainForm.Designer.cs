@@ -62,7 +62,7 @@ namespace Pryamolineynost
             tolerPerMeterPanel = new Panel();
             tolerPerMeterTextBox = new TextBox();
             stepPanel = new Panel();
-            stepTextPanel = new TextBox();
+            stepTextBox = new TextBox();
             graphicButton = new Button();
             savePdfButton = new Button();
             exitButton = new Button();
@@ -373,22 +373,22 @@ namespace Pryamolineynost
             // stepPanel
             // 
             stepPanel.BorderStyle = BorderStyle.FixedSingle;
-            stepPanel.Controls.Add(stepTextPanel);
+            stepPanel.Controls.Add(stepTextBox);
             stepPanel.Controls.Add(stepLabel);
             stepPanel.Location = new Point(8, 456);
             stepPanel.Name = "stepPanel";
             stepPanel.Size = new Size(527, 31);
             stepPanel.TabIndex = 24;
             // 
-            // stepTextPanel
+            // stepTextBox
             // 
-            stepTextPanel.Location = new Point(390, 3);
-            stepTextPanel.Name = "stepTextPanel";
-            stepTextPanel.Size = new Size(132, 23);
-            stepTextPanel.TabIndex = 13;
-            stepTextPanel.Text = "0";
-            stepTextPanel.TextAlign = HorizontalAlignment.Right;
-            stepTextPanel.TextChanged += UpdateStep;
+            stepTextBox.Location = new Point(390, 3);
+            stepTextBox.Name = "stepTextBox";
+            stepTextBox.Size = new Size(132, 23);
+            stepTextBox.TabIndex = 13;
+            stepTextBox.Text = "0";
+            stepTextBox.TextAlign = HorizontalAlignment.Right;
+            stepTextBox.TextChanged += UpdateStep;
             // 
             // graphicButton
             // 
@@ -631,7 +631,7 @@ namespace Pryamolineynost
         private TextBox verticalDeviationTextBox;
         private TextBox tolerLenghtTextBox;
         private TextBox tolerPerMeterTextBox;
-        private TextBox stepTextPanel;
+        private TextBox stepTextBox;
         private Button loadFileButton;
         private Button saveButton;
         private DateTime dateTime;
