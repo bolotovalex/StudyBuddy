@@ -18,6 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LogicLibrary\LogicLibrary.csproj" />
+    <ProjectReference Include="..\LogicLibrary\Model.csproj" />
   </ItemGroup>
 </Project>
