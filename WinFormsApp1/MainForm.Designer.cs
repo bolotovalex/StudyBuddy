@@ -485,7 +485,7 @@ namespace Pryamolineynost
             localAreaPanel.BorderStyle = BorderStyle.FixedSingle;
             localAreaPanel.Controls.Add(localAreaTextBox);
             localAreaPanel.Controls.Add(localAreaLabel);
-            localAreaPanel.Location = new Point(8, 308);
+            localAreaPanel.Location = new Point(8, 345);
             localAreaPanel.Name = "localAreaPanel";
             localAreaPanel.Size = new Size(527, 31);
             localAreaPanel.TabIndex = 33;
@@ -495,11 +495,11 @@ namespace Pryamolineynost
             localAreaTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             localAreaTextBox.Location = new Point(390, 3);
             localAreaTextBox.Name = "localAreaTextBox";
-            localAreaTextBox.ReadOnly = true;
             localAreaTextBox.Size = new Size(132, 23);
             localAreaTextBox.TabIndex = 1;
             localAreaTextBox.Text = "0";
             localAreaTextBox.TextAlign = HorizontalAlignment.Right;
+            localAreaTextBox.TextChanged += localAreaTextBox_TextChanged;
             // 
             // localAreaLabel
             // 
@@ -515,7 +515,7 @@ namespace Pryamolineynost
             bedPanelLength.BorderStyle = BorderStyle.FixedSingle;
             bedPanelLength.Controls.Add(bedLengthTextBox);
             bedPanelLength.Controls.Add(bedLengthLabel);
-            bedPanelLength.Location = new Point(8, 345);
+            bedPanelLength.Location = new Point(8, 308);
             bedPanelLength.Name = "bedPanelLength";
             bedPanelLength.Size = new Size(527, 31);
             bedPanelLength.TabIndex = 34;

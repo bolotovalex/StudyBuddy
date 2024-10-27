@@ -215,4 +215,9 @@ public partial class MainForm : Form
     {
         _dB.Date = dateTimePicker.Value.Date;
     }
+
+    private void localAreaTextBox_TextChanged(object sender, EventArgs e)
+    {
+
+    }
 }
