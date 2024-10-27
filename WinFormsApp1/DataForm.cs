@@ -91,10 +91,11 @@ public partial class DataForm : Form
     private void DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
         object? cellValue = dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value ?? "";
-
+        int value;
+        
         if (cellValue != "")
         {
-            var value = int.Parse(cellValue.ToString());
+            int.TryParse(cellValue.ToString(), out value);
             if (e.RowIndex == db.GetDataList().Count)
                 switch (e.ColumnIndex)
                 {
