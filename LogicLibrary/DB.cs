@@ -66,6 +66,7 @@ public class DB
     public void SetMeasurementStep(int measurementStep)
     {
         Step = measurementStep;
+        CalculateLocalAreaStepCount();
     }
 
     public int GetMeasurementStep()
@@ -250,6 +251,28 @@ public class DB
         _bedAreaLength = GetLastDataRow().GetLength();
     }
 
+    //public void CalculateLocalAreaStepCount()
+    //{
+    //    var AllSteps = new List<DataRow>();
+    //    for (var i = 0; i < _bedAreaLength; i+=10)
+    //    {
+
+    //    }
+    //}
+
+    public List<DataRow> GetIncludeSteps(int startPos, int endPos)
+    {
+        var includedSteps = new List<DataRow>();
+        foreach (var step in DataList) 
+        {
+            if (step.GetLength() >= startPos && step.GetLength() <= endPos)
+            {
+                includedSteps.Add(step);
+            }
+        }
+        return includedSteps;
+    }
+
     public void UpdateAllRows()
     {
         //TODO Не оптимально. Множественные проходы. Нужно оптимизировать, но набор данных не большой. Пока сделано, чтобы считалось так-же как в excel
@@ -260,6 +283,7 @@ public class DB
         UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
         UpdateBedLenth();
+        CalculateLocalAreaStepCount();
         
 
         //TODO Не работает если не посчитаны program factors

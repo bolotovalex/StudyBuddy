@@ -218,6 +218,6 @@ public partial class MainForm : Form
 
     private void localAreaTextBox_TextChanged(object sender, EventArgs e)
     {
-
+        _dB.CalculateLocalAreaStepCount();
     }
 }
