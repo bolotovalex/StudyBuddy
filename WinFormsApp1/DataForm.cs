@@ -71,7 +71,7 @@ public partial class DataForm : Form
             if (Math.Round(row.GetDeviationPerMeter(), 2) > this.db.GetMeterTolerance())
                 dataGrid.Rows[i].Cells[5].Style.BackColor = Color.LightCoral;
             else
-                dataGrid.Rows[i].Cells[5].Style.BackColor = Color.LightGray;
+                dataGrid.Rows[i].Cells[5].Style.BackColor = SystemColors.Control;
         }
 
         if (db.RevStrokeEnbled)

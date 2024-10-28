@@ -100,7 +100,7 @@ public partial class MainForm : Form
         if (InTolearance(_dB.GetVerticalDeflection(), _dB.GetFullTolerance()))
         {
             verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
-            verticalDeviationTextBox.BackColor = Color.White;
+            verticalDeviationTextBox.BackColor = SystemColors.Control;
         }
         else
         {
@@ -113,7 +113,7 @@ public partial class MainForm : Form
         if (InTolearance(_dB.GetMeterDeflection(), _dB.GetMeterTolerance()))
         {
             lineDeviationTextBox.Text = GetSrting(_dB.GetMeterDeflection());
-            lineDeviationTextBox.BackColor = Color.White;
+            lineDeviationTextBox.BackColor = SystemColors.Control;
         }
         else
         {

@@ -321,7 +321,7 @@ namespace Pryamolineynost
             // 
             // lineDeviationTextBox
             // 
-            lineDeviationTextBox.BackColor = SystemColors.Control;
+            lineDeviationTextBox.BackColor = Color.FromArgb(224, 224, 224);
             lineDeviationTextBox.Location = new Point(390, 3);
             lineDeviationTextBox.Name = "lineDeviationTextBox";
             lineDeviationTextBox.ReadOnly = true;
