@@ -196,6 +196,7 @@ public partial class MainForm : Form
         _graphicsForm.Dispose();
         _graphicsForm = new GraphicsForm(_dB, this);
         _graphicsForm.Show();
+        _dB.CalculateLocalAreaDeviation(0);
     }
 
     private void SavePdfButton_Click(object sender, EventArgs e)
@@ -218,6 +219,6 @@ public partial class MainForm : Form
 
     private void localAreaTextBox_TextChanged(object sender, EventArgs e)
     {
-        _dB.CalculateLocalAreaStepCount();
+        //_dB.CalculateLocalAreaStepCount();
     }
 }
