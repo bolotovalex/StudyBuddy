@@ -71,6 +71,11 @@ public class DB
         return _localAreaLength;
     }
 
+    public void SetLocalAreaLength(int length)
+    {
+        _localAreaLength = length;
+    }
+
     public void SetMeasurementStep(int measurementStep)
     {
         Step = measurementStep;
@@ -257,10 +262,27 @@ public class DB
         _bedAreaLength = GetLastDataRow().GetLength();
     }
 
+    public int GetBedLength()
+    {
+        return _bedAreaLength;
+    }
+
     private decimal GetY(int x1, decimal y1, int x2, decimal y2, int x3)
     {
         return (x3 * y2 - x3 * y1 - x1 * y2 + x2 * y1) / (x2 - x1);
     }
+
+    private decimal GetYBetweenStepIndex(int index, int coord)
+    {
+        
+        return GetY(x1: DataList[index - 1].GetLength(),
+                    y1: DataList[index - 1].GetFactProfileLength(),
+                    x2: DataList[index].GetLength(),
+                    y2: DataList[index].GetFactProfileLength(),
+                    x3: coord);
+    }
+
+
 
     public void CalculateLocalAreaDeviation(int startPos)
     {
@@ -271,76 +293,30 @@ public class DB
         if (endX <= _bedAreaLength)
         {
             var interval = GetIntervalIndex(startX, endX);
+            var lst = new List<(int x, decimal y)>();
 
-            if (DataList[interval.startIndex].GetLength() < startX)
+            startY = DataList[interval.startIndex].GetLength() > startX 
+                ? GetYBetweenStepIndex(interval.startIndex, startX) 
+                : DataList[interval.startIndex].GetFactProfileLength();
+
+            endY = DataList[interval.endIndex].GetLength() > endX
+                ? GetYBetweenStepIndex(interval.endIndex, endX)
+                : endY = DataList[interval.endIndex].GetFactProfileLength();
+
+            lst.Add((startX, startY));
+            interval.startIndex++;
+
+            for (var i = interval.startIndex; i < interval.endIndex; i++)
             {
-                startY = GetY(
-                    x1: DataList[interval.startIndex - 1].GetLength(),
-                    y1: DataList[interval.startIndex - 1].GetFactProfileLength(),
-                    x2: DataList[interval.startIndex].GetLength(),
-                    y2: DataList[interval.startIndex].GetFactProfileLength(), 
-                    x3: startX);
-            }
-            else
-            {
-                startY = DataList[interval.startIndex].GetFactProfileLength();
+                var x = DataList[i].GetLength();
+                var y = GetY(startX, startY, endX, endY, DataList[i].GetLength());
+                lst.Add((x, y));
             }
 
-            if (DataList[interval.endIndex].GetLength() > endX) 
-            {
-                endY = GetY(
-                    x1: DataList[interval.endIndex].GetLength(),
-                    y1: DataList[interval.endIndex].GetFactProfileLength(),
-                    x2: DataList[interval.endIndex + 1].GetLength(),
-                    y2: DataList[interval.endIndex + 1].GetFactProfileLength(),
-                    x3: endX);
-            }
-            else
-            {
-                endY = DataList[interval.endIndex].GetFactProfileLength();
-            }
-            
+            lst.Add((endX, endY));
+
+            Console.WriteLine($"x1: {startX}, y1: {startY}, x2: {endX}, y2: {endY}");
         }
-        Console.WriteLine($"{ }
-        { }
-        { }
-        { }
-        startX, startY, endX, endY);
-
-
-
-        //var firstStep = 0;
-        //var secondStep = 1;
-        //var lst = new List<(int x, decimal y)>();
-
-        //if (DataList.Count > 1)
-        //{
-        //    (int x, decimal y) firstCoords = (DataList[firstStep].GetLength(), DataList[firstStep].GetFactProfileLength());
-        //    (int x, decimal y) secondCoords = (DataList[secondStep].GetLength(), DataList[secondStep].GetFactProfileLength());
-
-        //    var steps = GetIntervalIndex(0, _bedAreaLength);
-        //    for (var i = 0; i < _bedAreaLength; i += localAreaStep)
-        //    {
-        //        if (DataList[secondStep].GetLength() > i)
-        //        {
-        //            var y3 = Math.Round((i * secondCoords.y - i * firstCoords.y - firstCoords.x * secondCoords.y + secondCoords.x * firstCoords.y) / (secondCoords.x - firstCoords.x), 2);
-        //            lst.Add(new(i, y3));
-        //        }
-        //        else
-        //        {
-        //            lst.Add(new(secondCoords.x, Math.Round(secondCoords.y, 2)));
-        //            firstStep++;
-        //            secondStep++;
-        //            firstCoords = (DataList[firstStep].GetLength(), DataList[firstStep].GetFactProfileLength());
-        //            secondCoords = (DataList[secondStep].GetLength(), DataList[secondStep].GetFactProfileLength());
-        //        }
-        //    }
-
-        //}
-        //foreach (var point in lst)
-        //{
-        //    Console.WriteLine($"{point.x}: {point.y}");
-        //}
     }
 
     public (int startIndex, int endIndex) GetIntervalIndex(int startPos, int endPos)
@@ -348,7 +324,7 @@ public class DB
         var startIndexIsFind = false;
         var endIndexIsFind = false;
         var startIndex = 0;
-        var endIndex = DataList.Count;
+        var endIndex = DataList.Count - 1;
         for (var i = 0; i < DataList.Count; i++)
         {
             if (!startIndexIsFind && DataList[i].GetLength() >= startPos)
@@ -358,7 +334,7 @@ public class DB
                 continue;
             }
 
-            if (!endIndexIsFind &&  DataList[i].GetLength() > endPos)
+            if (!endIndexIsFind &&  DataList[i].GetLength() >= endPos)
             {
                 endIndex = i;
                 endIndexIsFind = true;
