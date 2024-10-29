@@ -269,7 +269,7 @@ public class DB
 
     private decimal GetY(int x1, decimal y1, int x2, decimal y2, int x3)
     {
-        return (x3 * y2 - x3 * y1 - x1 * y2 + x2 * y1) / (x2 - x1);
+        return Math.Round((x3 * y2 - x3 * y1 - x1 * y2 + x2 * y1) / (x2 - x1), 2);
     }
 
     private decimal GetYBetweenStepIndex(int index, int coord)
@@ -297,14 +297,14 @@ public class DB
 
             startY = DataList[interval.startIndex].GetLength() > startX 
                 ? GetYBetweenStepIndex(interval.startIndex, startX) 
-                : DataList[interval.startIndex].GetFactProfileLength();
+                : DataList[interval.startIndex++].GetFactProfileLength();
 
             endY = DataList[interval.endIndex].GetLength() > endX
                 ? GetYBetweenStepIndex(interval.endIndex, endX)
                 : endY = DataList[interval.endIndex].GetFactProfileLength();
 
             lst.Add((startX, startY));
-            interval.startIndex++;
+           
 
             for (var i = interval.startIndex; i < interval.endIndex; i++)
             {
@@ -315,7 +315,11 @@ public class DB
 
             lst.Add((endX, endY));
 
-            Console.WriteLine($"x1: {startX}, y1: {startY}, x2: {endX}, y2: {endY}");
+            Console.WriteLine($"x1: {startX}, y1: {startY}, x2: {endX}, y2: {endY}, st: {interval.startIndex}, end: {interval.endIndex}");
+            foreach (var step in lst) 
+            { 
+                Console.WriteLine(step.ToString());
+            }
         }
     }
 
@@ -339,6 +343,7 @@ public class DB
                 endIndex = i;
                 endIndexIsFind = true;
             }
+            if (startIndexIsFind && endIndexIsFind) break;
         }
 
         return (startIndex, endIndex);
