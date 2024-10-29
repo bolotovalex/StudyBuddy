@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PryamolineynostWF", "WinFormsApp1\PryamolineynostWF.csproj", "{39710D99-F7EF-4EAB-9617-678A3501AC14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "LogicLibrary\Model.csproj", "{E7CFD32B-D296-4982-B839-7A300AE15911}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLib", "LogicLibrary\LogicLib.csproj", "{E7CFD32B-D296-4982-B839-7A300AE15911}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaDesktopApp", "AvaloniaDesktopApp\AvaloniaDesktopApp.csproj", "{9707A7BE-D609-432B-8D5F-179AEC6FBA56}"
 EndProject

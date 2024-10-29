@@ -114,9 +114,4 @@ public class DataRow
                 RevStroke == int.MinValue ? "0" : RevStroke.ToString()];
             
     }
-
-    public DPoint GetDPoint() 
-    {
-        return new DPoint(Position, AdjStraight);
-    }
 }

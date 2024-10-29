@@ -21,6 +21,8 @@ public class DB
     public List<DataRow> DataList { get; set; } //Таблица измерений
     private int _stepsPerMeter;
     public bool RevStrokeEnbled = false;
+    public List<decimal> listLocalAreaDeviation;
+    public Dictionary<decimal, List<(int startX, int endX)>> deviationsIntervals;
 
 
     public DB(List<DataRow> dataList, int step)
@@ -290,37 +292,60 @@ public class DB
         decimal startY;
         int endX = startX + _localAreaLength;
         decimal endY;
-        if (endX <= _bedAreaLength)
-        {
-            var interval = GetIntervalIndex(startX, endX);
-            var lst = new List<(int x, decimal y)>();
 
-            startY = DataList[interval.startIndex].GetLength() > startX 
-                ? GetYBetweenStepIndex(interval.startIndex, startX) 
-                : DataList[interval.startIndex++].GetFactProfileLength();
+        var interval = GetIntervalIndex(startX, endX);
+        var lst = new List<(int x, decimal y)>();
 
-            endY = DataList[interval.endIndex].GetLength() > endX
-                ? GetYBetweenStepIndex(interval.endIndex, endX)
-                : endY = DataList[interval.endIndex].GetFactProfileLength();
+        startY = DataList[interval.startIndex].GetLength() > startX 
+            ? GetYBetweenStepIndex(interval.startIndex, startX) 
+            : DataList[interval.startIndex++].GetFactProfileLength();
 
-            lst.Add((startX, startY));
+        endY = DataList[interval.endIndex].GetLength() > endX
+            ? GetYBetweenStepIndex(interval.endIndex, endX)
+            : endY = DataList[interval.endIndex].GetFactProfileLength();
+
+        lst.Add((startX, startY));
            
 
-            for (var i = interval.startIndex; i < interval.endIndex; i++)
-            {
-                var x = DataList[i].GetLength();
-                var y = GetY(startX, startY, endX, endY, DataList[i].GetLength());
-                lst.Add((x, y));
-            }
-
-            lst.Add((endX, endY));
-
-            Console.WriteLine($"x1: {startX}, y1: {startY}, x2: {endX}, y2: {endY}, st: {interval.startIndex}, end: {interval.endIndex}");
-            foreach (var step in lst) 
-            { 
-                Console.WriteLine(step.ToString());
-            }
+        for (var i = interval.startIndex; i < interval.endIndex; i++)
+        {
+            var x = DataList[i].GetLength();
+            var y = GetY(startX, startY, endX, endY, DataList[i].GetLength());
+            lst.Add((x, y));
         }
+
+        lst.Add((endX, endY));
+        UpdateDeviationsList(interval.startIndex, interval.endIndex, lst);
+        
+
+    }
+
+    public void UpdateDeviationsList(int startInteval, int endInterval, List<(int x, decimal y)> LocalAreaStraight)
+    {
+        var lst = new List<decimal>();
+
+
+        for (var i = 0; i <= endInterval - startInteval; i++)
+        {
+            lst.Add(DataList[startInteval + i - 1].GetFactProfileLength() - LocalAreaStraight[i].y);
+        }
+        Console.WriteLine("-----------");
+        lst.Sort();
+        var deviation = lst[^1] - ( -lst[0]);
+        
+        listLocalAreaDeviation.Add(deviation);
+        
+        if (deviationsIntervals.ContainsKey(deviation))
+        {
+            deviationsIntervals[deviation].Add((LocalAreaStraight[0].x, LocalAreaStraight[^1].x));
+        }
+        else
+        {
+            deviationsIntervals[deviation] = new List<(int startX, int endX)>() { (LocalAreaStraight[0].x, LocalAreaStraight[^1].x) };
+        }
+        
+        Console.WriteLine($"{LocalAreaStraight[0].x} - {LocalAreaStraight[^1].x} : {lst[^1] - lst[0]}");
+
     }
 
     public (int startIndex, int endIndex) GetIntervalIndex(int startPos, int endPos)

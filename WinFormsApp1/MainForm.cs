@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json;
 using LogicLibrary;
@@ -196,7 +197,24 @@ public partial class MainForm : Form
         _graphicsForm.Dispose();
         _graphicsForm = new GraphicsForm(_dB, this);
         _graphicsForm.Show();
-        _dB.CalculateLocalAreaDeviation(0);
+        _dB.listLocalAreaDeviation = new List<decimal>();
+        _dB.deviationsIntervals = new Dictionary<decimal, List<(int startX, int endX)>>();
+
+        for (var i = 0; i + _dB.GetLocalAreaLength() <= _dB.GetBedLength(); i += 10)
+        {
+            _dB.CalculateLocalAreaDeviation(i);
+        }
+
+        _dB.listLocalAreaDeviation.Sort();
+
+        for (var i = _dB.listLocalAreaDeviation.Count - 1; i >= _dB.listLocalAreaDeviation.Count - 10; i--)
+        {
+            foreach (var d in _dB.deviationsIntervals[_dB.listLocalAreaDeviation[i]])
+            {
+                Console.WriteLine(d);
+            }
+        }
+        Console.WriteLine();
     }
 
     private void SavePdfButton_Click(object sender, EventArgs e)
@@ -219,6 +237,6 @@ public partial class MainForm : Form
 
     private void localAreaTextBox_TextChanged(object sender, EventArgs e)
     {
-        //_dB.CalculateLocalAreaStepCount();
+        _dB.SetLocalAreaLength(CheckTextBoxIntValue(localAreaTextBox));
     }
 }
