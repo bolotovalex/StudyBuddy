@@ -19,16 +19,16 @@ public class DataRow
         UpdateRow(FStroke, RevStroke, step, prevDataRow, revStrokeEnabled);
     }
 
-    public void UpdateRow(decimal FStroke, decimal RevStroke, int step, DataRow prevDataRow, bool revStrokeEnabled)
+    public void UpdateRow(decimal FStroke, decimal RevStroke, int step, DataRow? prevDataRow, bool revStrokeEnabled)
     {
         ///<summary>
         ///Обновлнение полей при изменении значений
         ///</summary>
         this.FStroke = FStroke;
         this.RevStroke = RevStroke;
-        Position = prevDataRow.Position + step;
+        Position = prevDataRow != null ? prevDataRow.Position + step : 0;
         MidValue = this.RevStroke != int.MinValue && revStrokeEnabled ? (this.RevStroke + this.FStroke) / 2 : this.FStroke;
-        FactCheckedProfileLength = MidValue * step / 1000 + prevDataRow.FactCheckedProfileLength;
+        FactCheckedProfileLength = prevDataRow != null ? MidValue * step / 1000 + prevDataRow.FactCheckedProfileLength : MidValue * step / 1000 ;
     }
 
     public void UpdateAdjStraight(decimal programFactor1, decimal programFactor2)
