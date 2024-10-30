@@ -197,24 +197,20 @@ public partial class MainForm : Form
         _graphicsForm.Dispose();
         _graphicsForm = new GraphicsForm(_dB, this);
         _graphicsForm.Show();
-        _dB.listLocalAreaDeviation = new List<decimal>();
-        _dB.deviationsIntervals = new Dictionary<decimal, List<(int startX, int endX)>>();
+        var deviationList = new SortedQueueDeviation();
 
         for (var i = 0; i + _dB.GetLocalAreaLength() <= _dB.GetBedLength(); i += 10)
         {
-            _dB.CalculateLocalAreaDeviation(i);
+            var areaDeviation = _dB.GetAreaDeviation(i);
+            deviationList.AddArea(areaDeviation);
         }
 
-        _dB.listLocalAreaDeviation.Sort();
+        var maxDeviationAreaArr = deviationList.GetBigestElements(10);
 
-        for (var i = _dB.listLocalAreaDeviation.Count - 1; i >= _dB.listLocalAreaDeviation.Count - 10; i--)
+        foreach (var area in maxDeviationAreaArr)
         {
-            foreach (var d in _dB.deviationsIntervals[_dB.listLocalAreaDeviation[i]])
-            {
-                Console.WriteLine(d);
-            }
+            Console.WriteLine($"{area.interval.startX} - {area.interval.endX} : {area.deviation}");
         }
-        Console.WriteLine();
     }
 
     private void SavePdfButton_Click(object sender, EventArgs e)

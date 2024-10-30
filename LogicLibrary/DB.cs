@@ -21,8 +21,6 @@ public class DB
     public List<DataRow> DataList { get; set; } //Таблица измерений
     private int _stepsPerMeter;
     public bool RevStrokeEnbled = false;
-    public List<decimal> listLocalAreaDeviation;
-    public Dictionary<decimal, List<(int startX, int endX)>> deviationsIntervals;
 
 
     public DB(List<DataRow> dataList, int step)
@@ -286,7 +284,7 @@ public class DB
 
 
 
-    public void CalculateLocalAreaDeviation(int startPos)
+    public AreaDeviation GetAreaDeviation(int startPos)
     {
         int startX = startPos;
         decimal startY;
@@ -313,39 +311,25 @@ public class DB
             var y = GetY(startX, startY, endX, endY, DataList[i].GetLength());
             lst.Add((x, y));
         }
-
         lst.Add((endX, endY));
-        UpdateDeviationsList(interval.startIndex, interval.endIndex, lst);
-        
 
+        var delta = GetDeltaAreaDeviation(interval.startIndex, interval.endIndex, lst);
+        return new AreaDeviation(delta.startX, delta.endX, delta.delta);
     }
 
-    public void UpdateDeviationsList(int startInteval, int endInterval, List<(int x, decimal y)> LocalAreaStraight)
+    public (int startX, int endX, decimal delta) GetDeltaAreaDeviation(int startInteval, int endInterval, List<(int x, decimal y)> LocalAreaStraight)
     {
         var lst = new List<decimal>();
 
-
         for (var i = 0; i <= endInterval - startInteval; i++)
-        {
             lst.Add(DataList[startInteval + i - 1].GetFactProfileLength() - LocalAreaStraight[i].y);
-        }
-        Console.WriteLine("-----------");
+        
         lst.Sort();
-        var deviation = lst[^1] - ( -lst[0]);
         
-        listLocalAreaDeviation.Add(deviation);
-        
-        if (deviationsIntervals.ContainsKey(deviation))
-        {
-            deviationsIntervals[deviation].Add((LocalAreaStraight[0].x, LocalAreaStraight[^1].x));
-        }
-        else
-        {
-            deviationsIntervals[deviation] = new List<(int startX, int endX)>() { (LocalAreaStraight[0].x, LocalAreaStraight[^1].x) };
-        }
-        
-        Console.WriteLine($"{LocalAreaStraight[0].x} - {LocalAreaStraight[^1].x} : {lst[^1] - lst[0]}");
+        //Console.WriteLine("-----------");
+        //Console.WriteLine($"{LocalAreaStraight[0].x} - {LocalAreaStraight[^1].x} : {lst[^1] - lst[0]}");
 
+        return (LocalAreaStraight[0].x, LocalAreaStraight[^1].x, lst[^1] - (-lst[0]));
     }
 
     public (int startIndex, int endIndex) GetIntervalIndex(int startPos, int endPos)
