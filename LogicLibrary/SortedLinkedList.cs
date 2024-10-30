@@ -14,12 +14,12 @@ namespace LogicLibrary
 
         public void AddArea(AreaDeviation area)
         {
-            AddArea((area.intervalX.startX, area.intervalX.endX), area.deviation);
+            AddArea((area.intervalX.startX, area.intervalX.endX), (area.intervalY.startY, area.intervalY.endY),area.deviation);
         }
-        public void AddArea((int startX, int endX) interval, decimal deviation)
+        public void AddArea((int startX, int endX) intervalX, (decimal startY, decimal endY) YCoords, decimal deviation)
         {
             elementsCount++;
-            var newArea = new AreaDeviation(interval, deviation);
+            var newArea = new AreaDeviation(intervalX, YCoords, deviation);
             
             if (root == null)
             {
@@ -48,7 +48,10 @@ namespace LogicLibrary
                         {
                             newArea.nextArea = currArea;
                             newArea.prevArea = currArea.prevArea;
-                            currArea.prevArea.nextArea = newArea;
+                            
+                            if (currArea.prevArea != null)
+                                currArea.prevArea.nextArea = newArea;
+                            
                             currArea.prevArea = newArea;
                             break;
                         }
@@ -64,12 +67,19 @@ namespace LogicLibrary
                         {
                             newArea.nextArea = currArea;
                             newArea.prevArea = currArea.prevArea;
-                            currArea.prevArea.nextArea = newArea;
+                            
+                            if (currArea.prevArea != null)
+                                currArea.prevArea.nextArea = newArea;
+                            
                             currArea.prevArea = newArea;
                             break;
                         }
 
                     }
+                }
+                if (currArea.prevArea == null)
+                {
+                    Console.WriteLine(currArea.intervalX.startX.ToString());
                 }
             }
         }
