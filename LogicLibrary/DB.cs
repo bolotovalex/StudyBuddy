@@ -314,7 +314,7 @@ public class DB
 
         var delta = GetDeltaAreaDeviation(interval.startIndex, interval.endIndex, adjStraightStepList);
 
-        return new AreaDeviation(delta.startX, delta.endX, startY, endY, delta.delta);
+        return new AreaDeviation(delta.startX, startY, delta.endX, startY, delta.delta);
     }
 
     public (int startX, int endX, decimal delta) GetDeltaAreaDeviation(int startInteval, int endInterval, List<(int x, decimal y)> LocalAreaStraight)

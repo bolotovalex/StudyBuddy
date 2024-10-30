@@ -2,23 +2,23 @@
 {
     public class AreaDeviation
     {
-        public (int startX, int endX) intervalX { get; init; }
-        public (decimal startY, decimal endY) intervalY { get; init; }
+        public (int x, decimal y) firstCoord { get; init; }
+        public (int x, decimal y) secondCoord { get; init; }
         public decimal deviation { get; init; }
         public AreaDeviation? prevArea { get; set; }
         public AreaDeviation? nextArea { get; set; }
 
-        public AreaDeviation((int startX, int endX) intervalX, (decimal startY, decimal startX) intervalY, decimal deviation, AreaDeviation? prevArea, AreaDeviation? nextArea)
+        public AreaDeviation((int x, decimal y) firstCoord, (int x, decimal y) secondCoord, decimal deviation, AreaDeviation? prevArea, AreaDeviation? nextArea)
         {
-            this.intervalX = intervalX;
-            this.intervalY = intervalY;
+            this.firstCoord = firstCoord;
+            this.secondCoord = secondCoord;
             this.deviation = deviation;
             this.prevArea = prevArea;
             this.nextArea = nextArea;
         }
-
-        public AreaDeviation((int startX, int endX) intervalX, (decimal startX, decimal endX) intervalY, decimal deviation) : this(intervalX, intervalY, deviation, null, null) { }
-        public AreaDeviation(int startX, int endX, decimal startY, decimal endY ,decimal deviation) : this((startX, endX), (startY, endY), deviation, null, null) { }
+        public AreaDeviation((int x, decimal y) firstCoord, (int x, decimal y) secondCoord, decimal deviation) : this(firstCoord, secondCoord, deviation, null, null) { }
+        
+        public AreaDeviation(int x1, decimal y1, int x2, decimal y2 ,decimal deviation) : this((x1, y1), (x2, y2), deviation, null, null) { }
 
         public bool MoreThen(decimal value)
         {

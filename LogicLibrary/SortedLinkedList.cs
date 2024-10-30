@@ -14,12 +14,12 @@ namespace LogicLibrary
 
         public void AddArea(AreaDeviation area)
         {
-            AddArea((area.intervalX.startX, area.intervalX.endX), (area.intervalY.startY, area.intervalY.endY),area.deviation);
+            AddArea((area.firstCoord.x, area.firstCoord.y), (area.secondCoord.x, area.secondCoord.y),area.deviation);
         }
-        public void AddArea((int startX, int endX) intervalX, (decimal startY, decimal endY) YCoords, decimal deviation)
+        public void AddArea((int x1, decimal y1) firstCoord, (int x2, decimal y2) seconCoord, decimal deviation)
         {
             elementsCount++;
-            var newArea = new AreaDeviation(intervalX, YCoords, deviation);
+            var newArea = new AreaDeviation(firstCoord, seconCoord, deviation);
             
             if (root == null)
             {
@@ -76,10 +76,6 @@ namespace LogicLibrary
                         }
 
                     }
-                }
-                if (currArea.prevArea == null)
-                {
-                    Console.WriteLine(currArea.intervalX.startX.ToString());
                 }
             }
         }

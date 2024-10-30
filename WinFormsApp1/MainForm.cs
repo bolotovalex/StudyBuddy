@@ -209,7 +209,7 @@ public partial class MainForm : Form
 
         foreach (var area in maxDeviationAreaArr)
         {
-            Console.WriteLine($"(x1: {area.intervalX.startX}; y1: {area.intervalY.startY}) - (x2: {area.intervalX.endX}; y2: {area.intervalY.endY}) - {area.deviation}");
+            Console.WriteLine($"(x1: {area.firstCoord.x}; y1: {area.firstCoord.y}) - (x2: {area.secondCoord.x}; y2: {area.secondCoord.y}) - {area.deviation}");
         }
         Console.WriteLine("--------------");
     }
