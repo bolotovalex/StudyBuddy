@@ -23,7 +23,7 @@ public partial class MainForm : Form
         InitializeComponent();
         _dB = new DB() { Description = "", Name = "", Fio = "" };
         _dataForm = new DataForm(_dB, this, _graphicsForm);
-        stepTextBox.Text = _dB.GetMeasurementStep().ToString();
+        stepTextBox.Text = _dB.Step.ToString();
         _graphicsForm = new GraphicsForm(_dB, this);
     }
 
@@ -47,8 +47,8 @@ public partial class MainForm : Form
 
     private void UpdateStep(object sender, EventArgs e)
     {
-        _dB.SetMeasurementStep(CheckTextBoxIntValue(stepTextBox));
-        _dB.UpdateStepsPerMeter(_dB.GetMeasurementStep());
+        _dB.Step = CheckTextBoxIntValue(stepTextBox);
+        _dB.UpdateStepsPerMeter(_dB.Step);
         _dB.UpdateAllRows();
         _dataForm.DataForm_Load(sender, e);
         UpdateAllFields();
@@ -90,35 +90,35 @@ public partial class MainForm : Form
         nameComboBox.Text = _dB.Name;
         descriptionComboBox.Text = _dB.Description;
         fioComboBox.Text = _dB.Fio;
-        minDeviationTextBox.Text = Math.Round(_dB.GetMinDeviation(), 2).ToString(CultureInfo.InvariantCulture);
-        maxDeviationTextBox.Text = Math.Round(_dB.GetMaxDeviation(), 2).ToString(CultureInfo.InvariantCulture);
-        localAreaTextBox.Text = _dB.GetLocalAreaLength().ToString();
-        bedLengthTextBox.Text = _dB.GetLastDataRow().GetLength().ToString();
-        tolerLenghtTextBox.Text = _dB.GetFullTolerance().ToString(CultureInfo.InvariantCulture);
-        tolerPerMeterTextBox.Text = _dB.GetMeterTolerance().ToString(CultureInfo.InvariantCulture);
+        minDeviationTextBox.Text = Math.Round(_dB.MinDeviation, 2).ToString(CultureInfo.InvariantCulture);
+        maxDeviationTextBox.Text = Math.Round(_dB.MaxDeviation, 2).ToString(CultureInfo.InvariantCulture);
+        localAreaTextBox.Text = _dB.LocalAreaLength.ToString();
+        bedLengthTextBox.Text = _dB.DataList[^1].GetLength().ToString();
+        tolerLenghtTextBox.Text = _dB.FullTolerance.ToString(CultureInfo.InvariantCulture);
+        tolerPerMeterTextBox.Text = _dB.MeterTolerance.ToString(CultureInfo.InvariantCulture);
         stepTextBox.Text = _dB.Step.ToString();
 
-        if (InTolearance(_dB.GetVerticalDeflection(), _dB.GetFullTolerance()))
+        if (InTolearance(_dB.VerticalDeflection, _dB.FullTolerance))
         {
-            verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
+            verticalDeviationTextBox.Text = GetSrting(_dB.VerticalDeflection);
             verticalDeviationTextBox.BackColor = SystemColors.Control;
         }
         else
         {
-            verticalDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetVerticalDeflection())}";
+            verticalDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.VerticalDeflection)}";
             verticalDeviationTextBox.BackColor = Color.LightCoral;
         }
 
 
 
-        if (InTolearance(_dB.GetMeterDeflection(), _dB.GetMeterTolerance()))
+        if (InTolearance(_dB.VerticalDeflection, _dB.MeterTolerance))
         {
-            lineDeviationTextBox.Text = GetSrting(_dB.GetMeterDeflection());
+            lineDeviationTextBox.Text = GetSrting(_dB.VerticalDeflection);
             lineDeviationTextBox.BackColor = SystemColors.Control;
         }
         else
         {
-            lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetMeterDeflection())}";
+            lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.MeterDeflection)}";
             lineDeviationTextBox.BackColor = Color.LightCoral;
         }
     }
@@ -199,7 +199,7 @@ public partial class MainForm : Form
         _graphicsForm.Show();
         var deviationList = new SortedQueueDeviation();
 
-        for (var i = 0; i + _dB.GetLocalAreaLength() <= _dB.GetBedLength(); i += 50)
+        for (var i = 0; i + _dB.LocalAreaLength <= _dB.BedAreaLength; i += 50)
         {
             var areaDeviation = _dB.GetAreaDeviation(i);
             deviationList.AddArea(areaDeviation);
@@ -235,6 +235,6 @@ public partial class MainForm : Form
 
     private void localAreaTextBox_TextChanged(object sender, EventArgs e)
     {
-        _dB.SetLocalAreaLength(CheckTextBoxIntValue(localAreaTextBox));
+        _dB.LocalAreaLength = CheckTextBoxIntValue(localAreaTextBox);
     }
 }

@@ -7,19 +7,19 @@ public class DB
     public required string Name { get; set; } //Наименование
     public required string Description { get; set; } //Обозначение
     public required string Fio { get; set; } //Измерения произвел
-    private decimal _minDeviation; //Наибольшее отклонение, мкм
-    private decimal _maxDeviation; //Наименьшее отклонение, мкм
-    private decimal _verticalDeflection; //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
-    private decimal _meterDeflection; //Отклонение от прямолинейности на 1 метр, мкм -
+    public decimal MinDeviation { get; set; } //Наибольшее отклонение, мкм
+    public decimal MaxDeviation { get; set; } //Наименьшее отклонение, мкм
+    public decimal VerticalDeflection { get; set; } //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
+    public decimal MeterDeflection { get; set; } //Отклонение от прямолинейности на 1 метр, мкм -
     public int FullTolerance { get; set; } //Допуск на всю длину, мкм -
     public int MeterTolerance { get; set; } //Допуск на 1 метр, мкм -
-    private int _localAreaLength = 0; //Локальный участок, мм
-    private int _bedAreaLength = 0; //Длина станины, мм
+    public int LocalAreaLength { get; set; } = 0; //Локальный участок, мм
+    public int BedAreaLength { get; set; } = 0; //Длина станины, мм
     public int Step { get; set; } //Шаг измерения (расстояние между опорами мостика), мм
     private decimal _programFactor1; //Программный коэффициент
     private decimal _programFactor2; //Программный коэффициент
     public List<DataRow> DataList { get; set; } //Таблица измерений
-    private int _stepsPerMeter;
+    private int _stepsPerMeter { get; set; }
     public bool RevStrokeEnbled = false;
 
 
@@ -31,70 +31,9 @@ public class DB
         }
     }
 
-    public decimal GetMinDeviation()
-    {
-        return _minDeviation;
-    }
-
-    public decimal GetMaxDeviation()
-    {
-        return _maxDeviation;
-    }
-
-    public decimal GetVerticalDeflection()
-    {
-        return _verticalDeflection;
-    }
-
-
-    public decimal GetMeterDeflection()
-    {
-        return _meterDeflection;
-    }
-
-    public int GetFullTolerance()
-    {
-        return FullTolerance;
-    }
-
-    public int GetMeterTolerance()
-    {
-        return MeterTolerance;
-    }
-
-    public int GetLocalAreaLength()
-    {
-        return _localAreaLength;
-    }
-
-    public void SetLocalAreaLength(int length)
-    {
-        _localAreaLength = length;
-    }
-
-    public void SetMeasurementStep(int measurementStep)
-    {
-        Step = measurementStep;
-    }
-
-    public int GetMeasurementStep()
-    {
-        return Step;
-    }
-
-    public List<DataRow> GetDataList()
-    {
-        return DataList;
-    }
-
-    public DataRow GetLastDataRow()
-    {
-        return DataList[^1];
-    }
-
     public DB()
     {
-        _maxDeviation = 0;
+        MaxDeviation = 0;
         DataList = [];
         Date = DateTime.Now.Date;
         Step = 200;
@@ -107,7 +46,7 @@ public class DB
         if (stepsLength != 0)
         {
             _stepsPerMeter = 1000 % stepsLength >= 5 ? 1000 / stepsLength + 1 : 1000 / stepsLength;
-            _localAreaLength = 1000 / stepsLength * stepsLength;
+            LocalAreaLength = 1000 / stepsLength * stepsLength;
         }
     }
 
@@ -187,7 +126,7 @@ public class DB
                 minDeflection = rowDeviationPerMeter;
         }
 
-        _meterDeflection = Math.Max(maxDeflection, -1 * minDeflection);
+        MeterDeflection = Math.Max(maxDeflection, -1 * minDeflection);
     }
 
     public void UpdateAllAdjStrokeDataList()
@@ -222,19 +161,19 @@ public class DB
 
     public void UpdateMinMaxDeviations()
     {
-        _maxDeviation = 0;
-        _minDeviation = 0;
+        MaxDeviation = 0;
+        MinDeviation = 0;
 
         for (var i = 1; i < DataList.Count; i++)
         {
             var selRow = DataList[i];
             var deviationValue = selRow.GetDeviation();
-            if (deviationValue > _maxDeviation)
-                _maxDeviation = deviationValue;
-            else if (deviationValue < _minDeviation)
-                _minDeviation = deviationValue;
+            if (deviationValue > MaxDeviation)
+                MaxDeviation = deviationValue;
+            else if (deviationValue < MinDeviation)
+                MinDeviation = deviationValue;
         }
-        _verticalDeflection = _maxDeviation + _minDeviation * -1;
+        VerticalDeflection = MaxDeviation + MinDeviation * -1;
     }
 
     public void UpdateMeterDeflectionAllDataList()
@@ -252,17 +191,7 @@ public class DB
             }
         }
     }
-
-    public void UpdateBedLenth()
-    {
-        _bedAreaLength = GetLastDataRow().GetLength();
-    }
-
-    public int GetBedLength()
-    {
-        return _bedAreaLength;
-    }
-
+    
     private decimal GetY(int x1, decimal y1, int x2, decimal y2, int x3)
     {
         return Math.Round((x3 * y2 - x3 * y1 - x1 * y2 + x2 * y1) / (x2 - x1), 2);
@@ -282,7 +211,7 @@ public class DB
     {
         int startX = startPos;
         decimal startY;
-        int endX = startX + _localAreaLength;
+        int endX = startX + LocalAreaLength;
         decimal endY;
 
         var interval = GetIntervalIndex(startX, endX);
@@ -363,14 +292,14 @@ public class DB
         UpdateMinMaxDeviations();
         UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
-        UpdateBedLenth();
+        BedAreaLength = DataList[^1].GetLength();
         //CalculateLocalAreaStepCount();
-        
+
 
         //TODO Не работает если не посчитаны program factors
         //UpdateProgramFactors();
-        //_maxDeviation = 0;
-        //_minDeviation = 0;
+        //MaxDeviation = 0;
+        //MinDeviation = 0;
 
         //for (var i = 1; i < DataList.Count; i++)
         //{
@@ -382,10 +311,10 @@ public class DB
         //selRow.UpdateDeviation();
 
         //var deviationValue = selRow.GetDeviation();
-        //if (deviationValue > _maxDeviation)
-        //    _maxDeviation = deviationValue;
-        //else if (deviationValue < _minDeviation)
-        //    _minDeviation = deviationValue;
+        //if (deviationValue > MaxDeviation)
+        //    MaxDeviation = deviationValue;
+        //else if (deviationValue < MinDeviation)
+        //    MinDeviation = deviationValue;
         //_verticalDeflection = GetMaxDeviation() + GetMinDeviation() * -1;
 
         //if (DataList.Count - i == 1 && DataList.Count > _stepsPerMeter)
@@ -416,7 +345,7 @@ public class DB
         DataList.Clear(); //= new List<DataRow>();
         _programFactor1 = 0;
         _programFactor2 = 0;
-        _verticalDeflection = 0;
+        VerticalDeflection = 0;
         UpdateStepsPerMeter(Step);
         DataList.Add(new DataRow());
         UpdateAllRows();
@@ -429,14 +358,14 @@ public class DB
             ( "Наименование", Name ),
             ( "Обозначение", Description ),
             ( "Измерения произвел", Fio ),
-            ( "Наибольшее отклонение", _maxDeviation ),
-            ( "Наименьшее отклонение", _minDeviation ),
-            ( "Отклонение от прямолинейности в вертикальной плоскости, мкм", _verticalDeflection ),
-            ( "Отклонение от прямолинейности на 1 метр, мкм",  _meterDeflection ),
+            ( "Наибольшее отклонение", MaxDeviation ),
+            ( "Наименьшее отклонение", MinDeviation ),
+            ( "Отклонение от прямолинейности в вертикальной плоскости, мкм",VerticalDeflection ),
+            ( "Отклонение от прямолинейности на 1 метр, мкм",  MeterDeflection ),
             ( "Допуск на всю длину измерения, мкм",  FullTolerance ),
             ( "Допуск на 1 метр (или локальный), мкм",  MeterTolerance ),
-            ( "Локальный участок, мм",  _localAreaLength ),
-            ( "Длина измерения, мм",  _bedAreaLength ),
+            ( "Локальный участок, мм",  LocalAreaLength ),
+            ( "Длина измерения, мм",  BedAreaLength ),
             ( "Шаг измерения (расстояние между опорами мостика), мм", Step)
         ];
     }
@@ -448,14 +377,14 @@ public class DB
             [ "Наименование", Name ],
             [ "Обозначение", Description ],
             [ "Измерения произвел",Fio ],
-            [ "Наибольшее отклонение", Math.Round(_maxDeviation,2).ToString() ],
-            [ "Наименьшее отклонение", Math.Round(_minDeviation, 2).ToString() ],
-            [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(_verticalDeflection, 2).ToString() ],
-            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(_meterDeflection, 2).ToString() ],
+            [ "Наибольшее отклонение", Math.Round(MaxDeviation,2).ToString() ],
+            [ "Наименьшее отклонение", Math.Round(MinDeviation, 2).ToString() ],
+            [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(VerticalDeflection, 2).ToString() ],
+            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(MeterDeflection, 2).ToString() ],
             [ "Допуск на всю длину измерения, мкм", FullTolerance.ToString() ],
             [ "Допуск на 1 метр (или локальный), мкм", MeterTolerance.ToString() ],
-            [ "Локальный участок, мм", _localAreaLength.ToString() ],
-            [ "Длина измерения, мм", _bedAreaLength.ToString() ],
+            [ "Локальный участок, мм", LocalAreaLength.ToString() ],
+            [ "Длина измерения, мм", BedAreaLength.ToString() ],
             [ "Шаг измерения (расстояние между опорами мостика), мм", Step.ToString() ]];
 
         var dataListValues = new string[DataList.Count + 1][];
