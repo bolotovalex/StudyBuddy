@@ -36,7 +36,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\LogicLibrary\LogicLib.csproj" />
+      <ProjectReference Include="..\LogicLibrary\LogicLibrary.csproj" />
     </ItemGroup>
 
     <ItemGroup>

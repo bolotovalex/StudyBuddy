@@ -30,10 +30,6 @@ public class DB
             this.AddRow(row.FStroke, row.RevStroke);
         }
     }
-    public void UpdateDateTime()
-    {
-        Date = DateTime.Now.Date;
-    }
 
     public decimal GetMinDeviation()
     {
@@ -282,9 +278,6 @@ public class DB
                     x3: coord);
     }
 
-
-
-
     public AreaDeviation GetAreaDeviation(int startPos)
     {
         int startX = startPos;
@@ -332,9 +325,6 @@ public class DB
                 maxDeviation = value;
         }
             
-        //Console.WriteLine("-----------");
-        //Console.WriteLine($"{LocalAreaStraight[0].x} - {LocalAreaStraight[^1].x} : {maxDeviation - minDeviation}");
-
         return (LocalAreaStraight[0].x, LocalAreaStraight[^1].x, maxDeviation - minDeviation);
     }
 
@@ -422,7 +412,7 @@ public class DB
     }
     public void CleanDb()
     {
-        UpdateDateTime();
+        Date = DateTime.Now.Date;
         DataList.Clear(); //= new List<DataRow>();
         _programFactor1 = 0;
         _programFactor2 = 0;
