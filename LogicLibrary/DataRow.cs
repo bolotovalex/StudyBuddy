@@ -2,48 +2,27 @@
 
 public class DataRow
 {
-    public enum Field
-    {
-        Position,
-        FactCheckedProfileLength,
-        AdjStraight,
-        Deviation,
-        DevationPerMeter,
-        MidValue,
-        FStroke,
-        RevStroke
-    }
-    
-    private int Position = 0; //Длина измерения, мм
-    private decimal FactCheckedProfileLength = 0; //Фактический профиль проверяемой поверхности, мкм
-    private decimal AdjStraight = 0; //Прилегающая прямая, мкм
-    private decimal Deviation = 0; //Отклонение, мкм
-    private decimal DevationPerMeter = 0; //Отклонение на метре, мкм
-    private decimal MidValue = 0; //Среднее значение, мкм
+    public int Position { get; set; } //Длина измерения, мм
+    public decimal FactCheckedProfileLength { get; set; } //Фактический профиль проверяемой поверхности, мкм
+    public decimal AdjStraight { get; set; } //Прилегающая прямая, мкм
+    public decimal Deviation { get; set; } //Отклонение, мкм
+    public decimal DevationPerMeter { get; set; } //Отклонение на метре, мкм
+    public decimal MidValue { get; set; } //Среднее значение, мкм
     public decimal FStroke { get; set; } //Прямой ход, мкм
     public decimal RevStroke { get; set; } //Обратный ход, мкм
-    public const int CellsCount = 8;
 
-    public DataRow()
+    public DataRow(decimal FStroke, decimal RevStroke, int step, DataRow? prevDataRow, bool revStrokeEnabled)
     {
-        Position = 0;
-        FactCheckedProfileLength = 0;
-        AdjStraight = 0;
-        Deviation = 0;
-        DevationPerMeter = 0;
-        MidValue = 0;
-        FStroke = 0;
-        RevStroke = 0;
+        UpdateRow(FStroke, RevStroke, step, prevDataRow, revStrokeEnabled);
     }
-
 
     public void UpdateRow(decimal FStroke, decimal RevStroke, int step, DataRow prevDataRow, bool revStrokeEnabled)
     {
         this.FStroke = FStroke;
         this.RevStroke = RevStroke;
-        Position = prevDataRow.GetLength() + step;
+        Position = prevDataRow.Position + step;
         MidValue = this.RevStroke != int.MinValue && revStrokeEnabled ? (this.RevStroke + this.FStroke) / 2 : this.FStroke;
-        FactCheckedProfileLength = MidValue * step / 1000 + prevDataRow.GetFactProfileLength();
+        FactCheckedProfileLength = MidValue * step / 1000 + prevDataRow.FactCheckedProfileLength;
     }
 
     public void UpdateAdjStraight(decimal programFactor1, decimal programFactor2)
@@ -51,55 +30,9 @@ public class DataRow
         AdjStraight = programFactor1 * Position + programFactor2;
     }
 
-    public void UpdateDeviation()
+    public void CalculateDeviation()
     {
         Deviation = FactCheckedProfileLength - AdjStraight;
-    }
-
-
-    public int GetLength()
-    {
-        return Position;
-    }
-
-    public decimal GetFactProfileLength()
-    {
-        return FactCheckedProfileLength;
-    }
-
-    public decimal GetAdjStraight()
-    {
-        return AdjStraight;
-    }
-
-    public decimal GetDeviation()
-    {
-        return Deviation;
-    }
-
-    public decimal GetDeviationPerMeter()
-    {
-        return DevationPerMeter;
-    }
-
-    public void SetDeviationPerMeter(decimal value)
-    {
-        DevationPerMeter = value;
-    }
-
-    public decimal GetMidValue()
-    {
-        return MidValue;
-    }
-
-    public decimal GetFStroke()
-    {
-        return FStroke;
-    }
-
-    public decimal GetRevStroke()
-    {
-        return RevStroke;
     }
 
     public string[] GetAllCellsStringArray()

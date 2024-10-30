@@ -93,7 +93,7 @@ public partial class MainForm : Form
         minDeviationTextBox.Text = Math.Round(_dB.MinDeviation, 2).ToString(CultureInfo.InvariantCulture);
         maxDeviationTextBox.Text = Math.Round(_dB.MaxDeviation, 2).ToString(CultureInfo.InvariantCulture);
         localAreaTextBox.Text = _dB.LocalAreaLength.ToString();
-        bedLengthTextBox.Text = _dB.DataList[^1].GetLength().ToString();
+        bedLengthTextBox.Text = _dB.DataList[^1].Position.ToString();
         tolerLenghtTextBox.Text = _dB.FullTolerance.ToString(CultureInfo.InvariantCulture);
         tolerPerMeterTextBox.Text = _dB.MeterTolerance.ToString(CultureInfo.InvariantCulture);
         stepTextBox.Text = _dB.Step.ToString();

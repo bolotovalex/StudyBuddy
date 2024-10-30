@@ -38,7 +38,7 @@ public class DB
         Date = DateTime.Now.Date;
         Step = 200;
         UpdateStepsPerMeter(Step);
-        DataList.Add(new DataRow());
+        DataList.Add(new DataRow(0,0,0,null,RevStrokeEnbled));
     }
 
     public void UpdateStepsPerMeter(int stepsLength)
@@ -52,23 +52,22 @@ public class DB
 
     private void UpdateProgramFactors()
     {
-        if (DataList[^1].GetLength() != 0)
+        if (DataList[^1].Position != 0)
         {
-            _programFactor1 = DataList[^1].GetFactProfileLength() /
-                              DataList[^1].GetLength();
+            _programFactor1 = DataList[^1].FactCheckedProfileLength /
+                              DataList[^1].Position;
             _programFactor2 = 0; //TODO Доделать програмный коэфициент 2. В примере он всегда будет равен 0
         }
     }
 
     public void AddRow(decimal fStroke, decimal revStroke)
     {
-        var row = new DataRow();
         var prevRow = DataList[^1];
-        row.UpdateRow(fStroke, revStroke, Step, prevRow, RevStrokeEnbled);
+        var row = new DataRow(fStroke, revStroke, Step, prevRow, RevStrokeEnbled);
         DataList.Add(row);
         UpdateProgramFactors();
         row.UpdateAdjStraight(_programFactor1, _programFactor2);
-        row.UpdateDeviation();
+        row.CalculateDeviation();
         UpdateAllRows();
     }
 
@@ -87,7 +86,7 @@ public class DB
 
         for (var i = startIndex; i < DataList.Count && i <= maxIndex; i++)
         {
-            var factProfile = DataList[i].GetMidValue() * Step / 1000 + factProfileList[i - startIndex];
+            var factProfile = DataList[i].MidValue * Step / 1000 + factProfileList[i - startIndex];
             factProfileList.Add(factProfile);
         }
 
@@ -119,7 +118,7 @@ public class DB
         decimal minDeflection = 0;
         for (var i = 1; i <= DataList.Count - _stepsPerMeter; i++)
         {
-            var rowDeviationPerMeter = DataList[i].GetDeviationPerMeter();
+            var rowDeviationPerMeter = DataList[i].DevationPerMeter;
             if (rowDeviationPerMeter > maxDeflection)
                 maxDeflection = rowDeviationPerMeter;
             else if (rowDeviationPerMeter < minDeflection)
@@ -146,7 +145,7 @@ public class DB
             var selRow = DataList[i];
             var prevRow = DataList[i - 1];
 
-            selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), Step, prevRow, RevStrokeEnbled);
+            selRow.UpdateRow(selRow.FStroke, selRow.RevStroke, Step, prevRow, RevStrokeEnbled);
         }
     }
 
@@ -155,7 +154,7 @@ public class DB
         for (var i = 1; i < DataList.Count; i++)
         {
             var selRow = DataList[i];
-            selRow.UpdateDeviation();
+            selRow.CalculateDeviation();
         }
     }
 
@@ -167,7 +166,7 @@ public class DB
         for (var i = 1; i < DataList.Count; i++)
         {
             var selRow = DataList[i];
-            var deviationValue = selRow.GetDeviation();
+            var deviationValue = selRow.Deviation;
             if (deviationValue > MaxDeviation)
                 MaxDeviation = deviationValue;
             else if (deviationValue < MinDeviation)
@@ -183,11 +182,11 @@ public class DB
             var index = i - _stepsPerMeter + 1;
             if (DataList.Count - i >= 1 && DataList.Count > _stepsPerMeter && index >= 1)
             {
-                DataList[index].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
+                DataList[index].DevationPerMeter = GetMaxDeviationPerMeterForStep(i);
             }
             if (DataList.Count - i < _stepsPerMeter)
             {
-                DataList[i].SetDeviationPerMeter(0);
+                DataList[i].DevationPerMeter = 0;
             }
         }
     }
@@ -200,10 +199,10 @@ public class DB
     private decimal GetYBetweenStepIndex(int index, int coord)
     {
         
-        return GetY(x1: DataList[index - 1].GetLength(),
-                    y1: DataList[index - 1].GetFactProfileLength(),
-                    x2: DataList[index].GetLength(),
-                    y2: DataList[index].GetFactProfileLength(),
+        return GetY(x1: DataList[index - 1].Position,
+                    y1: DataList[index - 1].FactCheckedProfileLength,
+                    x2: DataList[index].Position,
+                    y2: DataList[index].FactCheckedProfileLength,
                     x3: coord);
     }
 
@@ -217,19 +216,19 @@ public class DB
         var interval = GetIntervalIndex(startX, endX);
         var adjStraightStepList = new List<(int x, decimal y)>();
 
-        startY = DataList[interval.startIndex].GetLength() > startX 
+        startY = DataList[interval.startIndex].Position > startX 
             ? GetYBetweenStepIndex(interval.startIndex, startX) 
-            : DataList[interval.startIndex++].GetFactProfileLength();
-        endY = DataList[interval.endIndex].GetLength() > endX
+            : DataList[interval.startIndex++].FactCheckedProfileLength;
+        endY = DataList[interval.endIndex].Position > endX
             ? GetYBetweenStepIndex(interval.endIndex, endX)
-            : DataList[interval.endIndex].GetFactProfileLength();
+            : DataList[interval.endIndex].FactCheckedProfileLength;
 
         adjStraightStepList.Add((startX, startY));
 
         for (var i = interval.startIndex; i < interval.endIndex; i++)
         {
-            var x = DataList[i].GetLength();
-            var y = GetY(startX, startY, endX, endY, DataList[i].GetLength());
+            var x = DataList[i].Position;
+            var y = GetY(startX, startY, endX, endY, DataList[i].Position);
             adjStraightStepList.Add((x, y));
         }
         adjStraightStepList.Add((endX, endY));
@@ -247,7 +246,7 @@ public class DB
 
         for (var i = 1; i < endInterval - startInteval + 1; i++)
         {
-            var value = DataList[startInteval + i - 1].GetFactProfileLength() - LocalAreaStraight[i].y;
+            var value = DataList[startInteval + i - 1].FactCheckedProfileLength - LocalAreaStraight[i].y;
             if (value < minDeviation)
                 minDeviation = value;
             else if (value > maxDeviation)
@@ -265,14 +264,14 @@ public class DB
         var endIndex = DataList.Count - 1;
         for (var i = 0; i < DataList.Count; i++)
         {
-            if (!startIndexIsFind && DataList[i].GetLength() >= startPos)
+            if (!startIndexIsFind && DataList[i].Position >= startPos)
             {
                 startIndex = i;
                 startIndexIsFind = true;
                 continue;
             }
 
-            if (!endIndexIsFind &&  DataList[i].GetLength() >= endPos)
+            if (!endIndexIsFind &&  DataList[i].Position >= endPos)
             {
                 endIndex = i;
                 endIndexIsFind = true;
@@ -292,7 +291,7 @@ public class DB
         UpdateMinMaxDeviations();
         UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
-        BedAreaLength = DataList[^1].GetLength();
+        BedAreaLength = DataList[^1].Position;
         //CalculateLocalAreaStepCount();
 
 
@@ -306,9 +305,9 @@ public class DB
         //    var selRow = DataList[i];
         //    var prevRow = DataList[i - 1];
 
-        //    selRow.UpdateRow(selRow.GetFStroke(), selRow.GetRevStroke(), Step, prevRow);
+        //    selRow.UpdateRow(selRow.FStroke, selRow.RevStroke, Step, prevRow);
         //selRow.UpdateAdjStraight(_programFactor1, _programFactor2);
-        //selRow.UpdateDeviation();
+        //selRow.CalculateDeviation();
 
         //var deviationValue = selRow.GetDeviation();
         //if (deviationValue > MaxDeviation)
@@ -326,7 +325,7 @@ public class DB
     {
         if (index > 0)
         {
-            DataList[index].UpdateRow(value, DataList[index].GetRevStroke(), Step, DataList[index - 1], RevStrokeEnbled);
+            DataList[index].UpdateRow(value, DataList[index].RevStroke, Step, DataList[index - 1], RevStrokeEnbled);
             UpdateAllRows();
         }
     }
@@ -335,7 +334,7 @@ public class DB
     {
         if (index > 0)
         {
-            DataList[index].UpdateRow(DataList[index].GetFStroke(), value, Step, DataList[index - 1], RevStrokeEnbled);
+            DataList[index].UpdateRow(DataList[index].FStroke, value, Step, DataList[index - 1], RevStrokeEnbled);
             UpdateAllRows();
         }
     }
@@ -347,7 +346,7 @@ public class DB
         _programFactor2 = 0;
         VerticalDeflection = 0;
         UpdateStepsPerMeter(Step);
-        DataList.Add(new DataRow());
+        DataList.Add(new DataRow(0, 0, 0, null, RevStrokeEnbled));
         UpdateAllRows();
     }
 
@@ -415,9 +414,9 @@ public class DB
         var graph2 = new double[DataList.Count];
         for (int i = 0; i < DataList.Count; i++)
         {
-            pos[i] = decimal.ToDouble(DataList[i].GetLength());
-            graph1[i] = decimal.ToDouble(DataList[i].GetFactProfileLength());
-            graph2[i] = decimal.ToDouble(DataList[i].GetAdjStraight());
+            pos[i] = decimal.ToDouble(DataList[i].Position);
+            graph1[i] = decimal.ToDouble(DataList[i].FactCheckedProfileLength);
+            graph2[i] = decimal.ToDouble(DataList[i].AdjStraight);
         }
 
         return new(pos, graph1, graph2);
