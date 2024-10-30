@@ -14,7 +14,7 @@ namespace LogicLibrary
 
         public void AddArea(AreaDeviation area)
         {
-            AddArea((area.interval.startX, area.interval.endX), area.deviation);
+            AddArea((area.intervalX.startX, area.intervalX.endX), area.deviation);
         }
         public void AddArea((int startX, int endX) interval, decimal deviation)
         {
@@ -41,12 +41,14 @@ namespace LogicLibrary
                         if (currArea.MoreThen(newArea))
                             {
                             currArea.nextArea = newArea;
+                            newArea.prevArea = currArea;
                             break;
                             }
                         else
                         {
                             newArea.nextArea = currArea;
                             newArea.prevArea = currArea.prevArea;
+                            currArea.prevArea.nextArea = newArea;
                             currArea.prevArea = newArea;
                             break;
                         }
@@ -62,6 +64,7 @@ namespace LogicLibrary
                         {
                             newArea.nextArea = currArea;
                             newArea.prevArea = currArea.prevArea;
+                            currArea.prevArea.nextArea = newArea;
                             currArea.prevArea = newArea;
                             break;
                         }
@@ -74,7 +77,7 @@ namespace LogicLibrary
         public AreaDeviation[] GetBigestElements(int count)
         {
             ///<summary></summary>
-            var arr = new AreaDeviation[elementsCount >= count ? count : elementsCount];
+            var arr = new AreaDeviation[elementsCount > count ? count : elementsCount];
             var currArea = root;
             for (int i = 0; i < arr.Length; i++)
             {

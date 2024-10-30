@@ -284,6 +284,7 @@ public class DB
 
 
 
+
     public AreaDeviation GetAreaDeviation(int startPos)
     {
         int startX = startPos;
@@ -292,44 +293,49 @@ public class DB
         decimal endY;
 
         var interval = GetIntervalIndex(startX, endX);
-        var lst = new List<(int x, decimal y)>();
+        var adjStraightStepList = new List<(int x, decimal y)>();
 
         startY = DataList[interval.startIndex].GetLength() > startX 
             ? GetYBetweenStepIndex(interval.startIndex, startX) 
             : DataList[interval.startIndex++].GetFactProfileLength();
-
         endY = DataList[interval.endIndex].GetLength() > endX
             ? GetYBetweenStepIndex(interval.endIndex, endX)
-            : endY = DataList[interval.endIndex].GetFactProfileLength();
+            : DataList[interval.endIndex].GetFactProfileLength();
 
-        lst.Add((startX, startY));
-           
+        adjStraightStepList.Add((startX, startY));
 
         for (var i = interval.startIndex; i < interval.endIndex; i++)
         {
             var x = DataList[i].GetLength();
             var y = GetY(startX, startY, endX, endY, DataList[i].GetLength());
-            lst.Add((x, y));
+            adjStraightStepList.Add((x, y));
         }
-        lst.Add((endX, endY));
+        adjStraightStepList.Add((endX, endY));
 
-        var delta = GetDeltaAreaDeviation(interval.startIndex, interval.endIndex, lst);
+        var delta = GetDeltaAreaDeviation(interval.startIndex, interval.endIndex, adjStraightStepList);
+
         return new AreaDeviation(delta.startX, delta.endX, delta.delta);
     }
 
     public (int startX, int endX, decimal delta) GetDeltaAreaDeviation(int startInteval, int endInterval, List<(int x, decimal y)> LocalAreaStraight)
     {
         var lst = new List<decimal>();
+        decimal minDeviation = 0;
+        decimal maxDeviation = 0;
 
-        for (var i = 0; i <= endInterval - startInteval; i++)
-            lst.Add(DataList[startInteval + i - 1].GetFactProfileLength() - LocalAreaStraight[i].y);
-        
-        lst.Sort();
-        
+        for (var i = 1; i < endInterval - startInteval + 1; i++)
+        {
+            var value = DataList[startInteval + i - 1].GetFactProfileLength() - LocalAreaStraight[i].y;
+            if (value < minDeviation)
+                minDeviation = value;
+            else if (value > maxDeviation)
+                maxDeviation = value;
+        }
+            
         //Console.WriteLine("-----------");
-        //Console.WriteLine($"{LocalAreaStraight[0].x} - {LocalAreaStraight[^1].x} : {lst[^1] - lst[0]}");
+        //Console.WriteLine($"{LocalAreaStraight[0].x} - {LocalAreaStraight[^1].x} : {maxDeviation - minDeviation}");
 
-        return (LocalAreaStraight[0].x, LocalAreaStraight[^1].x, lst[^1] - (-lst[0]));
+        return (LocalAreaStraight[0].x, LocalAreaStraight[^1].x, maxDeviation - minDeviation);
     }
 
     public (int startIndex, int endIndex) GetIntervalIndex(int startPos, int endPos)

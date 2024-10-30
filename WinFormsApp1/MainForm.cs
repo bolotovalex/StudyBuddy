@@ -199,7 +199,7 @@ public partial class MainForm : Form
         _graphicsForm.Show();
         var deviationList = new SortedQueueDeviation();
 
-        for (var i = 0; i + _dB.GetLocalAreaLength() <= _dB.GetBedLength(); i += 10)
+        for (var i = 0; i + _dB.GetLocalAreaLength() <= _dB.GetBedLength(); i += 50)
         {
             var areaDeviation = _dB.GetAreaDeviation(i);
             deviationList.AddArea(areaDeviation);
@@ -209,8 +209,9 @@ public partial class MainForm : Form
 
         foreach (var area in maxDeviationAreaArr)
         {
-            Console.WriteLine($"{area.interval.startX} - {area.interval.endX} : {area.deviation}");
+            Console.WriteLine($"{area.intervalX.startX} - {area.intervalX.endX} : {area.deviation}");
         }
+        Console.WriteLine("--------------");
     }
 
     private void SavePdfButton_Click(object sender, EventArgs e)

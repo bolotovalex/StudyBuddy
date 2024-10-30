@@ -2,14 +2,15 @@
 {
     public class AreaDeviation
     {
-        public (int startX, int endX) interval { get; init; }
+        public (int startX, int endX) intervalX { get; init; }
+        public (int startY, int endY) intervalY { get; init; }
         public decimal deviation { get; init; }
         public AreaDeviation? prevArea { get; set; }
         public AreaDeviation? nextArea { get; set; }
 
         public AreaDeviation((int startX, int endX) interval, decimal deviation, AreaDeviation? prevArea, AreaDeviation? nextArea)
         {
-            this.interval = interval;
+            this.intervalX = interval;
             this.deviation = deviation;
             this.prevArea = prevArea;
             this.nextArea = nextArea;
