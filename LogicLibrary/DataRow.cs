@@ -2,6 +2,9 @@
 
 public class DataRow
 {
+    /// <summary>
+    /// Класс для хранения точек измерения и расчета служебных параметров.
+    /// </summary>
     public int Position { get; set; } //Длина измерения, мм
     public decimal FactCheckedProfileLength { get; set; } //Фактический профиль проверяемой поверхности, мкм
     public decimal AdjStraight { get; set; } //Прилегающая прямая, мкм
@@ -18,6 +21,9 @@ public class DataRow
 
     public void UpdateRow(decimal FStroke, decimal RevStroke, int step, DataRow prevDataRow, bool revStrokeEnabled)
     {
+        ///<summary>
+        ///Обновлнение полей при изменении значений
+        ///</summary>
         this.FStroke = FStroke;
         this.RevStroke = RevStroke;
         Position = prevDataRow.Position + step;
@@ -27,16 +33,26 @@ public class DataRow
 
     public void UpdateAdjStraight(decimal programFactor1, decimal programFactor2)
     {
+        ///<summary>
+        ///Расчет коэффицинета для прилягающей прямой. С помощью этого коэфицента вычисляется Y координата на следующем шаге
+        /// </summary>
         AdjStraight = programFactor1 * Position + programFactor2;
     }
 
     public void CalculateDeviation()
     {
+        ///<summary>
+        ///Считаем отклонение от фактической поверхности до прямой проведенной 
+        ///из первой точки в самую последнюю(прилягающая прямая).
+        ///</summary>
         Deviation = FactCheckedProfileLength - AdjStraight;
     }
 
     public string[] GetAllCellsStringArray()
     {
+        ///<summary>
+        ///Получение списка строк для графика
+        /// </summary>
         return [Position.ToString(),
                 Math.Round(FactCheckedProfileLength,2).ToString(),
                 Math.Round(AdjStraight,2).ToString(),
