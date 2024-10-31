@@ -34,11 +34,11 @@
             // plotView1
             // 
             plotView1.BackColor = SystemColors.Window;
-            plotView1.Dock = DockStyle.Fill;
+            plotView1.Dock = DockStyle.Top;
             plotView1.Location = new Point(0, 0);
             plotView1.Name = "plotView1";
             plotView1.PanCursor = Cursors.Hand;
-            plotView1.Size = new Size(1920, 1080);
+            plotView1.Size = new Size(784, 1080);
             plotView1.TabIndex = 0;
             plotView1.Text = "plotView1";
             plotView1.ZoomHorizontalCursor = Cursors.SizeWE;

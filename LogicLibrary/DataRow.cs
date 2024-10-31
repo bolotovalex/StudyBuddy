@@ -5,12 +5,12 @@ public class DataRow
     /// <summary>
     /// Класс для хранения точек измерения и расчета служебных параметров.
     /// </summary>
-    public int Position { get; set; } //Длина измерения, мм
-    public decimal FactCheckedProfileLength { get; set; } //Фактический профиль проверяемой поверхности, мкм
-    public decimal AdjStraight { get; set; } //Прилегающая прямая, мкм
-    public decimal Deviation { get; set; } //Отклонение, мкм
-    public decimal DevationPerMeter { get; set; } //Отклонение на метре, мкм
-    public decimal MidValue { get; set; } //Среднее значение, мкм
+    private int Position { get; set; } //Длина измерения, мм
+    private decimal FactProfile { get; set; } //Фактический профиль проверяемой поверхности, мкм
+    private decimal AdjStraight { get; set; } //Прилегающая прямая, мкм
+    private decimal Deviation { get; set; } //Отклонение, мкм
+    private decimal DevationPerMeter { get; set; } //Отклонение на метре, мкм
+    private decimal MidValue { get; set; } //Среднее значение, мкм
     public decimal FStroke { get; set; } //Прямой ход, мкм
     public decimal RevStroke { get; set; } //Обратный ход, мкм
 
@@ -18,6 +18,8 @@ public class DataRow
     {
         UpdateRow(FStroke, RevStroke, step, prevDataRow, revStrokeEnabled);
     }
+
+    public DataRow(decimal FStroke, decimal RevStroke) : this(FStroke, RevStroke, 0, );
 
     public void UpdateRow(decimal FStroke, decimal RevStroke, int step, DataRow? prevDataRow, bool revStrokeEnabled)
     {
@@ -28,7 +30,7 @@ public class DataRow
         this.RevStroke = RevStroke;
         Position = prevDataRow != null ? prevDataRow.Position + step : 0;
         MidValue = this.RevStroke != int.MinValue && revStrokeEnabled ? (this.RevStroke + this.FStroke) / 2 : this.FStroke;
-        FactCheckedProfileLength = prevDataRow != null ? MidValue * step / 1000 + prevDataRow.FactCheckedProfileLength : MidValue * step / 1000 ;
+        FactProfile = prevDataRow != null ? MidValue * step / 1000 + prevDataRow.FactProfile : MidValue * step / 1000 ;
     }
 
     public void UpdateAdjStraight(decimal programFactor1, decimal programFactor2)
@@ -45,7 +47,7 @@ public class DataRow
         ///Считаем отклонение от фактической поверхности до прямой проведенной 
         ///из первой точки в самую последнюю(прилягающая прямая).
         ///</summary>
-        Deviation = FactCheckedProfileLength - AdjStraight;
+        Deviation = FactProfile - AdjStraight;
     }
 
     public string[] GetAllCellsStringArray()
@@ -54,13 +56,23 @@ public class DataRow
         ///Получение списка строк для графика
         /// </summary>
         return [Position.ToString(),
-                Math.Round(FactCheckedProfileLength,2).ToString(),
+                Math.Round(FactProfile,2).ToString(),
                 Math.Round(AdjStraight,2).ToString(),
                 Math.Round(Deviation,2).ToString(),
                 Math.Round(DevationPerMeter,2).ToString(),
                 Math.Round(MidValue,2).ToString(),
                 FStroke == int.MinValue ? "0": FStroke.ToString(),
                 RevStroke == int.MinValue ? "0" : RevStroke.ToString()];
-            
+    }
+
+    public int GetPosition() => Position;
+    public decimal GetFactProfile() => FactProfile;
+    public decimal GetAdjStraight() => AdjStraight;
+    public decimal GetDeviation() => Deviation;
+    public decimal GetDevationPerMeter() => DevationPerMeter;
+    public decimal GetMidValue() => MidValue;
+    public void SetDeviationPerMeter(decimal deviation)
+    {
+        DevationPerMeter = deviation;
     }
 }

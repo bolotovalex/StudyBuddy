@@ -90,35 +90,35 @@ public partial class MainForm : Form
         nameComboBox.Text = _dB.Name;
         descriptionComboBox.Text = _dB.Description;
         fioComboBox.Text = _dB.Fio;
-        minDeviationTextBox.Text = Math.Round(_dB.MinDeviation, 2).ToString(CultureInfo.InvariantCulture);
-        maxDeviationTextBox.Text = Math.Round(_dB.MaxDeviation, 2).ToString(CultureInfo.InvariantCulture);
+        minDeviationTextBox.Text = Math.Round(_dB.GetMinDeviation(), 2).ToString(CultureInfo.InvariantCulture);
+        maxDeviationTextBox.Text = Math.Round(_dB.GetMaxDeviation(), 2).ToString(CultureInfo.InvariantCulture);
         localAreaTextBox.Text = _dB.LocalAreaLength.ToString();
-        bedLengthTextBox.Text = _dB.DataList[^1].Position.ToString();
+        bedLengthTextBox.Text = _dB.DataList[^1].GetPosition().ToString();
         tolerLenghtTextBox.Text = _dB.FullTolerance.ToString(CultureInfo.InvariantCulture);
         tolerPerMeterTextBox.Text = _dB.MeterTolerance.ToString(CultureInfo.InvariantCulture);
         stepTextBox.Text = _dB.Step.ToString();
 
-        if (InTolearance(_dB.VerticalDeflection, _dB.FullTolerance))
+        if (InTolearance(_dB.GetVerticalDeflection(), _dB.FullTolerance))
         {
-            verticalDeviationTextBox.Text = GetSrting(_dB.VerticalDeflection);
+            verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
             verticalDeviationTextBox.BackColor = SystemColors.Control;
         }
         else
         {
-            verticalDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.VerticalDeflection)}";
+            verticalDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetVerticalDeflection())}";
             verticalDeviationTextBox.BackColor = Color.LightCoral;
         }
 
 
 
-        if (InTolearance(_dB.VerticalDeflection, _dB.MeterTolerance))
+        if (InTolearance(_dB.GetVerticalDeflection(), _dB.MeterTolerance))
         {
-            lineDeviationTextBox.Text = GetSrting(_dB.VerticalDeflection);
+            lineDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
             lineDeviationTextBox.BackColor = SystemColors.Control;
         }
         else
         {
-            lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.MeterDeflection)}";
+            lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetMeterDeflection())}";
             lineDeviationTextBox.BackColor = Color.LightCoral;
         }
     }
@@ -199,7 +199,7 @@ public partial class MainForm : Form
         _graphicsForm.Show();
         var deviationList = new SortedQueueDeviation();
 
-        for (var i = 0; i + _dB.LocalAreaLength <= _dB.BedAreaLength; i += 50)
+        for (var i = 0; i + _dB.LocalAreaLength <= _dB.GetBedAreaLength(); i += 50)
         {
             var areaDeviation = _dB.GetAreaDeviation(i);
             deviationList.AddArea(areaDeviation);

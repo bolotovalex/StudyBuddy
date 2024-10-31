@@ -7,14 +7,14 @@ public class DB
     public required string Name { get; set; } //Наименование
     public required string Description { get; set; } //Обозначение
     public required string Fio { get; set; } //Измерения произвел
-    public decimal MinDeviation { get; set; } //Наибольшее отклонение, мкм
-    public decimal MaxDeviation { get; set; } //Наименьшее отклонение, мкм
-    public decimal VerticalDeflection { get; set; } //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
-    public decimal MeterDeflection { get; set; } //Отклонение от прямолинейности на 1 метр, мкм -
+    private decimal _minDeviation { get; set; } //Наибольшее отклонение, мкм
+    private decimal _maxDeviation { get; set; } //Наименьшее отклонение, мкм
+    private decimal _verticalDeflection { get; set; } //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
+    private decimal _meterDeflection { get; set; } //Отклонение от прямолинейности на 1 метр, мкм -
     public int FullTolerance { get; set; } //Допуск на всю длину, мкм -
     public int MeterTolerance { get; set; } //Допуск на 1 метр, мкм -
-    public int LocalAreaLength { get; set; } = 0; //Локальный участок, мм
-    public int BedAreaLength { get; set; } = 0; //Длина станины, мм
+    public int LocalAreaLength { get; set; } //Локальный участок, мм
+    private int _bedAreaLength { get; set; } //Длина станины, мм
     public int Step { get; set; } //Шаг измерения (расстояние между опорами мостика), мм
     private decimal _programFactor1; //Программный коэффициент
     private decimal _programFactor2; //Программный коэффициент
@@ -33,13 +33,26 @@ public class DB
 
     public DB()
     {
-        MaxDeviation = 0;
+        _maxDeviation = 0;
         DataList = [];
         Date = DateTime.Now.Date;
         Step = 200;
         UpdateStepsPerMeter(Step);
         DataList.Add(new DataRow(0,0,0,null,RevStrokeEnbled));
+        LocalAreaLength = 1000;
     }
+
+    public void SetVerticalDeflection(decimal deflection)
+    {
+        _verticalDeflection = deflection;
+    }
+
+    public decimal GetVerticalDeflection() => _verticalDeflection;
+    public decimal GetMinDeviation() => _minDeviation;
+    public  decimal GetMaxDeviation() => _maxDeviation;
+    public decimal GetMeterDeflection() => _meterDeflection;
+    public int GetBedAreaLength() => _bedAreaLength;
+    
 
     public void UpdateStepsPerMeter(int stepsLength)
     {
@@ -52,10 +65,10 @@ public class DB
 
     private void UpdateProgramFactors()
     {
-        if (DataList[^1].Position != 0)
+        if (DataList[^1].GetPosition() != 0)
         {
-            _programFactor1 = DataList[^1].FactCheckedProfileLength /
-                              DataList[^1].Position;
+            _programFactor1 = DataList[^1].GetFactProfile() /
+                              DataList[^1].GetPosition();
             _programFactor2 = 0; //TODO Доделать програмный коэфициент 2. В примере он всегда будет равен 0
         }
     }
@@ -86,7 +99,7 @@ public class DB
 
         for (var i = startIndex; i < DataList.Count && i <= maxIndex; i++)
         {
-            var factProfile = DataList[i].MidValue * Step / 1000 + factProfileList[i - startIndex];
+            var factProfile = DataList[i].GetMidValue() * Step / 1000 + factProfileList[i - startIndex];
             factProfileList.Add(factProfile);
         }
 
@@ -118,14 +131,14 @@ public class DB
         decimal minDeflection = 0;
         for (var i = 1; i <= DataList.Count - _stepsPerMeter; i++)
         {
-            var rowDeviationPerMeter = DataList[i].DevationPerMeter;
+            var rowDeviationPerMeter = DataList[i].GetDevationPerMeter();
             if (rowDeviationPerMeter > maxDeflection)
                 maxDeflection = rowDeviationPerMeter;
             else if (rowDeviationPerMeter < minDeflection)
                 minDeflection = rowDeviationPerMeter;
         }
 
-        MeterDeflection = Math.Max(maxDeflection, -1 * minDeflection);
+        _meterDeflection = Math.Max(maxDeflection, -1 * minDeflection);
     }
 
     public void UpdateAllAdjStrokeDataList()
@@ -160,19 +173,19 @@ public class DB
 
     public void UpdateMinMaxDeviations()
     {
-        MaxDeviation = 0;
-        MinDeviation = 0;
+        _maxDeviation = 0;
+        _minDeviation = 0;
 
         for (var i = 1; i < DataList.Count; i++)
         {
             var selRow = DataList[i];
-            var deviationValue = selRow.Deviation;
-            if (deviationValue > MaxDeviation)
-                MaxDeviation = deviationValue;
-            else if (deviationValue < MinDeviation)
-                MinDeviation = deviationValue;
+            var deviationValue = selRow.GetDeviation();
+            if (deviationValue > _maxDeviation)
+                _maxDeviation = deviationValue;
+            else if (deviationValue < _minDeviation)
+                _minDeviation = deviationValue;
         }
-        VerticalDeflection = MaxDeviation + MinDeviation * -1;
+        _verticalDeflection = _maxDeviation + _minDeviation * -1;
     }
 
     public void UpdateMeterDeflectionAllDataList()
@@ -182,11 +195,11 @@ public class DB
             var index = i - _stepsPerMeter + 1;
             if (DataList.Count - i >= 1 && DataList.Count > _stepsPerMeter && index >= 1)
             {
-                DataList[index].DevationPerMeter = GetMaxDeviationPerMeterForStep(i);
+                DataList[index].SetDeviationPerMeter(GetMaxDeviationPerMeterForStep(i));
             }
             if (DataList.Count - i < _stepsPerMeter)
             {
-                DataList[i].DevationPerMeter = 0;
+                DataList[i].SetDeviationPerMeter(0);
             }
         }
     }
@@ -199,10 +212,10 @@ public class DB
     private decimal GetYBetweenStepIndex(int index, int coord)
     {
         
-        return GetY(x1: DataList[index - 1].Position,
-                    y1: DataList[index - 1].FactCheckedProfileLength,
-                    x2: DataList[index].Position,
-                    y2: DataList[index].FactCheckedProfileLength,
+        return GetY(x1: DataList[index - 1].GetPosition(),
+                    y1: DataList[index - 1].GetFactProfile(),
+                    x2: DataList[index].GetPosition(),
+                    y2: DataList[index].GetFactProfile(),
                     x3: coord);
     }
 
@@ -216,19 +229,19 @@ public class DB
         var interval = GetIntervalIndex(startX, endX);
         var adjStraightStepList = new List<(int x, decimal y)>();
 
-        startY = DataList[interval.startIndex].Position > startX 
+        startY = DataList[interval.startIndex].GetPosition() > startX 
             ? GetYBetweenStepIndex(interval.startIndex, startX) 
-            : DataList[interval.startIndex++].FactCheckedProfileLength;
-        endY = DataList[interval.endIndex].Position > endX
+            : DataList[interval.startIndex++].GetFactProfile();
+        endY = DataList[interval.endIndex].GetPosition() > endX
             ? GetYBetweenStepIndex(interval.endIndex, endX)
-            : DataList[interval.endIndex].FactCheckedProfileLength;
+            : DataList[interval.endIndex].GetFactProfile();
 
         adjStraightStepList.Add((startX, startY));
 
         for (var i = interval.startIndex; i < interval.endIndex; i++)
         {
-            var x = DataList[i].Position;
-            var y = GetY(startX, startY, endX, endY, DataList[i].Position);
+            var x = DataList[i].GetPosition();
+            var y = GetY(startX, startY, endX, endY, DataList[i].GetPosition());
             adjStraightStepList.Add((x, y));
         }
         adjStraightStepList.Add((endX, endY));
@@ -246,7 +259,7 @@ public class DB
 
         for (var i = 1; i < endInterval - startInteval + 1; i++)
         {
-            var value = DataList[startInteval + i - 1].FactCheckedProfileLength - LocalAreaStraight[i].y;
+            var value = DataList[startInteval + i - 1].GetFactProfile() - LocalAreaStraight[i].y;
             if (value < minDeviation)
                 minDeviation = value;
             else if (value > maxDeviation)
@@ -264,14 +277,14 @@ public class DB
         var endIndex = DataList.Count - 1;
         for (var i = 0; i < DataList.Count; i++)
         {
-            if (!startIndexIsFind && DataList[i].Position >= startPos)
+            if (!startIndexIsFind && DataList[i].GetPosition() >= startPos)
             {
                 startIndex = i;
                 startIndexIsFind = true;
                 continue;
             }
 
-            if (!endIndexIsFind &&  DataList[i].Position >= endPos)
+            if (!endIndexIsFind &&  DataList[i].GetPosition() >= endPos)
             {
                 endIndex = i;
                 endIndexIsFind = true;
@@ -291,14 +304,14 @@ public class DB
         UpdateMinMaxDeviations();
         UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
-        BedAreaLength = DataList[^1].Position;
+        _bedAreaLength = DataList[^1].GetPosition();
         //CalculateLocalAreaStepCount();
 
 
         //TODO Не работает если не посчитаны program factors
         //UpdateProgramFactors();
-        //MaxDeviation = 0;
-        //MinDeviation = 0;
+        //_maxDeviation = 0;
+        //_minDeviation = 0;
 
         //for (var i = 1; i < DataList.Count; i++)
         //{
@@ -310,10 +323,10 @@ public class DB
         //selRow.CalculateDeviation();
 
         //var deviationValue = selRow.GetDeviation();
-        //if (deviationValue > MaxDeviation)
-        //    MaxDeviation = deviationValue;
-        //else if (deviationValue < MinDeviation)
-        //    MinDeviation = deviationValue;
+        //if (deviationValue > _maxDeviation)
+        //    _maxDeviation = deviationValue;
+        //else if (deviationValue < _minDeviation)
+        //    _minDeviation = deviationValue;
         //_verticalDeflection = GetMaxDeviation() + GetMinDeviation() * -1;
 
         //if (DataList.Count - i == 1 && DataList.Count > _stepsPerMeter)
@@ -344,7 +357,7 @@ public class DB
         DataList.Clear(); //= new List<DataRow>();
         _programFactor1 = 0;
         _programFactor2 = 0;
-        VerticalDeflection = 0;
+        _verticalDeflection = 0;
         UpdateStepsPerMeter(Step);
         DataList.Add(new DataRow(0, 0, 0, null, RevStrokeEnbled));
         UpdateAllRows();
@@ -357,14 +370,14 @@ public class DB
             ( "Наименование", Name ),
             ( "Обозначение", Description ),
             ( "Измерения произвел", Fio ),
-            ( "Наибольшее отклонение", MaxDeviation ),
-            ( "Наименьшее отклонение", MinDeviation ),
-            ( "Отклонение от прямолинейности в вертикальной плоскости, мкм",VerticalDeflection ),
-            ( "Отклонение от прямолинейности на 1 метр, мкм",  MeterDeflection ),
+            ( "Наибольшее отклонение", _maxDeviation ),
+            ( "Наименьшее отклонение", _minDeviation ),
+            ( "Отклонение от прямолинейности в вертикальной плоскости, мкм",_verticalDeflection ),
+            ( "Отклонение от прямолинейности на 1 метр, мкм",  _meterDeflection ),
             ( "Допуск на всю длину измерения, мкм",  FullTolerance ),
             ( "Допуск на 1 метр (или локальный), мкм",  MeterTolerance ),
             ( "Локальный участок, мм",  LocalAreaLength ),
-            ( "Длина измерения, мм",  BedAreaLength ),
+            ( "Длина измерения, мм",  _bedAreaLength ),
             ( "Шаг измерения (расстояние между опорами мостика), мм", Step)
         ];
     }
@@ -376,14 +389,14 @@ public class DB
             [ "Наименование", Name ],
             [ "Обозначение", Description ],
             [ "Измерения произвел",Fio ],
-            [ "Наибольшее отклонение", Math.Round(MaxDeviation,2).ToString() ],
-            [ "Наименьшее отклонение", Math.Round(MinDeviation, 2).ToString() ],
-            [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(VerticalDeflection, 2).ToString() ],
-            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(MeterDeflection, 2).ToString() ],
+            [ "Наибольшее отклонение", Math.Round(_maxDeviation,2).ToString() ],
+            [ "Наименьшее отклонение", Math.Round(_minDeviation, 2).ToString() ],
+            [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(_verticalDeflection, 2).ToString() ],
+            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(_meterDeflection, 2).ToString() ],
             [ "Допуск на всю длину измерения, мкм", FullTolerance.ToString() ],
             [ "Допуск на 1 метр (или локальный), мкм", MeterTolerance.ToString() ],
             [ "Локальный участок, мм", LocalAreaLength.ToString() ],
-            [ "Длина измерения, мм", BedAreaLength.ToString() ],
+            [ "Длина измерения, мм", _bedAreaLength.ToString() ],
             [ "Шаг измерения (расстояние между опорами мостика), мм", Step.ToString() ]];
 
         var dataListValues = new string[DataList.Count + 1][];
@@ -414,9 +427,9 @@ public class DB
         var graph2 = new double[DataList.Count];
         for (int i = 0; i < DataList.Count; i++)
         {
-            pos[i] = decimal.ToDouble(DataList[i].Position);
-            graph1[i] = decimal.ToDouble(DataList[i].FactCheckedProfileLength);
-            graph2[i] = decimal.ToDouble(DataList[i].AdjStraight);
+            pos[i] = decimal.ToDouble(DataList[i].GetPosition());
+            graph1[i] = decimal.ToDouble(DataList[i].GetFactProfile());
+            graph2[i] = decimal.ToDouble(DataList[i].GetAdjStraight());
         }
 
         return new(pos, graph1, graph2);

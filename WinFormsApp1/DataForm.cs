@@ -59,16 +59,16 @@ public partial class DataForm : Form
                 dataGrid.Rows[i].Cells[cellNumber].Style.BackColor = Color.WhiteSmoke;
             }
             dataGrid.Rows[i].Cells[0].Value = i;
-            dataGrid.Rows[i].Cells[1].Value = row.Position;
-            dataGrid.Rows[i].Cells[2].Value = Math.Round(row.FactCheckedProfileLength, 2);
-            dataGrid.Rows[i].Cells[3].Value = Math.Round(row.AdjStraight, 2);
-            dataGrid.Rows[i].Cells[4].Value = Math.Round(row.Deviation, 2);
-            dataGrid.Rows[i].Cells[5].Value = Math.Round(row.DevationPerMeter, 2);
-            dataGrid.Rows[i].Cells[6].Value = Math.Round(row.MidValue, 2);
+            dataGrid.Rows[i].Cells[1].Value = row.GetPosition();
+            dataGrid.Rows[i].Cells[2].Value = Math.Round(row.GetFactProfile(), 2);
+            dataGrid.Rows[i].Cells[3].Value = Math.Round(row.GetAdjStraight(), 2);
+            dataGrid.Rows[i].Cells[4].Value = Math.Round(row.GetDeviation(), 2);
+            dataGrid.Rows[i].Cells[5].Value = Math.Round(row.GetDevationPerMeter(), 2);
+            dataGrid.Rows[i].Cells[6].Value = Math.Round(row.GetMidValue(), 2);
             dataGrid.Rows[i].Cells[7].Value = row.FStroke == int.MinValue ? "" : row.FStroke;
             dataGrid.Rows[i].Cells[8].Value = row.RevStroke == int.MinValue ? "" : row.RevStroke;
 
-            if (Math.Round(row.DevationPerMeter, 2) > this.db.MeterTolerance)
+            if (Math.Round(row.GetDevationPerMeter(), 2) > this.db.MeterTolerance)
                 dataGrid.Rows[i].Cells[5].Style.BackColor = Color.LightCoral;
             else
                 dataGrid.Rows[i].Cells[5].Style.BackColor = SystemColors.Control;
