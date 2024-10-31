@@ -10,7 +10,10 @@ namespace Pryamolineynost
     {
         DB db;
         MainForm mainForm;
-        public int _botomGraphIndention = 130;
+        public int _rightGraphIndexnt = 150;
+        public int _botomGraphIndention = 37;
+        public int _initFormWidth = 700;
+        public int _initFormHeight = 600;
         public GraphicsForm(DB db, MainForm mainForm)
         {
             this.db = db;
@@ -21,7 +24,7 @@ namespace Pryamolineynost
 
         private void GraphicsForm_Resize(object sender, EventArgs e)
         {
-            plotView1.Size = new Size(this.Width - 16, this.Height - _botomGraphIndention);
+            plotView1.Size = new Size(this.Width - _rightGraphIndexnt, this.Height - _botomGraphIndention);
         }
 
         public void UpdatePlot()
@@ -48,7 +51,7 @@ namespace Pryamolineynost
                 //MinorStep = db.Step,
                 MajorGridlineStyle = LineStyle.Solid, // Основная сетка
                 MinorGridlineStyle = LineStyle.Dot, // Вспомогательная сетка
-                
+
             };
 
             var yAxis = new LinearAxis
