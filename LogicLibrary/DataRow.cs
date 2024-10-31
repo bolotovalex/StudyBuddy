@@ -14,12 +14,18 @@ public class DataRow
     public decimal FStroke { get; set; } //Прямой ход, мкм
     public decimal RevStroke { get; set; } //Обратный ход, мкм
 
+    
+    
+    
     public DataRow(decimal FStroke, decimal RevStroke, int step, DataRow? prevDataRow, bool revStrokeEnabled)
     {
         UpdateRow(FStroke, RevStroke, step, prevDataRow, revStrokeEnabled);
     }
+    public DataRow()
+    {
 
-    public DataRow(decimal FStroke, decimal RevStroke) : this(FStroke, RevStroke, 0, );
+    }
+
 
     public void UpdateRow(decimal FStroke, decimal RevStroke, int step, DataRow? prevDataRow, bool revStrokeEnabled)
     {

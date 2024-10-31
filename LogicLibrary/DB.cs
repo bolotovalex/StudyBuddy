@@ -59,7 +59,7 @@ public class DB
         if (stepsLength != 0)
         {
             _stepsPerMeter = 1000 % stepsLength >= 5 ? 1000 / stepsLength + 1 : 1000 / stepsLength;
-            LocalAreaLength = 1000 / stepsLength * stepsLength;
+            //LocalAreaLength = 1000 / stepsLength * stepsLength;
         }
     }
 
