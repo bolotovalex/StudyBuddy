@@ -21,7 +21,8 @@ public class DB
     public List<DataRow> DataList { get; set; } //Таблица измерений
     private int _stepsPerMeter { get; set; }
     public bool RevStrokeEnbled = false;
-
+    public DPoint[] CurvePoints { get; set; }
+    public DPoint[] StraightPoints { get; set; }
 
     public DB(List<DataRow> dataList, int step)
     {
@@ -251,6 +252,7 @@ public class DB
         return new AreaDeviation(delta.startX, startY, delta.endX, endY, delta.delta);
     }
 
+
     public (int startX, int endX, decimal delta) GetDeltaAreaDeviation(int startInteval, int endInterval, List<(int x, decimal y)> LocalAreaStraight)
     {
         var lst = new List<decimal>();
@@ -267,6 +269,19 @@ public class DB
         }
             
         return (LocalAreaStraight[0].x, LocalAreaStraight[^1].x, maxDeviation - minDeviation);
+    }
+
+    public AreaDeviation[] GetMaxLocalAreaDeviation(int count = 10, decimal tolerance = 0)
+    {
+        var deviationList = new SortedQueueDeviation();
+        for (var i = 0; i + LocalAreaLength <= _bedAreaLength; i += 50)
+        {
+            var areaDeviation = GetAreaDeviation(i);
+            deviationList.AddArea(areaDeviation);
+        }
+
+        var maxDeviationAreaArr = deviationList.GetBigestElements(10);
+        return maxDeviationAreaArr;
     }
 
     public (int startIndex, int endIndex) GetIntervalIndex(int startPos, int endPos)
@@ -305,9 +320,10 @@ public class DB
         UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
         _bedAreaLength = DataList[^1].GetPosition();
+        UpdatePoints();
+        
+        
         //CalculateLocalAreaStepCount();
-
-
         //TODO Не работает если не посчитаны program factors
         //UpdateProgramFactors();
         //_maxDeviation = 0;
@@ -433,5 +449,15 @@ public class DB
         }
 
         return new(pos, graph1, graph2);
+    }
+    public void UpdatePoints()
+    {
+        CurvePoints = new DPoint[DataList.Count];
+        StraightPoints = new DPoint[DataList.Count];
+        for (var i = 0; i < DataList.Count; ++i)
+        {
+            CurvePoints[i] = new DPoint(DataList[i].GetPosition(), DataList[i].GetFactProfile());
+            StraightPoints[i] = new DPoint(DataList[i].GetPosition(), DataList[i].GetAdjStraight());
+        }
     }
 }
