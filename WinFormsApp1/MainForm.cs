@@ -216,12 +216,14 @@ public partial class MainForm : Form
     private void SavePdfButton_Click(object sender, EventArgs e)
     {
         var fileName = GetSaveFileName(FileFormat.Pdf);
+        var pl = new GraphicModel(_dB.CurvePoints, _dB.StraightPoints);
+        pl.RefreshPlot();
         if (fileName != "")
         {
             var document = PdfService.CreateDocument(
                 _dB.GetPrintStrings().dbValues,
                 _dB.GetPrintStrings().dataListValues,
-                new GraphicModel(_dB.CurvePoints, _dB.StraightPoints).GetPlotModel());
+                pl.GetPlotModel());
             document.Save(fileName);
         }
     }
