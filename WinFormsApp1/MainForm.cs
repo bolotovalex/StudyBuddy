@@ -237,5 +237,19 @@ public partial class MainForm : Form
     private void localAreaTextBox_TextChanged(object sender, EventArgs e)
     {
         _dB.LocalAreaLength = CheckTextBoxIntValue(localAreaTextBox);
+        if (_dB.LocalAreaLength >= _dB.Step) 
+        {
+            _dB.maxLocalAreaDeviations = _dB.GetMaxLocalAreaDeviation(30);
+            if (_graphicsForm != null)
+            {
+                _graphicsForm.UpdateDeviationList();
+            }
+
+            if (_graphic != null)
+            {
+                _graphic.UpdataSeries();
+                _graphic.RefreshPlot();
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using OxyPlot.Axes;
 using OxyPlot.Legends;
 using OxyPlot.Series;
+using System.Data;
 
 
 namespace LogicLibrary
@@ -86,7 +87,7 @@ namespace LogicLibrary
             }
             if (localStraightPoints != null)
             {
-                var localLineStraight = new LineSeries { Title = "Отклонение на локальном участке" };
+                var localLineStraight = new LineSeries { Title = "Отклонение на локальном участке", LineStyle = LineStyle.Dot, MarkerType = MarkerType.Square};
                 //var toleranceLine1 = new LineSeries { Title = "Допуск" };
                 //var toleranceLine2 = new LineSeries { Title = "Допуск" };
                 for (var i = 0; i < localStraightPoints.Length; i++)

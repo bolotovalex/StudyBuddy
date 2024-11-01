@@ -39,9 +39,17 @@ namespace Pryamolineynost
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Console.WriteLine($"{listBox1.SelectedIndex} {listBox1.SelectedItem}");
-            var a = DB.maxLocalAreaDeviations[listBox1.SelectedIndex];
-            Console.WriteLine();
-            graphic.localStraightPoints = new DPoint[2] { new DPoint(a.firstCoord.x, a.firstCoord.y), new DPoint(a.secondCoord.x, a.secondCoord.y) };
+            var point = DB.maxLocalAreaDeviations[listBox1.SelectedIndex];
+            //var startX = Convert.ToInt32(point.firstCoord.x - DB.GetBedAreaLength() * 0.05);
+            //var endX = Convert.ToInt32(point.secondCoord.x + DB.GetBedAreaLength() * 0.05);
+            //var startY = DB.GetY(point.firstCoord.x,point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, startX);
+            //var endY = DB.GetY(point.firstCoord.x, point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, endX);
+            var startX = Convert.ToInt32(point.firstCoord.x);
+            var endX = Convert.ToInt32(point.secondCoord.x);
+            var startY = DB.GetY(point.firstCoord.x, point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, startX);
+            var endY = DB.GetY(point.firstCoord.x, point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, endX);
+
+            graphic.localStraightPoints = new DPoint[2] { new DPoint(startX, startY), new DPoint(endX, endY) };
             graphic.RefreshPlot();
         }
 

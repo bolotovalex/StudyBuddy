@@ -207,7 +207,7 @@ public class DB
         }
     }
     
-    private decimal GetY(int x1, decimal y1, int x2, decimal y2, int x3)
+    public decimal GetY(int x1, decimal y1, int x2, decimal y2, int x3)
     {
         return Math.Round((x3 * y2 - x3 * y1 - x1 * y2 + x2 * y1) / (x2 - x1), 2);
     }
@@ -282,7 +282,7 @@ public class DB
             deviationList.AddArea(areaDeviation);
         }
 
-        var maxDeviationAreaArr = deviationList.GetBigestElements(10);
+        var maxDeviationAreaArr = deviationList.GetBigestElements(count);
         return maxDeviationAreaArr;
     }
 
@@ -322,7 +322,7 @@ public class DB
         UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
         _bedAreaLength = DataList[^1].GetPosition();
-        maxLocalAreaDeviations = GetMaxLocalAreaDeviation(10);
+        maxLocalAreaDeviations = GetMaxLocalAreaDeviation(30);
         UpdatePoints();
         
         
