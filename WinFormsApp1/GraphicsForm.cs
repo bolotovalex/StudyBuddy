@@ -40,14 +40,14 @@ namespace Pryamolineynost
         {
             //Console.WriteLine($"{listBox1.SelectedIndex} {listBox1.SelectedItem}");
             var point = DB.maxLocalAreaDeviations[listBox1.SelectedIndex];
-            //var startX = Convert.ToInt32(point.firstCoord.x - DB.GetBedAreaLength() * 0.05);
-            //var endX = Convert.ToInt32(point.secondCoord.x + DB.GetBedAreaLength() * 0.05);
-            //var startY = DB.GetY(point.firstCoord.x,point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, startX);
-            //var endY = DB.GetY(point.firstCoord.x, point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, endX);
-            var startX = Convert.ToInt32(point.firstCoord.x);
-            var endX = Convert.ToInt32(point.secondCoord.x);
+            var startX = Convert.ToInt32(point.firstCoord.x - DB.GetBedAreaLength() * 0.05);
+            var endX = Convert.ToInt32(point.secondCoord.x + DB.GetBedAreaLength() * 0.05);
             var startY = DB.GetY(point.firstCoord.x, point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, startX);
             var endY = DB.GetY(point.firstCoord.x, point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, endX);
+            //var startX = Convert.ToInt32(point.firstCoord.x);
+            //var endX = Convert.ToInt32(point.secondCoord.x);
+            //var startY = DB.GetY(point.firstCoord.x, point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, startX);
+            //var endY = DB.GetY(point.firstCoord.x, point.firstCoord.y, point.secondCoord.x, point.secondCoord.y, endX);
 
             graphic.localStraightPoints = new DPoint[2] { new DPoint(startX, startY), new DPoint(endX, endY) };
             graphic.RefreshPlot();
