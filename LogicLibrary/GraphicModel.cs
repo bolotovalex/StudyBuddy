@@ -13,7 +13,7 @@ namespace LogicLibrary
         public DPoint[] CurvePoints { get; set; }
         public DPoint[] StraightPoints { get; set; }
         public DPoint[]? localStraightPoints { get;  set; }
-        public int localStraightTolerance { get; set; }
+        public int localStraightTolerance { get; set; } = 0;
 
         public PlotModel plotModel { get; }
         //public PlotView plotView { get; }
@@ -76,6 +76,8 @@ namespace LogicLibrary
             var mainLine = new LineSeries { Title = "Фактический профиль проверямой поверхности, мкм" };
             var adjStraight = new LineSeries { Title = "Прилегающая прямая, мкм", LineStyle = LineStyle.Dash };
             //var points = db.GetGraphicPoints();
+            plotModel.Series.Add(mainLine);
+            plotModel.Series.Add(adjStraight);
 
             for (var i = 0; i < CurvePoints.Length; i++)
             {
@@ -85,20 +87,19 @@ namespace LogicLibrary
             if (localStraightPoints != null)
             {
                 var localLineStraight = new LineSeries { Title = "Отклонение на локальном участке" };
-                var toleranceLine1 = new LineSeries { Title = "Допуск" };
-                var toleranceLine2 = new LineSeries { Title = "Допуск" };
-                for (var i = 0; i <= localStraightPoints.Length; i++)
+                //var toleranceLine1 = new LineSeries { Title = "Допуск" };
+                //var toleranceLine2 = new LineSeries { Title = "Допуск" };
+                for (var i = 0; i < localStraightPoints.Length; i++)
                 {
                     localLineStraight.Points.Add(new DataPoint(localStraightPoints[i].X, localStraightPoints[i].Y));
-                    toleranceLine1.Points.Add(new DataPoint(localStraightPoints[i].X, localStraightPoints[i].Y + localStraightTolerance));
-                    toleranceLine2.Points.Add(new DataPoint(localStraightPoints[i].X, localStraightPoints[i].Y - localStraightTolerance));
+                    //toleranceLine1.Points.Add(new DataPoint(localStraightPoints[i].X, localStraightPoints[i].Y + localStraightTolerance));
+                    //toleranceLine2.Points.Add(new DataPoint(localStraightPoints[i].X, localStraightPoints[i].Y - localStraightTolerance));
                 }
                 plotModel.Series.Add(localLineStraight);
-                plotModel.Series.Add(toleranceLine1);
-                plotModel.Series.Add(toleranceLine2);
+                //plotModel.Series.Add(toleranceLine1);
+                //plotModel.Series.Add(toleranceLine2);
             }
-            plotModel.Series.Add(mainLine);
-            plotModel.Series.Add(adjStraight);
+            
         }
     }
 }

@@ -145,12 +145,19 @@ public partial class DataForm : Form
                     break;
             }
             this.db.UpdateAllRows();
+            
+            
 
         }
 
         UpdateForm(sender, e);
         mainForm.UpdateAllFields();
         mainForm.UpdateGraphic();
+        if (_graphicsForm != null)
+        {
+            _graphicsForm.UpdateDeviationList();
+        }
+        
         //_graphicsForm.UpdatePlot();
     }
 

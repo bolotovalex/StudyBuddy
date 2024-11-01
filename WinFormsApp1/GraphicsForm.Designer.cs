@@ -55,7 +55,6 @@
             listBox1.Dock = DockStyle.Bottom;
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 15;
-            listBox1.Items.AddRange(new object[] { "123", "234", "345", "456", "567", "678" });
             listBox1.Location = new Point(0, 167);
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(120, _initFormHeight-25);

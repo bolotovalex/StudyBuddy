@@ -24,6 +24,8 @@ public class DB
     public DPoint[] CurvePoints { get; set; }
     public DPoint[] StraightPoints { get; set; }
 
+    public AreaDeviation[] maxLocalAreaDeviations { get; set; }
+
     public DB(List<DataRow> dataList, int step)
     {
         foreach(var row in dataList)
@@ -320,6 +322,7 @@ public class DB
         UpdateMeterDeflectionAllDataList();
         UpdateMeterDeflection();
         _bedAreaLength = DataList[^1].GetPosition();
+        maxLocalAreaDeviations = GetMaxLocalAreaDeviation(10);
         UpdatePoints();
         
         

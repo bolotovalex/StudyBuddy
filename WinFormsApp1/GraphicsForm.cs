@@ -34,10 +34,23 @@ namespace Pryamolineynost
         public void UpdatePlot()
         {
             graphic.RefreshPlot();
+            UpdateDeviationList();
         }
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Console.WriteLine($"{listBox1.SelectedIndex} {listBox1.SelectedItem}");
+            //Console.WriteLine($"{listBox1.SelectedIndex} {listBox1.SelectedItem}");
+            var a = DB.maxLocalAreaDeviations[listBox1.SelectedIndex];
+            Console.WriteLine();
+            graphic.localStraightPoints = new DPoint[2] { new DPoint(a.firstCoord.x, a.firstCoord.y), new DPoint(a.secondCoord.x, a.secondCoord.y) };
+            graphic.RefreshPlot();
+        }
+
+        public void UpdateDeviationList() 
+        {
+            listBox1.Items.Clear();
+            foreach (var item in DB.maxLocalAreaDeviations)
+                listBox1.Items.Add($"{item.firstCoord.x}-{item.secondCoord.x} : {item.deviation}");
+            
         }
     }
 }

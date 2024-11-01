@@ -210,6 +210,7 @@ public partial class MainForm : Form
             _graphicsForm.Dispose();
         }
         _graphicsForm = new GraphicsForm(_dB, this, _graphic);
+        _graphicsForm.UpdateDeviationList();
         _graphicsForm.Show();
     }
 
