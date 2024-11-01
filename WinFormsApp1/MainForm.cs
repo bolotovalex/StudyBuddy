@@ -25,7 +25,7 @@ public partial class MainForm : Form
         _dataForm = new DataForm(_dB, this, _graphicsForm);
         stepTextBox.Text = _dB.Step.ToString();
         _graphic = new GraphicModel(_dB.CurvePoints, _dB.StraightPoints);
-        _graphicsForm = new GraphicsForm(_dB, this, _graphic);
+        //_graphicsForm = new GraphicsForm(_dB, this, _graphic);
     }
 
 
@@ -178,7 +178,12 @@ public partial class MainForm : Form
         if (openFileDialog.FileName != "")
         {
             _dataForm.Close();
-            _graphicsForm.Close();
+            if (_graphicsForm != null) 
+            {
+                _graphicsForm.Dispose();
+            }
+            
+
             var reader = new StreamReader(openFileDialog.OpenFile());
             var data = await reader.ReadToEndAsync();
             DB? newDb = JsonSerializer.Deserialize<DB>(data) ?? new DB() { Description = "", Name = "", Fio = "" };
@@ -200,12 +205,11 @@ public partial class MainForm : Form
     }
     private void GraphicButton_Click(object sender, EventArgs e)
     {
-        //_graphicsForm.Dispose();
-        //_graphicsForm = new GraphicsForm(_dB, this);
-        //_dB.UpdatePoints();
-        //_graphic.CurvePoints = _dB.CurvePoints;
-        //_graphic.StraightPoints = _dB.StraightPoints;
-        //_graphic.RefreshPlot();
+        if (_graphicsForm != null)
+        {
+            _graphicsForm.Dispose();
+        }
+        _graphicsForm = new GraphicsForm(_dB, this, _graphic);
         _graphicsForm.Show();
     }
 
