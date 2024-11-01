@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 using LogicLibrary;
+using PryamolineynostWF;
 
 
 namespace Pryamolineynost;
@@ -11,7 +12,11 @@ public partial class MainForm : Form
     private DataForm _dataForm;
     private GraphicsForm _graphicsForm;
     private GraphicModel _graphic;
-
+    private bool FioIsFill = false;
+    private bool NameIsFill = false;
+    private bool DescriptionIsFill = false;
+    private ErrorForm _errorForm;
+    
     enum FileFormat
     {
         Json,
@@ -25,18 +30,66 @@ public partial class MainForm : Form
         _dataForm = new DataForm(_dB, this, _graphicsForm);
         stepTextBox.Text = _dB.Step.ToString();
         _graphic = new GraphicModel(_dB.CurvePoints, _dB.StraightPoints);
+        CheckAllRequiredElements();
         //_graphicsForm = new GraphicsForm(_dB, this, _graphic);
     }
 
+    public bool CheckComboBox(ComboBox comboBox)
+    {
+        if (comboBox.Text.Length == 0)
+            return false;
+        return true;
+    }
+
+    private bool CheckAllRequiredElements()
+    {
+        var state = true;
+        foreach (var cb in new ComboBox[] { nameComboBox, descriptionComboBox, fioComboBox })
+        {
+            var st = CheckComboBox(cb);
+            state = state & st;
+            UpdateFieldColor(cb, st);
+        }
+
+        foreach (var tb in new TextBox[] { tolerLenghtTextBox , tolerPerMeterTextBox }) 
+        {
+            var st = int.Parse(tb.Text) != 0;
+            state = state & st;
+            UpdateFieldColor(tb, st);
+        }
+
+        return state;
+    }
+    
+    public void UpdateFieldColor(ComboBox field, bool state)
+    {
+        field.BackColor = state ? Color.White : Color.LightCoral;
+    }
+
+    public void UpdateFieldColor(TextBox field, bool state)
+    {
+        field.BackColor = state ? Color.White : Color.LightCoral;
+    }
 
     private void UpdateFio(object sender, EventArgs e)
     {
+        var state = CheckComboBox(fioComboBox);
+        UpdateFieldColor(fioComboBox, state);
         _dB.Fio = fioComboBox.Text;
     }
 
     private void UpdateProjectName(object sender, EventArgs e)
     {
+        var state = CheckComboBox(nameComboBox);
+        UpdateFieldColor(nameComboBox, state);
         _dB.Name = nameComboBox.Text;
+    }
+
+    private void DescriptionComboBox_TextChanged(object sender, EventArgs e)
+    {
+        var state = CheckComboBox(descriptionComboBox);
+        UpdateFieldColor(descriptionComboBox, state);
+        _dB.Description = descriptionComboBox.Text;
     }
 
 
@@ -58,12 +111,14 @@ public partial class MainForm : Form
     private void UpdateFullTolerance(object sender, EventArgs e)
     {
         _dB.FullTolerance = CheckTextBoxIntValue(tolerLenghtTextBox);
+        UpdateFieldColor(tolerLenghtTextBox, _dB.FullTolerance > 0);
         UpdateAllFields();
     }
 
     private void UpdateAdmPerMeter(object sender, EventArgs e)
     {
         _dB.MeterTolerance = CheckTextBoxIntValue(tolerPerMeterTextBox);
+        UpdateFieldColor(tolerPerMeterTextBox, _dB.MeterTolerance > 0);
         UpdateAllFields();
     }
 
@@ -75,9 +130,17 @@ public partial class MainForm : Form
 
     private void FillDataFormButton_Click(object sender, EventArgs e)
     {
-        _dataForm.Dispose();
-        _dataForm = new DataForm(_dB, this, _graphicsForm);
-        _dataForm.Show();
+        if (CheckAllRequiredElements())
+        {
+            _dataForm.Dispose();
+            _dataForm = new DataForm(_dB, this, _graphicsForm);
+            _dataForm.Show();
+        }
+        else
+        {
+            _errorForm = new ErrorForm();
+            _errorForm.ShowDialog();
+        }
     }
 
     public static string GetSrting(decimal value)
@@ -131,19 +194,22 @@ public partial class MainForm : Form
 
     private async void SaveButton_Click(object sender, EventArgs e)
     {
-        var filename = GetSaveFileName(FileFormat.Json);
-
-        if (filename != "")
+        if (CheckAllRequiredElements())
         {
-            using var writer = new StreamWriter(filename);
-            await writer.WriteLineAsync(JsonSerializer.Serialize(_dB));
-            writer.Close();
-        }
-    }
+            var filename = GetSaveFileName(FileFormat.Json);
 
-    private void DescriptionComboBox_TextChanged(object sender, EventArgs e)
-    {
-        _dB.Description = descriptionComboBox.Text;
+            if (filename != "")
+            {
+                using var writer = new StreamWriter(filename);
+                await writer.WriteLineAsync(JsonSerializer.Serialize(_dB));
+                writer.Close();
+            }
+        }
+        else
+        {
+            _errorForm = new ErrorForm();
+            _errorForm.ShowDialog();
+        }
     }
 
     private static string GetSaveFileName(FileFormat format)
@@ -194,6 +260,11 @@ public partial class MainForm : Form
             UpdateGraphic();
             reader.Close();
         }
+        else
+        {
+            _errorForm = new ErrorForm();
+            _errorForm.ShowDialog();
+        }
     }
 
     public void UpdateGraphic()
@@ -205,27 +276,42 @@ public partial class MainForm : Form
     }
     private void GraphicButton_Click(object sender, EventArgs e)
     {
-        if (_graphicsForm != null)
+        if (CheckAllRequiredElements())
         {
-            _graphicsForm.Dispose();
+            if (_graphicsForm != null)
+                _graphicsForm.Dispose();
+            
+            _graphicsForm = new GraphicsForm(_dB, this, _graphic);
+            _graphicsForm.UpdateDeviationList();
+            _graphicsForm.Show();
         }
-        _graphicsForm = new GraphicsForm(_dB, this, _graphic);
-        _graphicsForm.UpdateDeviationList();
-        _graphicsForm.Show();
+        else
+        {
+            _errorForm = new ErrorForm();
+            _errorForm.ShowDialog();
+        }
     }
 
     private void SavePdfButton_Click(object sender, EventArgs e)
     {
-        var fileName = GetSaveFileName(FileFormat.Pdf);
-        var pl = new GraphicModel(_dB.CurvePoints, _dB.StraightPoints);
-        pl.RefreshPlot();
-        if (fileName != "")
+        if (CheckAllRequiredElements())
         {
-            var document = PdfService.CreateDocument(
-                _dB.GetPrintStrings().dbValues,
-                _dB.GetPrintStrings().dataListValues,
-                pl.GetPlotModel());
-            document.Save(fileName);
+            var fileName = GetSaveFileName(FileFormat.Pdf);
+            var pl = new GraphicModel(_dB.CurvePoints, _dB.StraightPoints);
+            pl.RefreshPlot();
+            if (fileName != "")
+            {
+                var document = PdfService.CreateDocument(
+                    _dB.GetPrintStrings().dbValues,
+                    _dB.GetPrintStrings().dataListValues,
+                    pl.GetPlotModel());
+                document.Save(fileName);
+            }
+        }
+        else
+        {
+            _errorForm = new ErrorForm();
+            _errorForm.ShowDialog();
         }
     }
 
