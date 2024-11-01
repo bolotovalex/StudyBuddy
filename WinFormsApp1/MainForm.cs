@@ -265,6 +265,7 @@ public partial class MainForm : Form
             _errorForm = new ErrorForm();
             _errorForm.ShowDialog();
         }
+        CheckAllRequiredElements();
     }
 
     public void UpdateGraphic()
