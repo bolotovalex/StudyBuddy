@@ -24,8 +24,8 @@ namespace Pryamolineynost
 
         private void GraphicsForm_Resize(object sender, EventArgs e)
         {
-            plotView1.Size = new Size(this.Width - _rightGraphIndexnt, this.Height - _botomGraphIndention);
-            listBox1.Size = new Size(120, this.Height - label1.Size.Height);
+            plotView1.Size = new Size(this.Width - _rightGraphIndexnt-15, this.Height - _botomGraphIndention);
+            listBox1.Size = new Size(120, this.Height - label1.Size.Height-25);
         }
 
         public void UpdatePlot()

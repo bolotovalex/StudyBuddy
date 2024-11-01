@@ -40,7 +40,7 @@
             plotView1.Location = new Point(0, 0);
             plotView1.Name = "plotView1";
             plotView1.PanCursor = Cursors.HSplit;
-            plotView1.Size = new Size(0, 261);
+            plotView1.Size = new Size(_initFormWidth - _rightGraphIndexnt, _initFormHeight);
             plotView1.TabIndex = 0;
             plotView1.Text = "plotView1";
             plotView1.ZoomHorizontalCursor = Cursors.SizeWE;
@@ -55,7 +55,7 @@
             listBox1.Items.AddRange(new object[] { "123", "234", "345", "456", "567", "678" });
             listBox1.Location = new Point(0, 167);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(284, 94);
+            listBox1.Size = new Size(120, _initFormHeight-25);
             listBox1.TabIndex = 2;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
@@ -64,18 +64,18 @@
             label1.BorderStyle = BorderStyle.FixedSingle;
             label1.Dock = DockStyle.Top;
             label1.Location = new Point(0, 0);
-            label1.MaximumSize = new Size(300, 300);
+            label1.MaximumSize = new Size(300, 50);
             label1.Name = "label1";
             label1.Size = new Size(284, 30);
             label1.TabIndex = 1;
             label1.Text = "Отклонения";
-            label1.Visible = false;
+            label1.Visible = true;
             // 
             // GraphicsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(284, 261);
+            ClientSize = new Size(_initFormWidth, _initFormHeight);
             Controls.Add(label1);
             Controls.Add(listBox1);
             Controls.Add(plotView1);
