@@ -150,7 +150,8 @@ public partial class DataForm : Form
 
         UpdateForm(sender, e);
         mainForm.UpdateAllFields();
-        _graphicsForm.UpdatePlot();
+        mainForm.UpdateGraphic();
+        //_graphicsForm.UpdatePlot();
     }
 
 

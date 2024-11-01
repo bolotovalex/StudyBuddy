@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json;
 using LogicLibrary;
@@ -11,6 +10,7 @@ public partial class MainForm : Form
     private DB _dB;
     private DataForm _dataForm;
     private GraphicsForm _graphicsForm;
+    private GraphicModel _graphic;
 
     enum FileFormat
     {
@@ -24,7 +24,8 @@ public partial class MainForm : Form
         _dB = new DB() { Description = "", Name = "", Fio = "" };
         _dataForm = new DataForm(_dB, this, _graphicsForm);
         stepTextBox.Text = _dB.Step.ToString();
-        _graphicsForm = new GraphicsForm(_dB, this);
+        _graphic = new GraphicModel(_dB.CurvePoints, _dB.StraightPoints);
+        _graphicsForm = new GraphicsForm(_dB, this, _graphic);
     }
 
 
@@ -185,31 +186,27 @@ public partial class MainForm : Form
             _dB.UpdateAllRows();
             UpdateAllFields();
             _dataForm.UpdateForm(null, null);
-            _graphicsForm.UpdatePlot();
+            UpdateGraphic();
             reader.Close();
         }
     }
 
+    public void UpdateGraphic()
+    {
+        _dB.UpdatePoints();
+        _graphic.CurvePoints = _dB.CurvePoints;
+        _graphic.StraightPoints = _dB.StraightPoints;
+        _graphic.RefreshPlot();
+    }
     private void GraphicButton_Click(object sender, EventArgs e)
     {
-        _graphicsForm.Dispose();
-        _graphicsForm = new GraphicsForm(_dB, this);
+        //_graphicsForm.Dispose();
+        //_graphicsForm = new GraphicsForm(_dB, this);
+        //_dB.UpdatePoints();
+        //_graphic.CurvePoints = _dB.CurvePoints;
+        //_graphic.StraightPoints = _dB.StraightPoints;
+        //_graphic.RefreshPlot();
         _graphicsForm.Show();
-        var deviationList = new SortedQueueDeviation();
-
-        for (var i = 0; i + _dB.LocalAreaLength <= _dB.GetBedAreaLength(); i += 50)
-        {
-            var areaDeviation = _dB.GetAreaDeviation(i);
-            deviationList.AddArea(areaDeviation);
-        }
-
-        var maxDeviationAreaArr = deviationList.GetBigestElements(10);
-
-        foreach (var area in maxDeviationAreaArr)
-        {
-            Console.WriteLine($"Интервал: {area.firstCoord.x} - {area.secondCoord.x}. Отклонение: {area.deviation}");
-        }
-        Console.WriteLine("--------------");
     }
 
     private void SavePdfButton_Click(object sender, EventArgs e)
@@ -220,7 +217,7 @@ public partial class MainForm : Form
             var document = PdfService.CreateDocument(
                 _dB.GetPrintStrings().dbValues,
                 _dB.GetPrintStrings().dataListValues,
-                new GraphicsForm(_dB, this).GetPlotModel());
+                new GraphicModel(_dB.CurvePoints, _dB.StraightPoints).GetPlotModel());
             document.Save(fileName);
         }
     }

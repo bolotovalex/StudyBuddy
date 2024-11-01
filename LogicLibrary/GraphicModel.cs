@@ -1,45 +1,41 @@
-﻿using LogicLibrary;
-using OxyPlot;
+﻿using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Legends;
 using OxyPlot.Series;
-using OxyPlot.WindowsForms;
-using System.Drawing;
+
 
 namespace LogicLibrary
 {
-    public class Graphic
+    public class GraphicModel
     {
         
         public int Step { get; set; } = 200;
-        public required Point[] CurvePoints { get; set; }
-        public required Point[] StraightPoints { get; set; }
-        public Point[]? localStraightPoints { get;  set; }
+        public DPoint[] CurvePoints { get; set; }
+        public DPoint[] StraightPoints { get; set; }
+        public DPoint[]? localStraightPoints { get;  set; }
         public int localStraightTolerance { get; set; }
 
-        public PlotModel _plotModel { get; }
-        public PlotView? _plotView { get; }
+        public PlotModel plotModel { get; }
+        //public PlotView plotView { get; }
 
-        public Graphic(string title, Point[] curvePoints, Point[] straightPoint)
+        public GraphicModel(DPoint[] curvePoints, DPoint[] straightPoint)
         {
-            _plotModel = new PlotModel { Title = "График отклонений от прямолинейности в вертикальной плоскости" };
+            plotModel = new PlotModel { Title = "График отклонений от прямолинейности в вертикальной плоскости" };
+            //plotView = new PlotView();
             CurvePoints = curvePoints;
             StraightPoints = straightPoint;
-            BuildModel();
-            _plotView.Model = _plotModel;
+            RebuildModel();
+            //plotView.Model = plotModel;
         }
 
         public void RefreshPlot()
         {
-            _plotModel?.InvalidatePlot(true);
+            UpdataSeries();
+            plotModel.InvalidatePlot(true);
         }
 
-        public PlotView? GetPlotView() => _plotView;
-        public PlotModel? GetPlotModel() => _plotModel;
-
-        public void BuildModel()
+        public void RebuildModel()
         {
-            //plotView1.Dock = DockStyle.Left;
             var xAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom, // Ось внизу
@@ -60,9 +56,23 @@ namespace LogicLibrary
             };
 
 
-            _plotModel?.Axes.Add(xAxis);
-            _plotModel?.Axes.Add(yAxis);
+            plotModel.Axes.Clear();
+            plotModel.Axes.Add(xAxis);
+            plotModel.Axes.Add(yAxis);
 
+
+            plotModel.Legends.Clear();
+            Legend legend = new Legend();
+            legend.LegendPosition = LegendPosition.TopRight;
+            plotModel.Legends.Add(legend);
+            plotModel.IsLegendVisible = true;
+        }
+
+        public PlotModel? GetPlotModel() => plotModel;
+
+        public void UpdataSeries()
+        {
+            plotModel.Series.Clear();
             var mainLine = new LineSeries { Title = "Фактический профиль проверямой поверхности, мкм" };
             var adjStraight = new LineSeries { Title = "Прилегающая прямая, мкм", LineStyle = LineStyle.Dash };
             //var points = db.GetGraphicPoints();
@@ -72,29 +82,23 @@ namespace LogicLibrary
                 mainLine.Points.Add(new DataPoint(CurvePoints[i].X, CurvePoints[i].Y));
                 adjStraight.Points.Add(new DataPoint(StraightPoints[i].X, StraightPoints[i].Y));
             }
-
-            Legend legend = new Legend();
-            legend.LegendPosition = LegendPosition.TopRight;
-            _plotModel.Legends.Add(legend);
-            _plotModel.IsLegendVisible = true;
-            _plotModel.Series.Add(mainLine);
-            _plotModel.Series.Add(adjStraight);
-
-            if (localStraightPoints != null) 
+            if (localStraightPoints != null)
             {
                 var localLineStraight = new LineSeries { Title = "Отклонение на локальном участке" };
                 var toleranceLine1 = new LineSeries { Title = "Допуск" };
                 var toleranceLine2 = new LineSeries { Title = "Допуск" };
-                for (var i = 0; i<= localStraightPoints.Length; i++)
+                for (var i = 0; i <= localStraightPoints.Length; i++)
                 {
                     localLineStraight.Points.Add(new DataPoint(localStraightPoints[i].X, localStraightPoints[i].Y));
                     toleranceLine1.Points.Add(new DataPoint(localStraightPoints[i].X, localStraightPoints[i].Y + localStraightTolerance));
                     toleranceLine2.Points.Add(new DataPoint(localStraightPoints[i].X, localStraightPoints[i].Y - localStraightTolerance));
                 }
-                _plotModel.Series.Add(localLineStraight);
-                _plotModel.Series.Add(toleranceLine1);
-                _plotModel.Series.Add(toleranceLine2);
+                plotModel.Series.Add(localLineStraight);
+                plotModel.Series.Add(toleranceLine1);
+                plotModel.Series.Add(toleranceLine2);
             }
+            plotModel.Series.Add(mainLine);
+            plotModel.Series.Add(adjStraight);
         }
     }
 }

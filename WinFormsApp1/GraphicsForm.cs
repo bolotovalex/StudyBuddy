@@ -1,92 +1,40 @@
 ﻿using LogicLibrary;
 using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Legends;
-using OxyPlot.Series;
+using OxyPlot.WindowsForms;
 
 namespace Pryamolineynost
 {
     public partial class GraphicsForm : Form
     {
-        DB db;
+        DB DB;
         MainForm mainForm;
+        GraphicModel graphic;
         public int _rightGraphIndexnt = 150;
         public int _botomGraphIndention = 37;
         public int _initFormWidth = 1000;
         public int _initFormHeight = 600;
-        public GraphicsForm(DB db, MainForm mainForm)
+        
+        public GraphicsForm(DB db, MainForm mainForm, GraphicModel graphic)
         {
-            this.db = db;
+            this.DB = db;
             this.mainForm = mainForm;
+            this.graphic = graphic;
             InitializeComponent();
-            UpdatePlot();
+            plotView1.Model = graphic.GetPlotModel();
+            this.Controls.Add(plotView1);
+            graphic.RefreshPlot();
         }
 
         private void GraphicsForm_Resize(object sender, EventArgs e)
         {
-            plotView1.Size = new Size(this.Width - _rightGraphIndexnt-15, this.Height - _botomGraphIndention);
+            plotView1.Size = new Size(this.Width - _rightGraphIndexnt, this.Height - _botomGraphIndention);
             listBox1.Size = new Size(120, this.Height - label1.Size.Height-25);
         }
 
         public void UpdatePlot()
         {
-            var plotModel = new PlotModel { Title = "График отклонений от прямолинейности в вертикальной плоскости" };
-            BuildGraphic(plotModel);
-            this.Controls.Add(plotView1);
+            graphic.RefreshPlot();
         }
-
-        public PlotModel GetPlotModel()
-        {
-            var plotModel = new PlotModel { Title = "График отклонений от прямолинейности в вертикальной плоскости" };
-            BuildGraphic(plotModel);
-            return plotModel;
-        }
-        public void BuildGraphic(PlotModel plotModel)
-        {
-            //plotView1.Dock = DockStyle.Left;
-            var xAxis = new LinearAxis
-            {
-                Position = AxisPosition.Bottom, // Ось внизу
-                Title = "Длина измерения, мм", // Подпись для оси X
-                MajorStep = db.Step, //Задаем шаг на оси y
-                //MinorStep = db.Step,
-                MajorGridlineStyle = LineStyle.Solid, // Основная сетка
-                MinorGridlineStyle = LineStyle.Dot, // Вспомогательная сетка
-
-            };
-
-            var yAxis = new LinearAxis
-            {
-                Position = AxisPosition.Left, //Ось слева
-                Title = "Показания уровня, мкм", //Подпись оси слева
-                MajorGridlineStyle = LineStyle.Solid, // Основная сетка
-                MinorGridlineStyle = LineStyle.Dot // Вспомогательная сетка
-            };
-
-
-            plotModel.Axes.Add(xAxis);
-            plotModel.Axes.Add(yAxis);
-
-            var line1 = new LineSeries { Title = "Фактический профиль проверямой поверхности, мкм" };
-            var line2 = new LineSeries { Title = "Прилегающая прямая, мкм", LineStyle = LineStyle.Dash };
-            var points = db.GetGraphicPoints();
-
-            for (var i = 0; i < db.DataList.Count; i++)
-            {
-                line1.Points.Add(new DataPoint(points.positions[i], points.graph1[i]));
-                line2.Points.Add(new DataPoint(points.positions[i], points.graph2[i]));
-            }
-
-            Legend legend = new Legend();
-            legend.LegendPosition = LegendPosition.TopRight;
-
-            plotModel.Series.Add(line1);
-            plotModel.Series.Add(line2);
-            plotModel.Legends.Add(legend);
-            plotModel.IsLegendVisible = true;
-            plotView1.Model = plotModel;
-        }
-
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Console.WriteLine($"{listBox1.SelectedIndex} {listBox1.SelectedItem}");
