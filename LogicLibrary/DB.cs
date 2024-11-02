@@ -285,7 +285,8 @@ public class DB
     public AreaDeviation[] GetMaxLocalAreaDeviation(int count = 10, decimal tolerance = 0)
     {
         var deviationList = new SortedQueueDeviation();
-        for (var i = 0; i + LocalAreaLength <= _bedAreaLength; i += 50)
+        var localStep = Step / 5;
+        for (var i = 0; i + LocalAreaLength <= _bedAreaLength; i += localStep)
         {
             var areaDeviation = GetAreaDeviation(i);
             deviationList.AddArea(areaDeviation);
