@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace AvaloniaDesktopApp
+namespace PryamolineysnostModerUI
 {
     internal class Program
     {

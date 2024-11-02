@@ -1,0 +1,53 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="500"
+        x:Class="PryamolineysnostModerUI.MainWindow"
+        Title="PryamolineysnostModerUI">
+		
+	<DockPanel LastChildFill="True">
+		<Border Height="25" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
+			<TextBlock Foreground="Black">Dock = "Top"</TextBlock>
+		</Border>
+		<Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
+		</Border>
+		
+		<Border Width="60" Background="PaleGreen" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Left">
+			<StackPanel Name="ButtonPanel">
+				<Button Name="HomeButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
+					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">H</TextBlock>
+				</Button>
+				
+				<Button Name="DataButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
+					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">D</TextBlock>
+				</Button>
+
+				<Button Name="GraphicButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
+					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">G</TextBlock>
+				</Button>
+
+				<Button Name="PdfButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
+					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">P</TextBlock>
+				</Button>
+								
+				<Button Name="SaveButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
+					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">S</TextBlock>
+				</Button>
+
+				<Button Name="LoadButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
+					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">L</TextBlock>
+				</Button>
+				
+				<Button Name="ExitButton" Click="ExitButton_OnClick" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
+					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">E</TextBlock>
+				</Button>
+			</StackPanel>
+			
+		</Border>
+		<Border Background="White" BorderBrush="Black" BorderThickness="1">
+			<TextBlock Foreground="Black">This content will "Fill" the remaining space</TextBlock>
+		</Border>
+	</DockPanel>
+	
+</Window>

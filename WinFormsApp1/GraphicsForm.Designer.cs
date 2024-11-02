@@ -57,7 +57,7 @@
             listBox1.ItemHeight = 15;
             listBox1.Location = new Point(0, 167);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(120, _initFormHeight-25);
+            listBox1.Size = new Size(120, _initFormHeight - 25);
             listBox1.TabIndex = 2;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
@@ -85,6 +85,7 @@
             Text = "График";
             Resize += GraphicsForm_Resize;
             ResumeLayout(false);
+            MinimumSize = new Size(_initFormWidth, _initFormHeight);
         }
 
         #endregion

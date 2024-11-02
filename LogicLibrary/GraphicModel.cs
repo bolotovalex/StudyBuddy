@@ -2,9 +2,6 @@
 using OxyPlot.Axes;
 using OxyPlot.Legends;
 using OxyPlot.Series;
-using System.Data;
-
-
 namespace LogicLibrary
 {
     public class GraphicModel
@@ -19,13 +16,13 @@ namespace LogicLibrary
         public PlotModel plotModel { get; }
         //public PlotView plotView { get; }
 
-        public GraphicModel(DPoint[] curvePoints, DPoint[] straightPoint)
+        public GraphicModel(DPoint[] curvePoints, DPoint[] straightPoint, double step)
         {
             plotModel = new PlotModel { Title = "График отклонений от прямолинейности в вертикальной плоскости" };
             //plotView = new PlotView();
             CurvePoints = curvePoints;
             StraightPoints = straightPoint;
-            RebuildModel();
+            RebuildModel(step);
             //plotView.Model = plotModel;
         }
 
@@ -35,13 +32,13 @@ namespace LogicLibrary
             plotModel.InvalidatePlot(true);
         }
 
-        public void RebuildModel()
+        public void RebuildModel(double step)
         {
             var xAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom, // Ось внизу
                 Title = "Длина измерения, мм", // Подпись для оси X
-                MajorStep = Step, //Задаем шаг на оси y
+                MajorStep = step, //Задаем шаг на оси y
                 //MinorStep = db.Step,
                 MajorGridlineStyle = LineStyle.Solid, // Основная сетка
                 MinorGridlineStyle = LineStyle.Dot, // Вспомогательная сетка

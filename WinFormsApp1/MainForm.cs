@@ -29,7 +29,7 @@ public partial class MainForm : Form
         _dB = new DB() { Description = "", Name = "", Fio = "" };
         _dataForm = new DataForm(_dB, this, _graphicsForm);
         stepTextBox.Text = _dB.Step.ToString();
-        _graphic = new GraphicModel(_dB.CurvePoints, _dB.StraightPoints);
+        _graphic = new GraphicModel(_dB.GetCurvePoints(), _dB.GetStraightPoint(), _dB.Step);
         CheckAllRequiredElements();
         //_graphicsForm = new GraphicsForm(_dB, this, _graphic);
     }
@@ -106,6 +106,14 @@ public partial class MainForm : Form
         _dB.UpdateAllRows();
         _dataForm.DataForm_Load(sender, e);
         UpdateAllFields();
+        if (_graphic != null)
+        {
+            _graphic.RefreshPlot();
+        }
+        if (_dB.GetAreaDeviations().Length > 0)
+        {
+            lineDeviationTextBox.Text = _dB.GetAreaDeviations()[0].deviation.ToString();
+        }
     }
 
     private void UpdateFullTolerance(object sender, EventArgs e)
@@ -177,7 +185,7 @@ public partial class MainForm : Form
 
         if (InTolearance(_dB.GetVerticalDeflection(), _dB.MeterTolerance))
         {
-            lineDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
+            lineDeviationTextBox.Text = GetSrting(_dB.GetMeterDeflection());
             lineDeviationTextBox.BackColor = SystemColors.Control;
         }
         else
@@ -271,8 +279,8 @@ public partial class MainForm : Form
     public void UpdateGraphic()
     {
         _dB.UpdatePoints();
-        _graphic.CurvePoints = _dB.CurvePoints;
-        _graphic.StraightPoints = _dB.StraightPoints;
+        _graphic.CurvePoints = _dB.GetCurvePoints();
+        _graphic.StraightPoints = _dB.GetStraightPoint();
         _graphic.RefreshPlot();
     }
     private void GraphicButton_Click(object sender, EventArgs e)
@@ -282,7 +290,8 @@ public partial class MainForm : Form
             if (_graphicsForm != null)
                 _graphicsForm.Dispose();
             
-            _graphicsForm = new GraphicsForm(_dB, this, _graphic);
+            var newGraphic = new GraphicModel(_dB.GetCurvePoints(), _dB.GetStraightPoint(), _dB.GetBedAreaLength() / 12);
+            _graphicsForm = new GraphicsForm(_dB, this, newGraphic);
             _graphicsForm.UpdateDeviationList();
             _graphicsForm.Show();
         }
@@ -298,7 +307,7 @@ public partial class MainForm : Form
         if (CheckAllRequiredElements())
         {
             var fileName = GetSaveFileName(FileFormat.Pdf);
-            var pl = new GraphicModel(_dB.CurvePoints, _dB.StraightPoints);
+            var pl = new GraphicModel(_dB.GetCurvePoints(), _dB.GetStraightPoint(), _dB.Step);
             pl.RefreshPlot();
             if (fileName != "")
             {
@@ -326,7 +335,7 @@ public partial class MainForm : Form
         _dB.LocalAreaLength = CheckTextBoxIntValue(localAreaTextBox);
         if (_dB.LocalAreaLength >= _dB.Step) 
         {
-            _dB.maxLocalAreaDeviations = _dB.GetMaxLocalAreaDeviation(30);
+            _dB.SetAreaDeviation(_dB.GetMaxLocalAreaDeviation(30)) ;
             if (_graphicsForm != null)
             {
                 _graphicsForm.UpdateDeviationList();
@@ -338,5 +347,17 @@ public partial class MainForm : Form
                 _graphic.RefreshPlot();
             }
         }
+        if (_graphic != null)
+        {
+            _graphic.RebuildModel(_dB.Step);
+            _graphic.RefreshPlot();
+        }
+
+        if (_dB.GetAreaDeviations().Length > 0)
+        {
+            lineDeviationTextBox.Text = _dB.GetAreaDeviations()[0].deviation.ToString();
+        }
+        
+
     }
 }

@@ -21,10 +21,10 @@ public class DB
     public List<DataRow> DataList { get; set; } //Таблица измерений
     private int _stepsPerMeter { get; set; }
     public bool RevStrokeEnbled = false;
-    public DPoint[] CurvePoints { get; set; }
-    public DPoint[] StraightPoints { get; set; }
+    private DPoint[] CurvePoints { get; set; }
+    private DPoint[] StraightPoints { get; set; }
 
-    public AreaDeviation[] maxLocalAreaDeviations { get; set; }
+    private AreaDeviation[] maxLocalAreaDeviations { get; set; }
 
     public DB(List<DataRow> dataList, int step)
     {
@@ -33,6 +33,15 @@ public class DB
             this.AddRow(row.FStroke, row.RevStroke);
         }
     }
+
+    public DPoint[] GetCurvePoints() => CurvePoints;
+    public DPoint[] GetStraightPoint() => StraightPoints;
+    public AreaDeviation[] GetAreaDeviations() => maxLocalAreaDeviations;
+    public void SetAreaDeviation(AreaDeviation[] area)
+    {
+        maxLocalAreaDeviations = area;
+    }
+
 
     public DB()
     {

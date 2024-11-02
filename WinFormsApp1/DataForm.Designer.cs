@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             dataGrid = new DataGridView();
-            closeButton = new Button();
-            clearDBButton = new Button();
-            revStrokeCheckBox = new CheckBox();
             id = new DataGridViewTextBoxColumn();
             length = new DataGridViewTextBoxColumn();
             factProfile = new DataGridViewTextBoxColumn();
@@ -41,6 +38,9 @@
             advValue = new DataGridViewTextBoxColumn();
             fStroke = new DataGridViewTextBoxColumn();
             rStroke = new DataGridViewTextBoxColumn();
+            closeButton = new Button();
+            clearDBButton = new Button();
+            revStrokeCheckBox = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)dataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -55,37 +55,6 @@
             dataGrid.TabIndex = 3;
             dataGrid.CellEndEdit += DataGrid_CellEndEdit;
             dataGrid.DataContextChanged += DataForm_SizeChanged;
-            // 
-            // closeButton
-            // 
-            closeButton.Location = new Point(843, 588);
-            closeButton.Name = "closeButton";
-            closeButton.Size = new Size(75, 23);
-            closeButton.TabIndex = 4;
-            closeButton.Text = "Закрыть";
-            closeButton.UseVisualStyleBackColor = true;
-            closeButton.Click += CloseButton_Click;
-            // 
-            // clearDBButton
-            // 
-            clearDBButton.Location = new Point(3, 588);
-            clearDBButton.Name = "clearDBButton";
-            clearDBButton.Size = new Size(75, 23);
-            clearDBButton.TabIndex = 5;
-            clearDBButton.Text = "Очистить";
-            clearDBButton.UseVisualStyleBackColor = true;
-            clearDBButton.Click += ClearDBButton_Click;
-            // 
-            // revStrokeCheckBox
-            // 
-            revStrokeCheckBox.AutoSize = true;
-            revStrokeCheckBox.Location = new Point(733, 591);
-            revStrokeCheckBox.Name = "revStrokeCheckBox";
-            revStrokeCheckBox.Size = new Size(105, 19);
-            revStrokeCheckBox.TabIndex = 6;
-            revStrokeCheckBox.Text = "Обратный ход";
-            revStrokeCheckBox.UseVisualStyleBackColor = true;
-            revStrokeCheckBox.CheckedChanged += revStrokeCheckBox_CheckedChanged;
             // 
             // id
             // 
@@ -151,6 +120,37 @@
             rStroke.Name = "rStroke";
             rStroke.Visible = false;
             // 
+            // closeButton
+            // 
+            closeButton.Location = new Point(843, 588);
+            closeButton.Name = "closeButton";
+            closeButton.Size = new Size(75, 23);
+            closeButton.TabIndex = 4;
+            closeButton.Text = "Закрыть";
+            closeButton.UseVisualStyleBackColor = true;
+            closeButton.Click += CloseButton_Click;
+            // 
+            // clearDBButton
+            // 
+            clearDBButton.Location = new Point(3, 588);
+            clearDBButton.Name = "clearDBButton";
+            clearDBButton.Size = new Size(75, 23);
+            clearDBButton.TabIndex = 5;
+            clearDBButton.Text = "Очистить";
+            clearDBButton.UseVisualStyleBackColor = true;
+            clearDBButton.Click += ClearDBButton_Click;
+            // 
+            // revStrokeCheckBox
+            // 
+            revStrokeCheckBox.AutoSize = true;
+            revStrokeCheckBox.Location = new Point(733, 591);
+            revStrokeCheckBox.Name = "revStrokeCheckBox";
+            revStrokeCheckBox.Size = new Size(105, 19);
+            revStrokeCheckBox.TabIndex = 6;
+            revStrokeCheckBox.Text = "Обратный ход";
+            revStrokeCheckBox.UseVisualStyleBackColor = true;
+            revStrokeCheckBox.CheckedChanged += revStrokeCheckBox_CheckedChanged;
+            // 
             // DataForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -160,6 +160,7 @@
             Controls.Add(clearDBButton);
             Controls.Add(closeButton);
             Controls.Add(dataGrid);
+            MinimumSize = new Size(640, 480);
             Name = "DataForm";
             Text = "Измерения";
             Load += DataForm_Load;

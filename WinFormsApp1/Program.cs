@@ -1,4 +1,6 @@
-namespace Pryamolineynost;
+using Pryamolineynost;
+
+namespace PryamolineynostWF;
 
 internal static class Program
 {
