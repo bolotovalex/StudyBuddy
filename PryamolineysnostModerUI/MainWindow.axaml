@@ -2,52 +2,173 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="500"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
         x:Class="PryamolineysnostModerUI.MainWindow"
-        Title="PryamolineysnostModerUI">
-		
-	<DockPanel LastChildFill="True">
-		<Border Height="25" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
-			<TextBlock Foreground="Black">Dock = "Top"</TextBlock>
-		</Border>
-		<Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
-		</Border>
-		
-		<Border Width="60" Background="PaleGreen" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Left">
-			<StackPanel Name="ButtonPanel">
-				<Button Name="HomeButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
-					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">H</TextBlock>
-				</Button>
-				
-				<Button Name="DataButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
-					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">D</TextBlock>
-				</Button>
+        Title="PryamolineysnostModerUI"
+        Width="860"
+        Height="600"
+        MinWidth="300"
+        MinHeight="300">
+    
+    <Window.Styles>
+        <Style Selector="Button.ControlPanelButton">
+            <!-- <Style Selector="^:pointerover"> -->
+            <!--     <Setter Property="Button.Background" Value="Red"></Setter> -->
+            <!-- </Style> -->
+            <!-- <Style Selector="^:focus"> -->
+            <!--     <Setter Property="Foreground" Value="Red"></Setter> -->
+            <!-- </Style> -->
+            <Setter Property="CornerRadius" Value="3"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="Height" Value="45"></Setter>
+            <Setter Property="Width" Value="45"></Setter>
+            <Setter Property="DockPanel.Dock" Value="Top"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+            <!-- <Setter Property="Background" Value="rgba(0,0,0,0.3)"></Setter> -->
+            <Setter Property="FontFamily" Value="Segoe Fluent Icons" ></Setter>
+            <Setter Property="FontSize" Value="36"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        </Style>
+        
+        <Style Selector="Button.ControlPanelButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="Background" Value="LightBlue"></Setter>
+        </Style>
+        
+        <Style Selector="Button.ControlPanelButton:pressed /template/ ContentPresenter">
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="Background" Value="LightSkyBlue"></Setter>
+        </Style>
+        
 
-				<Button Name="GraphicButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
-					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">G</TextBlock>
-				</Button>
+        
+    </Window.Styles>
+    
+    <DockPanel LastChildFill="True">
+        <!-- Верхнее меню -->
+        <Border Height="25" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
+            <TextBlock Foreground="Black">Dock = "Top"</TextBlock>
+        </Border>
 
-				<Button Name="PdfButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
-					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">P</TextBlock>
-				</Button>
-								
-				<Button Name="SaveButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
-					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">S</TextBlock>
-				</Button>
+        <!-- Нижний бар -->
+        <Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
+        </Border>
 
-				<Button Name="LoadButton" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
-					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">L</TextBlock>
-				</Button>
-				
-				<Button Name="ExitButton" Click="ExitButton_OnClick" Margin="5,5,5,5" Height="45" Width="45" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Top">
-					<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">E</TextBlock>
-				</Button>
-			</StackPanel>
-			
-		</Border>
-		<Border Background="White" BorderBrush="Black" BorderThickness="1">
-			<TextBlock Foreground="Black">This content will "Fill" the remaining space</TextBlock>
-		</Border>
-	</DockPanel>
-	
+        <!-- Основная панель кнопок -->
+        <Border Background="rgb(247,247,247)" BorderBrush="Black" BorderThickness="0" DockPanel.Dock="Left">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Rectangle Grid.Row="1" Grid.Column="0" Margin="3,0,3,0" Fill="Black"></Rectangle>
+                <Rectangle Grid.Row="3" Grid.Column="0" Margin="3,0,3,0" Fill="Black"></Rectangle>
+
+                <!--Первая секция кнопок -->
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <!-- Кнопка Главное меню -->
+                    <Button Name="HomeButton"
+                            ToolTip.Tip="Главный экран"
+                            Classes="ControlPanelButton"
+                            Content="">                          
+                    </Button>
+                    
+                    
+                    
+                    <!--Кнопка экрана с измерениями-->
+                    <Button Name="DataButton"
+                            ToolTip.Tip="Измерения"
+                            Classes="ControlPanelButton"
+                            Content="">
+                    </Button>
+
+                    <!-- Кнопка Меню графика -->
+                    <Button 
+                        Name="GraphicButton"
+                        ToolTip.Tip="График"
+                        Classes="ControlPanelButton"
+                        Content="">
+                        
+                    </Button>
+
+                    <!--Кнопка PDF-->
+                    <Button Name="PdfButton" 
+                            Classes="ControlPanelButton"
+                            Content="">
+                         
+                        <!-- <TextBlock FontFamily="Segoe Fluent Icons" FontSize="34" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black">P</TextBlock> -->
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <Button Name="LoadButton" 
+                            Classes="ControlPanelButton"
+                            Content="">
+                    </Button>	
+                    
+                    <Button Name="SaveButton" 
+                            Classes="ControlPanelButton"
+                            Content="">
+                    	</Button>
+                    
+                    	
+                </StackPanel>
+                
+                <StackPanel Grid.Row="4" Grid.Column="0">
+                    	<Button Name="ExitButton" 
+                                Click="ExitButton_OnClick" 
+                                Classes="ControlPanelButton"
+                                Content="">
+                            <Button.Styles>
+                                <Style Selector=":pointerover /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="LightCoral"></Setter>
+                                </Style>
+                                
+                                <Style Selector=":pressed /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="Red"></Setter>
+                                </Style>
+                            </Button.Styles>
+                        </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Главная панель -->
+        </Border>
+        <Border Background="rgb(247,247,247)" BorderBrush="Black" BorderThickness="0">
+            <StackPanel x:Name="MainPanel" Margin="3" Background="Aqua">
+                <Grid Background="Gainsboro">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="4*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Margin="7" VerticalAlignment="Center">Наименование</Label>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="7"></TextBox>
+                    <Label Grid.Row="1" Grid.Column="0" Margin="7" VerticalAlignment="Center">234</Label>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="7"></TextBox>
+                    <Label Grid.Row="2" Grid.Column="0" Margin="7" VerticalAlignment="Center">Измерения произвел</Label>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="7"></TextBox>
+
+                </Grid>
+                <Button Name="Counter" Background="Aquamarine" CornerRadius="5" BorderThickness="1" BorderBrush="Black"
+                        Content="Счетчик: 0" Click="Counter_Click">
+                </Button>
+
+            </StackPanel>
+        </Border>
+    </DockPanel>
+
 </Window>
