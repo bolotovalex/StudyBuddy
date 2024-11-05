@@ -101,6 +101,7 @@
 
                     <!--Кнопка PDF-->
                     <Button Name="PdfButton" 
+                            ToolTip.Tip="Выгрузить в PDF"
                             Classes="ControlPanelButton"
                             Content="">
                          
@@ -110,11 +111,13 @@
 
                 <StackPanel Grid.Row="2" Grid.Column="0">
                     <Button Name="LoadButton" 
+                            ToolTip.Tip="Загрузить изменения"
                             Classes="ControlPanelButton"
                             Content="">
                     </Button>	
                     
                     <Button Name="SaveButton" 
+                            ToolTip.Tip="Сохранить измерения"
                             Classes="ControlPanelButton"
                             Content="">
                     	</Button>
@@ -124,6 +127,7 @@
                 
                 <StackPanel Grid.Row="4" Grid.Column="0">
                     	<Button Name="ExitButton" 
+                                ToolTip.Tip="Выход"
                                 Click="ExitButton_OnClick" 
                                 Classes="ControlPanelButton"
                                 Content="">
