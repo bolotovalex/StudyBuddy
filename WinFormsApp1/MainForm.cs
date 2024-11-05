@@ -270,8 +270,8 @@ public partial class MainForm : Form
         }
         else
         {
-            _errorForm = new ErrorForm();
-            _errorForm.ShowDialog();
+            //_errorForm = new ErrorForm();
+            //_errorForm.ShowDialog();
         }
         CheckAllRequiredElements();
     }
