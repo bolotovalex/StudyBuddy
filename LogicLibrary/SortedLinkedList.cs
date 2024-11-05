@@ -85,10 +85,12 @@ namespace LogicLibrary
             ///<summary></summary>
             var arr = new AreaDeviation[elementsCount > count ? count : elementsCount];
             var currArea = root;
-            for (int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < arr.Length;)
             {
-                arr[i] = currArea;
-                currArea = currArea.nextArea;
+                arr[i++] = currArea;
+                if (i!=arr.Length) 
+                    currArea = currArea.nextArea;
+                
             }
             return arr;
         }
