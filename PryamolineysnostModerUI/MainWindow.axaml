@@ -19,16 +19,16 @@
             <!--     <Setter Property="Foreground" Value="Red"></Setter> -->
             <!-- </Style> -->
             <Setter Property="CornerRadius" Value="3"></Setter>
-            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Margin" Value="0,2,0,2"></Setter>
             <Setter Property="Padding" Value="0"></Setter>
-            <Setter Property="Height" Value="45"></Setter>
-            <Setter Property="Width" Value="45"></Setter>
+            <Setter Property="Height" Value="50"></Setter>
+            <Setter Property="Width" Value="50"></Setter>
             <Setter Property="DockPanel.Dock" Value="Top"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Top"></Setter>
-            <!-- <Setter Property="Background" Value="rgba(0,0,0,0.3)"></Setter> -->
+            <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
             <Setter Property="FontFamily" Value="Segoe Fluent Icons" ></Setter>
-            <Setter Property="FontSize" Value="36"></Setter>
+            <Setter Property="FontSize" Value="30"></Setter>
             <Setter Property="Foreground" Value="Black"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
@@ -69,7 +69,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Rectangle Grid.Row="1" Grid.Column="0" Margin="3,0,3,0" Fill="rgb(223,223,223)"></Rectangle>
+                <Rectangle Width="47" Grid.Row="1" Grid.Column="0" Margin="3,0,3,0" Fill="rgb(223,223,223)"></Rectangle>
                 <Rectangle Grid.Row="3" Grid.Column="0" Margin="3,0,3,0" Fill="rgb(223,223,223)"></Rectangle>
 
                 <!--Первая секция кнопок -->
@@ -78,7 +78,8 @@
                     <Button Name="HomeButton"
                             ToolTip.Tip="Главный экран"
                             Classes="ControlPanelButton"
-                            Content="">                          
+                            Content=""
+							>                          
                     </Button>
                     
                     
@@ -143,7 +144,7 @@
             <!-- Главная панель -->
         </Border>
         <Border Background="rgb(247,247,247)" BorderBrush="rgb(223,223,223)" BorderThickness="1">
-            <StackPanel x:Name="MainPanel" Margin="3" Background="Aqua">
+            <StackPanel x:Name="MainPanel" Margin="7" Background="Aqua">
                 <Grid Background="Gainsboro">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
