@@ -7,8 +7,8 @@
         Title="PryamolineysnostModerUI"
         Width="860"
         Height="600"
-        MinWidth="300"
-        MinHeight="300">
+        MinWidth="700"
+        MinHeight="480">
     
     <Window.Styles>
         <Style Selector="Button.ControlPanelButton">
@@ -139,31 +139,42 @@
         </Border>
         <Border Background="rgb(247,247,247)" BorderBrush="rgb(223,223,223)" BorderThickness="0">
             <StackPanel Name="MainInformationPanel">
-                <StackPanel x:Name="MainPanel" Margin="0" Background="rgb(247,247,247)">
-                    <Grid Background="rgb(247,247,247)" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" MinWidth="200" MaxWidth="300"/>
-                            <ColumnDefinition Width="4*" />
-                        </Grid.ColumnDefinitions>
-        
-                        <Label Grid.Row="0" Grid.Column="0" Foreground="Black" Background="rgb(247,247,247)" Margin="7" VerticalAlignment="Center">Наименование</Label>
-                        <TextBox Grid.Row="0" Grid.Column="1" Foreground="Black" Background="rgb(247,247,247)" Margin="7"></TextBox>
-                        <Label Grid.Row="1" Grid.Column="0" Foreground="Black" Background="rgb(247,247,247)" Margin="7" VerticalAlignment="Center">234</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Foreground="Black" Background="rgb(247,247,247)" Margin="7"></TextBox>
-                        <Label Grid.Row="2" Grid.Column="0" Foreground="Black" Background="rgb(247,247,247)" Margin="7" VerticalAlignment="Center">Измерения произвел</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Foreground="Black" Background="rgb(247,247,247)" Margin="7"></TextBox>
-        
-                    </Grid>
-                    <Button Name="Counter" Background="Aquamarine" CornerRadius="5" BorderThickness="1" BorderBrush="Black"
-                            Content="Счетчик: 0" Click="Counter_Click">
-                    </Button>
-        
-                </StackPanel>    
+                <StackPanel Name="MainPanel">
+                    <TextBlock>Panel - MainPanel</TextBlock>
+                </StackPanel>
+                
+                <StackPanel Name="DataPanel">
+                    <TextBlock>Panel - DataPanel</TextBlock>
+                </StackPanel>
+                
+                <StackPanel Name="GraphicPanel">
+                    <TextBlock>Panel - GraphicPanel</TextBlock>
+                </StackPanel>
+                <!-- <StackPanel x:Name="MainPanel" Margin="0" Background="rgb(247,247,247)"> -->
+                <!--     <Grid Background="rgb(247,247,247)" > -->
+                <!--         <Grid.RowDefinitions> -->
+                <!--             <RowDefinition Height="Auto" /> -->
+                <!--             <RowDefinition Height="Auto" /> -->
+                <!--             <RowDefinition Height="Auto" /> -->
+                <!--         </Grid.RowDefinitions> -->
+                <!--         <Grid.ColumnDefinitions> -->
+                <!--             <ColumnDefinition Width="2*" MinWidth="200" MaxWidth="300"/> -->
+                <!--             <ColumnDefinition Width="4*" /> -->
+                <!--         </Grid.ColumnDefinitions> -->
+                <!-- -->
+                <!--         <Label Grid.Row="0" Grid.Column="0" Foreground="Black" Background="rgb(247,247,247)" Margin="7" VerticalAlignment="Center">Наименование</Label> -->
+                <!--         <TextBox Grid.Row="0" Grid.Column="1" Foreground="Black" Background="rgb(247,247,247)" Margin="7"></TextBox> -->
+                <!--         <Label Grid.Row="1" Grid.Column="0" Foreground="Black" Background="rgb(247,247,247)" Margin="7" VerticalAlignment="Center">234</Label> -->
+                <!--         <TextBox Grid.Row="1" Grid.Column="1" Foreground="Black" Background="rgb(247,247,247)" Margin="7"></TextBox> -->
+                <!--         <Label Grid.Row="2" Grid.Column="0" Foreground="Black" Background="rgb(247,247,247)" Margin="7" VerticalAlignment="Center">Измерения произвел</Label> -->
+                <!--         <TextBox Grid.Row="2" Grid.Column="1" Foreground="Black" Background="rgb(247,247,247)" Margin="7"></TextBox> -->
+                <!-- -->
+                <!--     </Grid> -->
+                <!--     <Button Name="Counter" Background="Aquamarine" CornerRadius="5" BorderThickness="1" BorderBrush="Black" -->
+                <!--             Content="Счетчик: 0" Click="Counter_Click"> -->
+                <!--     </Button> -->
+                <!-- -->
+                <!-- </StackPanel>     -->
             </StackPanel>
             
         </Border>

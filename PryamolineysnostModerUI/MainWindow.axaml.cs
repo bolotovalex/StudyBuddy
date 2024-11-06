@@ -23,8 +23,8 @@ namespace PryamolineysnostModerUI
         {
             InitializeComponent();
             ChangePanel(Panels.Home);
-            // DataPanel.IsVisible = false;
-            // GraphicPanel.IsVisible = false;
+            DataPanel.IsVisible = false;
+            GraphicPanel.IsVisible = false;
         }
 
 
@@ -54,13 +54,33 @@ namespace PryamolineysnostModerUI
 
             return HomeButton;
         }
+
+        private Panel GetPanel(Panels p)
+        {
+            switch (p)
+            {
+                case Panels.Home:
+                    return MainPanel;
+                case Panels.Data:
+                    return DataPanel;
+                case Panels.Graphic:
+                    return GraphicPanel;    
+            }
+
+            return MainPanel;
+        }
+        
         private void ChangePanel(Panels panel)
         {
             var prevButton = GetAccentButton(SelectedPanel);
             UncheckButton(prevButton);
+            var prevPanel = GetPanel(SelectedPanel);
+            prevPanel.IsVisible = false;
             SelectedPanel = panel;
             var nextButton = GetAccentButton(SelectedPanel);
             CheckButton(nextButton);
+            var nextPanel = GetPanel(SelectedPanel);
+            nextPanel.IsVisible = true;
         }
        
 
