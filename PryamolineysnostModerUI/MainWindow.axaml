@@ -24,7 +24,7 @@
             <Setter Property="Height" Value="50"></Setter>
             <Setter Property="Width" Value="50"></Setter>
             <Setter Property="DockPanel.Dock" Value="Top"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
             <Setter Property="VerticalAlignment" Value="Top"></Setter>
             <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
             <Setter Property="FontFamily" Value="Segoe Fluent Icons" ></Setter>
@@ -59,8 +59,8 @@
         </Border>
 
         <!-- Основная панель кнопок -->
-        <Border Background="rgb(247,247,247)" BorderBrush="rgb(223,223,223)" BorderThickness="0" DockPanel.Dock="Left">
-            <Grid>
+        <Border Margin="0" Background="rgb(247,247,247)" BorderBrush="rgb(223,223,223)" BorderThickness="0" DockPanel.Dock="Left">
+            <Grid Margin="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="1"></RowDefinition>
@@ -143,8 +143,8 @@
 
             <!-- Главная панель -->
         </Border>
-        <Border Background="rgb(247,247,247)" BorderBrush="rgb(223,223,223)" BorderThickness="1">
-            <StackPanel x:Name="MainPanel" Margin="7" Background="Aqua">
+        <Border Background="rgb(247,247,247)" BorderBrush="rgb(223,223,223)" BorderThickness="0">
+            <StackPanel x:Name="MainPanel" Margin="0" Background="Aqua">
                 <Grid Background="Gainsboro">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
