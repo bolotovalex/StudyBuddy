@@ -15,14 +15,16 @@ namespace PryamolineysnostModerUI
             PdfPanel
         }
 
-        private Panels _selectedPanel = Panels.Home;
+        public Panels SelectedPanel = Panels.Home;
         
-        private int _count;
+        public int Count = 0;
         
         public MainWindow()
         {
             InitializeComponent();
             ChangePanel(Panels.Home);
+            // DataPanel.IsVisible = false;
+            // GraphicPanel.IsVisible = false;
         }
 
 
@@ -54,11 +56,11 @@ namespace PryamolineysnostModerUI
         }
         private void ChangePanel(Panels panel)
         {
-            var prevButton = GetAccentButton(_selectedPanel);
-            prevButton.Background = new SolidColorBrush(Color.FromRgb(247,247,247));
-            _selectedPanel = panel;
-            var nextButton = GetAccentButton(_selectedPanel);
-            nextButton.Background = new SolidColorBrush(Colors.LightSkyBlue);
+            var prevButton = GetAccentButton(SelectedPanel);
+            UncheckButton(prevButton);
+            SelectedPanel = panel;
+            var nextButton = GetAccentButton(SelectedPanel);
+            CheckButton(nextButton);
         }
        
 
@@ -67,10 +69,25 @@ namespace PryamolineysnostModerUI
             this.Close();
         }
 
+        private void HomeButton_Click(object? sender, RoutedEventArgs e)
+        {
+            ChangePanel(Panels.Home);
+        }
+
+        private void DataButton_Click(object? sender, RoutedEventArgs e)
+        {
+            ChangePanel(Panels.Data);
+        }
+
+        private void GraphicButton_Click(object? sender, RoutedEventArgs e)
+        {
+            ChangePanel(Panels.Graphic);
+        }
+
         private void Counter_Click(object? sender, RoutedEventArgs e)
         {
             var btn = (Button)sender;
-            btn.Content = $"Counter: {++_count}";
+            btn.Content = $"Counter: {++Count}";
             
         }
     }
