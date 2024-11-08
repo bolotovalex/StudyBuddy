@@ -88,7 +88,10 @@ namespace LogicLibrary
             for (int i = 0; i < arr.Length;)
             {
                 arr[i++] = currArea;
-                if (i!=arr.Length) 
+                if (currArea.nextArea == null)
+                    break;
+                
+                if (i != arr.Length) 
                     currArea = currArea.nextArea;
                 
             }
