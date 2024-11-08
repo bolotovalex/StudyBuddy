@@ -169,36 +169,38 @@ public partial class MainForm : Form
         tolerLenghtTextBox.Text = _dB.FullTolerance.ToString(CultureInfo.InvariantCulture);
         tolerPerMeterTextBox.Text = _dB.MeterTolerance.ToString(CultureInfo.InvariantCulture);
         stepTextBox.Text = _dB.Step.ToString();
+        lineDeviationTextBox.Text = GetSrting(_dB.GetMeterDeflection());
+        verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
 
-        if (InTolearance(_dB.GetVerticalDeflection(), _dB.FullTolerance))
-        {
-            verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
-            verticalDeviationTextBox.BackColor = SystemColors.Control;
-        }
-        else
-        {
-            verticalDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetVerticalDeflection())}";
-            verticalDeviationTextBox.BackColor = Color.LightCoral;
-        }
+        //if (InTolearance(_dB.GetVerticalDeflection(), _dB.FullTolerance))
+        //{
+        //    verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
+        //    //verticalDeviationTextBox.BackColor = SystemColors.Control;
+        //}
+        //else
+        //{
+        //    verticalDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetVerticalDeflection())}";
+        //    //verticalDeviationTextBox.BackColor = Color.LightCoral;
+        //}
 
 
 
-        if (InTolearance(_dB.GetVerticalDeflection(), _dB.MeterTolerance))
-        {
-            lineDeviationTextBox.Text = GetSrting(_dB.GetMeterDeflection());
-            lineDeviationTextBox.BackColor = SystemColors.Control;
-        }
-        else
-        {
-            lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetMeterDeflection())}";
-            lineDeviationTextBox.BackColor = Color.LightCoral;
-        }
+        //if (InTolearance(_dB.GetVerticalDeflection(), _dB.MeterTolerance))
+        //{
+            
+        //    //lineDeviationTextBox.BackColor = SystemColors.Control;
+        //}
+        //else
+        //{
+        //    lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetMeterDeflection())}";
+        //    //lineDeviationTextBox.BackColor = Color.LightCoral;
+        //}
     }
 
-    public static bool InTolearance(decimal value, int tolerance)
-    {
-        return value <= tolerance;
-    }
+    //public static bool InTolearance(decimal value, int tolerance)
+    //{
+    //    return value <= tolerance;
+    //}
 
     private async void SaveButton_Click(object sender, EventArgs e)
     {
