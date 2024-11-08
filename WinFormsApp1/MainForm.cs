@@ -16,7 +16,7 @@ public partial class MainForm : Form
     private bool NameIsFill = false;
     private bool DescriptionIsFill = false;
     private ErrorForm _errorForm;
-    
+
     enum FileFormat
     {
         Json,
@@ -51,7 +51,7 @@ public partial class MainForm : Form
             UpdateFieldColor(cb, st);
         }
 
-        foreach (var tb in new TextBox[] { tolerLenghtTextBox , tolerPerMeterTextBox }) 
+        foreach (var tb in new TextBox[] { tolerLenghtTextBox, tolerPerMeterTextBox })
         {
             var st = int.Parse(tb.Text) != 0;
             state = state & st;
@@ -60,7 +60,7 @@ public partial class MainForm : Form
 
         return state;
     }
-    
+
     public void UpdateFieldColor(ComboBox field, bool state)
     {
         field.BackColor = state ? Color.White : Color.LightCoral;
@@ -252,11 +252,11 @@ public partial class MainForm : Form
         if (openFileDialog.FileName != "")
         {
             _dataForm.Close();
-            if (_graphicsForm != null) 
+            if (_graphicsForm != null)
             {
                 _graphicsForm.Dispose();
             }
-            
+
 
             var reader = new StreamReader(openFileDialog.OpenFile());
             var data = await reader.ReadToEndAsync();
@@ -289,7 +289,7 @@ public partial class MainForm : Form
         {
             if (_graphicsForm != null)
                 _graphicsForm.Dispose();
-            
+
             var newGraphic = new GraphicModel(_dB.GetCurvePoints(), _dB.GetStraightPoint(), _dB.GetBedAreaLength() / 12);
             _graphicsForm = new GraphicsForm(_dB, this, newGraphic);
             _graphicsForm.UpdateDeviationList();
@@ -333,9 +333,9 @@ public partial class MainForm : Form
     private void localAreaTextBox_TextChanged(object sender, EventArgs e)
     {
         _dB.LocalAreaLength = CheckTextBoxIntValue(localAreaTextBox);
-        if (_dB.LocalAreaLength >= _dB.Step) 
+        if (_dB.LocalAreaLength >= _dB.Step)
         {
-            _dB.SetAreaDeviation(_dB.GetMaxLocalAreaDeviation(30)) ;
+            _dB.SetAreaDeviation(_dB.GetMaxLocalAreaDeviation(30));
             if (_graphicsForm != null)
             {
                 _graphicsForm.UpdateDeviationList();
@@ -357,7 +357,7 @@ public partial class MainForm : Form
         {
             lineDeviationTextBox.Text = _dB.GetAreaDeviations()[0].deviation.ToString();
         }
-        
+
 
     }
 }

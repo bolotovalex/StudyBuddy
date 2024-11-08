@@ -185,9 +185,9 @@ namespace Pryamolineynost
             lineDeviationLabel.AutoSize = true;
             lineDeviationLabel.Location = new Point(10, 7);
             lineDeviationLabel.Name = "lineDeviationLabel";
-            lineDeviationLabel.Size = new Size(279, 15);
+            lineDeviationLabel.Size = new Size(350, 15);
             lineDeviationLabel.TabIndex = 9;
-            lineDeviationLabel.Text = "Отклонение от прямолинейности на 1 метр, мкм";
+            lineDeviationLabel.Text = "Отклонение от прямолинейности на локальном участке, мкм";
             // 
             // tolerLengthLabel
             // 
@@ -203,9 +203,9 @@ namespace Pryamolineynost
             tolerPerMeterLabel.AutoSize = true;
             tolerPerMeterLabel.Location = new Point(10, 7);
             tolerPerMeterLabel.Name = "tolerPerMeterLabel";
-            tolerPerMeterLabel.Size = new Size(132, 15);
+            tolerPerMeterLabel.Size = new Size(203, 15);
             tolerPerMeterLabel.TabIndex = 11;
-            tolerPerMeterLabel.Text = "Допуск на 1 метр, мкм";
+            tolerPerMeterLabel.Text = "Допуск на локальном участке, мкм";
             // 
             // stepLabel
             // 
@@ -335,7 +335,7 @@ namespace Pryamolineynost
             tolerLenghtPanel.BorderStyle = BorderStyle.FixedSingle;
             tolerLenghtPanel.Controls.Add(tolerLenghtTextBox);
             tolerLenghtPanel.Controls.Add(tolerLengthLabel);
-            tolerLenghtPanel.Location = new Point(8, 382);
+            tolerLenghtPanel.Location = new Point(8, 419);
             tolerLenghtPanel.Name = "tolerLenghtPanel";
             tolerLenghtPanel.Size = new Size(527, 31);
             tolerLenghtPanel.TabIndex = 22;
@@ -355,7 +355,7 @@ namespace Pryamolineynost
             tolerPerMeterPanel.BorderStyle = BorderStyle.FixedSingle;
             tolerPerMeterPanel.Controls.Add(tolerPerMeterTextBox);
             tolerPerMeterPanel.Controls.Add(tolerPerMeterLabel);
-            tolerPerMeterPanel.Location = new Point(8, 419);
+            tolerPerMeterPanel.Location = new Point(8, 382);
             tolerPerMeterPanel.Name = "tolerPerMeterPanel";
             tolerPerMeterPanel.Size = new Size(527, 31);
             tolerPerMeterPanel.TabIndex = 23;
