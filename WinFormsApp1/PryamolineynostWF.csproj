@@ -11,6 +11,7 @@
         <PackageReleaseNotes>Первая верисия.</PackageReleaseNotes>
         <Platforms>AnyCPU;x86</Platforms>
         <ApplicationIcon>Icon.ico</ApplicationIcon>
+        <AssemblyVersion>1.2.5.0</AssemblyVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -8,13 +8,11 @@ namespace Pryamolineynost;
 
 public partial class MainForm : Form
 {
+    private string Version = "1.2.5.0";
     private DB _dB;
     private DataForm _dataForm;
     private GraphicsForm _graphicsForm;
     private GraphicModel _graphic;
-    private bool FioIsFill = false;
-    private bool NameIsFill = false;
-    private bool DescriptionIsFill = false;
     private ErrorForm _errorForm;
 
     enum FileFormat

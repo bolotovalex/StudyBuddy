@@ -3,6 +3,7 @@ namespace LogicLibrary;
 
 public class DB
 {
+    private string _backendVersion = "1.2.1.5";
     public DateTime Date { get; set; } //Дата
     public required string Name { get; set; } //Наименование
     public required string Description { get; set; } //Обозначение
@@ -42,6 +43,7 @@ public class DB
         maxLocalAreaDeviations = area;
     }
 
+    public string GetVersion() => _backendVersion;
 
     public DB()
     {

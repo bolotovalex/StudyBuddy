@@ -572,7 +572,7 @@ namespace Pryamolineynost
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Прямолинейность";
+            Text = $"Прямолинейность. WinForms(v.{Version})";
             datePanel.ResumeLayout(false);
             datePanel.PerformLayout();
             namePanel.ResumeLayout(false);

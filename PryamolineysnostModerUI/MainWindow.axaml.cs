@@ -15,9 +15,9 @@ namespace PryamolineysnostModerUI
             PdfPanel
         }
 
-        public Panels SelectedPanel = Panels.Home;
+        private Panels _selectedPanel = Panels.Home;
         
-        public int Count = 0;
+        private int _count;
         
         public MainWindow()
         {
@@ -54,10 +54,10 @@ namespace PryamolineysnostModerUI
         }
         private void ChangePanel(Panels panel)
         {
-            var prevButton = GetAccentButton(SelectedPanel);
+            var prevButton = GetAccentButton(_selectedPanel);
             prevButton.Background = new SolidColorBrush(Color.FromRgb(247,247,247));
-            SelectedPanel = panel;
-            var nextButton = GetAccentButton(SelectedPanel);
+            _selectedPanel = panel;
+            var nextButton = GetAccentButton(_selectedPanel);
             nextButton.Background = new SolidColorBrush(Colors.LightSkyBlue);
         }
        
@@ -70,7 +70,7 @@ namespace PryamolineysnostModerUI
         private void Counter_Click(object? sender, RoutedEventArgs e)
         {
             var btn = (Button)sender;
-            btn.Content = $"Counter: {++Count}";
+            btn.Content = $"Counter: {++_count}";
             
         }
     }
