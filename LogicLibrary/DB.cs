@@ -284,16 +284,33 @@ public class DB
         return (LocalAreaStraight[0].x, LocalAreaStraight[^1].x, maxDeviation - minDeviation);
     }
 
-    public AreaDeviation[] GetMaxLocalAreaDeviation(int count = 10, decimal tolerance = 0)
+    public AreaDeviation[]? GetMaxLocalAreaDeviation(int count = 10, decimal tolerance = 0)
     {
         var deviationList = new SortedQueueDeviation();
-        var localStep = Step / 2;
-        //var localStep = 10;
-        for (var i = 0; i + LocalAreaLength <= _bedAreaLength; i += localStep)
+        int localStep;
+        int i;
+
+        if (Step == LocalAreaLength)
+        {
+            localStep = Step;
+            i = 1;
+        }
+        else if (LocalAreaLength > Step) 
+        {
+            localStep = Step / 2;
+            i = 0;
+        }
+        else
+        {
+            return null;
+        }
+
+        for (; i + LocalAreaLength <= _bedAreaLength; i += localStep)
         {
             var areaDeviation = GetAreaDeviation(i);
             deviationList.AddArea(areaDeviation);
         }
+        
 
         var maxDeviationAreaArr = deviationList.GetBigestElements(count);
         return maxDeviationAreaArr;
