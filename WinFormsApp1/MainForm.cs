@@ -8,7 +8,7 @@ namespace Pryamolineynost;
 
 public partial class MainForm : Form
 {
-    private string Version = "1.2.5.3";
+    private string Version = "1.2.5.4";
     private DB _dB;
     private DataForm _dataForm;
     private GraphicsForm _graphicsForm;
@@ -290,7 +290,7 @@ public partial class MainForm : Form
             if (_graphicsForm != null)
                 _graphicsForm.Dispose();
 
-            var newGraphic = new GraphicModel(_dB.GetCurvePoints(), _dB.GetStraightPoint(), _dB.DataList.Count > 12 ? _dB.Step * 2 : _dB.Step);
+            var newGraphic = new GraphicModel(_dB.GetCurvePoints(), _dB.GetStraightPoint(), _dB.DataList.Count / 12 * _dB.Step);
             _graphicsForm = new GraphicsForm(_dB, this, newGraphic);
             _graphicsForm.UpdateDeviationList();
             _graphicsForm.Show();
