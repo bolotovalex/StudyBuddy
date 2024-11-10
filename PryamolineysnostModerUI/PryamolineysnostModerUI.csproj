@@ -16,4 +16,25 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MainPanel.cs">
+      <DependentUpon>MainWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="DataPanel.cs">
+      <DependentUpon>MainWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="GraphicPanel.cs">
+      <DependentUpon>MainWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="LoadPanel.cs">
+      <DependentUpon>MainWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="SavePanel.cs">
+      <DependentUpon>MainWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="SettingsPanel.cs">
+      <DependentUpon>MainWindow.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
