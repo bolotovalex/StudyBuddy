@@ -287,7 +287,8 @@ public class DB
     public AreaDeviation[] GetMaxLocalAreaDeviation(int count = 10, decimal tolerance = 0)
     {
         var deviationList = new SortedQueueDeviation();
-        var localStep = Step / 5;
+        var localStep = Step / 2;
+        //var localStep = 10;
         for (var i = 0; i + LocalAreaLength <= _bedAreaLength; i += localStep)
         {
             var areaDeviation = GetAreaDeviation(i);
