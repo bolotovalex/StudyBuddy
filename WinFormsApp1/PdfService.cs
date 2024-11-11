@@ -1,4 +1,5 @@
 ﻿using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using OxyPlot;
 using OxyPlot.WindowsForms;
@@ -58,22 +59,92 @@ namespace Pryamolineynost
         {
             var table = document.LastSection.AddTable();
             table.Borders.Width = 0.1;
-            double cellsWidth = 20.0 / dataListValues[0].Length;
-            for (var i = 0; i < dataListValues[0].Length; i++)
-                table.AddColumn($"{cellsWidth}cm");
+            const double cellsWidth = 2.25;
+            
+            var columnMultipler =  (int)(20.0 / (cellsWidth * (dataListValues[0].Length-1)));
 
-            for (var i = 0; i < dataListValues.Length; i++)
+            // Заполняем шапку колонками
+            for (var j = 0; j < columnMultipler; j++)
+            {
+                for (var i = 0; i < dataListValues[0].Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        table.AddColumn($"1cm");
+                    }
+                    else
+                    {
+                        table.AddColumn($"{cellsWidth}cm");
+                    }
+                }
+            }
+
+            //Считаем количество строк с учет, объединения
+            var rowsCount = dataListValues.Length % columnMultipler == 0 ? dataListValues.Length / columnMultipler : dataListValues.Length / columnMultipler + 1;
+
+            //Заполнени шапки подписями
+            var row0 = table.AddRow();
+            for (var j = 0; j < dataListValues[0].Length; j++)
+            {
+                for (var c = 0; c < columnMultipler; c++)
+                {
+                    row0.Cells[c * dataListValues[0].Length + j].AddParagraph(dataListValues[0][j]);
+                    row0.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
+                }
+                row0.BottomPadding = 5;
+                row0.TopPadding = 5;
+            }
+            row0.BottomPadding = 5;
+            row0.TopPadding = 5;
+
+            //Обход всех ячеек
+            for (var i = 1; i < rowsCount; i++)
             {
                 var row = table.AddRow();
-
+                
                 for (var j = 0; j < dataListValues[0].Length; j++)
                 {
-                    row.Cells[j].AddParagraph(dataListValues[i][j]);
-                    if (i % 2 == 0)
-                        row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
-                    row.BottomPadding = 5;
-                    row.TopPadding = 5;
+                    for (var c = 0; c < columnMultipler; c++)
+                    {
+                        var koef = dataListValues.Length % columnMultipler == 0 ? dataListValues.Length / columnMultipler : dataListValues.Length / columnMultipler + 1;
+                        var rowIndex = i + koef * c;
+
+                        if (rowIndex < dataListValues.Length)
+                        {
+                            var cellIndex = c * dataListValues[0].Length + j;
+                            row.Cells[cellIndex].AddParagraph(dataListValues[rowIndex][j]);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
+                        if (i % 2 == 0)
+                            row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
+                        row.BottomPadding = 5;
+                        row.TopPadding = 5;
+                    }
                 }
+                    
+                    
+                    
+                    //row.Cells[c * (dataListValues[0].Length) + 1].AddParagraph(dataListValues[i][c * (dataListValues[0].Length + 1)]);
+                    //if (i % 2 == 0)
+                    //    row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
+                    //row.BottomPadding = 5;
+                    //row.TopPadding = 5;
+                
+                
+                //var row = table.AddRow();
+
+                //for (var j = 0; j < dataListValues[0].Length; j++)
+                //{
+                //    row.Cells[j].AddParagraph(dataListValues[i][j]);
+                //    if (i % 2 == 0)
+                //        row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
+                //    row.BottomPadding = 5;
+                //    row.TopPadding = 5;
+                //}
             }
         }
 
@@ -90,10 +161,11 @@ namespace Pryamolineynost
             Section section = document.AddSection();
             section.PageSetup.PageFormat = PageFormat.A4;
             section.PageSetup.Orientation = MigraDoc.DocumentObjectModel.Orientation.Portrait;
-            section.PageSetup.BottomMargin = 10;
+            section.PageSetup.BottomMargin = 30;
             section.PageSetup.TopMargin = 30;
             section.PageSetup.LeftMargin = 20;
             section.PageSetup.RightMargin = 10;
+            
 
             AddDbValues(document, dbValues);
             AddPNG(section, png);
