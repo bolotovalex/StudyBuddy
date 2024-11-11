@@ -3,7 +3,7 @@ namespace LogicLibrary;
 
 public class DB
 {
-    private string _backendVersion = "1.2.1.5";
+    private string _backendVersion = "1.2.1.6";
     public DateTime Date { get; set; } //Дата
     public required string Name { get; set; } //Наименование
     public required string Description { get; set; } //Обозначение
@@ -12,6 +12,7 @@ public class DB
     private decimal _maxDeviation { get; set; } //Наименьшее отклонение, мкм
     private decimal _verticalDeflection { get; set; } //Отклонение от прямолинейности в вертикальной плоскости, мкм - 
     private decimal _meterDeflection { get; set; } //Отклонение от прямолинейности на 1 метр, мкм -
+    private decimal _localAreaDeflection { get; set; }
     public int FullTolerance { get; set; } //Допуск на всю длину, мкм -
     public int MeterTolerance { get; set; } //Допуск на 1 метр, мкм -
     public int LocalAreaLength { get; set; } //Локальный участок, мм
@@ -311,9 +312,10 @@ public class DB
             deviationList.AddArea(areaDeviation);
         }
         
+        _localAreaDeflection = deviationList.GetMaxDeviationValue();
 
-        var maxDeviationAreaArr = deviationList.GetBigestElements(count);
-        return maxDeviationAreaArr;
+        //var maxDeviationAreaArr = deviationList.GetItemsArr(count);
+        return deviationList.GetItemsArr();
     }
 
     public (int startIndex, int endIndex) GetIntervalIndex(int startPos, int endPos)
@@ -493,4 +495,6 @@ public class DB
             StraightPoints[i] = new DPoint(DataList[i].GetPosition(), DataList[i].GetAdjStraight());
         }
     }
+
+    public decimal GetAreaDeflection() => _localAreaDeflection;
 }

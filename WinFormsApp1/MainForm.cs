@@ -167,7 +167,7 @@ public partial class MainForm : Form
         tolerLenghtTextBox.Text = _dB.FullTolerance.ToString(CultureInfo.InvariantCulture);
         tolerPerMeterTextBox.Text = _dB.MeterTolerance.ToString(CultureInfo.InvariantCulture);
         stepTextBox.Text = _dB.Step.ToString();
-        lineDeviationTextBox.Text = GetSrting(_dB.GetMeterDeflection());
+        lineDeviationTextBox.Text = GetSrting(_dB.GetAreaDeflection());
         verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
 
         //if (InTolearance(_dB.GetVerticalDeflection(), _dB.FullTolerance))

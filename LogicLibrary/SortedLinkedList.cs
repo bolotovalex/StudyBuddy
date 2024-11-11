@@ -11,6 +11,7 @@ namespace LogicLibrary
     {        
         public AreaDeviation? root { get; set; }
         public int ElementsCount = 0;
+        private decimal _maxDeviation;
 
         public void AddArea(AreaDeviation area)
         {
@@ -21,6 +22,11 @@ namespace LogicLibrary
         {
             ElementsCount++;
             var newArea = new AreaDeviation(firstCoord, seconCoord, deviation);
+            if (_maxDeviation < newArea.deviation)
+            {
+                _maxDeviation = newArea.deviation;
+            }
+
             if (root == null)
             {
                 this.root = newArea;
@@ -107,7 +113,7 @@ namespace LogicLibrary
         //    }
         //}
 
-        public AreaDeviation[] GetBigestElements(int count)
+        public AreaDeviation[] GetItemsArr()
         {
             ///<summary></summary>
             //var arr = new AreaDeviation[elementsCount > count ? count : elementsCount];
@@ -127,6 +133,8 @@ namespace LogicLibrary
             }
             return arr.ToArray();
         }
+
+        public decimal GetMaxDeviationValue() => _maxDeviation;
 
         //TODO нужно реализовать выдачу наименьших n элементов
         //public AreaDeviation[] GetSmalestElements(int count)
