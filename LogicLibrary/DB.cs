@@ -414,26 +414,26 @@ public class DB
         UpdateAllRows();
     }
 
-    public (string Name, object Value)[] GetDBFields()
-    {
-        return [
-            ( "Дата", Date.Date),
-            ( "Наименование", Name ),
-            ( "Обозначение", Description ),
-            ( "Измерения произвел", Fio ),
-            ( "Наибольшее отклонение", _maxDeviation ),
-            ( "Наименьшее отклонение", _minDeviation ),
-            ( "Отклонение от прямолинейности в вертикальной плоскости, мкм",_verticalDeflection ),
-            ( "Отклонение от прямолинейности на 1 метр, мкм",  _meterDeflection ),
-            ( "Допуск на всю длину измерения, мкм",  FullTolerance ),
-            ( "Допуск на 1 метр (или локальный), мкм",  MeterTolerance ),
-            ( "Локальный участок, мм",  LocalAreaLength ),
-            ( "Длина измерения, мм",  _bedAreaLength ),
-            ( "Шаг измерения (расстояние между опорами мостика), мм", Step)
-        ];
-    }
+    //public (string Name, object Value)[] GetDBFields()
+    //{
+    //    return [
+    //        ( "Дата", Date.Date),
+    //        ( "Наименование", Name ),
+    //        ( "Обозначение", Description ),
+    //        ( "Измерения произвел", Fio ),
+    //        ( "Наибольшее отклонение", _maxDeviation ),
+    //        ( "Наименьшее отклонение", _minDeviation ),
+    //        ( "Отклонение от прямолинейности в вертикальной плоскости, мкм",_verticalDeflection ),
+    //        ( "Отклонение от прямолинейности на 1 метр, мкм",  _meterDeflection ),
+    //        ( "Допуск на всю длину измерения, мкм",  FullTolerance ),
+    //        ( "Допуск на 1 метр (или локальный), мкм",  MeterTolerance ),
+    //        ( "Локальный участок, мм",  LocalAreaLength ),
+    //        ( "Длина измерения, мм",  _bedAreaLength ),
+    //        ( "Шаг измерения (расстояние между опорами мостика), мм", Step)
+    //    ];
+    //}
 
-    public (string[][] dbValues, string[][] dataListValues) GetPrintStrings()
+    public (string[][] dbValues, string[][] dataListValues) GetPrintLists()
     {
         string[][] dbValues = [
             [ "Дата", Date.ToString().Split(" ")[0]],
@@ -443,10 +443,10 @@ public class DB
             [ "Наибольшее отклонение", Math.Round(_maxDeviation,2).ToString() ],
             [ "Наименьшее отклонение", Math.Round(_minDeviation, 2).ToString() ],
             [ "Отклонение от прямолинейности в вертикальной плоскости, мкм", Math.Round(_verticalDeflection, 2).ToString() ],
-            [ "Отклонение от прямолинейности на 1 метр, мкм",  Math.Round(_meterDeflection, 2).ToString() ],
             [ "Допуск на всю длину измерения, мкм", FullTolerance.ToString() ],
-            [ "Допуск на 1 метр (или локальный), мкм", MeterTolerance.ToString() ],
             [ "Локальный участок, мм", LocalAreaLength.ToString() ],
+            [ "Отклонение на локальном участке, мкм",  Math.Round(_localAreaDeflection, 2).ToString() ],
+            [ "Допуск на локальном участке, мкм", MeterTolerance.ToString() ],
             [ "Длина измерения, мм", _bedAreaLength.ToString() ],
             [ "Шаг измерения (расстояние между опорами мостика), мм", Step.ToString() ]];
 

@@ -312,8 +312,8 @@ public partial class MainForm : Form
             if (fileName != "")
             {
                 var document = PdfService.CreateDocument(
-                    _dB.GetPrintStrings().dbValues,
-                    _dB.GetPrintStrings().dataListValues,
+                    _dB.GetPrintLists().dbValues,
+                    _dB.GetPrintLists().dataListValues,
                     pl.GetPlotModel());
                 document.Save(fileName);
             }
