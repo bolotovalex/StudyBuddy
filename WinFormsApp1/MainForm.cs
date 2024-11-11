@@ -307,7 +307,7 @@ public partial class MainForm : Form
         if (CheckAllRequiredElements())
         {
             var fileName = GetSaveFileName(FileFormat.Pdf);
-            var pl = new GraphicModel(_dB.GetCurvePoints(), _dB.GetStraightPoint(), _dB.Step);
+            var pl = new GraphicModel(_dB.GetCurvePoints(), _dB.GetStraightPoint(), _dB.DataList.Count / 12 * _dB.Step);
             pl.RefreshPlot();
             if (fileName != "")
             {
