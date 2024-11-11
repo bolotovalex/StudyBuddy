@@ -27,7 +27,7 @@ namespace Pryamolineynost
         private static MemoryStream GetPNG(PlotModel plotModel)
         {
             var stream = new MemoryStream();
-            var pngExporter = new PngExporter { Width = 1280, Height = 1024 };
+            var pngExporter = new PngExporter { Width = 1024, Height = 768 };
             pngExporter.Export(plotModel, stream);
             return stream;
         }
@@ -60,7 +60,7 @@ namespace Pryamolineynost
             var table = document.LastSection.AddTable();
             table.Borders.Width = 0.1;
             var columnMultipler =  (int)(20.0 / (2.25 * (dataListValues[0].Length-1)));
-            double cellsWidth = 18.0 / ((columnMultipler) * (dataListValues[0].Length - 1));
+            double cellsWidth = 17.7 / ((columnMultipler) * (dataListValues[0].Length - 1));
 
             // Заполняем шапку колонками
             for (var j = 0; j < columnMultipler; j++)
@@ -136,7 +136,6 @@ namespace Pryamolineynost
 
         private static void BuildDocument(Document document, string[][] dbValues, string[][] dataListValues, MemoryStream png)
         {
-
             Section section = document.AddSection();
             section.PageSetup.PageFormat = PageFormat.A4;
             section.PageSetup.Orientation = MigraDoc.DocumentObjectModel.Orientation.Portrait;
@@ -150,8 +149,6 @@ namespace Pryamolineynost
             AddPNG(section, png);
             document.AddSection();
             AddDataListValues(document, dataListValues);
-
-
         }
     }
 }
