@@ -148,6 +148,7 @@ namespace Pryamolineynost
 
             AddDbValues(document, dbValues);
             AddPNG(section, png);
+            document.AddSection();
             AddDataListValues(document, dataListValues);
 
 
