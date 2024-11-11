@@ -453,18 +453,20 @@ public class DB
         var dataListValues = new string[DataList.Count + 1][];
         
         dataListValues[0] = [
+            "No",
             "Длина измерения, мм",
-            "Фактический профиль проверяемой поверхности, мкм",
-            "Прилегающая прямая, мкм",
+            //"Фактический профиль проверяемой поверхности, мкм",
+            //"Прилегающая прямая, мкм",
             "Отклонение, мкм",
-            "Отклонение на метре, мкм",
-            "Среднее значение, мкм",
+            //"Отклонение на метре, мкм",
+            //"Среднее значение, мкм",
             "Прямой ход, мкм",
             "Обратный ход, мкм" ];
 
         for (var i = 0; i < DataList.Count; i++)
         {
-            dataListValues[i + 1] = DataList[i].GetAllCellsStringArray();
+            var list1 = new string[] { $"{i}" };
+            dataListValues[i + 1] = list1.Concat(DataList[i].GetAllCellsStringArray()).ToArray();
         }
 
         return (dbValues, dataListValues);
