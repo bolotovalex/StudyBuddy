@@ -59,9 +59,8 @@ namespace Pryamolineynost
         {
             var table = document.LastSection.AddTable();
             table.Borders.Width = 0.1;
-            const double cellsWidth = 2.25;
-            
-            var columnMultipler =  (int)(20.0 / (cellsWidth * (dataListValues[0].Length-1)));
+            var columnMultipler =  (int)(20.0 / (2.25 * (dataListValues[0].Length-1)));
+            double cellsWidth = 18.0 / ((columnMultipler) * (dataListValues[0].Length - 1));
 
             // Заполняем шапку колонками
             for (var j = 0; j < columnMultipler; j++)
@@ -125,26 +124,6 @@ namespace Pryamolineynost
                         row.TopPadding = 5;
                     }
                 }
-                    
-                    
-                    
-                    //row.Cells[c * (dataListValues[0].Length) + 1].AddParagraph(dataListValues[i][c * (dataListValues[0].Length + 1)]);
-                    //if (i % 2 == 0)
-                    //    row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
-                    //row.BottomPadding = 5;
-                    //row.TopPadding = 5;
-                
-                
-                //var row = table.AddRow();
-
-                //for (var j = 0; j < dataListValues[0].Length; j++)
-                //{
-                //    row.Cells[j].AddParagraph(dataListValues[i][j]);
-                //    if (i % 2 == 0)
-                //        row.Shading.Color = new MigraDoc.DocumentObjectModel.Color(14, 14, 14, 1);
-                //    row.BottomPadding = 5;
-                //    row.TopPadding = 5;
-                //}
             }
         }
 
