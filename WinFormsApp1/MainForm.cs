@@ -30,6 +30,7 @@ public partial class MainForm : Form
         _graphic = new GraphicModel(_dB.GetCurvePoints(), _dB.GetStraightPoint(), _dB.Step);
         CheckAllRequiredElements();
         //_graphicsForm = new GraphicsForm(_dB, this, _graphic);
+        Text = $"Прямолинейность. ver. {Version}";
     }
 
     public bool CheckComboBox(ComboBox comboBox)
