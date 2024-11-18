@@ -1,0 +1,119 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PryamolineynostNew.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="PryamolineynostNew.Views.MainWindow"
+		RequestedThemeVariant="Light"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="PryamolineynostNew"
+		Width="860"
+        Height="600"
+        MinWidth="700"
+        MinHeight="480">
+
+	<Window.Styles>
+		<StyleInclude Source="/Views/LightStyles.axaml"/>
+	</Window.Styles>
+	
+	<Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <DockPanel LastChildFill="True">
+        <!-- Верхнее меню -->
+        <Border Height="25" Background="SkyBlue" BorderBrush="rgb(223,223,223)" BorderThickness="0"
+                DockPanel.Dock="Top">
+            <TextBlock Foreground="Black">Dock = "Top"</TextBlock>
+        </Border>
+    
+    <Border Margin="0" Background="rgb(230,230,230)" BorderBrush="rgb(212,212,212)" BorderThickness="0"
+            DockPanel.Dock="Left">
+            <Grid Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <!-- <Rectangle Width="47" Height="2" Grid.Row="1" Grid.Column="0" Margin="5,3,5,3" Fill="rgb(180,180,180)"></Rectangle> -->
+                <Rectangle Width="47" Height="2" Grid.Row="3" Grid.Column="0" Margin="5,3,5,3" Fill="rgb(180,180,180)"></Rectangle>
+
+                <!--Первая секция кнопок -->
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <!-- Кнопка Главное меню -->
+                    <Button Name="HomeButton"
+                            ToolTip.Tip="Главный экран"
+                            Classes="ControlPanelButton"
+                            Content="">
+                    </Button>
+
+                    <!--Кнопка экрана с измерениями-->
+                    <Button Name="DataButton"
+                            ToolTip.Tip="Измерения"
+                            Classes="ControlPanelButton"
+                            Content="">
+                    </Button>
+
+                    <!-- Кнопка Меню графика -->
+                    <Button
+                        Name="GraphicButton"
+                        ToolTip.Tip="График"
+                        Classes="ControlPanelButton"
+                        Content="">
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <!--Кнопка PDF-->
+                    <Button Name="PdfButton"
+                            ToolTip.Tip="Выгрузить в PDF"
+                            Classes="ControlPanelButton"
+                            Content="">
+                    </Button>
+
+                    <Button Name="LoadButton"
+                            ToolTip.Tip="Загрузить изменения"
+                            Classes="ControlPanelButton"
+                            Content="">
+                    </Button>
+
+                    <Button Name="SaveButton"
+                            ToolTip.Tip="Сохранить измерения"
+                            Classes="ControlPanelButton"
+                            Content="">
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="4" Grid.Column="0">
+                    <Button Name="SettingsButton"
+                            ToolTip.Tip="Настройки"
+                            Classes="ControlPanelButton"
+                            Content="">
+                    </Button>
+
+                    <Button Name="ExitButton"
+                            ToolTip.Tip="Выход"
+                            Classes="ControlPanelButton"
+                            Content=""
+                            Command="{Binding ExitButton_Click}">
+                        <Button.Styles>
+                            <Style Selector=":pointerover /template/ ContentPresenter">
+                                <Setter Property="Background" Value="LightCoral"></Setter>
+                            </Style>
+                        </Button.Styles>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Главная панель -->
+        </Border>
+        <Border Background="rgb(247,247,247)" BorderBrush="rgb(223,223,223)" BorderThickness="0">
+            
+        </Border>
+    </DockPanel>
+</Window>

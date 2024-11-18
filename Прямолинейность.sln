@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PryamolineynostWF", "WinFor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLibrary", "LogicLibrary\LogicLibrary.csproj", "{E7CFD32B-D296-4982-B839-7A300AE15911}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PryamolineynostModerUI", "PryamolineynostModerUI\PryamolineynostModerUI.csproj", "{6E6124BA-349D-4750-968D-DCD3BA4D8FCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PryamolineynostModerUI", "PryamolineynostModerUI\PryamolineynostModerUI.csproj", "{6E6124BA-349D-4750-968D-DCD3BA4D8FCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PryamolineynostNew", "PryamolineynostNew\PryamolineynostNew.csproj", "{B3B3B6AC-2802-49BF-8C96-A03BEE6C04FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,14 @@ Global
 		{6E6124BA-349D-4750-968D-DCD3BA4D8FCB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E6124BA-349D-4750-968D-DCD3BA4D8FCB}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E6124BA-349D-4750-968D-DCD3BA4D8FCB}.Release|x86.Build.0 = Release|Any CPU
+		{B3B3B6AC-2802-49BF-8C96-A03BEE6C04FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B3B6AC-2802-49BF-8C96-A03BEE6C04FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B3B6AC-2802-49BF-8C96-A03BEE6C04FE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B3B3B6AC-2802-49BF-8C96-A03BEE6C04FE}.Debug|x86.Build.0 = Debug|Any CPU
+		{B3B3B6AC-2802-49BF-8C96-A03BEE6C04FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B3B6AC-2802-49BF-8C96-A03BEE6C04FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B3B6AC-2802-49BF-8C96-A03BEE6C04FE}.Release|x86.ActiveCfg = Release|Any CPU
+		{B3B3B6AC-2802-49BF-8C96-A03BEE6C04FE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
