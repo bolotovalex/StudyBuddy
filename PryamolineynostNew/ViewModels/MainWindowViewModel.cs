@@ -2,30 +2,93 @@
 using System.Net.Mime;
 using System.Xml;
 using Avalonia;
+using Avalonia.Controls;
 using PryamolineynostNew.Views;
 using Tmds.DBus.Protocol;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace PryamolineynostNew.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-#pragma warning disable CA1822 // Mark members as static
-        private string _asd;
-        public string Greeting => "Welcome to Avalonia!";
-        public void TextChange()
+        public ICommand HomeButton_Clicked { get; }
+        public ICommand DataButton_Clicked { get; }
+        public ICommand GraphicButton_Clicked { get; }
+        public ICommand PdfButton_Clicked { get; }
+        public ICommand LoadButton_Clicked { get; }
+        public ICommand SaveButton_Clicked { get; }
+        public ICommand SettingsButton_Clicked { get; }
+        public ICommand ExitButton_Clicked { get; }
+
+        private Panel _prevPanel { get; set; }
+        private Panel _selectedPanel
+        
         {
+            get => _selectedPanel;
+            set => _prevPanel = _selectedPanel;
+        }
+    
+        
+        public MainWindowViewModel()
+        {
+            HomeButton_Clicked = new RelayCommand(HomeButton_Click);
+            DataButton_Clicked = new RelayCommand(DataButton_Click);
+            GraphicButton_Clicked = new RelayCommand(GraphicButton_Click);
+            PdfButton_Clicked = new RelayCommand(GraphicButton_Click);
+            LoadButton_Clicked = new RelayCommand(LoadButton_Click);
+            SaveButton_Clicked = new RelayCommand(SaveButton_Click);
+            SettingsButton_Clicked = new RelayCommand(SettingsButton_Click);
+            ExitButton_Clicked = new RelayCommand(ExitButton_Click);
         }
         
-        public string NameAsd
+        private void HomeButton_Click()
         {
-            get => _asd;
-            set => SetProperty(ref _asd, value);
+            Console.WriteLine("Home");
         }
 
-        public void ExitButton_Click()
+        private void DataButton_Click()
         {
-            Environment.Exit(0);
+            Console.WriteLine("Data");
         }
-#pragma warning restore CA1822 // Mark members as static
+
+        private void GraphicButton_Click()
+        {
+            Console.WriteLine("Graphic");
+        }
+
+        private void ExitButton_Click()
+        {
+            Console.WriteLine("Exit");
+            // Environment.Exit(0);
+        }
+
+        private void PdfButton_Click()
+        {
+            Console.WriteLine("Pdf");
+        }
+
+        private void LoadButton_Click()
+        {
+            Console.WriteLine("Load");
+        }
+
+        private void SaveButton_Click()
+        {
+            Console.WriteLine("Save");
+        }
+
+        private void SettingsButton_Click()
+        {
+            Console.WriteLine("Settings");
+        }
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
