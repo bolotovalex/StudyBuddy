@@ -4,7 +4,6 @@ namespace PryamolineynostNew.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        
         public MainWindowViewModel()
         {
             _currentPage = _pages[0];

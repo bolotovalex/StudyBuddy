@@ -10,22 +10,68 @@
     <Design.DataContext>
         <vm:HomePageViewModel />
     </Design.DataContext>
+    
+    <Control.Styles>
+        <StyleInclude Source="/Views/LightStyles.axaml"/>
+    </Control.Styles>
+    
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Row="0" Grid.Column="0">Дата</TextBlock>
+            <DatePicker x:Name="DatePicker" Grid.Row="0" Grid.Column="1" Background="Aquamarine"></DatePicker>
+            
+            <TextBlock Grid.Row="1" Grid.Column="0" >Наименование</TextBlock>
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="NameTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="2" Grid.Column="0" >Обозначение</TextBlock>
+            <TextBox Grid.Row="2" Grid.Column="1" x:Name="DescriptionTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="3" Grid.Column="0" >Измерение произвел</TextBlock>
+            <TextBox Grid.Row="3" Grid.Column="1" x:Name="FioTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="4" Grid.Column="0" >Наибольшее отклонение, мкм</TextBlock>
+            <TextBox Grid.Row="4" Grid.Column="1" x:Name="MaxDeviationTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="5" Grid.Column="0" >Наименьшее отклонение, мкм</TextBlock>
+            <TextBox Grid.Row="5" Grid.Column="1" x:Name="MinDeviationTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="6" Grid.Column="0" >Отклонение прямолинейности в вертикальной плоскости, мкм</TextBlock>
+            <TextBox Grid.Row="6" Grid.Column="1" x:Name="VerticalDeviationTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="7" Grid.Column="0" >Отклонение прямолинейности на локальном участке, мкм</TextBlock>
+            <TextBox Grid.Row="7" Grid.Column="1" x:Name="LocalAreaDeviationTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="8" Grid.Column="0" >Длина станины, мм</TextBlock>
+            <TextBox Grid.Row="8" Grid.Column="1" x:Name="BedAreaLengthTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="9" Grid.Column="0">Допуск на локальном участке, мкм</TextBlock>
+            <TextBox Grid.Row="9" Grid.Column="1" x:Name="LocalAreaToleranceTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="10" Grid.Column="0">Допуск на всю длину, мкм</TextBlock>
+            <TextBox Grid.Row="10" Grid.Column="1" x:Name="TotalToleranceTextBox"></TextBox>
+            
+            <TextBlock Grid.Row="11" Grid.Column="0">Шаг измерения, мм</TextBlock>
+            <TextBox Grid.Row="11" Grid.Column="1" x:Name="StepLengthTextBox"></TextBox>
+        </Grid>
 
-    <Grid RowDefinitions="*" ColumnDefinitions="*" Background="LightBlue">
-        <StackPanel>
-            <TextBlock VerticalAlignment="Center"
-                       TextAlignment="Center"
-                       FontSize="16"
-                       FontWeight="SemiBold"
-                       Text="{Binding Title}"
-                       TextWrapping="Wrap" />
-            <TextBlock VerticalAlignment="Center"
-                       TextAlignment="Center"
-                       FontSize="16"
-                       Text="{Binding Message}"
-                       TextWrapping="Wrap" />
-        </StackPanel>
-    </Grid>
     <!-- <StackPanel VerticalAlignment="Center" Spacing="5" Background="Aqua"> -->
 
     <!-- </StackPanel> -->
