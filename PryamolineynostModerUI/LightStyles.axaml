@@ -25,7 +25,7 @@
         
     <Style Selector="Button.ControlPanelButton:pointerover /template/ ContentPresenter">
         <Setter Property="Foreground" Value="Black"></Setter>
-		<Setter Property="Background" Value="SteelBlue"></Setter>
+		<Setter Property="Background" Value="LightBlue"></Setter>
     </Style>
     
     <Style Selector="Button.ControlPanelButton:pressed /template/ ContentPresenter">

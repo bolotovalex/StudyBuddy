@@ -1,4 +1,6 @@
-﻿namespace PryamolineynostNew.ViewModels
+﻿using PryamolineynostNew.Views;
+
+namespace PryamolineynostNew.ViewModels
 {
     public class HomePageViewModel : PageViewModelBase
     {

@@ -14,16 +14,7 @@
 		<Setter Property="Margin" Value="0"/>
 	</Style>
     
-    <Style Selector="TabItem:selected">
-        <Setter Property="Background" Value="SteelBlue"></Setter>
-    </Style>
-    
-    <Style Selector="TabItem:pointerover">
-        <Setter Property="Background" Value="LightSkyBlue"></Setter>
-    </Style>
-    
-	
-	<Style Selector="Button.ControlPanelButton">
+    <Style Selector="Button.ControlPanelButton">
         <Setter Property="CornerRadius" Value="3"></Setter>
         <Setter Property="Margin" Value="0,2,0,2"></Setter>
         <Setter Property="Padding" Value="0"></Setter>
@@ -42,7 +33,7 @@
         
     <Style Selector="Button.ControlPanelButton:pointerover /template/ ContentPresenter">
         <Setter Property="Foreground" Value="Black"></Setter>
-		<Setter Property="Background" Value="SteelBlue"></Setter>
+		<Setter Property="Background" Value="LightSkyBlue"></Setter>
     </Style>
     
     <Style Selector="Button.ControlPanelButton:pressed /template/ ContentPresenter">
@@ -50,60 +41,60 @@
         <Setter Property="Background" Value="SteelBlue"></Setter>
     </Style>
     
-    <Style Selector="TextBlock.LabelCol">
-        <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
-        <Setter Property="Foreground" Value="Black"></Setter>
-        <Setter Property="Padding" Value="10"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-    </Style>
-    
-    <Style Selector="DatePicker.InputCol">
-        <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
-        <Setter Property="Foreground" Value="Black"></Setter>
-        <Setter Property="Padding" Value="7"></Setter>
-        <Setter Property="Margin" Value="2"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
-    </Style>
-    
-    <Style Selector="DatePicker.InputCol:focus-within">
-        <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
-        <Setter Property="Foreground" Value="Black"></Setter>
-        <Setter Property="Padding" Value="7"></Setter>
-        <Setter Property="Margin" Value="2"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
-    </Style>
-    
-    <Style Selector="TextBox.InputCol">
-        <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
-        <Setter Property="Foreground" Value="Black"></Setter>
-        <Setter Property="Padding" Value="7"></Setter>
-        <Setter Property="Margin" Value="2"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
-    </Style>
-    
-    <Style Selector="TextBox.InputCol:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
-        <Setter Property="Foreground" Value="Black"></Setter>
-        <Setter Property="Padding" Value="7"></Setter>
-        <Setter Property="Margin" Value="2"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
-    </Style>
-    
-    <Style Selector="TextBox.InputCol:pressed /template/ ContentPresenter">
-        <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
-        <Setter Property="Foreground" Value="Black"></Setter>
-        <Setter Property="Padding" Value="7"></Setter>
-        <Setter Property="Margin" Value="2"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
-    </Style>
+    <!-- <Style Selector="TextBlock.LabelCol"> -->
+    <!--     <Setter Property="Background" Value="rgb(247,247,247)"></Setter> -->
+    <!--     <Setter Property="Foreground" Value="Black"></Setter> -->
+    <!--     <Setter Property="Padding" Value="10"></Setter> -->
+    <!--     <Setter Property="FontWeight" Value="Bold"></Setter> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="DatePicker.InputCol"> -->
+    <!--     <Setter Property="Background" Value="rgb(247,247,247)"></Setter> -->
+    <!--     <Setter Property="Foreground" Value="Black"></Setter> -->
+    <!--     <Setter Property="Padding" Value="7"></Setter> -->
+    <!--     <Setter Property="Margin" Value="2"></Setter> -->
+    <!--     <Setter Property="FontWeight" Value="Bold"></Setter> -->
+    <!--     <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter> -->
+    <!--     <Setter Property="BorderThickness" Value="1"></Setter> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="DatePicker.InputCol:focus-within"> -->
+    <!--     <Setter Property="Background" Value="rgb(247,247,247)"></Setter> -->
+    <!--     <Setter Property="Foreground" Value="Black"></Setter> -->
+    <!--     <Setter Property="Padding" Value="7"></Setter> -->
+    <!--     <Setter Property="Margin" Value="2"></Setter> -->
+    <!--     <Setter Property="FontWeight" Value="Bold"></Setter> -->
+    <!--     <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter> -->
+    <!--     <Setter Property="BorderThickness" Value="1"></Setter> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="TextBox.InputCol"> -->
+    <!--     <Setter Property="Background" Value="rgb(247,247,247)"></Setter> -->
+    <!--     <Setter Property="Foreground" Value="Black"></Setter> -->
+    <!--     <Setter Property="Padding" Value="7"></Setter> -->
+    <!--     <Setter Property="Margin" Value="2"></Setter> -->
+    <!--     <Setter Property="FontWeight" Value="Bold"></Setter> -->
+    <!--     <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter> -->
+    <!--     <Setter Property="BorderThickness" Value="1"></Setter> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="TextBox.InputCol:pointerover /template/ ContentPresenter"> -->
+    <!--     <Setter Property="Background" Value="rgb(247,247,247)"></Setter> -->
+    <!--     <Setter Property="Foreground" Value="Black"></Setter> -->
+    <!--     <Setter Property="Padding" Value="7"></Setter> -->
+    <!--     <Setter Property="Margin" Value="2"></Setter> -->
+    <!--     <Setter Property="FontWeight" Value="Bold"></Setter> -->
+    <!--     <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter> -->
+    <!--     <Setter Property="BorderThickness" Value="1"></Setter> -->
+    <!-- </Style> -->
+    <!-- -->
+    <!-- <Style Selector="TextBox.InputCol:pressed /template/ ContentPresenter"> -->
+    <!--     <Setter Property="Background" Value="rgb(247,247,247)"></Setter> -->
+    <!--     <Setter Property="Foreground" Value="Black"></Setter> -->
+    <!--     <Setter Property="Padding" Value="7"></Setter> -->
+    <!--     <Setter Property="Margin" Value="2"></Setter> -->
+    <!--     <Setter Property="FontWeight" Value="Bold"></Setter> -->
+    <!--     <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter> -->
+    <!--     <Setter Property="BorderThickness" Value="1"></Setter> -->
+    <!-- </Style> -->
 </Styles>
