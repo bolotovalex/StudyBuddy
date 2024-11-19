@@ -50,7 +50,7 @@
                             ToolTip.Tip="Главный экран"
                             Classes="ControlPanelButton"
                             Content=""
-                            Command="{Binding HomeButton_Clicked}">
+                            Command="{Binding SetHomePage}">
                     </Button>
 
                     <!--Кнопка экрана с измерениями-->
@@ -58,7 +58,7 @@
                             ToolTip.Tip="Измерения"
                             Classes="ControlPanelButton"
                             Content=""
-                            Command="{Binding DataButton_Clicked}">
+                            Command="{Binding SetDataPage}">
                     </Button>
 
                     <!-- Кнопка Меню графика -->
@@ -67,7 +67,7 @@
                         ToolTip.Tip="График"
                         Classes="ControlPanelButton"
                         Content=""
-                        Command="{Binding GraphicButton_Clicked}">
+                        Command="{Binding SetGraphicPage}">
                     </Button>
                 </StackPanel>
 
@@ -77,22 +77,19 @@
                             ToolTip.Tip="Выгрузить в PDF"
                             Classes="ControlPanelButton"
                             Content=""
-                            Command="{Binding PdfButton_Clicked}"
                             >
                     </Button>
 
                     <Button Name="LoadButton"
                             ToolTip.Tip="Загрузить изменения"
                             Classes="ControlPanelButton"
-                            Content=""
-                            Command="{Binding LoadButton_Clicked}">
+                            Content="">
                     </Button>
 
                     <Button Name="SaveButton"
                             ToolTip.Tip="Сохранить измерения"
                             Classes="ControlPanelButton"
-                            Content=""
-                            Command="{Binding SaveButton_Clicked}">
+                            Content="">
                     </Button>
                 </StackPanel>
 
@@ -101,14 +98,13 @@
                             ToolTip.Tip="Настройки"
                             Classes="ControlPanelButton"
                             Content=""
-                            Command="{Binding SettingsButton_Clicked}">
+                            Command="{Binding SetSettingsPage}">
                     </Button>
 
                     <Button Name="ExitButton"
                             ToolTip.Tip="Выход"
                             Classes="ControlPanelButton"
-                            Content=""
-                            Command="{Binding ExitButton_Clicked}">
+                            Content="">
                         <Button.Styles>
                             <Style Selector=":pointerover /template/ ContentPresenter">
                                 <Setter Property="Background" Value="LightCoral"></Setter>
@@ -121,20 +117,10 @@
             <!-- Главная панель -->
         </Border>
         <Border Background="rgb(247,247,247)" BorderBrush="rgb(223,223,223)" BorderThickness="0">
-            <StackPanel x:Name="Content">
-                <Panel x:Name="HomePanel" Name="HomePanel" Background="LightBlue">
-                    <TextBlock>HomePanel</TextBlock>
-                </Panel>
-                <Panel x:Name="DataPanel" Name="DataPanel" Background="LightCoral">
-                    <TextBlock>DataPanel</TextBlock>
-                </Panel>
-                <Panel x:Name="GraphicPanel" Name="GraphicPanel" Background="LightGreen">
-                    <TextBlock>GraphicPanel</TextBlock>
-                </Panel>
-                <Panel x:Name="SettingsPanel" Name="SettingsPanel" Background="LightSlateGray">
-                    <TextBlock>SettingsPanel</TextBlock>
-                </Panel>
-            </StackPanel>
+			<Grid RowDefinitions="*">
+				<TransitioningContentControl Content="{Binding CurrentPage}" />
+			</Grid>
+			
             
         </Border>
     </DockPanel>
