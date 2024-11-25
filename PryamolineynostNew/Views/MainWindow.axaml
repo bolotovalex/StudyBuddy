@@ -11,8 +11,8 @@
         Title="PryamolineynostNew"
 		Width="860"
         Height="600"
-        MinWidth="700"
-        MinHeight="480">
+        MinWidth="750"
+        MinHeight="580">
 
 	<Window.Styles>
 		<StyleInclude Source="/Views/LightStyles.axaml"/>

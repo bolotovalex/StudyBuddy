@@ -1,0 +1,41 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <!-- Add Controls for Previewer Here -->
+    </Border>
+  </Design.PreviewWith>
+
+	<Style Selector="Grid.mainContainer">
+		<Setter Property="Background" Value="#fdfdfd"></Setter>
+		<Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+		<Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+	</Style>
+
+	<Style Selector="TextBox">
+		<Setter Property="Margin" Value="5 3 5 3"/>
+		<Setter Property="Height" Value="1"/>
+		<Setter Property="Background" Value="White"/>
+		<Setter Property="Padding" Value="3"/>
+		<Setter Property="TextAlignment" Value="Right"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+	</Style>
+
+	<Style Selector="TextBlock">
+		<Setter Property="VerticalAlignment" Value="Center"></Setter>
+		<Setter Property="HorizontalAlignment" Value="Left"></Setter>
+		<Setter Property="Margin" Value="8 3 5 3"></Setter>
+		<Setter Property="Padding" Value="0"></Setter>
+		<Setter Property="Background" Value="rgb(235,235,235)"/>
+	</Style>
+
+	<Style Selector="Grid Border.RowBorder">
+		<Setter Property="Background" Value="rgb(235,235,235)"/>
+		<Setter Property="BorderBrush" Value="LightGray"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="CornerRadius" Value="2"/>
+		<Setter Property="BoxShadow" Value="0 0 0 0 DarkGray"/>
+		<Setter Property="Margin" Value="2 1 2 0"></Setter>
+		<Setter Property="Padding" Value="1"></Setter>
+	</Style>
+</Styles>

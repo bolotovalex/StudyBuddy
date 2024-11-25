@@ -33,33 +33,13 @@
         <Setter Property="Background" Value="SteelBlue"></Setter>
     </Style>
     
-    <Style Selector="TextBlock.LabelCol">
-        <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
-        <Setter Property="Foreground" Value="Black"></Setter>
-        <Setter Property="Padding" Value="10"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-    </Style>
-    
-    
-    <Style Selector="DatePicker.InputCol">
-        <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
-        <Setter Property="Foreground" Value="Black"></Setter>
-        <Setter Property="Padding" Value="7"></Setter>
-        <Setter Property="Margin" Value="2"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
-    </Style>
-    
-    <Style Selector="DatePicker.InputCol:focus-within">
-        <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
-        <Setter Property="Foreground" Value="Black"></Setter>
-        <Setter Property="Padding" Value="7"></Setter>
-        <Setter Property="Margin" Value="2"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
-    </Style>
+    <Style Selector="TextBlock">
+		<Setter Property="Background" Value="rgb(247,247,247)"></Setter>
+		<Setter Property="Foreground" Value="Black"></Setter>
+		<Setter Property="Padding" Value="0"></Setter>
+		<Setter Property="Margin" Value="0"></Setter>
+		<Setter Property="FontWeight" Value="Bold"></Setter>
+	</Style>
     
     <Style Selector="TextBox.InputCol">
         <Setter Property="Background" Value="rgb(247,247,247)"></Setter>
@@ -90,4 +70,5 @@
         <Setter Property="BorderBrush" Value="rgb(223,223,223)"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
     </Style>
+	
 </Styles>
