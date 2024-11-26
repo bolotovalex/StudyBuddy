@@ -12,6 +12,7 @@ namespace PryamolineynostNew.ViewModels
         private readonly PageViewModelBase[] _pages =
         {
             new HomePageViewModel(),
+            new ParamsPageViewModel(),
             new DataPageViewModel(),
             new GraphicPageViewModel(),
             new SettingsPageViewModel()
@@ -24,10 +25,11 @@ namespace PryamolineynostNew.ViewModels
             private set { this.RaiseAndSetIfChanged(ref _currentPage, value); }
         }
 
-        public void SetHomePage() => CurrentPage = _pages[0];
-        public void SetDataPage() => CurrentPage = _pages[1];
-        public void SetGraphicPage() => CurrentPage = _pages[2];
-        public void SetSettingsPage() => CurrentPage = _pages[3];
+        public void SetomePage() => CurrentPage = _pages[0];
+        public void SetParamsPage() => CurrentPage = _pages[1];
+        public void SetDataPage() => CurrentPage = _pages[2];
+        public void SetGraphicPage() => CurrentPage = _pages[3];
+        public void SetSettingsPage() => CurrentPage = _pages[4];
         
         
     }

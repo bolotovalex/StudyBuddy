@@ -35,9 +35,9 @@ public partial class DataForm : Form
     public void DataForm_Load(object sender, EventArgs e)
     {
         dataGrid.Rows.Clear();
-        if (dataGrid.Columns.Count == 0) 
+        if (dataGrid.Columns.Count == 0)
             InitializeComponent();
-        
+
         dataGrid.Rows.Add();
         UpdateForm(sender, e);
     }
@@ -94,7 +94,7 @@ public partial class DataForm : Form
     {
         object? cellValue = dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value ?? "";
         int value;
-        
+
         if (cellValue != "")
         {
             int.TryParse(cellValue.ToString(), out value);
@@ -147,8 +147,8 @@ public partial class DataForm : Form
                     break;
             }
             this.db.UpdateAllRows();
-            
-            
+
+
 
         }
 
@@ -159,7 +159,7 @@ public partial class DataForm : Form
         {
             _graphicsForm.UpdateDeviationList();
         }
-        
+
         //_graphicsForm.UpdatePlot();
     }
 
@@ -195,6 +195,11 @@ public partial class DataForm : Form
 
         db.UpdateAllRows();
         UpdateForm(sender, e);
-        mainForm.UpdateAllFields() ;
+        mainForm.UpdateAllFields();
+    }
+
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 }

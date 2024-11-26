@@ -45,22 +45,31 @@
 
                 <!--Первая секция кнопок -->
                 <StackPanel Grid.Row="0" Grid.Column="0">
-                    <!-- Кнопка Главное меню -->
+                    
+                    <!-- Кнопка Домой -->
                     <Button Name="HomeButton"
                             ToolTip.Tip="Главный экран"
                             Classes="ControlPanelButton"
                             Content=""
-                            Command="{Binding SetHomePage}">
+                            Command="{Binding SetomePage}">
+                    </Button>
+                    
+                    <!-- Кнопка меню параметров-->
+                    <Button Name="ParamsButton"
+                            ToolTip.Tip="Главный экран"
+                            Classes="ControlPanelButton"
+                            Content=""
+                            Command="{Binding SetParamsPage}">
                     </Button>
 
                     <!--Кнопка экрана с измерениями-->
                     <Button Name="DataButton"
                             ToolTip.Tip="Измерения"
                             Classes="ControlPanelButton"
-                            Content=""
+                            Content=""
                             Command="{Binding SetDataPage}">
                     </Button>
-
+                    <!---->
                     <!-- Кнопка Меню графика -->
                     <Button
                         Name="GraphicButton"
@@ -76,7 +85,7 @@
                     <Button Name="PdfButton"
                             ToolTip.Tip="Выгрузить в PDF"
                             Classes="ControlPanelButton"
-                            Content=""
+                            Content=""
                             >
                     </Button>
 

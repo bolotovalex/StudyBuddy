@@ -1,96 +1,18 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
              xmlns:vm="using:PryamolineynostNew.ViewModels"
              x:CompileBindings="True"
-             x:Class="PryamolineynostNew.Views.HomePageView"
-             x:DataType="vm:HomePageViewModel">
+             x:DataType="vm:ParamsPageViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PryamolineynostNew.Views.HomePageView">
     <Design.DataContext>
         <vm:HomePageViewModel />
     </Design.DataContext>
-    
-    <Control.Styles>
-        <StyleInclude Source="/Views/HomePageStyles.axaml"/>
-    </Control.Styles>
-    
-    <Grid ShowGridLines="False" Name="HomePageGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"></ColumnDefinition>
-				<ColumnDefinition Width="100"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-				
-            </Grid.ColumnDefinitions>
-
-		<Border Classes="RowBorder" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="5" />
-		<Border Classes="RowBorder" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="5" />
-		    
-		<TextBlock Grid.Row="0" Grid.Column="0">Дата</TextBlock>
-            <DatePicker HorizontalAlignment="Center" x:Name="DatePicker" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3"></DatePicker>
-            
-            <TextBlock Grid.Row="1" Grid.Column="0" >Наименование</TextBlock>
-            <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" x:Name="NameTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="2" Grid.Column="0" >Обозначение</TextBlock>
-            <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" x:Name="DescriptionTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="3" Grid.Column="0" >Измерение произвел</TextBlock>
-            <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" x:Name="FioTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">Наибольшее отклонение, мкм</TextBlock>
-            <TextBox Grid.Row="4" Grid.Column="4" x:Name="MaxDeviationTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">Наименьшее отклонение, мкм</TextBlock>
-            <TextBox Grid.Row="5" Grid.Column="4" x:Name="MinDeviationTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4">Отклонение прямолинейности в вертикальной плоскости, мкм"</TextBlock>
-            <TextBox Grid.Row="6" Grid.Column="4" x:Name="VerticalDeviationTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4">Отклонение прямолинейности на локальном участке, мкм</TextBlock>
-            <TextBox Grid.Row="7" Grid.Column="4" x:Name="LocalAreaDeviationTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="8" Grid.Column="0" >Длина станины, мм</TextBlock>
-            <TextBox Grid.Row="8" Grid.Column="4" x:Name="BedAreaLengthTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2">Допуск на локальном участке, мкм</TextBlock>
-            <TextBox Grid.Row="9" Grid.Column="4" x:Name="LocalAreaToleranceTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">Допуск на всю длину, мкм</TextBlock>
-            <TextBox Grid.Row="10" Grid.Column="4" x:Name="TotalToleranceTextBox"></TextBox>
-            
-            <TextBlock Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2">Шаг измерения, мм</TextBlock>
-            <TextBox Grid.Row="11" Grid.Column="4" x:Name="StepLengthTextBox"></TextBox>
-		
-        </Grid>
-
-    <!-- <StackPanel VerticalAlignment="Center" Spacing="5" Background="Aqua"> -->
-
-    <!-- </StackPanel> -->
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock>
+            Программа для измерения прмолинейности
+        </TextBlock>
+    </Grid>
 </UserControl>

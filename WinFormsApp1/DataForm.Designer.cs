@@ -41,6 +41,8 @@
             closeButton = new Button();
             clearDBButton = new Button();
             revStrokeCheckBox = new CheckBox();
+            comboBox1 = new ComboBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -151,11 +153,32 @@
             revStrokeCheckBox.UseVisualStyleBackColor = true;
             revStrokeCheckBox.CheckedChanged += revStrokeCheckBox_CheckedChanged;
             // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Микрометр", "Градус/Минута/Секунды" });
+            comboBox1.Location = new Point(534, 588);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(180, 23);
+            comboBox1.TabIndex = 7;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(410, 592);
+            label1.Name = "label1";
+            label1.Size = new Size(122, 15);
+            label1.TabIndex = 8;
+            label1.Text = "Единицы измерения:";
+            // 
             // DataForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(921, 616);
+            Controls.Add(label1);
+            Controls.Add(comboBox1);
             Controls.Add(revStrokeCheckBox);
             Controls.Add(clearDBButton);
             Controls.Add(closeButton);
@@ -184,5 +207,7 @@
         private DataGridViewTextBoxColumn fStroke;
         private DataGridViewTextBoxColumn rStroke;
         private CheckBox revStrokeCheckBox;
+        private ComboBox comboBox1;
+        private Label label1;
     }
 }

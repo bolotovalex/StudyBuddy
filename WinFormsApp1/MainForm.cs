@@ -8,17 +8,24 @@ namespace Pryamolineynost;
 
 public partial class MainForm : Form
 {
+    
     private string Version = "1.2.5.6f";
     private DB _dB;
     private DataForm _dataForm;
     private GraphicsForm _graphicsForm;
     private GraphicModel _graphic;
     private ErrorForm _errorForm;
-
+       
     enum FileFormat
     {
         Json,
         Pdf
+    }
+
+    enum MeasureUnit
+    {
+        Micrometer,
+        Degrees
     }
 
     public MainForm()
@@ -170,36 +177,8 @@ public partial class MainForm : Form
         stepTextBox.Text = _dB.Step.ToString();
         lineDeviationTextBox.Text = GetSrting(_dB.GetAreaDeflection());
         verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
-
-        //if (InTolearance(_dB.GetVerticalDeflection(), _dB.FullTolerance))
-        //{
-        //    verticalDeviationTextBox.Text = GetSrting(_dB.GetVerticalDeflection());
-        //    //verticalDeviationTextBox.BackColor = SystemColors.Control;
-        //}
-        //else
-        //{
-        //    verticalDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetVerticalDeflection())}";
-        //    //verticalDeviationTextBox.BackColor = Color.LightCoral;
-        //}
-
-
-
-        //if (InTolearance(_dB.GetVerticalDeflection(), _dB.MeterTolerance))
-        //{
-            
-        //    //lineDeviationTextBox.BackColor = SystemColors.Control;
-        //}
-        //else
-        //{
-        //    lineDeviationTextBox.Text = $"Не в допуске {GetSrting(_dB.GetMeterDeflection())}";
-        //    //lineDeviationTextBox.BackColor = Color.LightCoral;
-        //}
     }
 
-    //public static bool InTolearance(decimal value, int tolerance)
-    //{
-    //    return value <= tolerance;
-    //}
 
     private async void SaveButton_Click(object sender, EventArgs e)
     {
