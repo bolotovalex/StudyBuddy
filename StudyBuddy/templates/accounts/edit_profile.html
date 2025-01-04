@@ -1,0 +1,36 @@
+<form method="post">
+    {% csrf_token %}
+
+    <div>
+        <label for="id_last_name">Фамилия:</label>
+        {{ form.last_name }}
+    </div>
+    <div>
+        <label for="id_first_name">Имя:</label>
+        {{ form.first_name }}
+    </div>
+    <div>
+        <label for="id_patronymic">Отчество:</label>
+        {{ form.patronymic }}
+    </div>
+
+    <div>
+        <label for="id_birth_date">Дата рождения:</label>
+        {{ form.birth_date }}
+    </div>
+
+    <div>
+        <label for="id_institution">Учебное заведение:</label>
+        {{ form.institution }}
+    </div>
+    <div>
+        <label for="id_faculty">Факультет:</label>
+        {{ form.faculty }}
+    </div>
+    <div>
+        <label for="id_study_group">Группа:</label>
+        {{ form.study_group }}
+    </div>
+
+    <button type="submit">Сохранить</button>
+</form>

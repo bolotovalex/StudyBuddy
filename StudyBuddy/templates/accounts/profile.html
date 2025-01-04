@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой Профиль</title>
+</head>
+<body>
+    <h1>Профиль пользователя {{ request.user.username }}</h1>
+
+    <p><strong>Фамилия:</strong> {{ profile.last_name }}</p>
+    <p><strong>Имя:</strong> {{ profile.first_name }}</p>
+    <p><strong>Отчество:</strong> {{ profile.patronymic }}</p>
+    <p><strong>Дата рождения:</strong> {{ profile.birth_date }}</p>
+
+    <p><strong>Учебное заведение:</strong> {{ profile.institution }}</p>
+    <p><strong>Факультет:</strong> {{ profile.faculty }}</p>
+    <p><strong>Группа:</strong> {{ profile.study_group }}</p>
+
+    <p><strong>Роль:</strong> {{ request.user.get_role_display }}</p>
+    <p><strong>Группы:</strong> пока не реализовано</p>
+
+    <!-- Кнопки -->
+    <p>
+        <a href="{% url 'accounts:edit_profile' %}">Редактировать профиль</a>
+    </p>
+    <p>
+        <a href="{% url 'accounts:delete_account' %}">Удалить профиль и учетную запись</a>
+    </p>
+
+    <p><a href="{% url 'accounts:logout' %}">Выйти</a></p>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Удаление аккаунта</title>
+</head>
+<body>
+    <h1>Вы действительно хотите удалить профиль и учетную запись?</h1>
+    <p>Это действие необратимо.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Да, удалить</button>
+    </form>
+
+    <p><a href="{% url 'accounts:profile' %}">Отменить</a></p>
+</body>
+</html>
