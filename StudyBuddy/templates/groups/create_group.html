@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать группу</title>
+</head>
+<body>
+    <h1>Создать группу</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Создать</button>
+    </form>
+    <p><a href="{% url 'groups:group_list' %}">Вернуться к списку групп</a></p>
+</body>
+</html>

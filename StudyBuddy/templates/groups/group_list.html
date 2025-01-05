@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список групп</title>
+</head>
+<body>
+    <h1>Список групп</h1>
+
+    <!-- Кнопка "Создать группу" -->
+    <p><a href="{% url 'groups:create_group' %}">Создать новую группу</a></p>
+
+    <ul>
+        {% for group in groups %}
+            <li>
+                <strong>{{ group.name }}</strong>
+                <p>{{ group.description }}</p>
+
+                <!-- Если пользователь состоит в группе, показываем "Войти" -->
+                {% if user in group.members.all %}
+                    <button>Войти</button>
+                {% else %}
+                    <button>Запросить доступ</button>
+                {% endif %}
+
+            </li>
+        {% empty %}
+            <li>Нет групп</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'accounts:profile' %}">Мой профиль</a></p>
+    <p><a href="{% url 'accounts:logout' %}">Выйти</a></p>
+</body>
+</html>

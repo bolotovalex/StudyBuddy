@@ -14,7 +14,7 @@ def home_view(request):
     """
     # Если пользователь уже авторизован, просто перенаправляем куда-то, например, в профиль
     if request.user.is_authenticated:
-        return redirect('accounts:profile')
+        return redirect('groups:group_list')
 
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)

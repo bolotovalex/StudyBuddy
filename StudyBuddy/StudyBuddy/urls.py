@@ -22,6 +22,7 @@ import accounts
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls', namespace='accounts')),
+    path('groups/', include('groups.urls', namespace='groups')),
 ]
 
 
