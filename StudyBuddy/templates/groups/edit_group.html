@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование группы: {{ group.name }}</title>
+</head>
+<body>
+    <h1>Редактирование группы: {{ group.name }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <!-- Кнопки -->
+        <button type="submit" style="color: green;">OK</button>
+        <a href="{% url 'groups:group_detail' group.pk %}" style="color: red;">Отмена</a>
+    </form>
+</body>
+</html>

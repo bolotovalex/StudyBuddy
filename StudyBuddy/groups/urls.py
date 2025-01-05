@@ -11,4 +11,5 @@ urlpatterns = [
     path('<int:pk>/accept/<int:user_id>/', views.accept_request_view, name='accept_request'),
     path('<int:pk>/decline/<int:user_id>/', views.decline_request_view, name='decline_request'),
     path('<int:pk>/leave/', views.leave_group_view, name='leave_group'),
+path('<int:pk>/edit/', views.edit_group_view, name='edit_group'),
 ]

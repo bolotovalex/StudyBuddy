@@ -13,6 +13,9 @@
         <a href="{% url 'groups:group_list' %}" style="margin-right: 10px;">Список групп</a>
         <a href="{% url 'accounts:profile' %}" style="margin-right: 10px;">Профиль</a>
         <a href="{% url 'accounts:logout' %}" style="color: red;">Выход</a>
+        {% if request.user == group.owner %}
+        <a href="{% url 'groups:edit_group' group.pk %}" style="color: blue;">Редактировать группу</a>
+    {% endif %}
     </div>
 
     <!-- Список участников -->
@@ -52,23 +55,3 @@
     </form>
 </body>
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="ru">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Группа: {{ group.name }}</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <h1>Группа: {{ group.name }}</h1>-->
-<!--    <p>{{ group.description }}</p>-->
-
-<!--    &lt;!&ndash; Навигационные кнопки &ndash;&gt;-->
-<!--    <div style="margin-bottom: 20px;">-->
-<!--        <a href="{% url 'groups:group_list' %}">Список групп</a>-->
-<!--        <a href="{% url 'groups:leave_group' group.pk %}">Покинуть группу</a>-->
-<!--        <a href="{% url 'accounts:profile' %}">Профиль</a>-->
-<!--        <a href="{% url 'accounts:logout' %}">Выйти</a>-->
-<!--    </div>-->
-<!--</body>-->
-<!--</html>-->
