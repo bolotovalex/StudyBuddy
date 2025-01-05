@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Группа: {{ group.name }}</title>
+</head>
+<body>
+    <h1>Группа: {{ group.name }}</h1>
+    <p>{{ group.description }}</p>
+
+    <!-- Навигационные кнопки -->
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'groups:group_list' %}" style="margin-right: 10px;">Список групп</a>
+        <a href="{% url 'accounts:profile' %}" style="margin-right: 10px;">Профиль</a>
+        <a href="{% url 'accounts:logout' %}" style="color: red;">Выход</a>
+    </div>
+
+    <!-- Список участников -->
+    <h2>Участники группы:</h2>
+<ul>
+    {% for member in members %}
+        <li>
+            {{ member.username }}
+            {% if member == group.owner %}
+                <strong>(Владелец)</strong>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<!-- Запросы на доступ -->
+{% if request.user == group.owner %}
+    <h2>Запросы на доступ:</h2>
+    <ul>
+    {% for user in group.access_requests.all %}
+        <li>
+            {{ user.username }}
+            <a href="{% url 'groups:accept_request' group.pk user.pk %}" style="color: green;">Принять</a>
+            <a href="{% url 'groups:decline_request' group.pk user.pk %}" style="color: red;">Отклонить</a>
+        </li>
+    {% empty %}
+        <li>Нет запросов на доступ.</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+    <!-- Кнопка "Покинуть группу" -->
+    <form method="post" action="{% url 'groups:leave_group' group.pk %}">
+        {% csrf_token %}
+        <button type="submit" style="color: red;">Покинуть группу</button>
+    </form>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Группа: {{ group.name }}</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Группа: {{ group.name }}</h1>-->
+<!--    <p>{{ group.description }}</p>-->
+
+<!--    &lt;!&ndash; Навигационные кнопки &ndash;&gt;-->
+<!--    <div style="margin-bottom: 20px;">-->
+<!--        <a href="{% url 'groups:group_list' %}">Список групп</a>-->
+<!--        <a href="{% url 'groups:leave_group' group.pk %}">Покинуть группу</a>-->
+<!--        <a href="{% url 'accounts:profile' %}">Профиль</a>-->
+<!--        <a href="{% url 'accounts:logout' %}">Выйти</a>-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->

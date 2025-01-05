@@ -5,31 +5,43 @@
     <title>Список групп</title>
 </head>
 <body>
-    <h1>Список групп</h1>
+    <!-- Верхняя панель -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>Список групп</h1>
+        <div>
+            <!-- Кнопка для перехода в профиль -->
+            <a href="{% url 'accounts:profile' %}" style="margin-right: 10px;">Профиль</a>
+            <!-- Кнопка для выхода из аккаунта -->
+            <a href="{% url 'accounts:logout' %}">Выйти</a>
+        </div>
+    </div>
 
-    <!-- Кнопка "Создать группу" -->
+    <!-- Кнопка создания группы -->
     <p><a href="{% url 'groups:create_group' %}">Создать новую группу</a></p>
 
-    <ul>
-        {% for group in groups %}
-            <li>
-                <strong>{{ group.name }}</strong>
-                <p>{{ group.description }}</p>
+    <!-- Список групп -->
 
-                <!-- Если пользователь состоит в группе, показываем "Войти" -->
-                {% if user in group.members.all %}
-                    <button>Войти</button>
-                {% else %}
-                    <button>Запросить доступ</button>
-                {% endif %}
 
-            </li>
-        {% empty %}
-            <li>Нет групп</li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for group in groups %}
+        <li>
+            <strong>{{ group.name }}</strong>
+            <p>{{ group.description }}</p>
 
-    <p><a href="{% url 'accounts:profile' %}">Мой профиль</a></p>
-    <p><a href="{% url 'accounts:logout' %}">Выйти</a></p>
+            <!-- Если пользователь уже состоит в группе -->
+            {% if user in group.members.all %}
+                <a href="{% url 'groups:group_detail' group.pk %}">Войти</a>
+
+            <!-- Если пользователь отправил запрос на доступ -->
+            {% elif user in group.access_requests.all %}
+                <span>Доступ запрошен</span>
+
+            <!-- Если пользователь не состоит в группе и не запрашивал доступ -->
+            {% else %}
+                <a href="{% url 'groups:request_access' group.pk %}" style="color: blue;">Запросить доступ</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
 </body>
 </html>
