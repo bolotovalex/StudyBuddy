@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Document, StudyGroup
+from django.contrib import messages
+
 
 @login_required
 def add_document_view(request, group_id):
@@ -22,3 +24,18 @@ def add_document_view(request, group_id):
             return redirect('groups:group_detail', pk=group.id)
     
     return render(request, 'documents/add_document.html', {'group': group})
+
+@login_required
+def delete_document_view(request, document_id):
+        """
+        Удаляет документ после подтверждения.
+        """
+        document = get_object_or_404(Document, id=document_id)
+
+        if request.method == 'POST':
+            document.file.delete()  # Удаляем сам файл из файловой системы
+            document.delete()  # Удаляем запись из базы данных
+            messages.success(request, "Документ успешно удалён.")
+            return redirect('groups:group_detail', pk=document.group.id)
+
+        return render(request, 'documents/confirm_delete.html', {'document': document})

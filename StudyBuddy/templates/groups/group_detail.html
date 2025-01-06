@@ -53,16 +53,17 @@
     <p>{{ group.description }}</p>
 
     <!-- Секция документов -->
-    <h2>Документы</h2>
-    <ul>
-        {% for document in documents %}
-            <li>
-                <a href="{{ document.file.url }}">{{ document.file.name }}</a> - {{ document.description }}
-            </li>
-        {% empty %}
-            <li>Нет документов</li>
-        {% endfor %}
-    </ul>
+<h2>Документы</h2>
+<ul>
+    {% for document in documents %}
+        <li>
+            <a href="{{ document.file.url }}">{{ document.file.name }}</a> - {{ document.description }}
+            <a href="{% url 'documents:delete_document' document.id %}">Удалить</a>
+        </li>
+    {% empty %}
+        <li>Нет документов</li>
+    {% endfor %}
+</ul>
     <form method="post" enctype="multipart/form-data" action="{% url 'documents:add_document' group.id %}">
         {% csrf_token %}
         <label for="file">Добавить документ:</label>
