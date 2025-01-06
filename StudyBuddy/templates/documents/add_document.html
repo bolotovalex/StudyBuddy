@@ -1,0 +1,11 @@
+<h1>Добавить документ</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="file">Файл:</label>
+    <input type="file" name="file" id="file" required>
+
+    <label for="description">Описание:</label>
+    <textarea name="description" id="description"></textarea>
+
+    <button type="submit">Добавить</button>
+</form>

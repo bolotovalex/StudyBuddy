@@ -1,0 +1,11 @@
+<h1>Добавить конспект</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="title">Название:</label>
+    <input type="text" name="title" id="title" required>
+
+    <label for="content">Содержимое:</label>
+    <textarea name="content" id="content" required></textarea>
+
+    <button type="submit">Добавить</button>
+</form>
