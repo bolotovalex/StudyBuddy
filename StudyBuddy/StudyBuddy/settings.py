@@ -17,7 +17,12 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'  # URL, по которому файлы доступны в браузере
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Папка, где хранятся загруженные файлы
-ASGI_APPLICATION = 'StudyBuddy.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
 
 
 # Quick-start development settings - unsuitable for production
@@ -35,6 +40,8 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
 
+ASGI_APPLICATION = 'StudyBuddy.asgi.application'
+
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,6 +56,8 @@ INSTALLED_APPS = [
     'documents',
     'channels',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
