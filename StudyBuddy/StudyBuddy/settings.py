@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'accounts',
     'django.contrib.admin',
     'groups',
+    'meetings',
+    'notes',
+    'documents',
 ]
 
 MIDDLEWARE = [
