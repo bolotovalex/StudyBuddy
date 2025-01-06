@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from .models import User
+from accounts.models import User
 from django.contrib.auth.decorators import login_required
 
 class StudyGroup(models.Model):
