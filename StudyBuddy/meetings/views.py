@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import VideoMeeting
+from .models import VideoMeeting, StudyGroup
+
 
 @login_required
 def meeting_list_view(request, group_id):
