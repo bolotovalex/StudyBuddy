@@ -2,53 +2,58 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Группа: {{ group.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            font-size: 28px;
+        }
+        h2 {
+            color: #555;
+            font-size: 22px;
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Группа: {{ group.name }}</h1>
+    <h1>{{ group.name }}</h1>
     <p>{{ group.description }}</p>
 
-    <!-- Навигационные кнопки -->
-    <div style="margin-bottom: 20px;">
-        <a href="{% url 'groups:group_list' %}" style="margin-right: 10px;">Список групп</a>
-        <a href="{% url 'accounts:profile' %}" style="margin-right: 10px;">Профиль</a>
-        <a href="{% url 'accounts:logout' %}" style="color: red;">Выход</a>
-        {% if request.user == group.owner %}
-        <a href="{% url 'groups:edit_group' group.pk %}" style="color: blue;">Редактировать группу</a>
-    {% endif %}
-    </div>
-
-    <!-- Список участников -->
-    <h2>Участники группы:</h2>
-<ul>
-    {% for member in members %}
-        <li>
-            {{ member.username }}
-            {% if member == group.owner %}
-                <strong>(Владелец)</strong>
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
-
-<!-- Запросы на доступ -->
-{% if request.user == group.owner %}
-    <h2>Запросы на доступ:</h2>
-    <ul>
-    {% for user in group.access_requests.all %}
-        <li>
-            {{ user.username }}
-            <a href="{% url 'groups:accept_request' group.pk user.pk %}" style="color: green;">Принять</a>
-            <a href="{% url 'groups:decline_request' group.pk user.pk %}" style="color: red;">Отклонить</a>
-        </li>
-    {% empty %}
-        <li>Нет запросов на доступ.</li>
-    {% endfor %}
-</ul>
-{% endif %}
-
-<!-- Секция документов -->
-<h2>Документы</h2>
+    <!-- Секция документов -->
+    <h2>Документы</h2>
     <ul>
         {% for document in documents %}
             <li>
@@ -58,40 +63,49 @@
             <li>Нет документов</li>
         {% endfor %}
     </ul>
-    <a href="{% url 'documents:document_list' group.id %}">Добавить документ</a>
+    <form method="post" enctype="multipart/form-data" action="{% url 'documents:add_document' group.id %}">
+        {% csrf_token %}
+        <label for="file">Добавить документ:</label>
+        <input type="file" name="file" id="file" required>
+        <textarea name="description" placeholder="Описание документа"></textarea>
+        <button type="submit">Загрузить</button>
+    </form>
 
     <!-- Секция конспектов -->
     <h2>Конспекты</h2>
-    <ul>
-        {% for note in notes %}
-            <li>
-                <a href="{% url 'notes:note_list' group.id %}">{{ note.title }}</a>
-            </li>
-        {% empty %}
-            <li>Нет конспектов</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'notes:note_list' group.id %}">Добавить конспект</a>
+{#    <!-- <ul>#}
+{#        {% for note in notes %}#}
+{#            <li>#}
+{#                <a href="{% url 'notes:edit_note' note.id %}">{{ note.title }}</a>#}
+{#            </li>#}
+{#        {% empty %}#}
+{#            <li>Нет конспектов</li>#}
+{#        {% endfor %}#}
+{#    </ul> -->#}
+    <form method="post" action="{% url 'notes:add_note' group.id %}">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Название конспекта" required>
+        <textarea name="content" placeholder="Содержимое"></textarea>
+        <button type="submit">Создать конспект</button>
+    </form>
 
     <!-- Секция видеовстреч -->
     <h2>Видеовстречи</h2>
     <ul>
         {% for meeting in meetings %}
             <li>
-                <a href="{{ meeting.link }}">{{ meeting.title }}</a> - {{ meeting.scheduled_at }}
+                <a href="{{ meeting.link }}">{{ meeting.title }}</a> - {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
             </li>
         {% empty %}
-            <li>Нет встреч</li>
+            <li>Нет видеовстреч</li>
         {% endfor %}
     </ul>
-    <a href="{% url 'meetings:meeting_list' group.id %}">Добавить встречу</a>
-
-
-
-    <!-- Кнопка "Покинуть группу" -->
-    <form method="post" action="{% url 'groups:leave_group' group.pk %}">
+    <form method="post" action="{% url 'meetings:add_meeting' group.id %}">
         {% csrf_token %}
-        <button type="submit" style="color: red;">Покинуть группу</button>
+        <input type="text" name="title" placeholder="Название встречи" required>
+        <input type="url" name="link" placeholder="Ссылка на встречу" required>
+        <input type="datetime-local" name="scheduled_at" required>
+        <button type="submit">Создать встречу</button>
     </form>
 </body>
 </html>
