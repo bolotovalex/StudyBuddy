@@ -47,6 +47,46 @@
 </ul>
 {% endif %}
 
+<!-- Секция документов -->
+<h2>Документы</h2>
+    <ul>
+        {% for document in documents %}
+            <li>
+                <a href="{{ document.file.url }}">{{ document.file.name }}</a> - {{ document.description }}
+            </li>
+        {% empty %}
+            <li>Нет документов</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'documents:document_list' group.id %}">Добавить документ</a>
+
+    <!-- Секция конспектов -->
+    <h2>Конспекты</h2>
+    <ul>
+        {% for note in notes %}
+            <li>
+                <a href="{% url 'notes:note_list' group.id %}">{{ note.title }}</a>
+            </li>
+        {% empty %}
+            <li>Нет конспектов</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'notes:note_list' group.id %}">Добавить конспект</a>
+
+    <!-- Секция видеовстреч -->
+    <h2>Видеовстречи</h2>
+    <ul>
+        {% for meeting in meetings %}
+            <li>
+                <a href="{{ meeting.link }}">{{ meeting.title }}</a> - {{ meeting.scheduled_at }}
+            </li>
+        {% empty %}
+            <li>Нет встреч</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'meetings:meeting_list' group.id %}">Добавить встречу</a>
+
+
 
     <!-- Кнопка "Покинуть группу" -->
     <form method="post" action="{% url 'groups:leave_group' group.pk %}">

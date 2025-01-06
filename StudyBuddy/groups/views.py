@@ -89,6 +89,9 @@ def group_detail_view(request, pk):
     Страница конкретной группы, с отображением списка участников.
     """
     group = get_object_or_404(StudyGroup, pk=pk)
+    documents = group.documents.all()
+    notes = group.notes.all()
+    meetings = group.meetings.all()
 
     # Проверяем, состоит ли пользователь в группе
     if request.user not in group.members.all():
@@ -98,7 +101,12 @@ def group_detail_view(request, pk):
     # Получаем всех участников группы
     members = group.members.all()
 
-    return render(request, 'groups/group_detail.html', {'group': group, 'members': members})
+    return render(request, 'groups/group_detail.html', {
+        'group': group,
+        'documents': documents,
+        'notes': notes,
+        'meetings': meetings,
+    })
 
 
 @login_required
