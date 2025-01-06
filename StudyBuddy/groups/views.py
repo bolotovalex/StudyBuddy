@@ -21,13 +21,8 @@ def group_list_view(request):
 
 
 '''Создаем группу'''
-
-
 @login_required
 def create_group_view(request):
-    """
-
-    """
     if request.method == 'POST':
         form = StudyGroupForm(request.POST)
         if form.is_valid():
@@ -92,6 +87,7 @@ def group_detail_view(request, pk):
     documents = group.documents.all()
     notes = group.notes.all()
     meetings = group.meetings.all()
+    # join_requests = GroupJoinRequest.objects.filter(group=group)
 
     # Проверяем, состоит ли пользователь в группе
     if request.user not in group.members.all():
