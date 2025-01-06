@@ -5,6 +5,36 @@ from django.core.exceptions import ValidationError
 from .models import User, Profile
 
 
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'role')
+
+
+class UserLoginForm(AuthenticationForm):
+    #TODO Придумать как разграничить роли.
+    pass
+
+
+class ProfileForm(forms.ModelForm):
+    birth_date = forms.DateField(
+        required=True,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label='Дата рождения'
+    )
+    '''Поля профиля'''
+    class Meta:
+        model = Profile
+        fields = (
+            'last_name',
+            'first_name',
+            'patronymic',
+            'birth_date',
+            'institution',
+            'faculty',
+            'study_group',
+        )
+
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
@@ -32,28 +62,3 @@ class UserRegistrationForm(forms.ModelForm):
         if password and confirm_password and password != confirm_password:
             raise ValidationError("Пароли не совпадают.")
         return cleaned_data
-
-
-class UserLoginForm(AuthenticationForm):
-    #TODO Придумать как разграничить роли.
-    pass
-
-
-class ProfileForm(forms.ModelForm):
-    birth_date = forms.DateField(
-        required=True,
-        widget=forms.DateInput(attrs={'type': 'date'}),
-        label='Дата рождения'
-    )
-    '''Поля профиля'''
-    class Meta:
-        model = Profile
-        fields = (
-            'last_name',
-            'first_name',
-            'patronymic',
-            'birth_date',
-            'institution',
-            'faculty',
-            'study_group',
-        )
