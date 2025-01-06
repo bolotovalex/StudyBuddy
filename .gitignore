@@ -363,3 +363,13 @@ MigrationBackup/
 FodyWeavers.xsd
 /.idea/.idea.Прямолинейность/.idea
 StudyBuddy/db.sqlite3
+.idea/misc.xml
+.idea/modules.xml
+.idea/StudyBuddy.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+StudyBuddy/documents/migrations/0001_initial.py
+StudyBuddy/group_documents/requirements_jl3I2rL.txt
+StudyBuddy/group_documents/requirements.txt
+StudyBuddy/meetings/migrations/0001_initial.py
+StudyBuddy/notes/migrations/0001_initial.py

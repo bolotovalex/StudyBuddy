@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm, UserLoginForm, ProfileForm
 from groups.models import StudyGroup
-from .models import Profile
+from .models import User
 
 
 def home_view(request):
@@ -108,12 +108,12 @@ def request_access_view(request, pk):
     """
     group = get_object_or_404(StudyGroup, pk=pk)
 
-    # Проверяем, не состоит ли пользователь уже в группе
+    '''Проверяем, не состоит ли пользователь уже в группе'''
     if request.user in group.members.all():
         messages.error(request, "Вы уже являетесь участником этой группы.")
         return redirect('groups:group_detail', pk=pk)
 
-    # Проверяем, не отправлен ли уже запрос
+    '''Проверяем, не отправлен ли уже запрос на доступ'''
     if request.user in group.access_requests.all():
         messages.error(request, "Вы уже отправили запрос на доступ.")
         return redirect('groups:group_detail', pk=pk)
@@ -122,3 +122,13 @@ def request_access_view(request, pk):
     group.access_requests.add(request.user)
     messages.success(request, "Ваш запрос на доступ отправлен.")
     return redirect('groups:group_list')
+
+@login_required
+def user_profile_view(request, user_id):
+    """
+    Отображает профиль другого пользователя.
+    """
+    user = get_object_or_404(User, id=user_id)
+    profile = user.profile
+    is_own_profile = (request.user == user)
+    return render(request, 'accounts/profile.html', {'profile': profile, 'is_own_profile': is_own_profile})

@@ -1,12 +1,7 @@
 from django.urls import path
 from . import views
-from django.contrib.auth import views as auth_views
 
 app_name = 'accounts'
-
-
-
-
 
 urlpatterns = [
     path('', views.home_view, name='home'),  # Главная страница
@@ -15,4 +10,5 @@ urlpatterns = [
     path('profile/edit/', views.edit_profile_view, name='edit_profile'), #Редактирование профиля
     path('logout/', views.logout_view, name='logout'), # Выход из учетной записи
     path('profile/delete/', views.delete_account_view, name='delete_account'), # Удаление учетной записи
+    path('profile/<int:user_id>/', views.user_profile_view, name='user_profile'),  # Профиль другого пользователя
 ]

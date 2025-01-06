@@ -38,6 +38,7 @@
 </ul>
 
     <!-- Кнопки -->
+    {% if is_own_profile %}
     <p>
         <a href="{% url 'accounts:edit_profile' %}">Редактировать профиль</a>
     </p>
@@ -49,6 +50,7 @@
 <div style="margin-top: 20px;">
         <a href="{% url 'groups:group_list' %}" style="margin-right: 10px;">Список групп</a>
         <a href="{% url 'accounts:logout' %}" style="color: red;">Выход</a>
+        {% endif %}
     </div>
 </body>
 </html>

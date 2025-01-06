@@ -25,7 +25,7 @@
 <ul>
     {% for member in members %}
         <li>
-            {{ member.username }}
+            <a href="{% url 'accounts:user_profile' member.pk %}">{{ member.username }}</a>
             {% if member == group.owner %}
                 <strong>(Владелец)</strong>
             {% endif %}
