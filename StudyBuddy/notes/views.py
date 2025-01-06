@@ -22,3 +22,13 @@ def add_note_view(request, group_id):
             return redirect('groups:group_detail', pk=group.id)
     
     return render(request, 'notes/add_note.html', {'group': group})
+
+@login_required
+def edit_note_view(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+    if request.method == 'POST':
+        note.title = request.POST.get('title')
+        note.content = request.POST.get('content')
+        note.save()
+        return redirect('groups:group_detail', pk=note.group.id)
+    return render(request, 'notes/edit_note.html', {'note': note})

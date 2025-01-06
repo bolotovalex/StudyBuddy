@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Создать конспект</title>
+    <title>Редактировать конспект</title>
 </head>
 <body>
     <div class="container">
-        <h1>Создать конспект</h1>
+        <h1>Редактировать конспект</h1>
         <form method="post">
             {% csrf_token %}
             <label for="title">Название:</label>
-            <input type="text" name="title" id="title" required>
+            <input type="text" name="title" id="title" value="{{ note.title }}" required>
 
             <label for="content">Содержимое:</label>
-            <textarea name="content" id="content" required></textarea>
+            <textarea name="content" id="content" required>{{ note.content }}</textarea>
 
             <div class="button-group">
                 <button type="submit" class="save-button">Сохранить</button>
-                <a href="{% url 'groups:group_detail' group.id %}" class="cancel-button">Отмена</a>
+                <a href="{% url 'groups:group_detail' note.group.id %}" class="cancel-button">Отмена</a>
             </div>
         </form>
     </div>
