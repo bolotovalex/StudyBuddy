@@ -30,7 +30,8 @@ def add_note_view(request, group_id):
             Note.objects.create(
                 group=group,
                 title=title,
-                content=content,
+                # content=content,
+                content=models.JSONField(default=dict), #Содержимое для Quiil.js
                 created_by=request.user
             )
             messages.success(request, "Конспект успешно создан.")
