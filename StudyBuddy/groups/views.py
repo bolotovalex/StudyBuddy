@@ -102,6 +102,7 @@ def group_detail_view(request, pk):
         'documents': documents,
         'notes': notes,
         'meetings': meetings,
+        'members': members,
     })
 
 

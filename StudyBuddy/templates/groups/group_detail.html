@@ -7,10 +7,10 @@
 
 </head>
 <body>
-    <h1>{{ group.name }}</h1>
+        <h1>Группа: {{ group.name }}</h1>
     <p>{{ group.description }}</p>
 
-        <!-- Навигационные кнопки -->
+    <!-- Навигационные кнопки -->
     <div style="margin-bottom: 20px;">
         <a href="{% url 'groups:group_list' %}" style="margin-right: 10px;">Список групп</a>
         <a href="{% url 'accounts:profile' %}" style="margin-right: 10px;">Профиль</a>
@@ -19,6 +19,7 @@
         <a href="{% url 'groups:edit_group' group.pk %}" style="color: blue;">Редактировать группу</a>
     {% endif %}
     </div>
+
     <!-- Список участников -->
     <h2>Участники группы:</h2>
 <ul>
@@ -32,7 +33,7 @@
     {% endfor %}
 </ul>
 
-    <!-- Запросы на доступ -->
+<!-- Запросы на доступ -->
 {% if request.user == group.owner %}
     <h2>Запросы на доступ:</h2>
     <ul>
@@ -47,6 +48,13 @@
     {% endfor %}
 </ul>
 {% endif %}
+
+
+    <!-- Кнопка "Покинуть группу" -->
+    <form method="post" action="{% url 'groups:leave_group' group.pk %}">
+        {% csrf_token %}
+        <button type="submit" style="color: red;">Покинуть группу</button>
+    </form>
 
 
     <!-- Секция документов -->
