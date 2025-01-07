@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'documents',
     'channels',
     'chat',
+    'questions',
 ]
 
 

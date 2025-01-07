@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Список вопросов{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="get" class="d-flex mb-3">
+        <input type="text" name="q" value="{{ query }}" placeholder="Поиск вопроса" class="form-control me-2">
+        <button type="submit" class="btn btn-primary">Поиск</button>
+        {% if query %}
+            <a href="{% url 'questions:question_list' %}" class="btn btn-secondary ms-2">Сброс</a>
+        {% endif %}
+    </form>
+    <a href="{% url 'questions:create_question' %}" class="btn btn-primary mb-3">Создать вопрос</a>
+    <ul class="list-group">
+        {% for question in questions %}
+            <li class="list-group-item">
+                <a href="{% url 'questions:question_detail' question.pk %}">
+                    {{ question.question_text|truncatechars:100 }}
+                </a>
+                <br>
+                <small class="text-muted">Создано: {{ question.created_by.username }}</small>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Нет вопросов</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
