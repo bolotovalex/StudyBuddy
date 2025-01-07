@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  web:
+    image: jitsi/web:stable
+    restart: always
+    ports:
+      - "8443:443"
+    environment:
+      ENABLE_AUTH: 1
+      AUTH_TYPE: jwt
+      JWT_APP_ID: my_jitsi_app
+      JWT_APP_SECRET: my_jitsi_secret
+    networks:
+      - jitsi-network
+
+networks:
+  jitsi-network:
+    driver: bridge

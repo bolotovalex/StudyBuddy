@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+    container_name: django
+    command: >
+      sh -c "python manage.py migrate &&
+             daphne -b 0.0.0.0 -p 8000 StudyBuddy.asgi:application"
+    volumes:
+      - .:/app
+    expose:
+      - "8000"
+    depends_on:
+      - jitsi-web
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - django
+    networks:
+      - app-network
+
+  jitsi-web:
+    image: jitsi/web:stable
+    container_name: jitsi-web
+    restart: always
+    expose:
+      - "8443"
+    environment:
+      ENABLE_AUTH: 1
+      AUTH_TYPE: jwt
+      JWT_APP_ID: my_jitsi_app
+      JWT_APP_SECRET: my_jitsi_secret
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
