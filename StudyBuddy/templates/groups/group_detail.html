@@ -1,165 +1,129 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Группа: {{ group.name }}</title>
+{% extends 'base.html' %}
 
-</head>
-<body>
-        <h1>Группа: {{ group.name }}</h1>
-    <p>{{ group.description }}</p>
+{% block title %}Группа: {{ group.name }}{% endblock %}
 
-    <!-- Навигационные кнопки -->
-    <div style="margin-bottom: 20px;">
-        <a href="{% url 'groups:group_list' %}" style="margin-right: 10px;">Список групп</a>
-        <a href="{% url 'accounts:profile' %}" style="margin-right: 10px;">Профиль</a>
-        <a href="{% url 'accounts:logout' %}" style="color: red;">Выход</a>
-        {% if request.user == group.owner %}
-        <a href="{% url 'groups:edit_group' group.pk %}" style="color: blue;">Редактировать группу</a>
-    {% endif %}
-    </div>
+{% block page_title %}Группа: {{ group.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Описание группы -->
+    <p class="text-muted">{{ group.description }}</p>
 
     <!-- Список участников -->
-    <h2>Участники группы:</h2>
-<ul>
-    {% for member in members %}
-        <li>
-            <a href="{% url 'accounts:user_profile' member.pk %}">{{ member.username }}</a>
-            {% if member == group.owner %}
-                <strong>(Владелец)</strong>
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
+    <h2 class="mt-4">Участники группы:</h2>
+    <ul class="list-group">
+        {% for member in members %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{% url 'accounts:user_profile' member.pk %}">{{ member.username }}</a>
+                {% if member == group.owner %}
+                    <span class="badge bg-primary">Владелец</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
 
-<!-- Запросы на доступ -->
-{% if request.user == group.owner %}
-    <h2>Запросы на доступ:</h2>
-    <ul>
-    {% for user in group.access_requests.all %}
-        <li>
-            {{ user.username }}
-            <a href="{% url 'groups:accept_request' group.pk user.pk %}" style="color: green;">Принять</a>
-            <a href="{% url 'groups:decline_request' group.pk user.pk %}" style="color: red;">Отклонить</a>
-        </li>
-    {% empty %}
-        <li>Нет запросов на доступ.</li>
-    {% endfor %}
-</ul>
-{% endif %}
-
+    <!-- Запросы на доступ -->
+    {% if request.user == group.owner %}
+        <h2 class="mt-4">Запросы на доступ:</h2>
+        <ul class="list-group">
+            {% for user in group.access_requests.all %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ user.username }}
+                    <div>
+                        <a href="{% url 'groups:accept_request' group.pk user.pk %}" class="btn btn-success btn-sm">Принять</a>
+                        <a href="{% url 'groups:decline_request' group.pk user.pk %}" class="btn btn-danger btn-sm">Отклонить</a>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="list-group-item">Нет запросов на доступ.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     <!-- Кнопка "Покинуть группу" -->
-    <form method="post" action="{% url 'groups:leave_group' group.pk %}">
+    <form method="post" action="{% url 'groups:leave_group' group.pk %}" class="mt-4">
         {% csrf_token %}
-        <button type="submit" style="color: red;">Покинуть группу</button>
+        <button type="submit" class="btn btn-danger">Покинуть группу</button>
     </form>
 
-
     <!-- Секция документов -->
-<h2>Документы</h2>
-<ul>
-    {% for document in documents %}
-        <li>
-            <a href="{{ document.file.url }}">{{ document.file.name }}</a> - {{ document.description }}
-            <a href="{% url 'documents:delete_document' document.id %}">Удалить</a>
-        </li>
-    {% empty %}
-        <li>Нет документов</li>
-    {% endfor %}
-</ul>
-    <form method="post" enctype="multipart/form-data" action="{% url 'documents:add_document' group.id %}">
+    <h2 class="mt-4">Документы</h2>
+    <ul class="list-group">
+        {% for document in documents %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{{ document.file.url }}">{{ document.file.name }}</a>
+                <span>{{ document.description }}</span>
+                <a href="{% url 'documents:delete_document' document.id %}" class="btn btn-outline-danger btn-sm">Удалить</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Нет документов</li>
+        {% endfor %}
+    </ul>
+    <form method="post" enctype="multipart/form-data" action="{% url 'documents:add_document' group.id %}" class="mt-3">
         {% csrf_token %}
-        <label for="file">Добавить документ:</label>
-        <input type="file" name="file" id="file" required>
-        <textarea name="description" placeholder="Описание документа"></textarea>
-        <button type="submit">Загрузить</button>
+        <div class="mb-3">
+            <label for="file" class="form-label">Добавить документ:</label>
+            <input type="file" name="file" id="file" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <textarea name="description" class="form-control" placeholder="Описание документа"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Загрузить</button>
     </form>
 
     <!-- Секция конспектов -->
-  <h2>Конспекты</h2>
-<ul>
-    {% for note in notes %}
-        <li>
-            <a href="{% url 'notes:edit_note' note.id %}">{{ note.title }}</a>
-        </li>
-    {% empty %}
-        <li>Нет конспектов</li>
-    {% endfor %}
-</ul>
-<a href="{% url 'notes:add_note' group.id %}">Создать конспект</a>
+    <h2 class="mt-4">Конспекты</h2>
+    <ul class="list-group">
+        {% for note in notes %}
+            <li class="list-group-item">
+                <a href="{% url 'notes:edit_note' note.id %}">{{ note.title }}</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Нет конспектов</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline-primary mt-3">Создать конспект</a>
 
     <!-- Секция видеовстреч -->
-    <h2>Видеовстречи</h2>
-    <ul>
+    <h2 class="mt-4">Видеовстречи</h2>
+    <ul class="list-group">
         {% for meeting in meetings %}
-            <li>
+            <li class="list-group-item">
                 <a href="{{ meeting.link }}">{{ meeting.title }}</a> - {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
             </li>
         {% empty %}
-            <li>Нет видеовстреч</li>
+            <li class="list-group-item">Нет видеовстреч</li>
         {% endfor %}
     </ul>
-    <form method="post" action="{% url 'meetings:add_meeting' group.id %}">
+    <form method="post" action="{% url 'meetings:add_meeting' group.id %}" class="mt-3">
         {% csrf_token %}
-        <input type="text" name="title" placeholder="Название встречи" required>
-        <input type="url" name="link" placeholder="Ссылка на встречу" required>
-        <input type="datetime-local" name="scheduled_at" required>
-        <button type="submit">Создать встречу</button>
+        <div class="mb-3">
+            <input type="text" name="title" class="form-control" placeholder="Название встречи" required>
+        </div>
+        <div class="mb-3">
+            <input type="url" name="link" class="form-control" placeholder="Ссылка на встречу" required>
+        </div>
+        <div class="mb-3">
+            <input type="datetime-local" name="scheduled_at" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Создать встречу</button>
     </form>
-<h2>Объявления</h2>
-<!-- Чат -->
-    <div id="message-list">
+
+    <!-- Чат -->
+    <h2 class="mt-4">Объявления</h2>
+    <div id="message-list" class="mb-3">
         {% for message in messages %}
-            <div>
-                <span>{{ message.timestamp|date:"d.m.Y H:i" }} - {{ message.user.username }}</span><br>
+            <div class="border rounded p-2 mb-2">
+                <span class="text-muted">{{ message.timestamp|date:"d.m.Y H:i" }} - {{ message.user.username }}</span><br>
                 {{ message.content }}
             </div>
         {% endfor %}
     </div>
-
-    <!-- Форма отправки сообщения -->
     <form id="chat-form" method="post">
         {% csrf_token %}
-        <textarea name="content" id="content" placeholder="Введите сообщение..." required></textarea>
+        <textarea name="content" id="content" class="form-control mb-2" placeholder="Введите сообщение..." required></textarea>
         <input type="hidden" name="group_id" value="{{ group.id }}">
-        <button type="submit">Отправить</button>
+        <button type="submit" class="btn btn-primary">Отправить</button>
     </form>
-
-    <script>
-        const form = document.getElementById('chat-form');
-        const messageList = document.getElementById('message-list');
-
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const formData = new FormData(form);
-
-            const response = await fetch("{% url 'chat:send_message' %}", {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRFToken": formData.get("csrfmiddlewaretoken")
-                }
-            });
-
-            const data = await response.json();
-
-            if (data.status === 'success') {
-                const newMessage = document.createElement('div');
-                const timestamp = new Date().toLocaleString();
-                const content = formData.get('content');
-
-                newMessage.innerHTML = `<span>${timestamp} - Вы</span><br>${content}`;
-                messageList.appendChild(newMessage);
-
-                messageList.scrollTop = messageList.scrollHeight; // Автопрокрутка
-                form.reset();
-            } else {
-                alert('Ошибка при отправке сообщения');
-            }
-        });
-    </script>
-</body>
-</html>
+</div>
+{% endblock %}

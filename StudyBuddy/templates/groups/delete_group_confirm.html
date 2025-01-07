@@ -1,18 +1,19 @@
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Удаление группы</title>
-</head>
-<body>
-    <h1>Удалить группу "{{ group.name }}"?</h1>
+{% extends 'auth_base.html' %}
+
+{% block title %}Удаление группы{% endblock %}
+
+{% block page_title %}Удаление группы{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h2>Удалить группу "{{ group.name }}"?</h2>
     <p>Вы уверены, что хотите удалить эту группу?</p>
-    <p>Если в группе останутся участники, они автоматически станут владельцами группы.</p>
+    <p class="text-danger">Если в группе останутся участники, они автоматически станут владельцами группы.</p>
 
-    <form method="post">
+    <form method="post" class="d-inline-block">
         {% csrf_token %}
-        <button type="submit" style="color: red;">Удалить группу</button>
+        <button type="submit" class="btn btn-danger">Удалить группу</button>
     </form>
-
-    <p><a href="{% url 'groups:group_list' %}">Отмена</a></p>
-</body>
-</html>
+    <a href="{% url 'groups:group_list' %}" class="btn btn-secondary">Отмена</a>
+</div>
+{% endblock %}

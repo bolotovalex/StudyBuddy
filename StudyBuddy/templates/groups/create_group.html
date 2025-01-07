@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Создать группу</title>
-</head>
-<body>
-    <h1>Создать группу</h1>
-    <form method="post">
+{% extends 'auth_base.html' %}
+
+{% block title %}Создать группу{% endblock %}
+
+{% block page_title %}Создать группу{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    <form method="post" class="mt-4">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Создать</button>
+        <button type="submit" class="btn btn-success w-100">Создать</button>
     </form>
-    <p><a href="{% url 'groups:group_list' %}">Вернуться к списку групп</a></p>
-</body>
-</html>
+    <p class="text-center mt-3"><a href="{% url 'groups:group_list' %}" class="btn btn-link">Вернуться к списку групп</a></p>
+</div>
+{% endblock %}

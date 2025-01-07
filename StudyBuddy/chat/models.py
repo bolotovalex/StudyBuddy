@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from groups.models import StudyGroup
 from accounts.models import User
+
+
 class Message(models.Model):
     group = models.ForeignKey(StudyGroup, on_delete=models.CASCADE, related_name="messages")
     user = models.ForeignKey(User, on_delete=models.CASCADE)

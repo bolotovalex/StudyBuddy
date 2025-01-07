@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Редактирование группы: {{ group.name }}</title>
-</head>
-<body>
-    <h1>Редактирование группы: {{ group.name }}</h1>
+{% extends 'auth_base.html' %}
 
-    <form method="post">
+{% block title %}Редактирование группы{% endblock %}
+
+{% block page_title %}Редактирование группы{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    <form method="post" class="mt-4">
         {% csrf_token %}
         {{ form.as_p }}
-
-        <!-- Кнопки -->
-        <button type="submit" style="color: green;">OK</button>
-        <a href="{% url 'groups:group_detail' group.pk %}" style="color: red;">Отмена</a>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{% url 'groups:group_detail' group.pk %}" class="btn btn-secondary">Отмена</a>
+        </div>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}
