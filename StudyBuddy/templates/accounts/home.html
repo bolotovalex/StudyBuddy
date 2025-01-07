@@ -1,4 +1,27 @@
-<!DOCTYPE html>
+{% extends 'auth_base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block page_title %}Добро пожаловать в StudyBuddy{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <form method="post" action="" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+
+    <p class="mt-3">Нет аккаунта? <a href="{% url 'accounts:register' %}">Регистрация</a></p>
+    <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+</div>
+{% endblock %}
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -15,4 +38,4 @@
     <p>Нет аккаунта? <a href="{% url 'accounts:register' %}">Регистрация</a></p>
 <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
 </body>
-</html>
+</html> -->

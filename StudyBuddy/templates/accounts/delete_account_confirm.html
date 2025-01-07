@@ -1,4 +1,27 @@
-<!DOCTYPE html>
+{% extends 'auth_base.html' %}
+
+{% block title %}Удаление аккаунта{% endblock %}
+
+{% block page_title %}Удаление аккаунта{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h2>Вы действительно хотите удалить профиль и учетную запись?</h2>
+    <p class="text-danger">Это действие необратимо.</p>
+
+    <form method="post" class="d-inline-block">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+    </form>
+
+    <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">Отменить</a>
+</div>
+{% endblock %}
+
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -15,4 +38,4 @@
 
     <p><a href="{% url 'accounts:profile' %}">Отменить</a></p>
 </body>
-</html>
+</html> -->

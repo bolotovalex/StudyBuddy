@@ -1,4 +1,57 @@
-<form method="post">
+{% extends 'auth_base.html' %}
+{% load custom_filters %}
+
+{% block title %}Редактировать профиль{% endblock %}
+
+{% block page_title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="id_last_name" class="form-label">Фамилия:</label>
+            {{ form.last_name|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+            <label for="id_first_name" class="form-label">Имя:</label>
+            {{ form.first_name|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+            <label for="id_patronymic" class="form-label">Отчество:</label>
+            {{ form.patronymic|add_class:"form-control" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_birth_date" class="form-label">Дата рождения:</label>
+            {{ form.birth_date|add_class:"form-control" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_institution" class="form-label">Учебное заведение:</label>
+            {{ form.institution|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+            <label for="id_faculty" class="form-label">Факультет:</label>
+            {{ form.faculty|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+            <label for="id_study_group" class="form-label">Группа:</label>
+            {{ form.study_group|add_class:"form-control" }}
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <!-- <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">Отмена</a> -->
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+
+
+<!-- <form method="post">
     {% csrf_token %}
 
     <div>
@@ -33,4 +86,4 @@
     </div>
 
     <button type="submit">Сохранить</button>
-</form>
+</form> -->
