@@ -209,3 +209,12 @@ def edit_group_view(request, pk):
         form = EditGroupForm(instance=group)
 
     return render(request, 'groups/edit_group.html', {'form': form, 'group': group})
+
+@login_required
+def user_profile_view(request, user_id):
+    """
+    Отображает профиль другого пользователя.
+    """
+    user = get_object_or_404(User, id=user_id)
+    profile = user.profile
+    return render(request, 'accounts/profile.html', {'profile': profile})

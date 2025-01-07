@@ -38,11 +38,4 @@ class StudyGroup(models.Model):
     def __str__(self):
         return self.name
 
-@login_required
-def user_profile_view(request, user_id):
-    """
-    Отображает профиль другого пользователя.
-    """
-    user = get_object_or_404(User, id=user_id)
-    profile = user.profile
-    return render(request, 'accounts/profile.html', {'profile': profile})
+

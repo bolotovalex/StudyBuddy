@@ -22,9 +22,12 @@ def home_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('accounts:profile')
+            return redirect('groups:group_list')
+        #     user = form.get_user()
+        #     login(request, user)
+        #     profile = user.profile
+        #     return render(request, 'accounts/profile.html', {'profile': profile, 'is_own_profile': True})
+        #     # return redirect('accounts:profile')
     else:
         form = UserLoginForm(request)
 
@@ -62,7 +65,7 @@ def edit_profile_view(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Профиль обновлён.')
-            return redirect('accounts:profile')
+            return redirect('groups:group_list')
     else:
         form = ProfileForm(instance=profile)
 
