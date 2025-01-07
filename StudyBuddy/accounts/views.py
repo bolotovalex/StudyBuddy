@@ -12,7 +12,6 @@ def home_view(request):
     """
     Главная страница — форма авторизации и кнопка регистрации.
     """
-    # Если пользователь уже авторизован, просто перенаправляем куда-то, например, в профиль
     if request.user.is_authenticated:
         return redirect('groups:group_list')
 
@@ -28,7 +27,7 @@ def home_view(request):
     else:
         form = UserLoginForm(request)
 
-    return render(request, 'accounts/home.html', {'form': form})
+    return render(request, 'accounts/auth.html', {'form': form})
 
 def register_view(request):
     if request.user.is_authenticated:
@@ -41,8 +40,8 @@ def register_view(request):
             # Создаём профиль
             Profile.objects.create(
                 user=user,
-                first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
+                first_name=form.cleaned_data['first_name'],
                 patronymic=form.cleaned_data['patronymic'],
                 birth_date=form.cleaned_data['birth_date'],
                 institution=form.cleaned_data['institution'],
