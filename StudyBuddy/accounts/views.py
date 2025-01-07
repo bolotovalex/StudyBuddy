@@ -91,28 +91,31 @@ def register_view(request):
 @login_required
 def edit_profile_view(request):
     """
-    Заполнение или редактирование профиля (ФИО, дата рождения).
+    Редактирование профиля пользователя.
     """
-    profile = request.user.profile  # благодаря OneToOneField
+    profile = request.user.profile
+    is_own_profile = True  # Только для своего профиля
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
             messages.success(request, 'Профиль обновлён.')
-            return redirect('groups:group_list')
+            return redirect('accounts:profile')
     else:
         form = ProfileForm(instance=profile)
 
-    return render(request, 'accounts/edit_profile.html', {'form': form})
+    return render(request, 'accounts/edit_profile.html', {'form': form, 'is_own_profile': is_own_profile})
+
 
 
 @login_required
 def profile_view(request):
     """
-    Страница профиля. Отображаем ФИО, дату рождения, список групп (пока заглушка).
+    Страница профиля текущего пользователя.
     """
     profile = request.user.profile
-    return render(request, 'accounts/profile.html', {'profile': profile})
+    return render(request, 'accounts/profile.html', {'profile': profile, 'is_own_profile': True})
+
 
 
 def logout_view(request):
