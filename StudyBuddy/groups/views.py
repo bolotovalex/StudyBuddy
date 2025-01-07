@@ -3,10 +3,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.conf import settings
 from .models import StudyGroup
-from .forms import StudyGroupForm
-from .forms import EditGroupForm
+from chat.models import Message
+from .forms import StudyGroupForm, EditGroupForm
 from django.contrib.auth import get_user_model
 
 
@@ -87,6 +86,8 @@ def group_detail_view(request, pk):
     documents = group.documents.all()
     notes = group.notes.all()
     meetings = group.meetings.all()
+    messages = group.messages.all()  # Получаем сообщения для группы
+
     # join_requests = GroupJoinRequest.objects.filter(group=group)
 
     # Проверяем, состоит ли пользователь в группе
@@ -103,6 +104,7 @@ def group_detail_view(request, pk):
         'notes': notes,
         'meetings': meetings,
         'members': members,
+        'messages': messages,
     })
 
 

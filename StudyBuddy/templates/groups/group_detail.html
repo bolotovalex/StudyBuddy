@@ -108,5 +108,58 @@
         <input type="datetime-local" name="scheduled_at" required>
         <button type="submit">Создать встречу</button>
     </form>
+<h2>Объявления</h2>
+<!-- Чат -->
+    <div id="message-list">
+        {% for message in messages %}
+            <div>
+                <span>{{ message.timestamp|date:"d.m.Y H:i" }} - {{ message.user.username }}</span><br>
+                {{ message.content }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Форма отправки сообщения -->
+    <form id="chat-form" method="post">
+        {% csrf_token %}
+        <textarea name="content" id="content" placeholder="Введите сообщение..." required></textarea>
+        <input type="hidden" name="group_id" value="{{ group.id }}">
+        <button type="submit">Отправить</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        const messageList = document.getElementById('message-list');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const response = await fetch("{% url 'chat:send_message' %}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": formData.get("csrfmiddlewaretoken")
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                const newMessage = document.createElement('div');
+                const timestamp = new Date().toLocaleString();
+                const content = formData.get('content');
+
+                newMessage.innerHTML = `<span>${timestamp} - Вы</span><br>${content}`;
+                messageList.appendChild(newMessage);
+
+                messageList.scrollTop = messageList.scrollHeight; // Автопрокрутка
+                form.reset();
+            } else {
+                alert('Ошибка при отправке сообщения');
+            }
+        });
+    </script>
 </body>
 </html>
