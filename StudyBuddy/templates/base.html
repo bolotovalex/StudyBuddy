@@ -28,9 +28,9 @@
         <div class="sidebar">
             <div>
                 <h4>{{ user.username }}</h4>
-                <a href="{% url 'accounts:edit_profile' %}" class="btn btn-link">Редактировать профиль</a>
-                <hr>
-                <a href="{% url 'groups:group_list' %}" class="btn btn-secondary w-100">Назад</a>
+                <a href="{% url 'accounts:profile' %}" class="btn btn-link">Ваш профиль</a>
+{#                <hr>#}
+{#                <a href="{% url 'groups:group_list' %}" class="btn btn-secondary w-100">Назад</a>#}
             </div>
             <div class="logout-button">
                 <a href="{% url 'accounts:logout' %}" class="btn btn-danger w-100">Выход</a>
