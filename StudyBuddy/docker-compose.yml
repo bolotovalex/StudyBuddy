@@ -2,6 +2,8 @@ version: '3.7'
 
 services:
   django:
+    environment:
+      - JITSI_BASE_URL=https://your-hostname-or-ip:8443
     build:
       context: .
       dockerfile: docker/django/Dockerfile
@@ -32,6 +34,7 @@ services:
 
   jitsi-web:
     image: jitsi/web:stable
+
     container_name: jitsi-web
     restart: always
     expose:
