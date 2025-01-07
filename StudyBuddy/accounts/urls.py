@@ -4,7 +4,7 @@ from . import views
 app_name = 'accounts'
 
 urlpatterns = [
-    path('', views.home_view, name='home'),  # Главная страница
+    path('', views.auth_form_view, name='home'),  # Главная страница
     path('register/', views.register_view, name='register'), # Форма регистрации
     path('profile/', views.profile_view, name='profile'), # Профиль пользователя
     path('profile/edit/', views.edit_profile_view, name='edit_profile'), #Редактирование профиля

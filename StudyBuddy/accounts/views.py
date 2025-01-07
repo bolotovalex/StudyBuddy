@@ -2,13 +2,13 @@ from django.contrib.auth import login, logout
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import CustomUserCreationForm, UserLoginForm, ProfileForm
+from .forms import UserLoginForm, ProfileForm
 from groups.models import StudyGroup
 from .models import User, Profile
 from .forms import UserRegistrationForm
 
 
-def home_view(request):
+def auth_form_view(request):
     """
     Главная страница — форма авторизации и кнопка регистрации.
     """

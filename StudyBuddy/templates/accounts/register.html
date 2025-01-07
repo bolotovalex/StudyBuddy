@@ -6,58 +6,59 @@
 {% block page_title %}Регистрация{% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 600px;">
-    <form method="post">
-        {% csrf_token %}
+    <div class="container" style="max-width: 600px;">
+        <form method="post">
+            {% csrf_token %}
 
-        <!-- Вывод всех полей формы с их соответствующими метками -->
-        {% for field in form %}
-        <div class="mb-3">
-            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-            {{ field|add_class:"form-control" }}
-            {% if field.help_text %}
-            <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
-        </div>
-        {% endfor %}
-
-        <!-- Кнопка отправки -->
-        <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
-    </form>
-
-    <!-- Вывод ошибок формы -->
-    {% if form.errors %}
-    <div class="alert alert-danger mt-3">
-        <ul>
-            {% for field, errors in form.errors.items %}
-                <li>{{ field }}: {{ errors|join:", " }}</li>
+            <!-- Вывод всех полей формы с их соответствующими метками -->
+            {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field|add_class:"form-control" }}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
             {% endfor %}
-        </ul>
+
+            <!-- Кнопка отправки -->
+
+            <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
+        </form>
+
+        <!-- Вывод ошибок формы -->
+        {% if form.errors %}
+            <div class="alert alert-danger mt-3">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        <li>{{ field }}: {{ errors|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const passwordField = document.getElementById('id_password1');
-        const passwordHelp = document.getElementById('passwordHelp');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordField = document.getElementById('id_password1');
+            const passwordHelp = document.getElementById('passwordHelp');
 
-        if (passwordField) {
-            const passwordHelpText = document.createElement('small');
-            passwordHelpText.id = 'passwordHelp';
-            passwordHelpText.className = 'form-text text-muted';
-            passwordHelpText.style.display = 'none';
-            passwordHelpText.innerText = 'Пароль должен содержать не менее 8 символов и включать буквы, цифры или специальные символы.';
-            passwordField.parentNode.appendChild(passwordHelpText);
+            if (passwordField) {
+                const passwordHelpText = document.createElement('small');
+                passwordHelpText.id = 'passwordHelp';
+                passwordHelpText.className = 'form-text text-muted';
+                passwordHelpText.style.display = 'none';
+                passwordHelpText.innerText = 'Пароль должен содержать не менее 8 символов и включать буквы, цифры или специальные символы.';
+                passwordField.parentNode.appendChild(passwordHelpText);
 
-            passwordField.addEventListener('input', function () {
-                if (passwordField.value.length > 0) {
-                    passwordHelpText.style.display = 'block';
-                } else {
-                    passwordHelpText.style.display = 'none';
-                }
-            });
-        }
-    });
-</script>
+                passwordField.addEventListener('input', function () {
+                    if (passwordField.value.length > 0) {
+                        passwordHelpText.style.display = 'block';
+                    } else {
+                        passwordHelpText.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}
