@@ -12,11 +12,20 @@ from django.contrib.auth import get_user_model
 '''Отображаем список групп, после авторизации'''
 @login_required
 def group_list_view(request):
-    """
-    Отображает список всех групп, с кнопками "Войти" или "Запросить доступ".
-    """
-    groups = StudyGroup.objects.all()  # Получаем все группы
-    return render(request, 'groups/group_list.html', {'groups': groups})
+    query = request.GET.get('q', '')  # Получаем значение из параметра 'q'
+    if query:
+        groups = StudyGroup.objects.filter(name__icontains=query)  # Фильтруем группы по имени
+    else:
+        groups = StudyGroup.objects.all()  # Если запроса нет, выводим все группы
+    return render(request, 'groups/group_list.html', {'groups': groups, 'query': query})
+
+# def group_list_view(request):
+#     """
+#     Отображает список всех групп, с кнопками "Войти" или "Запросить доступ".
+#     """
+#
+#     groups = StudyGroup.objects.all()  # Получаем все группы
+#     return render(request, 'groups/group_list.html', {'groups': groups})
 
 
 '''Создаем группу'''

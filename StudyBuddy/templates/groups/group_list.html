@@ -1,47 +1,41 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Список групп</title>
-</head>
-<body>
-    <!-- Верхняя панель -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h1>Список групп</h1>
-        <div>
-            <!-- Кнопка для перехода в профиль -->
-            <a href="{% url 'accounts:profile' %}" style="margin-right: 10px;">Профиль</a>
-            <!-- Кнопка для выхода из аккаунта -->
-            <a href="{% url 'accounts:logout' %}">Выйти</a>
-        </div>
-    </div>
+{% extends 'base.html' %}
 
-    <!-- Кнопка создания группы -->
-    <p><a href="{% url 'groups:create_group' %}">Создать новую группу</a></p>
+{% block title %}Список групп{% endblock %}
 
-    <!-- Список групп -->
+{% block page_title %}Список групп{% endblock %}
 
+{% block content %}
+<div class="container">
+    <form method="get" action="{% url 'groups:group_list' %}" class="d-flex mb-4">
+        <input type="text" name="q" value="{{ query }}" class="form-control me-2" placeholder="Введите название группы">
+        <button type="submit" class="btn btn-primary">Поиск</button>
+        {% if query %}
+        <a href="{% url 'groups:group_list' %}" class="btn btn-outline-secondary ms-2">Сброс</a>
+        {% endif %}
+    </form>
 
-<ul>
-    {% for group in groups %}
-        <li>
-            <strong>{{ group.name }}</strong>
-            <p>{{ group.description }}</p>
+    <ul class="list-group">
+        {% for group in groups %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-1">{{ group.name }}</h5>
+                    <p class="mb-0">{{ group.description }}</p>
+                </div>
+                <div>
+                    {% if user in group.members.all %}
+                        <a href="{% url 'groups:group_detail' group.pk %}" class="btn btn-primary btn-sm">Войти</a>
+                    {% elif user in group.access_requests.all %}
+                        <span class="badge bg-warning text-dark">Доступ запрошен</span>
+                    {% else %}
+                        <a href="{% url 'groups:request_access' group.pk %}" class="btn btn-outline-primary btn-sm">Запросить доступ</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Группы не найдены</li>
+        {% endfor %}
+    </ul>
 
-            <!-- Если пользователь уже состоит в группе -->
-            {% if user in group.members.all %}
-                <a href="{% url 'groups:group_detail' group.pk %}">Войти</a>
-
-            <!-- Если пользователь отправил запрос на доступ -->
-            {% elif user in group.access_requests.all %}
-                <span>Доступ запрошен</span>
-
-            <!-- Если пользователь не состоит в группе и не запрашивал доступ -->
-            {% else %}
-                <a href="{% url 'groups:request_access' group.pk %}" style="color: blue;">Запросить доступ</a>
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
-</body>
-</html>
+    <a href="{% url 'groups:create_group' %}" class="btn btn-success mt-4">Создать новую группу</a>
+</div>
+{% endblock %}
