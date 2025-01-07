@@ -33,8 +33,11 @@
                 <a href="{% url 'accounts:profile' %}" class="btn btn-link">Ваш профиль</a>
 {#                <hr>#}
 {#                <a href="{% url 'groups:group_list' %}" class="btn btn-secondary w-100">Назад</a>#}
+                <hr>
+                <a href="{% url 'groups:group_list' %}" class="btn btn-secondary w-100 mb-2">Список групп</a>
             </div>
             <div class="logout-button">
+                <hr>
                 <a href="{% url 'accounts:logout' %}" class="btn btn-danger w-100">Выход</a>
             </div>
         </div>
