@@ -1,14 +1,11 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm, UserLoginForm, ProfileForm
 from groups.models import StudyGroup
-from .models import User
+from .models import User, Profile
+from .forms import UserRegistrationForm
 
 
 def home_view(request):
@@ -33,25 +30,62 @@ def home_view(request):
 
     return render(request, 'accounts/home.html', {'form': form})
 
-
 def register_view(request):
-    """
-    Регистрация нового пользователя.
-    """
     if request.user.is_authenticated:
         return redirect('accounts:profile')
 
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()  # Создаём пользователя
-            login(request, user)  # Сразу логиним
-            messages.success(request, 'Регистрация прошла успешно! Заполните профиль.')
-            return redirect('accounts:edit_profile')  # Редирект на страницу заполнения профиля
+            # Создаём профиль
+            Profile.objects.create(
+                user=user,
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
+                patronymic=form.cleaned_data['patronymic'],
+                birth_date=form.cleaned_data['birth_date'],
+                institution=form.cleaned_data['institution'],
+                faculty=form.cleaned_data['faculty'],
+                study_group=form.cleaned_data['study_group'],
+            )
+            login(request, user)  # Сразу авторизуем пользователя
+            return redirect('groups:group_list')  # Перенаправляем на список групп
     else:
-        form = CustomUserCreationForm()
+        form = UserRegistrationForm()
 
     return render(request, 'accounts/register.html', {'form': form})
+
+
+# def register_view(request):
+#     """
+#     Регистрация нового пользователя.
+#     """
+#     if request.user.is_authenticated:
+#         return redirect('accounts:profile')
+#
+#     if request.method == 'POST':
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()  # Создаём пользователя
+#             login(request, user)  # Сразу логиним
+#             Profile.objects.create(
+#                 user=user,
+#                 first_name=form.cleaned_data['first_name'],
+#                 last_name=form.cleaned_data['last_name'],
+#                 patronymic=form.cleaned_data['patronymic'],
+#                 birth_date=form.cleaned_data['birth_date'],
+#                 institution=form.cleaned_data['institution'],
+#                 faculty = form.cleaned_data['faculty'],
+#                 study_group = form.cleaned_data['study_group'],
+#             )
+#             messages.success(request, 'Регистрация прошла успешно! Заполните профиль.')
+#
+#             return redirect('groups:group_list')  # Редирект на страницу заполнения профиля
+#     else:
+#         form = CustomUserCreationForm()
+#
+#     return render(request, 'accounts/register.html', {'form': form})
 
 
 @login_required
