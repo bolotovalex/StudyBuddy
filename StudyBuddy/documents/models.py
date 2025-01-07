@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from groups.models import StudyGroup
+import os
 
 def group_directory_path(instance, filename):
     # Путь к файлу: group_<id>/<filename>
@@ -28,4 +29,7 @@ class Document(models.Model):
             return 'excel'
         else:
             return 'other'
+
+    def get_file_name(self):
+        return os.path.basename(self.file.name)
 
