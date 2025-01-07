@@ -12,8 +12,7 @@ class StudyGroup(models.Model):
     description = models.TextField(blank=True, verbose_name='Описание группы')
 
     # Владелец группы
-    owner = models.ForeignKey(
-                settings.AUTH_USER_MODEL,
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                 on_delete=models.CASCADE,
                 related_name='owned_groups',
                 null=True,
@@ -34,6 +33,13 @@ class StudyGroup(models.Model):
         related_name='group_access_requests'
 
     )
+
+    def delete(self, *args, **kwargs):
+        # Удаление связанных файлов перед удалением группы
+        for document in self.documents.all():
+            if document.file:
+                document.file.delete()  # Удаляет файл из файловой системы
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.name

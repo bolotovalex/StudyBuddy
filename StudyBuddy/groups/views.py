@@ -19,15 +19,6 @@ def group_list_view(request):
         groups = StudyGroup.objects.all()  # Если запроса нет, выводим все группы
     return render(request, 'groups/group_list.html', {'groups': groups, 'query': query})
 
-# def group_list_view(request):
-#     """
-#     Отображает список всех групп, с кнопками "Войти" или "Запросить доступ".
-#     """
-#
-#     groups = StudyGroup.objects.all()  # Получаем все группы
-#     return render(request, 'groups/group_list.html', {'groups': groups})
-
-
 '''Создаем группу'''
 @login_required
 def create_group_view(request):
@@ -130,6 +121,9 @@ def leave_group_view(request, pk):
         messages.success(request, f'Вы покинули группу "{group.name}".')
     else:
         messages.error(request, 'Вы не состоите в этой группе.')
+
+    if group.members.count() == 0:
+        group.delete()
 
     return redirect('groups:group_list')
 
