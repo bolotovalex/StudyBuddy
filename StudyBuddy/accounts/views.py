@@ -22,10 +22,10 @@ def home_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
-            return redirect('groups:group_list')
-        #     user = form.get_user()
-        #     login(request, user)
-        #     profile = user.profile
+            user = form.get_user()
+            login(request, user)
+            # profile = user.profile
+        return redirect('groups:group_list')
         #     return render(request, 'accounts/profile.html', {'profile': profile, 'is_own_profile': True})
         #     # return redirect('accounts:profile')
     else:
