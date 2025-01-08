@@ -7,14 +7,24 @@ from django.contrib import messages
 from groups.models import StudyGroup
 
 class Note(models.Model):
+    """
+    Модель для конспекта.
+    """
+    # Связь с учебной группой
     group = models.ForeignKey(StudyGroup, on_delete=models.CASCADE, related_name='notes')
+    # Название конспекта
     title = models.CharField(max_length=255, verbose_name="Название конспекта")
+    # Содержимое конспекта
     content = models.TextField(verbose_name="Содержимое конспекта")
+    # Пользователь, создавший конспект
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_notes')
+    # Дата и время создания
     created_at = models.DateTimeField(auto_now_add=True)
+    # Дата и время обновления
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
+        # Возвращает название конспекта
         return self.title
 
 @login_required
@@ -30,8 +40,7 @@ def add_note_view(request, group_id):
             Note.objects.create(
                 group=group,
                 title=title,
-                # content=content,
-                content=models.JSONField(default=dict), #Содержимое для Quiil.js
+                content=content,
                 created_by=request.user
             )
             messages.success(request, "Конспект успешно создан.")
