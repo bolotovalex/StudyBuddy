@@ -20,9 +20,10 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
+    # Связь с моделью пользователя
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
-    # Вместо одного поля full_name делим на три поля:
+    # Поля для хранения информации о пользователе
     last_name = models.CharField(max_length=100, verbose_name='Фамилия', blank=False)
     first_name = models.CharField(max_length=100, verbose_name='Имя', blank=False)
     patronymic = models.CharField(max_length=100, verbose_name='Отчество', blank=False)
@@ -32,4 +33,5 @@ class Profile(models.Model):
     study_group = models.CharField(max_length=255, verbose_name='Группа', blank=True)
 
     def __str__(self):
+        # Возвращает строковое представление профиля
         return f"Профиль пользователя {self.user.username}"

@@ -13,6 +13,7 @@ def auth_form_view(request):
     Главная страница — форма авторизации и кнопка регистрации.
     """
     if request.user.is_authenticated:
+        # Если пользователь уже аутентифицирован, перенаправляем на список групп
         return redirect('groups:group_list')
 
     if request.method == 'POST':
@@ -21,16 +22,20 @@ def auth_form_view(request):
             user = form.get_user()
             login(request, user)
             # profile = user.profile
-        return redirect('groups:group_list')
-        #     return render(request, 'accounts/profile.html', {'profile': profile, 'is_own_profile': True})
-        #     # return redirect('accounts:profile')
+            return redirect('groups:group_list')
+            # return render(request, 'accounts/profile.html', {'profile': profile, 'is_own_profile': True})
+            # return redirect('accounts:profile')
     else:
         form = UserLoginForm(request)
 
     return render(request, 'accounts/auth.html', {'form': form})
 
 def register_view(request):
+    """
+    Регистрация нового пользователя.
+    """
     if request.user.is_authenticated:
+        # Если пользователь уже аутентифицирован, перенаправляем на профиль
         return redirect('accounts:profile')
 
     if request.method == 'POST':
@@ -54,37 +59,6 @@ def register_view(request):
         form = UserRegistrationForm()
 
     return render(request, 'accounts/register.html', {'form': form})
-
-
-# def register_view(request):
-#     """
-#     Регистрация нового пользователя.
-#     """
-#     if request.user.is_authenticated:
-#         return redirect('accounts:profile')
-#
-#     if request.method == 'POST':
-#         form = CustomUserCreationForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()  # Создаём пользователя
-#             login(request, user)  # Сразу логиним
-#             Profile.objects.create(
-#                 user=user,
-#                 first_name=form.cleaned_data['first_name'],
-#                 last_name=form.cleaned_data['last_name'],
-#                 patronymic=form.cleaned_data['patronymic'],
-#                 birth_date=form.cleaned_data['birth_date'],
-#                 institution=form.cleaned_data['institution'],
-#                 faculty = form.cleaned_data['faculty'],
-#                 study_group = form.cleaned_data['study_group'],
-#             )
-#             messages.success(request, 'Регистрация прошла успешно! Заполните профиль.')
-#
-#             return redirect('groups:group_list')  # Редирект на страницу заполнения профиля
-#     else:
-#         form = CustomUserCreationForm()
-#
-#     return render(request, 'accounts/register.html', {'form': form})
 
 
 @login_required
