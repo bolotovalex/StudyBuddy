@@ -2,8 +2,6 @@ version: '3.7'
 
 services:
   django:
-    environment:
-      - JITSI_BASE_URL=https://your-hostname-or-ip:8443
     build:
       context: .
       dockerfile: docker/django/Dockerfile
@@ -15,8 +13,6 @@ services:
       - .:/app
     expose:
       - "8000"
-    depends_on:
-      - jitsi-web
     networks:
       - app-network
 
@@ -26,19 +22,19 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "80:80"
+      - "48080:80"  # Прокси Django на порт 48080
     depends_on:
       - django
     networks:
       - app-network
 
+
   jitsi-web:
     image: jitsi/web:stable
-
     container_name: jitsi-web
     restart: always
-    expose:
-      - "8443"
+    ports:
+      - "48843:443"  # Проброс порта Jitsi напрямую
     environment:
       ENABLE_AUTH: 1
       AUTH_TYPE: jwt
@@ -46,7 +42,6 @@ services:
       JWT_APP_SECRET: my_jitsi_secret
     networks:
       - app-network
-
 networks:
   app-network:
     driver: bridge

@@ -1,11 +1,12 @@
 version: '3.5'
 
 services:
-  web:
+  jitsi-web:
     image: jitsi/web:stable
+    container_name: jitsi-web
     restart: always
     ports:
-      - "8443:443"
+      - "48843:443"  # Проброс порта Jitsi напрямую
     environment:
       ENABLE_AUTH: 1
       AUTH_TYPE: jwt
