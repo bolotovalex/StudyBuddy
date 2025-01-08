@@ -7,12 +7,18 @@ from groups.models import StudyGroup
 # Create your views here.
 @login_required
 def chat_view(request, group_id):
+    """
+    Отображает страницу чата для указанной группы.
+    """
     group = get_object_or_404(StudyGroup, id=group_id)
     messages = group.messages.all()
     return render(request, 'chat/chat.html', {'group': group, 'messages': messages})
 
 @login_required
 def send_message(request):
+    """
+    Обрабатывает отправку сообщения в чат.
+    """
     if request.method == 'POST':
         group_id = request.POST.get('group_id')
         content = request.POST.get('content')
