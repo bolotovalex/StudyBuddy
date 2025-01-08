@@ -75,7 +75,7 @@ def delete_group_view(request, pk):
         return redirect('groups:group_list')
 
     # Если метод GET — показываем страницу подтверждения
-    return render(request, 'groups/delete_group_confirm.html', {'group': group})
+    return render(request, 'groups/confirm_delete.html', {'group': group})
 
 @login_required
 def group_detail_view(request, pk):

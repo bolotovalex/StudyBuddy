@@ -42,6 +42,5 @@ class StudyGroup(models.Model):
         super().delete(*args, **kwargs)
 
     def __str__(self):
+        # Возвращает название группы
         return self.name
-
-
