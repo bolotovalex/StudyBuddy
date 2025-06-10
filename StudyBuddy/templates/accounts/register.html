@@ -1,64 +1,74 @@
-{% extends 'auth_base.html' %}
+{% extends 'base.html' %}
 {% load custom_filters %}
 
 {% block title %}Регистрация{% endblock %}
-
 {% block page_title %}Регистрация{% endblock %}
 
 {% block content %}
-    <div class="container" style="max-width: 600px;">
-        <form method="post">
-            {% csrf_token %}
+<div class="flex flex-col items-center justify-center min-h-[80vh] px-4">
+  <div class="card w-full max-w-xl bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title justify-center mb-4">Регистрация</h2>
 
-            <!-- Вывод всех полей формы с их соответствующими метками -->
-            {% for field in form %}
-                <div class="mb-3">
-                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                    {{ field|add_class:"form-control" }}
-                    {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                    {% endif %}
-                </div>
-            {% endfor %}
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
 
-            <!-- Кнопка отправки -->
+        {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="label">{{ field.label }}</label>
+          {{ field|add_class:"input input-bordered w-full" }}
+          {% if field.help_text %}
+          <p class="text-xs text-muted mt-1">{{ field.help_text }}</p>
+          {% endif %}
+        </div>
+        {% endfor %}
 
-            <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
-        </form>
+        
 
-        <!-- Вывод ошибок формы -->
-        {% if form.errors %}
-            <div class="alert alert-danger mt-3">
-                <ul>
-                    {% for field, errors in form.errors.items %}
-                        <li>{{ field }}: {{ errors|join:", " }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+        <div class="form-control">
+          <label class="cursor-pointer label">
+            <input
+              type="checkbox"
+              name="consent"
+              class="checkbox checkbox-primary"
+              required
+            />
+            <span class="label-text ml-2 text-sm">
+              Я соглашаюсь на <a href="/privacy" class="link link-primary">обработку и хранение персональных данных</a>
+            </span>
+          </label>
+        </div>
+        
+        
+        <button type="submit" class="btn btn-primary w-full">Зарегистрироваться</button>
+      </form>
+
+      {% if form.errors %}
+      <div class="alert alert-error mt-4">
+        <ul class="text-sm">
+          {% for field, errors in form.errors.items %}
+          <li>{{ field }}: {{ errors|join:", " }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
     </div>
+  </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const passwordField = document.getElementById('id_password1');
-            const passwordHelp = document.getElementById('passwordHelp');
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const passwordField = document.getElementById('id_password1');
+    if (passwordField) {
+      const passwordHelpText = document.createElement('small');
+      passwordHelpText.className = 'text-xs text-muted mt-1 block';
+      passwordHelpText.innerText = 'Пароль должен содержать не менее 8 символов и включать буквы, цифры или специальные символы.';
+      passwordField.parentNode.appendChild(passwordHelpText);
 
-            if (passwordField) {
-                const passwordHelpText = document.createElement('small');
-                passwordHelpText.id = 'passwordHelp';
-                passwordHelpText.className = 'form-text text-muted';
-                passwordHelpText.style.display = 'none';
-                passwordHelpText.innerText = 'Пароль должен содержать не менее 8 символов и включать буквы, цифры или специальные символы.';
-                passwordField.parentNode.appendChild(passwordHelpText);
-
-                passwordField.addEventListener('input', function () {
-                    if (passwordField.value.length > 0) {
-                        passwordHelpText.style.display = 'block';
-                    } else {
-                        passwordHelpText.style.display = 'none';
-                    }
-                });
-            }
-        });
-    </script>
+      passwordField.addEventListener('input', function () {
+        passwordHelpText.style.display = passwordField.value.length > 0 ? 'block' : 'none';
+      });
+    }
+  });
+</script>
 {% endblock %}
