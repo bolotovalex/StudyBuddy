@@ -1,65 +1,51 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}StudyBuddy{% endblock %}</title>
     <!-- TailwindCSS + DaisyUI CDN -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     {% block extra_head %}{% endblock %}
 </head>
+
 <body class="bg-base-200 min-h-screen font-sans">
 
-<div class="min-h-screen flex flex-col">
-    <div class="flex flex-1">
-        {% if user.is_authenticated %}
+    <div class="min-h-screen flex flex-col">
+        <div class="flex flex-1">
+            {% if user.is_authenticated %}
             <!-- Sidebar (desktop) -->
             <aside class="hidden md:flex flex-col justify-between w-64 bg-base-100 shadow-xl px-6 py-8">
                 <div>
                     <h4 class="font-bold text-lg mb-4">{{ user.username }}</h4>
                     <a href="{% url 'accounts:profile' %}" class="btn btn-link text-left w-full mb-2">Ваш профиль</a>
-                    <hr class="my-2"/>
+                    <hr class="my-2" />
                     <a href="{% url 'groups:group_list' %}" class="btn btn-neutral w-full mb-2">Список групп</a>
                     <a href="{% url 'questions:question_list' %}" class="btn btn-neutral w-full">Вопросы</a>
                 </div>
                 <div class="mt-8">
-                    <hr class="my-2"/>
+                    <hr class="my-2" />
                     <a href="{% url 'accounts:logout' %}" class="btn btn-error w-full">Выход</a>
                 </div>
             </aside>
             <!-- Drawer и мобильный хедер -->
             <input id="drawer-toggle" type="checkbox" class="drawer-toggle hidden" />
-            <div class="flex flex-col flex-grow w-full">
-                <header class="bg-base-100 shadow-md px-4 py-2 flex items-center md:hidden">
-                    <label for="drawer-toggle" class="btn btn-ghost btn-square mr-2" onclick="document.getElementById('drawer-menu').classList.toggle('hidden')">
-                        <svg width="24" height="24" fill="none" class="inline-block"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                    </label>
-                    <span class="font-semibold text-lg">{% block page_title %}{% endblock %}</span>
+            <div class="flex flex-col min-h-screen w-full">
+                
+                <header class="bg-base-100 shadow-md px-4 py-3">
+                    <h1 class="text-center font-semibold text-xl">{% block page_title %}{% endblock %}</h1>
                 </header>
-                <nav id="drawer-menu" class="fixed inset-y-0 left-0 z-40 w-64 bg-base-100 shadow-xl px-6 py-8 hidden md:hidden">
-                    <div>
-                        <h4 class="font-bold text-lg mb-4">{{ user.username }}</h4>
-                        <a href="{% url 'accounts:profile' %}" class="btn btn-link text-left w-full mb-2">Ваш профиль</a>
-                        <hr class="my-2"/>
-                        <a href="{% url 'groups:group_list' %}" class="btn btn-neutral w-full mb-2">Список групп</a>
-                        <a href="{% url 'questions:question_list' %}" class="btn btn-neutral w-full">Вопросы</a>
-                    </div>
-                    <div class="mt-8">
-                        <hr class="my-2"/>
-                        <a href="{% url 'accounts:logout' %}" class="btn btn-error w-full">Выход</a>
-                    </div>
-                    <button onclick="document.getElementById('drawer-menu').classList.add('hidden')" class="btn btn-ghost absolute top-4 right-4">✕</button>
-                </nav>
+                <main class="flex-grow flex items-center justify-center px-4 py-6">
+                    {% block content %}{% endblock %}
+                </main>
             </div>
-        {% endif %}
-        <!-- ГЛАВНЫЙ БЛОК КОНТЕНТА — ТОЛЬКО ОДИН -->
-        <main class="flex-grow flex flex-col items-center justify-center px-4 py-6 w-full">
-            {% block content %}{% endblock %}
-        </main>
+            {% endif %}
+        </div>
     </div>
-</div>
 
-{% block extra_body %}{% endblock %}
+    {% block extra_body %}{% endblock %}
 </body>
+
 </html>
