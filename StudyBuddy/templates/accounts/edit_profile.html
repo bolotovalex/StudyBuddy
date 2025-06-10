@@ -4,78 +4,31 @@
 {% block page_title %}Редактирование профиля{% endblock %}
 
 {% block content %}
-<div class="flex flex-col items-center justify-center min-h-[70vh] px-4">
-  <div class="card w-full max-w-xl bg-base-100 shadow-xl">
+<div class="flex flex-col items-center justify-center min-h-[70vh] px-4 py-6">
+  <div class="card w-full max-w-md bg-base-100 shadow-xl">
     <div class="card-body space-y-4">
       <form method="post" class="space-y-4">
         {% csrf_token %}
 
+        {% for field in form.visible_fields %}
         <div class="form-control">
-          <label for="id_last_name" class="label">
-            <span class="label-text">Фамилия</span>
+          <label for="{{ field.id_for_label }}" class="label">
+            <span class="label-text">{{ field.label }}</span>
           </label>
-          <input type="text" name="last_name" id="id_last_name"
-                 value="{{ form.last_name.value|default_if_none:'' }}"
-                 class="input input-bordered w-full" required />
+          {{ field }}
+          {% if field.help_text %}
+            <label class="label">
+              <span class="label-text-alt">{{ field.help_text }}</span>
+            </label>
+          {% endif %}
+          {% for error in field.errors %}
+            <p class="text-error text-sm">{{ error }}</p>
+          {% endfor %}
         </div>
+        {% endfor %}
 
-        <div class="form-control">
-          <label for="id_first_name" class="label">
-            <span class="label-text">Имя</span>
-          </label>
-          <input type="text" name="first_name" id="id_first_name"
-                 value="{{ form.first_name.value|default_if_none:'' }}"
-                 class="input input-bordered w-full" required />
-        </div>
-
-        <div class="form-control">
-          <label for="id_patronymic" class="label">
-            <span class="label-text">Отчество</span>
-          </label>
-          <input type="text" name="patronymic" id="id_patronymic"
-                 value="{{ form.patronymic.value|default_if_none:'' }}"
-                 class="input input-bordered w-full" />
-        </div>
-
-        <div class="form-control">
-          <label for="id_birth_date" class="label">
-            <span class="label-text">Дата рождения</span>
-          </label>
-          <input type="date" name="birth_date" id="id_birth_date"
-                 value="{{ form.birth_date.value|default_if_none:'' }}"
-                 class="input input-bordered w-full" />
-        </div>
-
-        <div class="form-control">
-          <label for="id_institution" class="label">
-            <span class="label-text">Учебное заведение</span>
-          </label>
-          <input type="text" name="institution" id="id_institution"
-                 value="{{ form.institution.value|default_if_none:'' }}"
-                 class="input input-bordered w-full" />
-        </div>
-
-        <div class="form-control">
-          <label for="id_faculty" class="label">
-            <span class="label-text">Факультет</span>
-          </label>
-          <input type="text" name="faculty" id="id_faculty"
-                 value="{{ form.faculty.value|default_if_none:'' }}"
-                 class="input input-bordered w-full" />
-        </div>
-
-        <div class="form-control">
-          <label for="id_study_group" class="label">
-            <span class="label-text">Группа</span>
-          </label>
-          <input type="text" name="study_group" id="id_study_group"
-                 value="{{ form.study_group.value|default_if_none:'' }}"
-                 class="input input-bordered w-full" />
-        </div>
-
-        <div class="flex justify-between pt-2">
-          <button type="submit" class="btn btn-primary">Сохранить</button>
-          <a href="{% url 'accounts:profile' %}" class="btn btn-ghost">Отмена</a>
+        <div class="form-control mt-6">
+          <button type="submit" class="btn btn-primary w-full">Сохранить</button>
         </div>
       </form>
     </div>
