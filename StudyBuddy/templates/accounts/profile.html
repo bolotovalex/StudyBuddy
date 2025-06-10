@@ -1,107 +1,53 @@
 {% extends 'base.html' %}
 
 {% block title %}Мой Профиль{% endblock %}
-
 {% block page_title %}Профиль пользователя{% endblock %}
 
 {% block content %}
-<div class="container"> <!--style="max-width: 600px;">-->
-    <div class="card">
-        <div class="card-header">
-            <h5>Информация о пользователе</h5>
+<div class="flex flex-col items-center justify-center min-h-[70vh] px-4 py-6">
+  <div class="w-full max-w-2xl space-y-6">
+    <!-- Карточка с информацией о пользователе -->
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Информация о пользователе</h2>
+        <div class="space-y-2">
+          <p><strong>Фамилия:</strong> {{ profile.last_name }}</p>
+          <p><strong>Имя:</strong> {{ profile.first_name }}</p>
+          <p><strong>Отчество:</strong> {{ profile.patronymic }}</p>
+          <p><strong>Дата рождения:</strong> {{ profile.birth_date }}</p>
+          <p><strong>Учебное заведение:</strong> {{ profile.institution }}</p>
+          <p><strong>Факультет:</strong> {{ profile.faculty }}</p>
+          <p><strong>Группа:</strong> {{ profile.study_group }}</p>
+          <p><strong>Роль:</strong> {{ request.user.get_role_display }}</p>
         </div>
-        <div class="card-body">
-            <p><strong>Фамилия:</strong> {{ profile.last_name }}</p>
-            <p><strong>Имя:</strong> {{ profile.first_name }}</p>
-            <p><strong>Отчество:</strong> {{ profile.patronymic }}</p>
-            <p><strong>Дата рождения:</strong> {{ profile.birth_date }}</p>
-            <p><strong>Учебное заведение:</strong> {{ profile.institution }}</p>
-            <p><strong>Факультет:</strong> {{ profile.faculty }}</p>
-            <p><strong>Группа:</strong> {{ profile.study_group }}</p>
-            <p><strong>Роль:</strong> {{ request.user.get_role_display }}</p>
-        </div>
+      </div>
     </div>
 
-    <div class="card mt-4">
-        <div class="card-header">
-            <h5>Мои группы</h5>
-        </div>
-        <div class="card-body">
-            <ul class="list-group">
-                {% for group in request.user.study_groups.all %}
-                    <li class="list-group-item">{{ group.name }}</li>
-                {% empty %}
-                    <li class="list-group-item">Вы не состоите ни в одной группе</li>
-                {% endfor %}
+    <!-- Карточка с группами пользователя -->
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Мои группы</h2>
+        <div class="space-y-2">
+          {% if request.user.study_groups.all %}
+            <ul class="menu bg-base-200 rounded-box">
+              {% for group in request.user.study_groups.all %}
+                <li><a>{{ group.name }}</a></li>
+              {% endfor %}
             </ul>
+          {% else %}
+            <p>Вы не состоите ни в одной группе</p>
+          {% endif %}
         </div>
+      </div>
     </div>
 
-    <div class="mt-4 d-flex justify-content-between">
-        {% if is_own_profile %}
-        <a href="{% url 'accounts:edit_profile' %}" class="btn btn-warning">Редактировать профиль</a>
-        <a href="{% url 'accounts:delete_account' %}" class="btn btn-danger">Удалить аккаунт</a>
-        {% endif %}
+    <!-- Кнопки -->
+    {% if is_own_profile %}
+    <div class="flex justify-between gap-4">
+      <a href="{% url 'accounts:edit_profile' %}" class="btn btn-warning flex-1">Редактировать профиль</a>
+      <a href="{% url 'accounts:delete_account' %}" class="btn btn-error flex-1">Удалить аккаунт</a>
     </div>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}
-
-
-<!-- <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Мой Профиль</title>
-</head>
-<body>
-
-
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Мой Профиль</title>
-</head>
-<body>
-    <h1>Профиль пользователя {{ request.user.username }}</h1>
-
-    <p><strong>Фамилия:</strong> {{ profile.last_name }}</p>
-    <p><strong>Имя:</strong> {{ profile.first_name }}</p>
-    <p><strong>Отчество:</strong> {{ profile.patronymic }}</p>
-    <p><strong>Дата рождения:</strong> {{ profile.birth_date }}</p>
-
-    <p><strong>Учебное заведение:</strong> {{ profile.institution }}</p>
-    <p><strong>Факультет:</strong> {{ profile.faculty }}</p>
-    <p><strong>Группа:</strong> {{ profile.study_group }}</p>
-
-
-    <p><strong>Роль:</strong> {{ request.user.get_role_display }}</p>
-
-    <h2>Мои группы</h2>
-<ul>
-    {% for group in request.user.study_groups.all %}
-        <li>{{ group.name }}</li>
-    {% empty %}
-        <li>Вы не состоите ни в одной группе</li>
-    {% endfor %}
-</ul>
-
-
-<!-- 
-    Кнопки
-    {% if is_own_profile %}
-    <p>
-        <a href="{% url 'accounts:edit_profile' %}">Редактировать профиль</a>
-    </p>
-    <p>
-        <a href="{% url 'accounts:delete_account' %}">Удалить профиль и учетную запись</a>
-    </p>
-
-    <p><a href="{% url 'accounts:logout' %}">Выйти</a></p>
-<div style="margin-top: 20px;">
-        <a href="{% url 'groups:group_list' %}" style="margin-right: 10px;">Список групп</a>
-        <a href="{% url 'accounts:logout' %}" style="color: red;">Выход</a>
-        {% endif %}
-    </div>
-</body>
-</html>-->
