@@ -1,17 +1,38 @@
 {% extends 'auth_base.html' %}
 
-{% block title %}Редактирование группы{% endblock %}
+{% load widget_tweaks %}
 
+{% block title %}Редактирование группы{% endblock %}
 {% block page_title %}Редактирование группы{% endblock %}
 
 {% block content %}
-<div class="container" style="max-width: 600px;">
-    <form method="post" class="mt-4">
+<div class="w-full max-w-md mx-auto">
+    <form method="post" class="card bg-base-100 shadow-md p-6 space-y-6">
         {% csrf_token %}
-        {{ form.as_p }}
-        <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-            <a href="{% url 'groups:group_detail' group.pk %}" class="btn btn-secondary">Отмена</a>
+        {% for field in form.visible_fields %}
+        <div class="form-control w-full">
+            <label for="{{ field.id_for_label }}" class="label">
+                <span class="label-text font-medium">{{ field.label }}</span>
+            </label>
+            {% if field.field.widget.input_type == "textarea" %}
+                {{ field|add_class:"textarea textarea-bordered w-full min-h-[100px] p-4" }}
+            {% else %}
+                {{ field|add_class:"input input-bordered w-full" }}
+            {% endif %}
+            {% if field.help_text %}
+                <label class="label">
+                    <span class="label-text-alt">{{ field.help_text }}</span>
+                </label>
+            {% endif %}
+            {% for error in field.errors %}
+                <span class="text-error text-xs flex items-center mt-1">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="flex gap-2 pt-4">
+            <button type="submit" class="btn btn-primary w-full">Сохранить</button>
+            <a href="{% url 'groups:group_detail' group.pk %}" class="btn btn-outline w-full">Отмена</a>
         </div>
     </form>
 </div>

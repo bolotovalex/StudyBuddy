@@ -17,12 +17,12 @@
     <div class="space-y-4">
         {% for group in groups %}
             <div class="card bg-base-100 shadow-sm">
-                <div class="card-body flex flex-row items-center justify-between p-4">
-                    <div>
-                        <h2 class="card-title mb-1 text-lg font-semibold">{{ group.name }}</h2>
-                        <p class="text-base-content/70 text-sm">{{ group.description }}</p>
+                <div class="card-body flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-2">
+                    <div class="flex-1 min-w-0">
+                        <h2 class="card-title mb-1 text-lg font-semibold break-words">{{ group.name }}</h2>
+                        <p class="text-base-content/70 text-sm break-words">{{ group.description }}</p>
                     </div>
-                    <div class="flex flex-col items-end gap-2 min-w-[120px]">
+                    <div class="flex flex-row sm:flex-col items-end sm:items-end gap-2 mt-2 sm:mt-0 min-w-[120px]">
                         {% if user in group.members.all %}
                             <a href="{% url 'groups:group_detail' group.pk %}" class="btn btn-primary btn-sm w-full">Войти</a>
                         {% elif user in group.access_requests.all %}

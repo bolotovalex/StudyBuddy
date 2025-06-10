@@ -1,264 +1,194 @@
 {% extends 'base.html' %}
 
 {% block page_title %}
-    <div class="d-flex justify-content-between align-items-center">
-        <span>{{ group.name }}</span>
-        <form method="post" action="{% url 'groups:leave_group' group.pk %}" class="d-inline">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger btn-sm">Покинуть группу</button>
-        </form>
-    </div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <span class="text-xl font-semibold break-words">{{ group.name }}</span>
+    <form method="post" action="{% url 'groups:leave_group' group.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-error btn-sm">Покинуть группу</button>
+    </form>
+</div>
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <!-- Вкладки навигации -->
-        <ul class="nav nav-tabs" id="groupTabs" role="tablist">
-            <li class="nav-item">
-                <button class="nav-link active" id="announcements-tab" data-bs-toggle="tab"
-                        data-bs-target="#announcements" type="button" role="tab" aria-controls="announcements"
-                        aria-selected="true">Объявления
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents"
-                        type="button" role="tab" aria-controls="documents" aria-selected="false">Документы
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button"
-                        role="tab" aria-controls="notes" aria-selected="false">Конспекты
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="meetings-tab" data-bs-toggle="tab" data-bs-target="#meetings" type="button"
-                        role="tab" aria-controls="meetings" aria-selected="false">Видеовстречи
-                </button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="members-tab" data-bs-toggle="tab" data-bs-target="#members" type="button"
-                        role="tab" aria-controls="members" aria-selected="false">Участники группы
-                </button>
-            </li>
-        </ul>
+<div class="w-full max-w-3xl mx-auto">
 
-        <!-- Контент вкладок -->
-        <div class="tab-content mt-4" id="groupTabsContent">
-
-
-            <!-- Объявления -->
-            <div class="tab-pane fade show active" id="announcements" role="tabpanel"
-                 aria-labelledby="announcements-tab">
-                <h2>Объявления</h2>
-                <div id="message-list" class="mb-3">
-                    {% for message in messages %}
-                        <div class="border rounded p-2 mb-2">
-                            <span class="text-muted">{{ message.timestamp|date:"d.m.Y H:i" }} - {{ message.user.username }}</span><br>
-                            {{ message.content }}
-                        </div>
-                        {% empty %}
-                        <div class="text-muted">Нет объявлений</div>
-                    {% endfor %}
-                </div>
-                <form id="chat-form" method="post">
-                    {% csrf_token %}
-                    <textarea name="content" id="content" class="form-control mb-2" placeholder="Введите сообщение..."
-                              required></textarea>
-                    <input type="hidden" name="group_id" value="{{ group.id }}">
-                    <button type="submit" class="btn btn-primary">Отправить</button>
-                </form>
-
-                <hr>
-                {% if request.user == group.owner %}
-                    <h3>Запросы на доступ</h3>
-                    <ul class="list-group">
-                        {% for user in group.access_requests.all %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>{{ user.username }}</span>
-                                <div>
-                                    <a href="{% url 'groups:accept_request' group.pk user.pk %}"
-                                       class="btn btn-success btn-sm">Принять</a>
-                                    <a href="{% url 'groups:decline_request' group.pk user.pk %}"
-                                       class="btn btn-danger btn-sm">Отклонить</a>
-                                </div>
-                            </li>
-                            {% empty %}
-                            <li class="list-group-item">Нет запросов на доступ.</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                <script>
-                    const form = document.getElementById('chat-form');
-                    const messageList = document.getElementById('message-list');
-
-                    form.addEventListener('submit', async (event) => {
-                        event.preventDefault();
-
-                        const formData = new FormData(form);
-
-                        const response = await fetch("{% url 'chat:send_message' %}", {
-                            method: "POST",
-                            body: formData,
-                            headers: {
-                                "X-CSRFToken": formData.get("csrfmiddlewaretoken")
-                            }
-                        });
-
-                        const data = await response.json();
-
-                        if (data.status === 'success') {
-                            const newMessage = document.createElement('div');
-                            const timestamp = new Date().toLocaleString();
-                            const content = formData.get('content');
-
-                            newMessage.innerHTML = `<span>${timestamp} - Вы</span><br>${content}`;
-                            messageList.appendChild(newMessage);
-
-                            messageList.scrollTop = messageList.scrollHeight; // Автопрокрутка
-                            form.reset();
-                        } else {
-                            alert('Ошибка при отправке сообщения');
-                        }
-                    });
-                </script>
-
-            </div>
-
-
-            <!-- Документы -->
-            <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-                <h2>Документы</h2>
-                <div class="row">
-                    {% for document in documents %}
-                        <div class="col-3 text-center">
-                            <!-- Значок в зависимости от типа файла -->
-                            <a href="{{ document.file.url }}" target="_blank" class="text-decoration-none">
-
-                                {% if document.get_file_type == 'pdf' %}
-                                    <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 3rem;"></i>
-                                {% elif document.get_file_type == 'word' %}
-                                    <i class="bi bi-file-earmark-word text-primary" style="font-size: 3rem;"></i>
-                                {% elif document.get_file_type == 'excel' %}
-                                    <i class="bi bi-file-earmark-excel text-success" style="font-size: 3rem;"></i>
-                                {% else %}
-                                    <i class="bi bi-file-earmark" style="font-size: 3rem;"></i>
-                                {% endif %}
-                            </a>
-                            <!-- Название файла -->
-                            <div class="mt-2">
-                                <a href="{{ document.file.url }}"
-                                   class="text-decoration-none">{{ document.get_file_name }}</a>
-                            </div>
-                            <!-- Кнопка удаления -->
-                            <div class="mt-2">
-                                <a href="{% url 'documents:delete_document' document.id %}"
-                                   class="btn btn-outline-danger btn-sm">Удалить</a>
-                            </div>
-                        </div>
-                        {% empty %}
-                        <p class="text-muted">Нет документов</p>
-                    {% endfor %}
-                </div>
-
-                <!-- Форма добавления документа -->
-                <form method="post" enctype="multipart/form-data" action="{% url 'documents:add_document' group.id %}"
-                      class="mt-4">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="file" class="form-label">Добавить документ:</label>
-                        <input type="file" name="file" id="file" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <textarea name="description" class="form-control" placeholder="Описание документа"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Загрузить</button>
-                </form>
-            </div>
-
-
-            <!-- Конспекты -->
-            <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
-                <h2>Конспекты</h2>
-                <ul class="list-group">
-                    {% for note in notes %}
-                        <li class="list-group-item">
-                            <a href="{% url 'notes:edit_note' note.id %}">{{ note.title }}</a>
-                        </li>
-                        {% empty %}
-                        <li class="list-group-item">Нет конспектов</li>
-                    {% endfor %}
-                </ul>
-                <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline-primary mt-3">Создать конспект</a>
-            </div>
-
-            <!-- Видеовстречи -->
-            <div class="tab-pane fade" id="meetings" role="tabpanel" aria-labelledby="meetings-tab">
-                <h2>Видеовстречи</h2>
-                <ul class="list-group">
-                    {% for meeting in meetings %}
-                        <li class="list-group-item">
-                            <a href="{{ meeting.link }}">{{ meeting.title }}</a> -
-                            {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
-                        </li>
-                        {% empty %}
-                        <li class="list-group-item">Нет видеовстреч</li>
-                    {% endfor %}
-                </ul>
-                <form method="post" action="{% url 'meetings:add_meeting' group.id %}" class="mt-3">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <input type="text" name="title" class="form-control" placeholder="Название встречи" required>
-                    </div>
-{#                    <div class="mb-3">#}
-{#                        <input type="url" name="link" class="form-control" placeholder="Ссылка на встречу" required>#}
-{#                    </div>#}
-                    <div class="mb-3">
-                        <input type="datetime-local" name="scheduled_at" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Создать встречу</button>
-                </form>
-            </div>
-
-            <!--Участники группы-->
-            <div class="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
-                <h2>Участники группы</h2>
-                <ul class="list-group">
-                    {% for member in members %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>{{ member.username }}</span>
-                            {% if member == group.owner %}
-                                <span class="badge bg-primary">Владелец</span>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+    <!-- DaisyUI Tabs -->
+    <div role="tablist" class="tabs tabs-bordered mb-6 overflow-x-auto whitespace-nowrap">
+        <a role="tab" class="tab tab-bordered {% if not tab or tab == 'announcements' %}tab-active{% endif %}"
+            href="#announcements">Объявления</a>
+        <a role="tab" class="tab tab-bordered {% if tab == 'documents' %}tab-active{% endif %}"
+            href="#documents">Документы</a>
+        <a role="tab" class="tab tab-bordered {% if tab == 'notes' %}tab-active{% endif %}" href="#notes">Конспекты</a>
+        <a role="tab" class="tab tab-bordered {% if tab == 'meetings' %}tab-active{% endif %}"
+            href="#meetings">Видеовстречи</a>
+        <a role="tab" class="tab tab-bordered {% if tab == 'members' %}tab-active{% endif %}" href="#members">Участники
+            группы</a>
     </div>
 
+    <!-- Объявления -->
+    <div id="announcements" class="{% if not tab or tab == 'announcements' %}block{% else %}hidden{% endif %}">
+        <h2 class="text-lg font-semibold mb-3">Объявления</h2>
+        <div id="message-list" class="space-y-2 mb-4">
+            {% for message in messages %}
+            <div class="bg-base-200 rounded p-3">
+                <span class="text-xs text-base-content/60">{{ message.timestamp|date:"d.m.Y H:i" }} — {{
+                    message.user.username }}</span><br>
+                {{ message.content }}
+            </div>
+            {% empty %}
+            <div class="text-base-content/60">Нет объявлений</div>
+            {% endfor %}
+        </div>
+        <form id="chat-form" method="post" class="space-y-2">
+            {% csrf_token %}
+            <textarea name="content" id="content" class="textarea textarea-bordered w-full"
+                placeholder="Введите сообщение..." required></textarea>
+            <input type="hidden" name="group_id" value="{{ group.id }}">
+            <button type="submit" class="btn btn-primary w-full">Отправить</button>
+        </form>
+        <hr class="my-6">
 
-    <script>
-        // Сохранение состояния вкладки
-        document.addEventListener('DOMContentLoaded', function () {
-            const tabs = document.querySelectorAll('#groupTabs button');
-            const activeTab = localStorage.getItem('activeTab');
+        {% if request.user == group.owner %}
+        <h3 class="font-semibold mb-2">Запросы на доступ</h3>
+        <ul class="space-y-2">
+            {% for user in group.access_requests.all %}
+            <li class="flex justify-between items-center bg-base-200 rounded p-2">
+                <span>{{ user.username }}</span>
+                <div class="flex gap-2">
+                    <a href="{% url 'groups:accept_request' group.pk user.pk %}"
+                        class="btn btn-success btn-xs">Принять</a>
+                    <a href="{% url 'groups:decline_request' group.pk user.pk %}"
+                        class="btn btn-error btn-xs">Отклонить</a>
+                </div>
+            </li>
+            {% empty %}
+            <li class="text-base-content/60">Нет запросов на доступ.</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
 
-            if (activeTab) {
-                const tab = document.querySelector(`#groupTabs button[data-bs-target="${activeTab}"]`);
-                if (tab) {
-                    const tabInstance = new bootstrap.Tab(tab);
-                    tabInstance.show();
-                }
-            }
+    <!-- Документы -->
+    <div id="documents" class="{% if tab == 'documents' %}block{% else %}hidden{% endif %}">
+        <h2 class="text-lg font-semibold mb-3">Документы</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+            {% for document in documents %}
+            <div class="flex flex-col items-center bg-base-200 rounded p-3">
+                <!-- Значок в зависимости от типа файла (пример для базовых файлов) -->
+                <div class="mb-2">
+                    {% if document.get_file_type == 'pdf' %}
+                    <span class="text-5xl text-error">📄</span>
+                    {% elif document.get_file_type == 'word' %}
+                    <span class="text-5xl text-primary">📄</span>
+                    {% elif document.get_file_type == 'excel' %}
+                    <span class="text-5xl text-success">📄</span>
+                    {% else %}
+                    <span class="text-5xl">📄</span>
+                    {% endif %}
+                </div>
+                <a href="{{ document.file.url }}" target="_blank" class="font-medium mb-2 text-center break-words">{{
+                    document.get_file_name }}</a>
+                <a href="{% url 'documents:delete_document' document.id %}"
+                    class="btn btn-outline btn-error btn-xs">Удалить</a>
+            </div>
+            {% empty %}
+            <p class="text-base-content/60 col-span-full">Нет документов</p>
+            {% endfor %}
+        </div>
+        <!-- Форма добавления документа -->
+        <form method="post" enctype="multipart/form-data" action="{% url 'documents:add_document' group.id %}"
+            class="space-y-2">
+            {% csrf_token %}
+            <label class="form-control w-full mb-2">
+                <span class="label-text">Добавить документ:</span>
+                <input type="file" name="file" id="file" class="file-input file-input-bordered w-full" required>
+            </label>
+            <textarea name="description" class="textarea textarea-bordered w-full"
+                placeholder="Описание документа"></textarea>
+            <button type="submit" class="btn btn-primary w-full">Загрузить</button>
+        </form>
+    </div>
 
-            tabs.forEach(tab => {
-                tab.addEventListener('shown.bs.tab', function (e) {
-                    localStorage.setItem('activeTab', e.target.getAttribute('data-bs-target'));
-                });
-            });
+    <!-- Конспекты -->
+    <div id="notes" class="{% if tab == 'notes' %}block{% else %}hidden{% endif %}">
+        <h2 class="text-lg font-semibold mb-3">Конспекты</h2>
+        <ul class="space-y-2">
+            {% for note in notes %}
+            <li class="bg-base-200 rounded p-2">
+                <a href="{% url 'notes:edit_note' note.id %}" class="link">{{ note.title }}</a>
+            </li>
+            {% empty %}
+            <li class="text-base-content/60">Нет конспектов</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline btn-primary mt-4 w-full">Создать
+            конспект</a>
+    </div>
+
+    <!-- Видеовстречи -->
+    <div id="meetings" class="{% if tab == 'meetings' %}block{% else %}hidden{% endif %}">
+        <h2 class="text-lg font-semibold mb-3">Видеовстречи</h2>
+        <ul class="space-y-2">
+            {% for meeting in meetings %}
+            <li class="bg-base-200 rounded p-2 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                <span>
+                    <a href="{{ meeting.link }}" class="link">{{ meeting.title }}</a>
+                    — {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
+                </span>
+            </li>
+            {% empty %}
+            <li class="text-base-content/60">Нет видеовстреч</li>
+            {% endfor %}
+        </ul>
+        <form method="post" action="{% url 'meetings:add_meeting' group.id %}" class="space-y-2 mt-4">
+            {% csrf_token %}
+            <input type="text" name="title" class="input input-bordered w-full" placeholder="Название встречи" required>
+            {# <input type="url" name="link" class="input input-bordered w-full" placeholder="Ссылка на встречу"
+                required> #}
+            <input type="datetime-local" name="scheduled_at" class="input input-bordered w-full" required>
+            <button type="submit" class="btn btn-primary w-full">Создать встречу</button>
+        </form>
+    </div>
+
+    <!-- Участники группы -->
+    <div id="members" class="{% if tab == 'members' %}block{% else %}hidden{% endif %}">
+        <h2 class="text-lg font-semibold mb-3">Участники группы</h2>
+        <ul class="space-y-2">
+            {% for member in members %}
+            <li class="bg-base-200 rounded p-2 flex justify-between items-center">
+                <span>{{ member.username }}</span>
+                {% if member == group.owner %}
+                <span class="badge badge-primary">Владелец</span>
+                {% endif %}
+            </li>
+            {% empty %}
+            <li class="text-base-content/60">Нет участников</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Переключение вкладок (DaisyUI tabs с якорями)
+    document.querySelectorAll('[role="tab"]').forEach(tab => {
+        tab.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelectorAll('[role="tab"]').forEach(t => t.classList.remove('tab-active'));
+            this.classList.add('tab-active');
+            document.querySelectorAll('#announcements, #documents, #notes, #meetings, #members').forEach(block => block.classList.add('hidden'));
+            document.querySelector(this.getAttribute('href')).classList.remove('hidden');
+            // Для автосохранения вкладки можно добавить:
+            localStorage.setItem('activeTab', this.getAttribute('href'));
         });
-    </script>
-
-
-
+    });
+    // Сохраняем активную вкладку между переходами
+    document.addEventListener('DOMContentLoaded', function () {
+        var activeTab = localStorage.getItem('activeTab') || '#announcements';
+        var tabBtn = document.querySelector('[role="tab"][href="' + activeTab + '"]');
+        if (tabBtn) {
+            tabBtn.click();
+        }
+    });
+</script>
 {% endblock %}
