@@ -1,41 +1,22 @@
 {% extends 'auth_base.html' %}
 
 {% block title %}Удаление аккаунта{% endblock %}
-
 {% block page_title %}Удаление аккаунта{% endblock %}
 
 {% block content %}
-<div class="text-center">
-    <h2>Вы действительно хотите удалить профиль и учетную запись?</h2>
-    <p class="text-danger">Это действие необратимо.</p>
+<div class="flex flex-col items-center justify-center min-h-[70vh] px-4">
+  <div class="card bg-base-100 shadow-xl w-full max-w-md">
+    <div class="card-body space-y-4 text-center">
+      <h2 class="text-lg font-semibold">Вы действительно хотите удалить профиль и учетную запись?</h2>
+      <p class="text-error">Это действие необратимо.</p>
 
-    <form method="post" class="d-inline-block">
+      <form method="post" class="flex justify-center">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Да, удалить</button>
-    </form>
+        <button type="submit" class="btn btn-error">Да, удалить</button>
+      </form>
 
-    <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">Отменить</a>
+      <a href="{% url 'accounts:profile' %}" class="btn btn-ghost">Отменить</a>
+    </div>
+  </div>
 </div>
 {% endblock %}
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Удаление аккаунта</title>
-</head>
-<body>
-    <h1>Вы действительно хотите удалить профиль и учетную запись?</h1>
-    <p>Это действие необратимо.</p>
-
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Да, удалить</button>
-    </form>
-
-    <p><a href="{% url 'accounts:profile' %}">Отменить</a></p>
-</body>
-</html> -->
