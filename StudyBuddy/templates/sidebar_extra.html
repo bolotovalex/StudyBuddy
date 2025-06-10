@@ -1,0 +1,6 @@
+{% if group and request.resolver_match.url_name == 'group_detail' %}
+<form method="post" action="{% url 'groups:leave_group' group.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-error w-full mb-2">Покинуть группу</button>
+</form>
+{% endif %}
