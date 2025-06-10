@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'chat',
     'questions',
     'captcha',
+    'widget_tweaks',
 ]
 
 
