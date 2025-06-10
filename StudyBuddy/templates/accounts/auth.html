@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block title %}Вход в StudyBuddy{% endblock %}
 
 {% block content %}
@@ -8,38 +9,65 @@
       <h2 class="card-title justify-center mb-2">Вход</h2>
       <form method="post" action="" class="space-y-4">
         {% csrf_token %}
+
         {% if form.non_field_errors %}
-          <div class="alert alert-error text-sm">{{ form.non_field_errors }}</div>
+        <div class="alert alert-error text-sm">
+          {{ form.non_field_errors }}
+        </div>
         {% endif %}
+
         <div>
           <label class="label" for="id_username">Логин</label>
-          <input type="text" name="username" id="id_username" class="input input-bordered w-full"
-                 placeholder="Введите логин" autocomplete="username" required value="{{ form.username.value|default_if_none:'' }}">
+          <input
+            type="text"
+            name="username"
+            id="id_username"
+            class="input input-bordered w-full"
+            placeholder="Введите логин"
+            autocomplete="username"
+            required
+            value="{{ form.username.value|default_if_none:'' }}"
+          />
           {% if form.username.errors %}
-            <p class="text-error text-xs">{{ form.username.errors.0 }}</p>
+          <p class="text-error text-xs">{{ form.username.errors.0 }}</p>
           {% endif %}
         </div>
+
         <div>
           <label class="label" for="id_password">Пароль</label>
-          <input type="password" name="password" id="id_password" class="input input-bordered w-full"
-                 placeholder="Введите пароль" autocomplete="current-password" required>
+          <input
+            type="password"
+            name="password"
+            id="id_password"
+            class="input input-bordered w-full"
+            placeholder="Введите пароль"
+            autocomplete="current-password"
+            required
+          />
           {% if form.password.errors %}
-            <p class="text-error text-xs">{{ form.password.errors.0 }}</p>
+          <p class="text-error text-xs">{{ form.password.errors.0 }}</p>
           {% endif %}
         </div>
+
         {% if form.captcha %}
         <div>
-          <label class="label" for="id_captcha">Проверка</label>
-          {{ form.captcha }}
+          <label class="label" for="id_captcha_1">Введите капчу</label>
+          <div class="flex flex-col gap-2">
+            {{ form.captcha }}
+          </div>
           {% if form.captcha.errors %}
-            <p class="text-error text-xs">{{ form.captcha.errors.0 }}</p>
+          <p class="text-error text-xs">{{ form.captcha.errors.0 }}</p>
           {% endif %}
         </div>
         {% endif %}
+
         <button type="submit" class="btn btn-primary w-full">Войти</button>
       </form>
+
       <div class="divider text-xs">или</div>
+
       <a href="{% url 'accounts:register' %}" class="btn btn-outline w-full">Регистрация</a>
+
       <div class="mt-2 text-xs text-center">
         <a href="{% url 'password_reset' %}" class="link link-primary">Забыли пароль?</a>
       </div>
