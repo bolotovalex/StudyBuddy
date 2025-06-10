@@ -23,9 +23,18 @@
     </div>
 
     <style>
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .tab-content-fixed-height { min-height: 420px; }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tab-content-fixed-height {
+            min-height: 420px;
+        }
     </style>
 
     <!-- Контейнер контента вкладок -->
@@ -36,88 +45,108 @@
             <h2 class="text-lg font-semibold mb-3">Объявления</h2>
             <div id="message-list" class="space-y-2 mb-4">
                 {% for message in messages %}
-                    <div class="bg-base-200 rounded p-3">
-                        <span class="text-xs text-base-content/60">{{ message.timestamp|date:"d.m.Y H:i" }} — {{ message.user.username }}</span><br>
-                        {{ message.content }}
-                    </div>
+                <div class="bg-base-200 rounded p-3">
+                    <span class="text-xs text-base-content/60">{{ message.timestamp|date:"d.m.Y H:i" }} — {{
+                        message.user.username }}</span><br>
+                    {{ message.content }}
+                </div>
                 {% empty %}
-                    <div class="text-base-content/60">Нет объявлений</div>
+                <div class="text-base-content/60">Нет объявлений</div>
                 {% endfor %}
             </div>
             <form id="chat-form" method="post" class="space-y-2">
                 {% csrf_token %}
-                <textarea name="content" id="content" class="textarea textarea-bordered w-full" placeholder="Введите сообщение..." required></textarea>
+                <textarea name="content" id="content" class="textarea textarea-bordered w-full"
+                    placeholder="Введите сообщение..." required></textarea>
                 <input type="hidden" name="group_id" value="{{ group.id }}">
                 <button type="submit" class="btn btn-primary w-full">Отправить</button>
             </form>
             <hr class="my-6">
 
             {% if request.user == group.owner %}
-                <h3 class="font-semibold mb-2">Запросы на доступ</h3>
-                <ul class="space-y-2">
-                    {% for user in group.access_requests.all %}
-                        <li class="flex justify-between items-center bg-base-200 rounded p-2">
-                            <span>{{ user.username }}</span>
-                            <div class="flex gap-2">
-                                <a href="{% url 'groups:accept_request' group.pk user.pk %}" class="btn btn-success btn-xs">Принять</a>
-                                <a href="{% url 'groups:decline_request' group.pk user.pk %}" class="btn btn-error btn-xs">Отклонить</a>
-                            </div>
-                        </li>
-                    {% empty %}
-                        <li class="text-base-content/60">Нет запросов на доступ.</li>
-                    {% endfor %}
-                </ul>
+            <h3 class="font-semibold mb-2">Запросы на доступ</h3>
+            <ul class="space-y-2">
+                {% for user in group.access_requests.all %}
+                <li class="flex justify-between items-center bg-base-200 rounded p-2">
+                    <span>{{ user.username }}</span>
+                    <div class="flex gap-2">
+                        <a href="{% url 'groups:accept_request' group.pk user.pk %}"
+                            class="btn btn-success btn-xs">Принять</a>
+                        <a href="{% url 'groups:decline_request' group.pk user.pk %}"
+                            class="btn btn-error btn-xs">Отклонить</a>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="text-base-content/60">Нет запросов на доступ.</li>
+                {% endfor %}
+            </ul>
             {% endif %}
         </div>
 
+        <!-- Документы -->
         <!-- Документы -->
         <div id="documents" class="tab-pane hidden">
             <h2 class="text-lg font-semibold mb-3">Документы</h2>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
                 {% for document in documents %}
-                    <div class="flex flex-col items-center bg-base-200 rounded p-3">
-                        <div class="mb-2">
-                            {% if document.get_file_type == 'pdf' %}
-                                <span class="text-5xl text-error">📄</span>
-                            {% elif document.get_file_type == 'word' %}
-                                <span class="text-5xl text-primary">📄</span>
-                            {% elif document.get_file_type == 'excel' %}
-                                <span class="text-5xl text-success">📄</span>
-                            {% else %}
-                                <span class="text-5xl">📄</span>
-                            {% endif %}
-                        </div>
-                        <a href="{{ document.file.url }}" target="_blank" class="font-medium mb-2 text-center break-words">{{ document.get_file_name }}</a>
-                        <a href="{% url 'documents:delete_document' document.id %}" class="btn btn-outline btn-error btn-xs">Удалить</a>
+                <div class="flex flex-col items-center bg-base-200 rounded p-3">
+                    <!-- Кликабельная иконка -->
+                    <div class="mb-2 cursor-pointer" onclick="toggleDescription(this)">
+                        {% if document.get_file_type == 'pdf' %}
+                        <span class="text-5xl text-error">📄</span>
+                        {% elif document.get_file_type == 'word' %}
+                        <span class="text-5xl text-primary">📄</span>
+                        {% elif document.get_file_type == 'excel' %}
+                        <span class="text-5xl text-success">📄</span>
+                        {% else %}
+                        <span class="text-5xl">📄</span>
+                        {% endif %}
                     </div>
+                    <!-- Имя файла -->
+                    <div class="mb-2 font-medium break-all text-center">{{ document.get_file_name }}</div>
+                    <!-- Описание (скрыто по умолчанию) -->
+                    <div class="text-xs text-base-content/70 mb-2 hidden">
+                        {{ document.description|default:"Нет описания" }}
+                    </div>
+                    <!-- Кнопки в строку -->
+                    <div class="flex flex-row gap-2">
+                        <a href="{{ document.file.url }}" target="_blank" class="btn btn-primary btn-sm">Открыть</a>
+                        <a href="{% url 'documents:delete_document' document.id %}"
+                            class="btn btn-error btn-sm">Удалить</a>
+                    </div>
+                </div>
                 {% empty %}
-                    <p class="text-base-content/60 col-span-full">Нет документов</p>
+                <p class="text-base-content/60 col-span-full">Нет документов</p>
                 {% endfor %}
             </div>
-            <form method="post" enctype="multipart/form-data" action="{% url 'documents:add_document' group.id %}" class="space-y-2">
+            <form method="post" enctype="multipart/form-data" action="{% url 'documents:add_document' group.id %}"
+                class="space-y-2">
                 {% csrf_token %}
                 <label class="form-control w-full mb-2">
                     <span class="label-text">Добавить документ:</span>
                     <input type="file" name="file" id="file" class="file-input file-input-bordered w-full" required>
                 </label>
-                <textarea name="description" class="textarea textarea-bordered w-full" placeholder="Описание документа"></textarea>
+                <textarea name="description" class="textarea textarea-bordered w-full"
+                    placeholder="Описание документа"></textarea>
                 <button type="submit" class="btn btn-primary w-full">Загрузить</button>
             </form>
         </div>
+
 
         <!-- Конспекты -->
         <div id="notes" class="tab-pane hidden">
             <h2 class="text-lg font-semibold mb-3">Конспекты</h2>
             <ul class="space-y-2">
                 {% for note in notes %}
-                    <li class="bg-base-200 rounded p-2">
-                        <a href="{% url 'notes:edit_note' note.id %}" class="link">{{ note.title }}</a>
-                    </li>
+                <li class="bg-base-200 rounded p-2">
+                    <a href="{% url 'notes:edit_note' note.id %}" class="link">{{ note.title }}</a>
+                </li>
                 {% empty %}
-                    <li class="text-base-content/60">Нет конспектов</li>
+                <li class="text-base-content/60">Нет конспектов</li>
                 {% endfor %}
             </ul>
-            <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline btn-primary mt-4 w-full">Создать конспект</a>
+            <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline btn-primary mt-4 w-full">Создать
+                конспект</a>
         </div>
 
         <!-- Видеовстречи -->
@@ -125,19 +154,20 @@
             <h2 class="text-lg font-semibold mb-3">Видеовстречи</h2>
             <ul class="space-y-2">
                 {% for meeting in meetings %}
-                    <li class="bg-base-200 rounded p-2 flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                        <span>
-                            <a href="{{ meeting.link }}" class="link">{{ meeting.title }}</a>
-                            — {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
-                        </span>
-                    </li>
+                <li class="bg-base-200 rounded p-2 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                    <span>
+                        <a href="{{ meeting.link }}" class="link">{{ meeting.title }}</a>
+                        — {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
+                    </span>
+                </li>
                 {% empty %}
-                    <li class="text-base-content/60">Нет видеовстреч</li>
+                <li class="text-base-content/60">Нет видеовстреч</li>
                 {% endfor %}
             </ul>
             <form method="post" action="{% url 'meetings:add_meeting' group.id %}" class="space-y-2 mt-4">
                 {% csrf_token %}
-                <input type="text" name="title" class="input input-bordered w-full" placeholder="Название встречи" required>
+                <input type="text" name="title" class="input input-bordered w-full" placeholder="Название встречи"
+                    required>
                 <input type="datetime-local" name="scheduled_at" class="input input-bordered w-full" required>
                 <button type="submit" class="btn btn-primary w-full">Создать встречу</button>
             </form>
@@ -148,14 +178,14 @@
             <h2 class="text-lg font-semibold mb-3">Участники группы</h2>
             <ul class="space-y-2">
                 {% for member in members %}
-                    <li class="bg-base-200 rounded p-2 flex justify-between items-center">
-                        <span>{{ member.username }}</span>
-                        {% if member == group.owner %}
-                            <span class="badge badge-primary">Владелец</span>
-                        {% endif %}
-                    </li>
+                <li class="bg-base-200 rounded p-2 flex justify-between items-center">
+                    <span>{{ member.username }}</span>
+                    {% if member == group.owner %}
+                    <span class="badge badge-primary">Владелец</span>
+                    {% endif %}
+                </li>
                 {% empty %}
-                    <li class="text-base-content/60">Нет участников</li>
+                <li class="text-base-content/60">Нет участников</li>
                 {% endfor %}
             </ul>
         </div>
@@ -163,49 +193,58 @@
 </div>
 
 <script>
-// Фиксированные и скроллируемые вкладки
-const tabNames = ['announcements', 'documents', 'notes', 'meetings', 'members'];
-document.querySelectorAll('[role="tab"]').forEach((tab, idx) => {
-    tab.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelectorAll('[role="tab"]').forEach(t => t.classList.remove('tab-active'));
-        this.classList.add('tab-active');
-        document.querySelectorAll('.tab-pane').forEach((pane, i) => pane.classList.toggle('hidden', idx !== i));
-        localStorage.setItem('activeTab', idx);
-    });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const idx = parseInt(localStorage.getItem('activeTab') || "0");
-    const tabs = document.querySelectorAll('[role="tab"]');
-    if (tabs[idx]) tabs[idx].click();
-});
-
-// AJAX добавление объявления (или fallback на обычную форму)
-const form = document.getElementById('chat-form');
-const messageList = document.getElementById('message-list');
-if (form && messageList) {
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const formData = new FormData(form);
-        const response = await fetch("{% url 'chat:send_message' %}", {
-            method: "POST",
-            body: formData,
-            headers: { "X-CSRFToken": formData.get("csrfmiddlewaretoken") }
+    // Фиксированные и скроллируемые вкладки
+    const tabNames = ['announcements', 'documents', 'notes', 'meetings', 'members'];
+    document.querySelectorAll('[role="tab"]').forEach((tab, idx) => {
+        tab.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelectorAll('[role="tab"]').forEach(t => t.classList.remove('tab-active'));
+            this.classList.add('tab-active');
+            document.querySelectorAll('.tab-pane').forEach((pane, i) => pane.classList.toggle('hidden', idx !== i));
+            localStorage.setItem('activeTab', idx);
         });
-        const data = await response.json();
-        if (data.status === 'success') {
-            const newMessage = document.createElement('div');
-            const timestamp = new Date().toLocaleString();
-            const content = formData.get('content');
-            newMessage.className = "bg-base-200 rounded p-3";
-            newMessage.innerHTML = `<span class="text-xs text-base-content/60">${timestamp} — Вы</span><br>${content}`;
-            messageList.appendChild(newMessage);
-            messageList.scrollTop = messageList.scrollHeight;
-            form.reset();
-        } else {
-            alert('Ошибка при отправке сообщения');
-        }
     });
-}
+    document.addEventListener('DOMContentLoaded', function () {
+        const idx = parseInt(localStorage.getItem('activeTab') || "0");
+        const tabs = document.querySelectorAll('[role="tab"]');
+        if (tabs[idx]) tabs[idx].click();
+    });
+
+    // AJAX добавление объявления (или fallback на обычную форму)
+    const form = document.getElementById('chat-form');
+    const messageList = document.getElementById('message-list');
+    if (form && messageList) {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch("{% url 'chat:send_message' %}", {
+                method: "POST",
+                body: formData,
+                headers: { "X-CSRFToken": formData.get("csrfmiddlewaretoken") }
+            });
+            const data = await response.json();
+            if (data.status === 'success') {
+                const newMessage = document.createElement('div');
+                const timestamp = new Date().toLocaleString();
+                const content = formData.get('content');
+                newMessage.className = "bg-base-200 rounded p-3";
+                newMessage.innerHTML = `<span class="text-xs text-base-content/60">${timestamp} — Вы</span><br>${content}`;
+                messageList.appendChild(newMessage);
+                messageList.scrollTop = messageList.scrollHeight;
+                form.reset();
+            } else {
+                alert('Ошибка при отправке сообщения');
+            }
+        });
+    }
 </script>
+
+<script>
+    function toggleDescription(iconElem) {
+        // Следующий .hidden-блок после иконки (описание файла)
+        const desc = iconElem.parentElement.querySelector('.text-xs');
+        if (desc) desc.classList.toggle('hidden');
+    }
+</script>
+
 {% endblock %}

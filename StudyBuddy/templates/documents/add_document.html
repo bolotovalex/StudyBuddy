@@ -1,11 +1,25 @@
-<h1>Добавить документ</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <label for="file">Файл:</label>
-    <input type="file" name="file" id="file" required>
+{% extends "base.html" %}
 
-    <label for="description">Описание:</label>
-    <textarea name="description" id="description"></textarea>
+{% block title %}Добавить документ{% endblock %}
+{% block page_title %}Добавить документ{% endblock %}
 
-    <button type="submit">Добавить</button>
-</form>
+{% block content %}
+<div class="w-full max-w-md mx-auto">
+    <form method="post" enctype="multipart/form-data" class="card bg-base-100 shadow-md p-6 space-y-6">
+        {% csrf_token %}
+        <div class="form-control">
+            <label for="file" class="label">
+                <span class="label-text font-medium">Файл</span>
+            </label>
+            <input type="file" name="file" id="file" class="file-input file-input-bordered w-full" required>
+        </div>
+        <div class="form-control">
+            <label for="description" class="label">
+                <span class="label-text font-medium">Описание</span>
+            </label>
+            <textarea name="description" id="description" class="textarea textarea-bordered w-full min-h-[100px]"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Добавить</button>
+    </form>
+</div>
+{% endblock %}

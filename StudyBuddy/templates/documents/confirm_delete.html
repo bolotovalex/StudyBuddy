@@ -1,33 +1,21 @@
 {% extends "base.html" %}
 
+{% block title %}Удалить документ{% endblock %}
+{% block page_title %}Удалить документ{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h2>Удалить группу</h2>
-    <p>Вы уверены, что хотите удалить группу "{{ group.name }}"? Все данные, связанные с группой, будут удалены.</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Удалить</button>
-        <a href="{% url 'groups:group_detail' group.id %}" class="btn btn-secondary">Отмена</a>
-    </form>
+<div class="w-full max-w-md mx-auto flex flex-col items-center justify-center min-h-[60vh]">
+    <div class="card bg-base-100 shadow-md p-6 w-full text-center">
+        <h2 class="text-lg font-semibold mb-4">Удалить документ?</h2>
+        <p class="mb-2">Вы уверены, что хотите удалить документ<br>
+            <span class="font-bold break-all max-w-full inline-block">"{{ document.file.name }}"</span>?
+        </p>
+
+        <form method="post" class="flex flex-col gap-2 mb-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-error w-full">Удалить</button>
+        </form>
+        <a href="{% url 'groups:group_detail' document.group.id %}" class="btn btn-outline w-full">Отмена</a>
+    </div>
 </div>
 {% endblock %}
-
-{#<!DOCTYPE html>#}
-{#<html lang="ru">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
-{#    <title>Подтверждение удаления</title>#}
-{#</head>#}
-{#<body>#}
-{#    <div class="container">#}
-{#        <h1>Удалить документ?</h1>#}
-{#        <p>Вы действительно хотите удалить "{{ document.file.name }}"?</p>#}
-{#        <form method="post">#}
-{#            {% csrf_token %}#}
-{#            <button type="submit">Удалить</button>#}
-{#            <a href="{% url 'groups:group_detail' document.group.id %}" class="cancel-link">Отмена</a>#}
-{#        </form>#}
-{#    </div>#}
-{#</body>#}
-{#</html>#}
