@@ -14,11 +14,24 @@
 <body class="bg-base-200 min-h-screen font-sans">
 
     <div class="min-h-screen flex flex-col">
-        <div class="flex flex-1">
-            {% if user.is_authenticated %}
-            <!-- Sidebar (desktop) -->
-            <aside class="hidden md:flex flex-col justify-between w-64 bg-base-100 shadow-xl px-6 py-8">
-                <div>
+        <div class="flex flex-col min-h-screen w-full">
+            <!-- Header с кнопкой меню для мобильных -->
+            <header class="bg-base-100 shadow-md px-4 py-3 flex items-center">
+                <!-- Кнопка меню только на мобильных -->
+                <button id="mobile-drawer-btn" class="btn btn-ghost btn-square mr-2 md:hidden"
+                    aria-label="Открыть меню">
+                    <svg width="28" height="28" fill="none">
+                        <path d="M4 7h20M4 14h20M4 21h20" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                </button>
+                <h1 class="text-center flex-1 font-semibold text-xl">{% block page_title %}{% endblock %}</h1>
+            </header>
+            <!-- Drawer для мобильных -->
+            <div id="mobile-drawer"
+                class="fixed inset-y-0 left-0 z-50 w-64 bg-base-100 shadow-xl px-6 py-8 transform -translate-x-full transition-transform duration-200 md:hidden">
+                <button onclick="closeDrawer()" class="btn btn-ghost absolute top-4 right-4">✕</button>
+                <div class="mt-10">
                     <h4 class="font-bold text-lg mb-4">{{ user.username }}</h4>
                     <a href="{% url 'accounts:profile' %}" class="btn btn-link text-left w-full mb-2">Ваш профиль</a>
                     <hr class="my-2" />
@@ -29,20 +42,27 @@
                     <hr class="my-2" />
                     <a href="{% url 'accounts:logout' %}" class="btn btn-error w-full">Выход</a>
                 </div>
-            </aside>
-            <!-- Drawer и мобильный хедер -->
-            <input id="drawer-toggle" type="checkbox" class="drawer-toggle hidden" />
-            <div class="flex flex-col min-h-screen w-full">
-                
-                <header class="bg-base-100 shadow-md px-4 py-3">
-                    <h1 class="text-center font-semibold text-xl">{% block page_title %}{% endblock %}</h1>
-                </header>
-                <main class="flex-grow flex items-center justify-center px-4 py-6">
-                    {% block content %}{% endblock %}
-                </main>
             </div>
-            {% endif %}
+            <!-- Overlay при открытом drawer -->
+            <div id="drawer-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden md:hidden"
+                onclick="closeDrawer()"></div>
+            <main class="flex-grow flex items-center justify-center px-4 py-6">
+                {% block content %}{% endblock %}
+            </main>
         </div>
+
+        <script>
+            function openDrawer() {
+                document.getElementById('mobile-drawer').style.transform = 'translateX(0)';
+                document.getElementById('drawer-overlay').classList.remove('hidden');
+            }
+            function closeDrawer() {
+                document.getElementById('mobile-drawer').style.transform = 'translateX(-100%)';
+                document.getElementById('drawer-overlay').classList.add('hidden');
+            }
+            document.getElementById('mobile-drawer-btn').addEventListener('click', openDrawer);
+        </script>
+
     </div>
 
     {% block extra_body %}{% endblock %}
