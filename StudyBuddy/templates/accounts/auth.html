@@ -1,55 +1,49 @@
-{% extends 'auth_base.html' %}
-{% load custom_filters %}
-
-{% block title %}Главная{% endblock %}
-
-{% block page_title %}Добро пожаловать в StudyBuddy{% endblock %}
+{% extends "base.html" %}
+{% block title %}Вход в StudyBuddy{% endblock %}
 
 {% block content %}
-    <div class="container" style="max-width: 400px;">
-        <h2 class="text-center">Вход</h2>
-        <form method="post" action="" class="mt-4">
-            {% csrf_token %}
-            <div class="mb-3">
-                {{ form.username.label_tag }}
-                {{ form.username|add_class:"form-control" }}
-            </div>
-            <div class="mb-3">
-                {{ form.password.label_tag }}
-                {{ form.password|add_class:"form-control" }}
-            </div>
-            <div class="mb-3">
-                {{ form.captcha.label_tag }}
-                {{ form.captcha }}
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Войти</button>
-        </form>
-
-        <div class="text-center mt-3">
-            <p>Нет аккаунта? <a href="{% url 'accounts:register' %}">Регистрация</a></p>
-            <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+<div class="flex flex-col items-center justify-center min-h-[80vh]">
+  <div class="card w-full max-w-sm bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title justify-center mb-2">Вход</h2>
+      <form method="post" action="" class="space-y-4">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="alert alert-error text-sm">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div>
+          <label class="label" for="id_username">Логин</label>
+          <input type="text" name="username" id="id_username" class="input input-bordered w-full"
+                 placeholder="Введите логин" autocomplete="username" required value="{{ form.username.value|default_if_none:'' }}">
+          {% if form.username.errors %}
+            <p class="text-error text-xs">{{ form.username.errors.0 }}</p>
+          {% endif %}
         </div>
+        <div>
+          <label class="label" for="id_password">Пароль</label>
+          <input type="password" name="password" id="id_password" class="input input-bordered w-full"
+                 placeholder="Введите пароль" autocomplete="current-password" required>
+          {% if form.password.errors %}
+            <p class="text-error text-xs">{{ form.password.errors.0 }}</p>
+          {% endif %}
+        </div>
+        {% if form.captcha %}
+        <div>
+          <label class="label" for="id_captcha">Проверка</label>
+          {{ form.captcha }}
+          {% if form.captcha.errors %}
+            <p class="text-error text-xs">{{ form.captcha.errors.0 }}</p>
+          {% endif %}
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary w-full">Войти</button>
+      </form>
+      <div class="divider text-xs">или</div>
+      <a href="{% url 'accounts:register' %}" class="btn btn-outline w-full">Регистрация</a>
+      <div class="mt-2 text-xs text-center">
+        <a href="{% url 'password_reset' %}" class="link link-primary">Забыли пароль?</a>
+      </div>
     </div>
+  </div>
+</div>
 {% endblock %}
-
-
-{#{% extends 'auth_base.html' %}#}
-{##}
-{#{% block title %}Главная{% endblock %}#}
-{##}
-{#{% block page_title %}Добро пожаловать в StudyBuddy{% endblock %}#}
-{##}
-{#{% block content %}#}
-{#<div class="text-center">#}
-{#    <form method="post" action="" class="mt-4">#}
-{#        {% csrf_token %}#}
-{#        <div class="mb-3">#}
-{#            {{ form.as_p }}#}
-{#        </div>#}
-{#        <button type="submit" class="btn btn-primary">Войти</button>#}
-{#    </form>#}
-{##}
-{#    <p class="mt-3">Нет аккаунта? <a href="{% url 'accounts:register' %}">Регистрация</a></p>#}
-{#    <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>#}
-{#</div>#}
-{#{% endblock %}#}

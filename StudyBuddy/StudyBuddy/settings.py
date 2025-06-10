@@ -41,7 +41,6 @@ SECRET_KEY = 'django-insecure-)g6)9-sdqk!7im-plqs2c14r0u1dgj_#8nswen!)$19ce%vg-!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 AUTH_USER_MODEL = 'accounts.User'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -99,6 +98,13 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:48080',
+    'http://localhost:48080',
+    'https://127.0.0.1:48080',
+    'https://localhost:48080',
 ]
 
 WSGI_APPLICATION = 'StudyBuddy.wsgi.application'
