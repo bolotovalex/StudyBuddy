@@ -11,6 +11,7 @@ from django.utils import timezone
 from datetime import timedelta
 
 
+
 '''Отображаем список групп, после авторизации'''
 @login_required
 def group_list_view(request):
@@ -224,6 +225,7 @@ def user_profile_view(request, user_id):
     """
     Отображает профиль другого пользователя.
     """
+    User = get_user_model()
     user = get_object_or_404(User, id=user_id)
     profile = user.profile
     return render(request, 'accounts/profile.html', {'profile': profile})
