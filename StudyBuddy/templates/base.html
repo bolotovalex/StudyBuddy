@@ -35,16 +35,14 @@
 
         <!-- ОСНОВНОЙ КОНТЕНТ + HEADER -->
         <div class="flex flex-col flex-grow w-full min-h-screen">
-            <header class="bg-base-100 shadow-md px-4 py-3 flex items-center">
-                <!-- Кнопка меню только на мобильных -->
-                <button id="mobile-drawer-btn" class="btn btn-ghost btn-square mr-2 md:hidden"
-                    aria-label="Открыть меню">
+            <header class="bg-base-100 shadow-md px-4 py-3 flex items-center justify-center relative">
+                <!-- Кнопка меню только на мобильных, абсолютное позиционирование слева -->
+                <button id="mobile-drawer-btn" class="btn btn-ghost btn-square absolute left-2 md:hidden" aria-label="Открыть меню">
                     <svg width="28" height="28" fill="none">
-                        <path d="M4 7h20M4 14h20M4 21h20" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" />
+                        <path d="M4 7h20M4 14h20M4 21h20" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                     </svg>
                 </button>
-                <h1 class="text-center flex-1 font-semibold text-xl">{% block page_title %}{% endblock %}</h1>
+                <h1 class="text-center font-semibold text-xl w-full">{% block page_title %}{% endblock %}</h1>
             </header>
 
             <!-- Drawer для мобильных -->

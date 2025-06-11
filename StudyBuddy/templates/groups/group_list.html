@@ -1,47 +1,121 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 
-{% block title %}Список групп{% endblock %}
-{% block page_title %}Список групп{% endblock %}
+{% block title %}Список групп{% endblock %} 
+
+{% block page_title %}Список групп{% endblock %} 
 
 {% block content %}
 <div class="w-full max-w-2xl mx-auto">
-    <form method="get" action="{% url 'groups:group_list' %}" class="flex flex-col sm:flex-row gap-2 mb-6">
-        <input type="text" name="q" value="{{ query }}" placeholder="Введите название группы"
-               class="input input-bordered w-full sm:w-auto flex-grow" />
-        <button type="submit" class="btn btn-primary">Поиск</button>
-        {% if query %}
-        <a href="{% url 'groups:group_list' %}" class="btn btn-outline btn-secondary">Сброс</a>
-        {% endif %}
-    </form>
+  <form
+    method="get"
+    action="{% url 'groups:group_list' %}"
+    class="flex flex-col sm:flex-row gap-2 mb-6"
+  >
+    <input
+      type="text"
+      name="q"
+      value="{{ query }}"
+      placeholder="Введите название группы"
+      class="input input-bordered w-full sm:w-auto flex-grow"
+    />
+    <button type="submit" class="btn btn-primary">Поиск</button>
+    {% if query %}
+    <a
+      href="{% url 'groups:group_list' %}"
+      class="btn btn-outline btn-secondary"
+      >Сброс</a
+    >
+    {% endif %}
+  </form>
 
-    <div class="space-y-4">
-        {% for group in groups %}
-            <div class="card bg-base-100 shadow-sm">
-                <div class="card-body flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-2">
-                    <div class="flex-1 min-w-0">
-                        <h2 class="card-title mb-1 text-lg font-semibold break-words">{{ group.name }}</h2>
-                        <p class="text-base-content/70 text-sm break-words">{{ group.description }}</p>
-                    </div>
-                    <div class="flex flex-row sm:flex-col items-end sm:items-end gap-2 mt-2 sm:mt-0 min-w-[120px]">
-                        {% if user in group.members.all %}
-                            <a href="{% url 'groups:group_detail' group.pk %}" class="btn btn-primary btn-sm w-full">Войти</a>
-                        {% elif user in group.access_requests.all %}
-                            <span class="badge badge-warning text-xs">Доступ запрошен</span>
-                        {% else %}
-                            <a href="{% url 'groups:request_access' group.pk %}" class="btn btn-outline btn-primary btn-sm w-full">Запросить доступ</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <div class="text-center text-base-content/60 py-8">Группы не найдены</div>
-        {% endfor %}
+  <div class="space-y-4">
+    {% for group in groups %}
+    <div class="card bg-base-100 shadow-sm">
+      <div
+        class="card-body flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-2"
+      >
+        <div class="flex-1 min-w-0">
+          <button
+            type="button"
+            class="w-full flex items-center justify-between focus:outline-none group-title"
+            onclick="toggleGroupDescription(this)"
+          >
+            <span class="card-title text-lg font-semibold break-words text-left"
+              >{{ group.name }}</span
+            >
+            <svg
+              class="ml-2 w-5 h-5 transition-transform duration-200"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                class="arrow"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          <div
+            class="group-desc text-base-content/70 text-sm break-words mt-2 hidden transition-all duration-200"
+          >
+            {{ group.description }}
+          </div>
+        </div>
+        <div
+          class="flex flex-row sm:flex-col items-end sm:items-end gap-2 mt-2 sm:mt-0 min-w-[120px]"
+        >
+          {% if user in group.members.all %}
+          <a
+            href="{% url 'groups:group_detail' group.pk %}"
+            class="btn btn-primary btn-sm w-full"
+            >Войти</a
+          >
+          {% elif user in group.access_requests.all %}
+          <span class="badge badge-warning text-xs">Доступ запрошен</span>
+          {% else %}
+          <a
+            href="{% url 'groups:request_access' group.pk %}"
+            class="btn btn-outline btn-primary btn-sm w-full"
+            >Запросить доступ</a
+          >
+          {% endif %}
+        </div>
+      </div>
     </div>
+    {% empty %}
+    <div class="text-center text-base-content/60 py-8">Группы не найдены</div>
+    {% endfor %}
+  </div>
 
-    <div class="flex justify-center mt-8">
-        <a href="{% url 'groups:create_group' %}" class="btn btn-success btn-lg w-full max-w-xs">
-            Создать новую группу
-        </a>
-    </div>
+  <div class="flex justify-center mt-8">
+    <a
+      href="{% url 'groups:create_group' %}"
+      class="btn btn-success btn-lg w-full max-w-xs"
+    >
+      Создать новую группу
+    </a>
+  </div>
 </div>
+
+<script>
+  function toggleGroupDescription(btn) {
+    const desc = btn.parentElement.querySelector(".group-desc");
+    const arrow = btn.querySelector(".arrow");
+    if (desc) {
+      desc.classList.toggle("hidden");
+      // Поворот стрелки
+      if (arrow)
+        arrow.setAttribute(
+          "d",
+          desc.classList.contains("hidden")
+            ? "M19 9l-7 7-7-7" // Вниз
+            : "M19 15l-7-7-7 7" // Вверх
+        );
+    }
+  }
+</script>
+
 {% endblock %}
