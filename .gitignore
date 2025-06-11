@@ -16,10 +16,6 @@ StudyBuddy/accounts/__pycache__/views.cpython-312.pyc
 StudyBuddy/accounts/__pycache__/views.cpython-313.pyc
 StudyBuddy/accounts/migrations/__pycache__/__init__.cpython-313.pyc
 StudyBuddy/accounts/migrations/__pycache__/0001_initial.cpython-313.pyc
-StudyBuddy/accounts/templatetags/__pycache__/__init__.cpython-312.pyc
-StudyBuddy/accounts/templatetags/__pycache__/__init__.cpython-313.pyc
-StudyBuddy/accounts/templatetags/__pycache__/custom_filters.cpython-312.pyc
-StudyBuddy/accounts/templatetags/__pycache__/custom_filters.cpython-313.pyc
 StudyBuddy/chat/__pycache__/__init__.cpython-312.pyc
 StudyBuddy/chat/__pycache__/__init__.cpython-313.pyc
 StudyBuddy/chat/__pycache__/admin.cpython-312.pyc
@@ -62,8 +58,6 @@ StudyBuddy/groups/__pycache__/urls.cpython-312.pyc
 StudyBuddy/groups/__pycache__/urls.cpython-313.pyc
 StudyBuddy/groups/__pycache__/views.cpython-312.pyc
 StudyBuddy/groups/__pycache__/views.cpython-313.pyc
-StudyBuddy/groups/migrations/__pycache__/__init__.cpython-313.pyc
-StudyBuddy/groups/migrations/__pycache__/0001_initial.cpython-313.pyc
 StudyBuddy/meetings/__pycache__/__init__.cpython-312.pyc
 StudyBuddy/meetings/__pycache__/__init__.cpython-313.pyc
 StudyBuddy/meetings/__pycache__/admin.cpython-312.pyc
@@ -78,8 +72,15 @@ StudyBuddy/meetings/__pycache__/urls.cpython-312.pyc
 StudyBuddy/meetings/__pycache__/urls.cpython-313.pyc
 StudyBuddy/meetings/__pycache__/views.cpython-312.pyc
 StudyBuddy/meetings/__pycache__/views.cpython-313.pyc
+StudyBuddy/groups/migrations/__pycache__/__init__.cpython-313.pyc
+StudyBuddy/groups/migrations/__pycache__/0001_initial.cpython-313.pyc
+StudyBuddy/accounts/templatetags/__pycache__/__init__.cpython-312.pyc
+StudyBuddy/accounts/templatetags/__pycache__/__init__.cpython-313.pyc
+StudyBuddy/accounts/templatetags/__pycache__/custom_filters.cpython-312.pyc
+StudyBuddy/accounts/templatetags/__pycache__/custom_filters.cpython-313.pyc
 StudyBuddy/meetings/migrations/__pycache__/__init__.cpython-313.pyc
 StudyBuddy/meetings/migrations/__pycache__/0001_initial.cpython-313.pyc
+StudyBuddy/meetings/migrations/__pycache__/0002_alter_videomeeting_link_and_more.cpython-313.pyc
 StudyBuddy/notes/__pycache__/__init__.cpython-312.pyc
 StudyBuddy/notes/__pycache__/__init__.cpython-313.pyc
 StudyBuddy/notes/__pycache__/admin.cpython-312.pyc
@@ -96,8 +97,6 @@ StudyBuddy/notes/__pycache__/urls.cpython-312.pyc
 StudyBuddy/notes/__pycache__/urls.cpython-313.pyc
 StudyBuddy/notes/__pycache__/views.cpython-312.pyc
 StudyBuddy/notes/__pycache__/views.cpython-313.pyc
-StudyBuddy/notes/migrations/__pycache__/__init__.cpython-313.pyc
-StudyBuddy/notes/migrations/__pycache__/0001_initial.cpython-313.pyc
 StudyBuddy/questions/__pycache__/__init__.cpython-312.pyc
 StudyBuddy/questions/__pycache__/__init__.cpython-313.pyc
 StudyBuddy/questions/__pycache__/admin.cpython-312.pyc
@@ -110,8 +109,6 @@ StudyBuddy/questions/__pycache__/urls.cpython-312.pyc
 StudyBuddy/questions/__pycache__/urls.cpython-313.pyc
 StudyBuddy/questions/__pycache__/views.cpython-312.pyc
 StudyBuddy/questions/__pycache__/views.cpython-313.pyc
-StudyBuddy/questions/migrations/__pycache__/__init__.cpython-313.pyc
-StudyBuddy/questions/migrations/__pycache__/0001_initial.cpython-313.pyc
 StudyBuddy/StudyBuddy/__pycache__/__init__.cpython-312.pyc
 StudyBuddy/StudyBuddy/__pycache__/__init__.cpython-313.pyc
 StudyBuddy/StudyBuddy/__pycache__/asgi.cpython-312.pyc
@@ -120,6 +117,9 @@ StudyBuddy/StudyBuddy/__pycache__/settings.cpython-312.pyc
 StudyBuddy/StudyBuddy/__pycache__/settings.cpython-313.pyc
 StudyBuddy/StudyBuddy/__pycache__/urls.cpython-312.pyc
 StudyBuddy/StudyBuddy/__pycache__/urls.cpython-313.pyc
-StudyBuddy/meetings/migrations/0002_alter_videomeeting_link_and_more.py
-StudyBuddy/meetings/migrations/__pycache__/0002_alter_videomeeting_link_and_more.cpython-313.pyc
+StudyBuddy/questions/migrations/__pycache__/__init__.cpython-313.pyc
+StudyBuddy/questions/migrations/__pycache__/0001_initial.cpython-313.pyc
+StudyBuddy/notes/migrations/__pycache__/__init__.cpython-313.pyc
+StudyBuddy/notes/migrations/__pycache__/0001_initial.cpython-313.pyc
+StudyBuddy/notes/migrations/__pycache__/0002_remove_note_content_note_etherpad_id.cpython-313.pyc
 StudyBuddy/templates.zip
