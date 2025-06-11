@@ -1,0 +1,20 @@
+{% extends 'auth_base.html' %}
+
+{% block title %}Удалить встречу{% endblock %}
+{% block page_title %}Удалить встречу{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-md mx-auto flex flex-col items-center justify-center min-h-[60vh]">
+    <div class="card bg-base-100 shadow-md p-6 w-full text-center">
+        <h2 class="text-lg font-semibold mb-4">Удалить встречу?</h2>
+        <p class="mb-2">Вы уверены, что хотите удалить встречу<br>
+            <span class="font-bold break-all max-w-full inline-block">"{{ meeting.title }}"</span>?
+        </p>
+        <form method="post" class="flex flex-col gap-2 mb-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-error w-full">Удалить</button>
+        </form>
+        <a href="{% url 'groups:group_detail' meeting.group.id %}" class="btn btn-outline w-full">Отмена</a>
+    </div>
+</div>
+{% endblock %}

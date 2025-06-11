@@ -7,7 +7,8 @@ from .models import StudyGroup
 from chat.models import Message
 from .forms import StudyGroupForm, EditGroupForm
 from django.contrib.auth import get_user_model
-
+from django.utils import timezone
+from datetime import timedelta
 
 
 '''Отображаем список групп, после авторизации'''
@@ -88,6 +89,10 @@ def group_detail_view(request, pk):
     notes = group.notes.all()
     meetings = group.meetings.all()
     messages = group.messages.all()  # Получаем сообщения для группы
+
+    for meeting in group.meetings.all():
+        if meeting.scheduled_at < timezone.now() - timedelta(days=1):
+            meeting.delete()
 
     # join_requests = GroupJoinRequest.objects.filter(group=group)
 

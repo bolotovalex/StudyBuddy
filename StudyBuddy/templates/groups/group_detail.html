@@ -154,16 +154,21 @@
             <h2 class="text-lg font-semibold mb-3">Видеовстречи</h2>
             <ul class="space-y-2">
                 {% for meeting in meetings %}
-                <li class="bg-base-200 rounded p-2 flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                    <span>
-                        <a href="{{ meeting.link }}" class="link">{{ meeting.title }}</a>
-                        — {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
-                    </span>
-                </li>
+                    <li class="bg-base-200 rounded p-2 flex flex-row items-center justify-between">
+                        <span>
+                            <a href="{{ meeting.link }}" class="link">{{ meeting.title }}</a>
+                            — {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
+                        </span>
+                        {% if user == meeting.created_by %}
+                            <a href="{% url 'meetings:meeting_confirm_delete' meeting.id %}" class="btn btn-error btn-xs ml-2">Удалить</a>
+                        {% endif %}
+
+                    </li>
                 {% empty %}
-                <li class="text-base-content/60">Нет видеовстреч</li>
+                    <li class="text-base-content/60">Нет видеовстреч</li>
                 {% endfor %}
             </ul>
+            
             <form method="post" action="{% url 'meetings:add_meeting' group.id %}" class="space-y-2 mt-4">
                 {% csrf_token %}
                 <input type="text" name="title" class="input input-bordered w-full" placeholder="Название встречи"
