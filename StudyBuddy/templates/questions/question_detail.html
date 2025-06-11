@@ -11,7 +11,7 @@
             | {{ question.created_at|date:"d.m.Y H:i" }}
         </p>
         {% if request.user == question.created_by %}
-            <a href="{% url 'questions:delete_question' question.pk %}" class="btn btn-error btn-sm mb-4">Удалить вопрос</a>
+            <a href="{% url 'questions:question_confirm_delete' question.pk %}" class="btn btn-error btn-sm mb-4">Удалить вопрос</a>
         {% endif %}
         <hr class="my-4">
         <h3 class="text-lg font-semibold mb-2">Ответы</h3>
