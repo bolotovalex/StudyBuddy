@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
+from django.conf import settings
 
 from groups.models import StudyGroup
 
@@ -14,8 +15,8 @@ class Note(models.Model):
     group = models.ForeignKey(StudyGroup, on_delete=models.CASCADE, related_name='notes')
     # Название конспекта
     title = models.CharField(max_length=255, verbose_name="Название конспекта")
-    # Содержимое конспекта
-    content = models.TextField(verbose_name="Содержимое конспекта")
+    # ID на запись etherpad
+    etherpad_id = models.CharField(max_length=255, unique=True, verbose_name="Etherpad ID", null=True)
     # Пользователь, создавший конспект
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_notes')
     # Дата и время создания
@@ -48,3 +49,7 @@ def add_note_view(request, group_id):
         else:
             messages.error(request, "Название и содержимое не могут быть пустыми.")
     return render(request, 'notes/add_note.html', {'group': group})
+
+@login_required
+def get_etherpad_url(self):
+    return f"{settings.ETHERPAD_BASE_URL}/p/{self.etherpad_id}"
