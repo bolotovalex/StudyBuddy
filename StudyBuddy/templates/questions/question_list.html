@@ -3,26 +3,27 @@
 {% block page_title %}Список вопросов{% endblock %}
 
 {% block content %}
-<div class="container">
-    <form method="get" class="d-flex mb-3">
-        <input type="text" name="q" value="{{ query }}" placeholder="Поиск вопроса" class="form-control me-2">
+<div class="w-full max-w-2xl mx-auto">
+    <form method="get" class="flex flex-col sm:flex-row gap-2 mb-4">
+        <input type="text" name="q" value="{{ query }}" placeholder="Поиск вопроса"
+               class="input input-bordered w-full flex-grow" />
         <button type="submit" class="btn btn-primary">Поиск</button>
         {% if query %}
-            <a href="{% url 'questions:question_list' %}" class="btn btn-secondary ms-2">Сброс</a>
+            <a href="{% url 'questions:question_list' %}" class="btn btn-outline">Сброс</a>
         {% endif %}
     </form>
-    <a href="{% url 'questions:create_question' %}" class="btn btn-primary mb-3">Создать вопрос</a>
-    <ul class="list-group">
+    <a href="{% url 'questions:create_question' %}" class="btn btn-success w-full mb-4">Создать вопрос</a>
+    <ul class="space-y-2">
         {% for question in questions %}
-            <li class="list-group-item">
-                <a href="{% url 'questions:question_detail' question.pk %}">
+            <li class="bg-base-200 rounded p-3">
+                <a href="{% url 'questions:question_detail' question.pk %}" class="font-medium">
                     {{ question.question_text|truncatechars:100 }}
                 </a>
                 <br>
-                <small class="text-muted">Создано: {{ question.created_by.username }}</small>
+                <small class="text-xs text-base-content/60">Создано: {{ question.created_by.username }}</small>
             </li>
         {% empty %}
-            <li class="list-group-item">Нет вопросов</li>
+            <li class="text-base-content/60">Нет вопросов</li>
         {% endfor %}
     </ul>
 </div>
