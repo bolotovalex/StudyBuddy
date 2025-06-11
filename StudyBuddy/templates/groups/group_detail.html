@@ -139,7 +139,7 @@
             <ul class="space-y-2">
                 {% for note in notes %}
                 <li class="bg-base-200 rounded p-2">
-                    <a href="{% url 'notes:edit_note' note.id %}" class="link">{{ note.title }}</a>
+                    <a href="{{ note.get_etherpad_url }}" target="_blank" class="link">{{ note.title }}</a>
                 </li>
                 {% empty %}
                 <li class="text-base-content/60">Нет конспектов</li>

@@ -42,6 +42,17 @@ services:
       JWT_APP_SECRET: my_jitsi_secret
     networks:
       - app-network
+  
+  etherpad:
+    image: etherpad/etherpad
+    container_name: etherpad
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./settings.json:/opt/etherpad-lite/settings.json
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge

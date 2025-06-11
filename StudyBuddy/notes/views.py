@@ -1,30 +1,29 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Note, StudyGroup
+import uuid, requests
+from django.conf import settings
+
 
 @login_required
 def add_note_view(request, group_id):
-    """
-    Создаём новый конспект.
-    """
     group = get_object_or_404(StudyGroup, id=group_id)
 
     if request.method == 'POST':
         title = request.POST.get('title')
-        content = request.POST.get('content')
-        if title and content:
-            # Создаём новый конспект
-            Note.objects.create(
+        if title:
+            pad_id = f"group{group.id}_{uuid.uuid4().hex[:8]}"
+            create_pad(pad_id)
+            note = Note.objects.create(
                 group=group,
                 title=title,
-                content=content,
+                etherpad_id=pad_id,
                 created_by=request.user
             )
-            # Перенаправляем на страницу группы после добавления конспекта
-            return redirect('groups:group_detail', pk=group.id)
-    
-    # Отображаем форму добавления конспекта
+            return redirect(note.get_etherpad_url())
+
     return render(request, 'notes/add_note.html', {'group': group})
+
 
 @login_required
 def edit_note_view(request, note_id):
@@ -41,3 +40,10 @@ def edit_note_view(request, note_id):
     
     # Отображаем форму редактирования конспекта
     return render(request, 'notes/edit_note.html', {'note': note})
+
+def create_pad(pad_id):
+    response = requests.get(
+        f"{settings.ETHERPAD_API_URL}/createPad",
+        params={"apikey": settings.ETHERPAD_API_KEY, "padID": pad_id}
+    )
+    response.raise_for_status()

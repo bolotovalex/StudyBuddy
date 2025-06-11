@@ -162,3 +162,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ETHERPAD_API_URL = 'http://etherpad:9001/api/1'
+ETHERPAD_BASE_URL = 'http://etherpad:9001'
+
+ETHERPAD_API_KEY = os.getenv('ETHERPAD_API_KEY', 'changeme')
