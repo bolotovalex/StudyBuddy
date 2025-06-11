@@ -46,3 +46,13 @@ def delete_question(request, pk):
     question = get_object_or_404(Question, pk=pk, created_by=request.user)
     question.delete()
     return redirect('questions:question_list')
+
+@login_required
+def question_confirm_delete(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    if request.user != question.created_by:
+        return redirect('questions:question_detail', pk=pk)
+    if request.method == "POST":
+        question.delete()
+        return redirect('questions:question_list')
+    return render(request, "questions/question_confirm_delete.html", {"question": question})

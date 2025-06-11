@@ -8,4 +8,6 @@ urlpatterns = [
     path('create/', views.create_question, name='create_question'),
     path('<int:pk>/', views.question_detail, name='question_detail'),
     path('<int:pk>/delete/', views.delete_question, name='delete_question'),
+    path('<int:pk>/delete/confirm/', views.question_confirm_delete, name='question_confirm_delete'),
+
 ]
