@@ -1,118 +1,27 @@
-{#<!DOCTYPE html>#}
-{#<html lang="ru">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
-{#    <title>Редактировать конспект</title>#}
-{#    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">#}
-{#    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>#}
-{#</head>#}
-{#<body>#}
-{#<h1>Редактировать конспект</h1>#}
-{#<form id="note-form" method="post">#}
-{#    {% csrf_token %}#}
-{#    <!-- Поле для названия конспекта -->#}
-{#    <input type="text" name="title" id="title" value="{{ note.title }}" placeholder="Введите название конспекта"#}
-{#           required>#}
-{##}
-{#    <!-- Редактор Quill -->#}
-{#    <div id="editor-container"></div>#}
-{#    <input type="hidden" name="content" id="content">#}
-{##}
-{#    <!-- Кнопки -->#}
-{#    <div class="button-group">#}
-{#        <button type="submit">Сохранить</button>#}
-{#        <a href="{% url 'groups:group_detail' note.group.id %}" class="cancel-button">Отмена</a>#}
-{#    </div>#}
-{#</form>#}
-{##}
-{#<script>#}
-{#    let isRemoteChange = false; // Флаг для различения источников изменений#}
-{##}
-{#    const quill = new Quill('#editor-container', {#}
-{#        theme: 'snow',#}
-{#        modules: {#}
-{#            toolbar: [#}
-{#                [{header: [1, 2, false]}],#}
-{#                ['bold', 'italic', 'underline'],#}
-{#                [{list: 'ordered'}, {list: 'bullet'}],#}
-{#                ['link', 'image']#}
-{#            ]#}
-{#        }#}
-{#    });#}
-{##}
-{#    // Установить начальное содержимое#}
-{#    quill.setContents({{ note.content|safe }});#}
-{##}
-{#    // Подключение WebSocket#}
-{#    const socket = new WebSocket(`ws://${window.location.host}/ws/notes/{{ note.id }}/`);#}
-{##}
-{#    // Обработка пользовательских изменений#}
-{#    quill.on('text-change', function (delta, oldDelta, source) {#}
-{#        if (source === 'user') { // Только если изменения от пользователя#}
-{#            isRemoteChange = true; // Установить флаг, чтобы предотвратить цикл#}
-{#            socket.send(JSON.stringify({content: quill.getContents()}));#}
-{#        }#}
-{#    });#}
-{##}
-{#    // Обработка изменений от сервера#}
-{#    socket.onmessage = function (event) {#}
-{#        const data = JSON.parse(event.data);#}
-{#        if (!isRemoteChange) { // Изменения от сервера#}
-{#            quill.setContents(data.content); // Применяем изменения#}
-{#        }#}
-{#        isRemoteChange = false; // Сбрасываем флаг#}
-{#    };#}
-{##}
-{#    // При отправке формы сохраняем содержимое в скрытое поле#}
-{#    const form = document.getElementById('note-form');#}
-{#    form.onsubmit = function () {#}
-{#        const contentField = document.getElementById('content');#}
-{#        contentField.value = JSON.stringify(quill.getContents());#}
-{#    };#}
-{##}
-{#    // Обработка ошибок WebSocket#}
-{#    socket.onerror = function (error) {#}
-{#        console.error('WebSocket Error: ', error);#}
-{#    };#}
-{##}
-{#    // Закрытие WebSocket#}
-{#    socket.onclose = function () {#}
-{#        console.warn('WebSocket connection closed.');#}
-{#    };#}
-{#</script>#}
-{#</body>#}
-{#</html>#}
-
 {% extends "base.html" %}
-
-{% block page_title %}
-Редактировать конспект
-{% endblock %}
+{% block title %}Редактировать конспект{% endblock %}
+{% block page_title %}Редактировать конспект{% endblock %}
 
 {% block content %}
-<div class="container">
-    <form id="note-form" method="post" class="mt-4">
+<div class="w-full max-w-2xl mx-auto">
+    <form id="note-form" method="post" class="card bg-base-100 shadow-md p-6 space-y-6">
         {% csrf_token %}
-        
-        <!-- Поле для названия конспекта -->
-        <div class="mb-3">
-            <label for="title" class="form-label">Название конспекта</label>
-            <input type="text" name="title" id="title" value="{{ note.title }}" placeholder="Введите название конспекта"
-                   class="form-control" required>
+        <div class="form-control">
+            <label for="title" class="label">
+                <span class="label-text font-medium">Название конспекта</span>
+            </label>
+            <input type="text" name="title" id="title" value="{{ note.title }}" class="input input-bordered w-full" required>
         </div>
-        
-        <!-- Редактор Quill -->
-        <div class="mb-3">
-            <label class="form-label">Содержимое</label>
-            <div id="editor-container" style="height: 300px; border: 1px solid #ced4da; border-radius: .375rem;"></div>
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text font-medium">Содержимое</span>
+            </label>
+            <div id="editor-container" class="bg-white rounded border border-base-300 min-h-[300px] max-h-[600px] overflow-auto"></div>
+            <input type="hidden" name="content" id="content">
         </div>
-        <input type="hidden" name="content" id="content">
-        
-        <!-- Кнопки -->
-        <div class="d-flex justify-content-between">
+        <div class="flex gap-2 justify-between">
             <button type="submit" class="btn btn-primary">Сохранить</button>
-            <a href="{% url 'groups:group_detail' note.group.id %}" class="btn btn-secondary">Отмена</a>
+            <a href="{% url 'groups:group_detail' note.group.id %}" class="btn btn-outline">Отмена</a>
         </div>
     </form>
 </div>
@@ -178,4 +87,3 @@
     };
 </script>
 {% endblock %}
-
