@@ -10,18 +10,15 @@
 <body class="bg-base-200 min-h-screen font-sans flex flex-col">
 
   <header class="bg-base-100 shadow-md py-4 px-4">
-    <div class="container mx-auto">
-      <h1 class="text-xl font-semibold">{% block page_title %}StudyBuddy{% endblock %}</h1>
-    </div>
+    <h1 class="text-xl font-semibold text-center">{% block page_title %}StudyBuddy{% endblock %}</h1>
   </header>
 
-  <main class="flex-grow container mx-auto px-4 py-6">
+  <main class="flex-grow flex flex-col justify-center items-center min-h-[70vh] px-4 py-6">
     {% block content %}{% endblock %}
   </main>
 
   <footer class="bg-base-100 text-center py-4 mt-auto shadow-inner">
     <div class="text-sm text-base-content">&copy; 2025 StudyBuddy</div>
   </footer>
-
 </body>
 </html>

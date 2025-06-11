@@ -1,42 +1,43 @@
 {% extends 'auth_base.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Создать группу{% endblock %}
-{% block page_title %}Создать группу{% endblock %}
+<!-- {% block title %}Создать группу{% endblock %} -->
+<!-- {% block page_title %}Создать группу{% endblock %} -->
 
 {% block content %}
-<div class="w-full max-w-md mx-auto">
-    <form method="post" class="card bg-base-100 shadow-md p-6 space-y-6">
-        {% csrf_token %}
-        {% for field in form.visible_fields %}
-        <div class="form-control w-full">
-            <label for="{{ field.id_for_label }}" class="label">
-                <span class="label-text font-medium">{{ field.label }}</span>
-            </label>
-            {% if field.field.widget.input_type == "textarea" %}
-            {{ field|add_class:"textarea textarea-bordered w-full min-h-[100px] p-4" }}
-
-            {% else %}
-            {{ field|add_class:"input input-bordered w-full" }}
-            {% endif %}
-            {% if field.help_text %}
-            <label class="label">
-                <span class="label-text-alt">{{ field.help_text }}</span>
-            </label>
-            {% endif %}
-            {% for error in field.errors %}
-            <span class="text-error text-xs flex items-center mt-1">{{ error }}</span>
+<div class="min-h-[70vh] flex flex-col justify-center items-center">
+    <div class="w-full max-w-md">
+        <form method="post" class="card bg-base-100 shadow-md p-6 space-y-6">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+            <div class="form-control w-full">
+                <label for="{{ field.id_for_label }}" class="label">
+                    <span class="label-text font-medium">{{ field.label }}</span>
+                </label>
+                {% if field.field.widget.input_type == "textarea" %}
+                {{ field|add_class:"textarea textarea-bordered w-full min-h-[100px] p-4" }}
+                {% else %}
+                {{ field|add_class:"input input-bordered w-full" }}
+                {% endif %}
+                {% if field.help_text %}
+                <label class="label">
+                    <span class="label-text-alt">{{ field.help_text }}</span>
+                </label>
+                {% endif %}
+                {% for error in field.errors %}
+                <span class="text-error text-xs flex items-center mt-1">{{ error }}</span>
+                {% endfor %}
+            </div>
             {% endfor %}
+            <button type="submit" class="btn btn-success w-full mt-2">Создать</button>
+        </form>
+        <div class="flex justify-center mt-6">
+            <a href="{% url 'groups:group_list' %}" class="btn btn-link">Вернуться к списку групп</a>
         </div>
-        {% endfor %}
-
-        <button type="submit" class="btn btn-success w-full mt-2">Создать</button>
-    </form>
-    <div class="flex justify-center mt-6">
-        <a href="{% url 'groups:group_list' %}" class="btn btn-link">Вернуться к списку групп</a>
     </div>
 </div>
 {% endblock %}
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
