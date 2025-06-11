@@ -1,6 +1,11 @@
 {% if group and request.resolver_match.url_name == 'group_detail' %}
-<form method="post" action="{% url 'groups:leave_group' group.pk %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-error w-full mb-2">Покинуть группу</button>
-</form>
+    <!-- {% if user == group.owner %}
+        <div class="alert alert-warning text-warning-content mb-2 text-sm">
+            Вы являетесь владельцем этой группы.<br>
+            После выхода владельцем станет другой участник.
+        </div>
+    {% endif %} -->
+    <a href="{% url 'groups:leave_group_confirm' group.pk %}" class="btn btn-error w-full mb-2">
+        Покинуть группу
+    </a>
 {% endif %}
