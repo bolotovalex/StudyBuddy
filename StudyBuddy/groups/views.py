@@ -9,6 +9,7 @@ from .forms import StudyGroupForm, EditGroupForm
 from django.contrib.auth import get_user_model
 
 
+
 '''Отображаем список групп, после авторизации'''
 @login_required
 def group_list_view(request):
@@ -221,3 +222,14 @@ def user_profile_view(request, user_id):
     user = get_object_or_404(User, id=user_id)
     profile = user.profile
     return render(request, 'accounts/profile.html', {'profile': profile})
+
+def leave_group_confirm(request, pk):
+    group = get_object_or_404(StudyGroup, pk=pk)
+    if request.method == "POST":
+        user = request.user
+        group.members.remove(user)
+        
+        if group.members.count() == 0:
+            group.delete()
+        return redirect('groups:group_list')
+    return render(request, "groups/leave_group_confirm.html", {"group": group})
