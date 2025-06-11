@@ -120,3 +120,7 @@ StudyBuddy/StudyBuddy/__pycache__/settings.cpython-312.pyc
 StudyBuddy/StudyBuddy/__pycache__/settings.cpython-313.pyc
 StudyBuddy/StudyBuddy/__pycache__/urls.cpython-312.pyc
 StudyBuddy/StudyBuddy/__pycache__/urls.cpython-313.pyc
+StudyBuddy/meetings/migrations/0002_alter_videomeeting_link_and_more.py
+StudyBuddy/meetings/migrations/__pycache__/0002_alter_videomeeting_link_and_more.cpython-313.pyc
+StudyBuddy/templates.zip
+StudyBuddy/db.sqlite3
