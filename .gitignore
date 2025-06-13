@@ -137,3 +137,5 @@ StudyBuddy/docker/nginx/certs/live/study.ilexx-tech.ru/fullchain.pem
 StudyBuddy/docker/nginx/certs/live/study.ilexx-tech.ru/privkey.pem
 StudyBuddy/docker/nginx/certs/live/study.ilexx-tech.ru/README
 StudyBuddy/docker/nginx/certs/renewal/study.ilexx-tech.ru.conf
+StudyBuddy/docker/nginx/certs/
+StudyBuddy/media
