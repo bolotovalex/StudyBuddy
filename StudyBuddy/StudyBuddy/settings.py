@@ -106,6 +106,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:48080',
     'https://127.0.0.1:48080',
     'https://localhost:48080',
+    'https://localhost',
 ]
 
 WSGI_APPLICATION = 'StudyBuddy.wsgi.application'

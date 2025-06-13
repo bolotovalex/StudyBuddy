@@ -19,8 +19,6 @@ services:
   nginx:
     image: nginx:latest
     container_name: nginx
-    volumes:
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "80:80"
       - "443:443"
@@ -39,12 +37,13 @@ services:
     container_name: jitsi-web
     restart: always
     ports:
-      - "48843:443"  # Проброс порта Jitsi напрямую
+      - "8080:80"  # Проброс порта Jitsi напрямую
     environment:
       ENABLE_AUTH: 1
       AUTH_TYPE: jwt
       JWT_APP_ID: my_jitsi_app
       JWT_APP_SECRET: my_jitsi_secret
+      PUBLIC_URL: https://study.ilexx-tech.ru/jitsi
     networks:
       - app-network
 
