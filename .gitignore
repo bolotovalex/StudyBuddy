@@ -123,3 +123,17 @@ StudyBuddy/notes/migrations/__pycache__/__init__.cpython-313.pyc
 StudyBuddy/notes/migrations/__pycache__/0001_initial.cpython-313.pyc
 StudyBuddy/notes/migrations/__pycache__/0002_remove_note_content_note_etherpad_id.cpython-313.pyc
 StudyBuddy/templates.zip
+StudyBuddy/docker/nginx/certs/accounts/acme-v02.api.letsencrypt.org/directory/456541bf233ba83c3cfd2a6aa5d4d0d3/meta.json
+StudyBuddy/docker/nginx/certs/accounts/acme-v02.api.letsencrypt.org/directory/456541bf233ba83c3cfd2a6aa5d4d0d3/private_key.json
+StudyBuddy/docker/nginx/certs/accounts/acme-v02.api.letsencrypt.org/directory/456541bf233ba83c3cfd2a6aa5d4d0d3/regr.json
+StudyBuddy/docker/nginx/certs/archive/study.ilexx-tech.ru/cert1.pem
+StudyBuddy/docker/nginx/certs/archive/study.ilexx-tech.ru/chain1.pem
+StudyBuddy/docker/nginx/certs/archive/study.ilexx-tech.ru/fullchain1.pem
+StudyBuddy/docker/nginx/certs/archive/study.ilexx-tech.ru/privkey1.pem
+StudyBuddy/docker/nginx/certs/live/README
+StudyBuddy/docker/nginx/certs/live/study.ilexx-tech.ru/cert.pem
+StudyBuddy/docker/nginx/certs/live/study.ilexx-tech.ru/chain.pem
+StudyBuddy/docker/nginx/certs/live/study.ilexx-tech.ru/fullchain.pem
+StudyBuddy/docker/nginx/certs/live/study.ilexx-tech.ru/privkey.pem
+StudyBuddy/docker/nginx/certs/live/study.ilexx-tech.ru/README
+StudyBuddy/docker/nginx/certs/renewal/study.ilexx-tech.ru.conf
