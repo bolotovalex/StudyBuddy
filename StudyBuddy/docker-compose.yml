@@ -32,23 +32,83 @@ services:
     networks:
       - app-network
 
-  jitsi-web:
+  web:
     image: jitsi/web:stable
-    container_name: jitsi-web
-    restart: always
+    restart: unless-stopped
     expose:
       - "80"
+    volumes:
+      - ./config/web:/config:Z
+      - ./config/web/crontabs:/var/spool/cron/crontabs:Z
+      - ./config/transcripts:/usr/share/jitsi-meet/transcripts:Z
     environment:
-      ENABLE_AUTH: 1
-      AUTH_TYPE: jwt
-      JWT_APP_ID: my_jitsi_app
-      JWT_APP_SECRET: my_jitsi_secret
-      PUBLIC_URL: https://meet.study.ilexx-tech.ru
-      ENABLE_XMPP_WEBSOCKET: 1
-      ENABLE_COLIBRI_WEBSOCKET: 1
-      ENABLE_SCTP: 1
+      - ENABLE_AUTH=1
+      - ENABLE_GUESTS=1
+      - ENABLE_XMPP_WEBSOCKET=1
+      - ENABLE_COLIBRI_WEBSOCKET=1
+      - XMPP_SERVER=prosody
+      - PUBLIC_URL=https://meet.study.ilexx-tech.ru
+      - TZ=Europe/Moscow
+    depends_on:
+      - prosody
     networks:
       - app-network
+
+  prosody:
+    image: jitsi/prosody:stable
+    restart: unless-stopped
+    expose:
+      - "5222"
+      - "5347"
+      - "5280"
+    volumes:
+      - ./config/prosody/config:/config:Z
+    environment:
+      - AUTH_TYPE=jwt
+      - ENABLE_AUTH=1
+      - ENABLE_GUESTS=1
+      - XMPP_DOMAIN=meet.study.ilexx-tech.ru
+      - XMPP_SERVER=prosody
+      - PUBLIC_URL=https://meet.study.ilexx-tech.ru
+    networks:
+      app-network:
+        aliases:
+          - prosody
+
+  jicofo:
+    image: jitsi/jicofo:stable
+    restart: unless-stopped
+    volumes:
+      - ./config/jicofo:/config:Z
+    environment:
+      - XMPP_DOMAIN=meet.study.ilexx-tech.ru
+      - XMPP_AUTH_DOMAIN=auth.meet.study.ilexx-tech.ru
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.study.ilexx-tech.ru
+      - XMPP_MUC_DOMAIN=muc.meet.study.ilexx-tech.ru
+      - JICOFO_COMPONENT_SECRET=your_secret
+      - JICOFO_AUTH_PASSWORD=your_password
+    depends_on:
+      - prosody
+    networks:
+      - app-network
+
+  jvb:
+    image: jitsi/jvb:stable
+    restart: unless-stopped
+    ports:
+      - "10000:10000/udp"
+    volumes:
+      - ./config/jvb:/config:Z
+    environment:
+      - XMPP_AUTH_DOMAIN=auth.meet.study.ilexx-tech.ru
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.study.ilexx-tech.ru
+      - XMPP_SERVER=prosody
+      - DOCKER_HOST_ADDRESS=your.public.ip.address
+    depends_on:
+      - prosody
+    networks:
+      - app-network
+
 
   etherpad:
     image: etherpad/etherpad
