@@ -8,20 +8,12 @@ from django.conf import settings
 from groups.models import StudyGroup
 
 class Note(models.Model):
-    """
-    Модель для конспекта.
-    """
-    # Связь с учебной группой
     group = models.ForeignKey(StudyGroup, on_delete=models.CASCADE, related_name='notes')
-    # Название конспекта
     title = models.CharField(max_length=255, verbose_name="Название конспекта")
-    # ID на запись etherpad
+    description = models.TextField(blank=True, null=True, verbose_name="Описание")
     etherpad_id = models.CharField(max_length=255, unique=True, verbose_name="Etherpad ID", null=True)
-    # Пользователь, создавший конспект
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_notes')
-    # Дата и время создания
     created_at = models.DateTimeField(auto_now_add=True)
-    # Дата и время обновления
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

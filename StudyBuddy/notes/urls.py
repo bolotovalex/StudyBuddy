@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import add_note_view, edit_note_view
+from .views import add_note_view, edit_note_view, note_etherpad_redirect
 from . import consumers
 
 app_name = 'notes'
@@ -14,5 +14,7 @@ app_name = 'notes'
 # ]
 
 urlpatterns = [
-    path('<int:group_id>/', add_note_view, name='add_note'),
+    path('p/<slug:pad_id>/', note_etherpad_redirect, name='note_etherpad_redirect'),
+    path('add/<int:group_id>/', add_note_view, name='add_note'),
+    path('edit/<int:note_id>/', edit_note_view, name='edit_note'),
 ]

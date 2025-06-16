@@ -11,6 +11,12 @@
             </label>
             <input type="text" name="title" id="title" class="input input-bordered w-full" required>
         </div>
+        <div class="form-control">
+            <label for="description" class="label">
+                <span class="label-text font-medium">Описание</span>
+            </label>
+            <textarea name="description" id="description" class="textarea textarea-bordered w-full"></textarea>
+        </div>
         <div class="flex gap-2 justify-between">
             <button type="submit" class="btn btn-primary">Создать и открыть</button>
             <a href="{% url 'groups:group_detail' group.id %}" class="btn btn-outline">Отмена</a>

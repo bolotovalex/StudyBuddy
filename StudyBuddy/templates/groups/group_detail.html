@@ -139,14 +139,13 @@
             <ul class="space-y-2">
                 {% for note in notes %}
                 <li class="bg-base-200 rounded p-2">
-                    <a href="{{ note.get_etherpad_url }}" target="_blank" class="link">{{ note.title }}</a>
+                    <a href="{% url 'notes:note_etherpad_redirect' pad_id=note.etherpad_id %}" target="_blank" class="link">{{ note.title }}</a>
                 </li>
                 {% empty %}
                 <li class="text-base-content/60">Нет конспектов</li>
                 {% endfor %}
             </ul>
-            <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline btn-primary mt-4 w-full">Создать
-                конспект</a>
+            <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline btn-primary mt-4 w-full">Создать конспект</a>
         </div>
 
         <!-- Видеовстречи -->
