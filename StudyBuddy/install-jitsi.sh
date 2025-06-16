@@ -3,7 +3,7 @@ set -e
 
 # === 0. Задать имя домена и папку с сертификатами ===
 DOMAIN="meet.study.ilexx-tech.ru"
-CERTS_DIR="./docker/nginx/certs/$DOMAIN"
+CERTS_DIR="./docker/nginx/certs/live/$DOMAIN"
 rm -rf jitsi-docker-jitsi-meet-*
 # === 1. Скачать и распаковать последнюю версию docker-jitsi-meet ===
 echo "==> Downloading latest docker-jitsi-meet release…"
@@ -47,8 +47,8 @@ echo "==> Creating config directories at $CFG"
 mkdir -p "$CFG/web" "$CFG/transcripts" "$CFG/prosody/config" "$CFG/prosody/prosody-plugins-custom" "$CFG/jicofo" "$CFG/jvb" "$CFG/jigasi" "$CFG/jibri"
 
 # === 7. Копировать SSL-сертификаты ===
-CRT_SRC="$CERTS_DIR/fullchain.pem"
-KEY_SRC="$CERTS_DIR/privkey.pem"
+CRT_SRC="$CERTS_DIR/fullchain1.pem"
+KEY_SRC="$CERTS_DIR/privkey1.pem"
 CRT_DST="$CFG/web/crt.pem"
 KEY_DST="$CFG/web/key.pem"
 
