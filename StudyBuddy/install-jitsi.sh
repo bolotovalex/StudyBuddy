@@ -4,7 +4,7 @@ set -e
 # === 0. Задать имя домена и папку с сертификатами ===
 DOMAIN="meet.study.ilexx-tech.ru"
 CERTS_DIR="./docker/nginx/certs/$DOMAIN"
-
+rm -rf jitsi-docker-jitsi-meet-*
 # === 1. Скачать и распаковать последнюю версию docker-jitsi-meet ===
 echo "==> Downloading latest docker-jitsi-meet release…"
 ZIP_URL=$(curl -s https://api.github.com/repos/jitsi/docker-jitsi-meet/releases/latest | grep 'zip' | cut -d\" -f4)
@@ -13,6 +13,8 @@ wget -nc "$ZIP_URL"
 if [ -z "$(ls -d jitsi-docker-jitsi-meet-*/ 2>/dev/null)" ]; then
     unzip -n "$ZIP_FILE"
 fi
+
+
 
 # === 2. Найти реальную папку Jitsi и перейти в неё ===
 JITSI_DIR=$(ls -d jitsi-docker-jitsi-meet-*/ 2>/dev/null | head -n1)
@@ -37,12 +39,7 @@ sed -i "s|^ENABLE_LETSENCRYPT=.*|ENABLE_LETSENCRYPT=0|" .env
 sed -i "s|^DISABLE_HTTPS=.*|DISABLE_HTTPS=0|" .env
 
 # === 5. Генерировать пароли (если не сгенерировано) ===
-if grep -q 'CHANGE ME' .env; then
-    echo "==> Generating secure passwords"
-    ./gen-passwords.sh
-else
-    echo "==> Passwords already generated, skipping"
-fi
+./gen-passwords.sh
 
 # === 6. Создать конфиг директории ===
 CFG="$HOME/.jitsi-meet-cfg"

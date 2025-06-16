@@ -22,7 +22,7 @@ LOGIN_REDIRECT_URL = '/groups/'
 CAPTCHA_FONT_SIZE = 42
 CAPTCHA_LENGTH = 5
 CAPTCHA_TIMEOUT = 5  # в минутах
-JITSI_BASE_URL = os.getenv('JITSI_BASE_URL', 'https://study.ilexx-tech.ru/jitsi')
+JITSI_BASE_URL = os.getenv('JITSI_BASE_URL', 'https://meet.study.ilexx-tech.ru:8443')
 
 CHANNEL_LAYERS = {
     "default": {
