@@ -18,7 +18,13 @@
             <a role="tab" class="tab tab-bordered" href="#documents">Документы</a>
             <a role="tab" class="tab tab-bordered" href="#notes">Конспекты</a>
             <a role="tab" class="tab tab-bordered" href="#meetings">Видеовстречи</a>
-            <a role="tab" class="tab tab-bordered" href="#members">Участники группы</a>
+            <a role="tab" href="#members"
+                class="tab tab-bordered {% if group.access_requests.exists %}tab-active text-warning{% endif %}">
+                Участники группы
+                {% if group.access_requests.count > 0 %}
+                <span class="ml-1 badge badge-warning badge-sm align-top">+{{ group.access_requests.count }}</span>
+                {% endif %}
+            </a>
         </div>
     </div>
 
@@ -43,41 +49,41 @@
         <!-- Объявления -->
         <div id="announcements" class="tab-pane h-[80vh] flex flex-col">
 
-  <!-- Шапка -->
-  <div class="bg-base-100 px-4 py-2 border-b shrink-0 sticky top-0 z-10">
-    <h2 class="text-lg font-semibold">Объявления</h2>
-  </div>
+            <!-- Шапка -->
+            <div class="bg-base-100 px-4 py-2 border-b shrink-0 sticky top-0 z-10">
+                <h2 class="text-lg font-semibold">Объявления</h2>
+            </div>
 
-  <!-- Прокручиваемый список -->
-  <div id="message-list" class="flex-1 overflow-y-auto px-4 py-2 space-y-2">
-    {% for message in messages %}
-      <div class="bg-base-200 rounded p-3">
-        <span class="text-xs text-base-content/60">
-          {{ message.timestamp|date:"d.m.Y H:i" }} —
-          {% if message.user == request.user %}
-            Вы
-          {% else %}
-            {{ message.user.last_name }} {{ message.user.first_name }}
-          {% endif %}
-        </span>
-        <p class="mt-1 whitespace-pre-line">{{ message.content }}</p>
-      </div>
-    {% empty %}
-      <div class="text-base-content/60">Нет объявлений</div>
-    {% endfor %}
-  </div>
+            <!-- Прокручиваемый список -->
+            <div id="message-list" class="flex-1 overflow-y-auto px-4 py-2 space-y-2">
+                {% for message in messages %}
+                <div class="bg-base-200 rounded p-3">
+                    <span class="text-xs text-base-content/60">
+                        {{ message.timestamp|date:"d.m.Y H:i" }} —
+                        {% if message.user == request.user %}
+                        Вы
+                        {% else %}
+                        {{ message.user.last_name }} {{ message.user.first_name }}
+                        {% endif %}
+                    </span>
+                    <p class="mt-1 whitespace-pre-line">{{ message.content }}</p>
+                </div>
+                {% empty %}
+                <div class="text-base-content/60">Нет объявлений</div>
+                {% endfor %}
+            </div>
 
-  <!-- Фиксированная форма отправки -->
-  <form id="chat-form" method="post" class="shrink-0 p-4 bg-base-100 border-t sticky bottom-0 z-10">
-    {% csrf_token %}
-    <textarea name="content" id="content" class="textarea textarea-bordered w-full mb-2"
-              placeholder="Введите сообщение..." required></textarea>
-    <input type="hidden" name="group_id" value="{{ group.id }}">
-    <button type="submit" class="btn btn-primary w-full">Отправить</button>
-  </form>
-</div>
+            <!-- Фиксированная форма отправки -->
+            <form id="chat-form" method="post" class="shrink-0 p-4 bg-base-100 border-t sticky bottom-0 z-10">
+                {% csrf_token %}
+                <textarea name="content" id="content" class="textarea textarea-bordered w-full mb-2"
+                    placeholder="Введите сообщение..." required></textarea>
+                <input type="hidden" name="group_id" value="{{ group.id }}">
+                <button type="submit" class="btn btn-primary w-full">Отправить</button>
+            </form>
+        </div>
 
-<!-- Дополнительный блок: запросы на доступ -->
+        <!-- Дополнительный блок: запросы на доступ
 {% if request.user == group.owner %}
   <div class="mt-6">
     <h3 class="font-semibold mb-2">Запросы на доступ</h3>
@@ -95,9 +101,9 @@
       {% endfor %}
     </ul>
   </div>
-{% endif %}
+{% endif %} -->
 
-        <!-- Документы -->
+
         <!-- Документы -->
         <div id="documents" class="tab-pane hidden">
             <h2 class="text-lg font-semibold mb-3">Документы</h2>
@@ -153,13 +159,15 @@
             <ul class="space-y-2">
                 {% for note in notes %}
                 <li class="bg-base-200 rounded p-2">
-                    <a href="{% url 'notes:note_etherpad_redirect' pad_id=note.etherpad_id %}" target="_blank" class="link">{{ note.title }}</a>
+                    <a href="{% url 'notes:note_etherpad_redirect' pad_id=note.etherpad_id %}" target="_blank"
+                        class="link">{{ note.title }}</a>
                 </li>
                 {% empty %}
                 <li class="text-base-content/60">Нет конспектов</li>
                 {% endfor %}
             </ul>
-            <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline btn-primary mt-4 w-full">Создать конспект</a>
+            <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline btn-primary mt-4 w-full">Создать
+                конспект</a>
         </div>
 
         <!-- Видеовстречи -->
@@ -167,21 +175,22 @@
             <h2 class="text-lg font-semibold mb-3">Видеовстречи</h2>
             <ul class="space-y-2">
                 {% for meeting in meetings %}
-                    <li class="bg-base-200 rounded p-2 flex flex-row items-center justify-between">
-                        <span>
-                            <a href="{{ meeting.link }}" class="link">{{ meeting.title }}</a>
-                            — {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
-                        </span>
-                        {% if user == meeting.created_by %}
-                            <a href="{% url 'meetings:meeting_confirm_delete' meeting.id %}" class="btn btn-error btn-xs ml-2">Удалить</a>
-                        {% endif %}
+                <li class="bg-base-200 rounded p-2 flex flex-row items-center justify-between">
+                    <span>
+                        <a href="{{ meeting.link }}" class="link">{{ meeting.title }}</a>
+                        — {{ meeting.scheduled_at|date:"d.m.Y H:i" }}
+                    </span>
+                    {% if user == meeting.created_by %}
+                    <a href="{% url 'meetings:meeting_confirm_delete' meeting.id %}"
+                        class="btn btn-error btn-xs ml-2">Удалить</a>
+                    {% endif %}
 
-                    </li>
+                </li>
                 {% empty %}
-                    <li class="text-base-content/60">Нет видеовстреч</li>
+                <li class="text-base-content/60">Нет видеовстреч</li>
                 {% endfor %}
             </ul>
-            
+
             <form method="post" action="{% url 'meetings:add_meeting' group.id %}" class="space-y-2 mt-4">
                 {% csrf_token %}
                 <input type="text" name="title" class="input input-bordered w-full" placeholder="Название встречи"
@@ -192,27 +201,29 @@
         </div>
 
         <!-- Участники группы -->
-<div id="members" class="tab-pane hidden">
-    <h2 class="text-lg font-semibold mb-3">Участники группы</h2>
-    <ul class="space-y-2">
-        {% for member in members %}
-        <li class="bg-base-200 rounded p-2 flex justify-between items-center">
-            <span>{{ member.last_name }} {{ member.first_name }}</span>
+        <div id="members" class="tab-pane hidden">
+            <h2 class="text-lg font-semibold mb-3">Участники группы</h2>
+            <ul class="space-y-2">
+                {% for member in members %}
+                <li class="bg-base-200 rounded p-2 flex justify-between items-center">
+                    <span>{{ member.last_name }} {{ member.first_name }}</span>
 
-            <div class="flex gap-2 items-center">
-                {% if request.user == group.owner and member in group.access_requests.all %}
-                    <a href="{% url 'groups:accept_request' group.pk member.pk %}" class="btn btn-success btn-xs">Принять</a>
-                    <a href="{% url 'groups:decline_request' group.pk member.pk %}" class="btn btn-error btn-xs">Отклонить</a>
-                {% elif member == group.owner %}
-                    <span class="badge badge-primary">Владелец</span>
-                {% endif %}
-            </div>
-        </li>
-        {% empty %}
-        <li class="text-base-content/60">Нет участников</li>
-        {% endfor %}
-    </ul>
-</div>
+                    <div class="flex gap-2 items-center">
+                        {% if request.user == group.owner and member in group.access_requests.all %}
+                        <a href="{% url 'groups:accept_request' group.pk member.pk %}"
+                            class="btn btn-success btn-xs">Принять</a>
+                        <a href="{% url 'groups:decline_request' group.pk member.pk %}"
+                            class="btn btn-error btn-xs">Отклонить</a>
+                        {% elif member == group.owner %}
+                        <span class="badge badge-primary">Владелец</span>
+                        {% endif %}
+                    </div>
+                </li>
+                {% empty %}
+                <li class="text-base-content/60">Нет участников</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </div>
 
