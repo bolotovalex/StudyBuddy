@@ -10,6 +10,12 @@ class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     captcha = CaptchaField()
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['captcha'].widget.attrs.update({
+         'class': 'input input-bordered w-full'
+    })
 
 
 class ProfileForm(forms.ModelForm):
@@ -45,6 +51,12 @@ class UserRegistrationForm(UserCreationForm):
     faculty = forms.CharField(max_length=255, required=False, label="Факультет")
     study_group = forms.CharField(max_length=255, required=False, label="Группа")
     captcha = CaptchaField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['captcha'].widget.attrs.update({
+         'class': 'input input-bordered w-full'
+    })
 
     class Meta:
         model = User

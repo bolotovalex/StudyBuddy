@@ -50,17 +50,17 @@
           {% endif %}
         </div>
 
-        {% if form.captcha %}
-        <div>
-          <label class="label" for="id_captcha_1">Введите капчу</label>
-          <div class="flex flex-col gap-2">
-            {{ form.captcha }}
-          </div>
-          {% if form.captcha.errors %}
-          <p class="text-error text-xs">{{ form.captcha.errors.0 }}</p>
-          {% endif %}
-        </div>
-        {% endif %}
+       {% if form.captcha %}
+  <div class="form-control w-full mb-4">
+    <label class="label" for="id_captcha_1">Введите капчу</label>
+    <div class="flex flex-col gap-2 mt-2">
+      {{ form.captcha }}
+    </div>
+    {% if form.captcha.errors %}
+      <p class="text-error text-xs">{{ form.captcha.errors.0 }}</p>
+    {% endif %}
+  </div>
+{% endif %}
 
         <button type="submit" class="btn btn-primary w-full">Войти</button>
       </form>
