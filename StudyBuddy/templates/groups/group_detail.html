@@ -192,21 +192,27 @@
         </div>
 
         <!-- Участники группы -->
-        <div id="members" class="tab-pane hidden">
-            <h2 class="text-lg font-semibold mb-3">Участники группы</h2>
-            <ul class="space-y-2">
-                {% for member in members %}
-                <li class="bg-base-200 rounded p-2 flex justify-between items-center">
-                    <span>{{ member.username }}</span>
-                    {% if member == group.owner %}
+<div id="members" class="tab-pane hidden">
+    <h2 class="text-lg font-semibold mb-3">Участники группы</h2>
+    <ul class="space-y-2">
+        {% for member in members %}
+        <li class="bg-base-200 rounded p-2 flex justify-between items-center">
+            <span>{{ member.last_name }} {{ member.first_name }}</span>
+
+            <div class="flex gap-2 items-center">
+                {% if request.user == group.owner and member in group.access_requests.all %}
+                    <a href="{% url 'groups:accept_request' group.pk member.pk %}" class="btn btn-success btn-xs">Принять</a>
+                    <a href="{% url 'groups:decline_request' group.pk member.pk %}" class="btn btn-error btn-xs">Отклонить</a>
+                {% elif member == group.owner %}
                     <span class="badge badge-primary">Владелец</span>
-                    {% endif %}
-                </li>
-                {% empty %}
-                <li class="text-base-content/60">Нет участников</li>
-                {% endfor %}
-            </ul>
-        </div>
+                {% endif %}
+            </div>
+        </li>
+        {% empty %}
+        <li class="text-base-content/60">Нет участников</li>
+        {% endfor %}
+    </ul>
+</div>
     </div>
 </div>
 
