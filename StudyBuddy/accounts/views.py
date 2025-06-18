@@ -69,7 +69,7 @@ def edit_profile_view(request):
     profile = request.user.profile
     is_own_profile = True  # Только для своего профиля
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             messages.success(request, 'Профиль обновлён.')
@@ -83,11 +83,18 @@ def edit_profile_view(request):
 
 @login_required
 def profile_view(request):
-    """
-    Страница профиля текущего пользователя.
-    """
     profile = request.user.profile
-    return render(request, 'accounts/profile.html', {'profile': profile, 'is_own_profile': True})
+
+    if request.method == 'POST' and 'photo' in request.FILES:
+        profile.photo = request.FILES['photo']
+        profile.save()
+        messages.success(request, 'Фото профиля обновлено.')
+        return redirect('accounts:profile')
+
+    return render(request, 'accounts/profile.html', {
+        'profile': profile,
+        'is_own_profile': True
+    })
 
 
 

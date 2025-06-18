@@ -21,7 +21,7 @@ class UserLoginForm(AuthenticationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'patronymic', 'birth_date', 'institution', 'faculty', 'study_group']
+        fields = ['photo', 'first_name', 'last_name', 'patronymic', 'birth_date', 'institution', 'faculty', 'study_group']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}),  # HTML5-виджет для выбора даты
         }

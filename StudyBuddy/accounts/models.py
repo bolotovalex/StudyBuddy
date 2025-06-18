@@ -31,6 +31,7 @@ class Profile(models.Model):
     institution = models.CharField(max_length=255, verbose_name='Учебное заведение', blank=True)
     faculty = models.CharField(max_length=255, verbose_name='Факультет', blank=True)
     study_group = models.CharField(max_length=255, verbose_name='Группа', blank=True)
+    photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True, verbose_name='Фото профиля')
 
     def __str__(self):
         # Возвращает строковое представление профиля

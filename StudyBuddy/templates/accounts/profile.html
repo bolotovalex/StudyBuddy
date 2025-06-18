@@ -1,14 +1,28 @@
-{% extends 'base.html' %}
-
-{% block title %}Мой Профиль{% endblock %}
-{% block page_title %}Профиль пользователя{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}Мой Профиль{% endblock %} 
+{% block page_title %}Профиль пользователя{% endblock %} {% block content %}
 <div class="flex flex-col items-center justify-center min-h-[70vh] px-4 py-6">
   <div class="w-full max-w-2xl space-y-6">
     <!-- Карточка с информацией о пользователе -->
     <div class="card bg-base-100 shadow-xl">
       <div class="card-body">
+        <div class="flex justify-center mb-4">
+          <form method="post" enctype="multipart/form-data" class="flex justify-center mb-4">
+            {% csrf_token %}
+            <label for="photo-upload" class="cursor-pointer group">
+              {% if profile.photo %}
+                <img src="{{ profile.photo.url }}" alt="Фото профиля"
+                     class="w-32 h-32 rounded-full object-cover ring ring-primary group-hover:opacity-80 transition">
+              {% else %}
+                <div class="w-32 h-32 rounded-full bg-base-300 flex items-center justify-center text-2xl font-bold ring ring-primary group-hover:opacity-80 transition">
+                  {{ profile.first_name|first }}{{ profile.last_name|first }}
+                </div>
+              {% endif %}
+            </label>
+            <input type="file" id="photo-upload" name="photo" accept="image/*" class="hidden" onchange="this.form.submit()">
+          </form>
+        </div>
+        
+
         <h2 class="card-title">Информация о пользователе</h2>
         <div class="space-y-2">
           <p><strong>Фамилия:</strong> {{ profile.last_name }}</p>
@@ -29,13 +43,13 @@
         <h2 class="card-title">Мои группы</h2>
         <div class="space-y-2">
           {% if request.user.study_groups.all %}
-            <ul class="menu bg-base-200 rounded-box">
-              {% for group in request.user.study_groups.all %}
-                <li><a>{{ group.name }}</a></li>
-              {% endfor %}
-            </ul>
+          <ul class="menu bg-base-200 rounded-box">
+            {% for group in request.user.study_groups.all %}
+            <li><a>{{ group.name }}</a></li>
+            {% endfor %}
+          </ul>
           {% else %}
-            <p>Вы не состоите ни в одной группе</p>
+          <p>Вы не состоите ни в одной группе</p>
           {% endif %}
         </div>
       </div>
@@ -44,8 +58,12 @@
     <!-- Кнопки -->
     {% if is_own_profile %}
     <div class="flex justify-between gap-4">
-      <a href="{% url 'accounts:edit_profile' %}" class="btn btn-warning flex-1">Редактировать профиль</a>
-      <a href="{% url 'accounts:delete_account' %}" class="btn btn-error flex-1">Удалить аккаунт</a>
+      <a href="{% url 'accounts:edit_profile' %}" class="btn btn-warning flex-1"
+        >Редактировать профиль</a
+      >
+      <a href="{% url 'accounts:delete_account' %}" class="btn btn-error flex-1"
+        >Удалить аккаунт</a
+      >
     </div>
     {% endif %}
   </div>

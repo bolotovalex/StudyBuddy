@@ -18,8 +18,20 @@
         <!-- SIDEBAR для ПК (desktop) -->
         <aside class="hidden md:flex flex-col justify-between w-64 bg-base-100 shadow-xl px-6 py-8">
             <div>
-                <h4 class="font-bold text-lg mb-4">{{ user.username }}</h4>
-                <a href="{% url 'accounts:profile' %}" class="btn btn-link text-left w-full mb-2">Ваш профиль</a>
+                <a href="{% url 'accounts:profile' %}" class="flex items-center gap-2 mb-4 hover:underline">
+                    {% if user.profile.photo %}
+                      <img src="{{ user.profile.photo.url }}" class="w-10 h-10 rounded-full object-cover ring ring-primary">
+                    {% else %}
+                      <div class="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center text-sm font-bold">
+                        {{ user.profile.first_name|first }}{{ user.profile.last_name|first }}
+                      </div>
+                    {% endif %}
+                    <span class="text-left">
+                      {{ user.profile.last_name }} {{ user.profile.first_name }}<br>
+                      <span class="text-xs text-gray-500">({{ user.username }})</span>
+                    </span>
+                  </a>
+                  
                 <a href="{% url 'accounts:my_groups' %}" class="btn btn-neutral w-full mb-2">Мои группы</a>
                 <hr class="my-2" />
                 <a href="{% url 'groups:group_list' %}" class="btn btn-neutral w-full mb-2">Список групп</a>
@@ -51,8 +63,20 @@
                 class="fixed inset-y-0 left-0 z-50 w-64 bg-base-100 shadow-xl px-6 py-8 flex flex-col md:hidden transform -translate-x-full transition-transform duration-200">
                 <button onclick="closeDrawer()" class="btn btn-ghost absolute top-4 right-4">✕</button>
                 <div class="mt-10">
-                    <h4 class="font-bold text-lg mb-4">{{ user.username }}</h4>
-                    <a href="{% url 'accounts:profile' %}" class="btn btn-link text-left w-full mb-2">Ваш профиль</a>
+                    <a href="{% url 'accounts:profile' %}" class="flex items-center gap-2 mb-4 hover:underline">
+                        {% if user.profile.photo %}
+                          <img src="{{ user.profile.photo.url }}" class="w-10 h-10 rounded-full object-cover ring ring-primary">
+                        {% else %}
+                          <div class="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center text-sm font-bold">
+                            {{ user.profile.first_name|first }}{{ user.profile.last_name|first }}
+                          </div>
+                        {% endif %}
+                        <span class="text-left">
+                          {{ user.profile.last_name }} {{ user.profile.first_name }}<br>
+                          <span class="text-xs text-gray-500">({{ user.username }})</span>
+                        </span>
+                      </a>
+                      
                     <a href="{% url 'accounts:my_groups' %}" class="btn btn-neutral w-full mb-2">Мои группы</a>
                     <hr class="my-2" />
                     <a href="{% url 'groups:group_list' %}" class="btn btn-neutral w-full mb-2">Список групп</a>

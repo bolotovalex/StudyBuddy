@@ -1,32 +1,50 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block title %}Редактировать профиль{% endblock %}
+{% block page_title %}Редактирование профиля{% endblock %} {% block content %}
 
-{% block title %}Редактировать профиль{% endblock %}
-{% block page_title %}Редактирование профиля{% endblock %}
-
-{% block content %}
 <div class="flex flex-col items-center justify-center min-h-[70vh] px-4 py-6">
   <div class="card w-full max-w-md bg-base-100 shadow-xl">
     <div class="card-body space-y-4">
-      <form method="post" class="space-y-4">
+      <form method="post" enctype="multipart/form-data" class="space-y-4">
         {% csrf_token %}
-
-        {% for field in form.visible_fields %}
-        <div class="form-control">
-          <label for="{{ field.id_for_label }}" class="label">
-            <span class="label-text">{{ field.label }}</span>
+      
+        <!-- Визуальный блок с аватаром -->
+        <div class="flex flex-col items-center">
+          <label for="id_photo" class="cursor-pointer group">
+            {% if form.instance.photo %}
+              <img src="{{ form.instance.photo.url }}" alt="Аватар"
+                   class="w-32 h-32 rounded-full object-cover ring ring-primary group-hover:opacity-80 transition">
+            {% else %}
+              <div class="w-32 h-32 rounded-full bg-base-300 flex items-center justify-center text-2xl font-bold ring ring-primary group-hover:opacity-80 transition">
+                {{ form.instance.first_name|first }}{{ form.instance.last_name|first }}
+              </div>
+            {% endif %}
           </label>
-          {{ field }}
-          {% if field.help_text %}
-            <label class="label">
-              <span class="label-text-alt">{{ field.help_text }}</span>
-            </label>
-          {% endif %}
-          {% for error in field.errors %}
-            <p class="text-error text-sm">{{ error }}</p>
-          {% endfor %}
+          <!-- Скрытое поле для загрузки -->
+          <input type="file" name="photo" id="id_photo" accept="image/*" class="hidden">
+          <p class="text-sm mt-2 text-gray-400">Нажмите на фото, чтобы изменить</p>
         </div>
+      
+        <!-- Остальные поля формы -->
+        {% for field in form.visible_fields %}
+          {% if field.name != 'photo' %}
+            <div class="form-control">
+              <label for="{{ field.id_for_label }}" class="label">
+                <span class="label-text">{{ field.label }}</span>
+              </label>
+              {{ field }}
+              {% if field.help_text %}
+                <label class="label">
+                  <span class="label-text-alt">{{ field.help_text }}</span>
+                </label>
+              {% endif %}
+              {% for error in field.errors %}
+                <p class="text-error text-sm">{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
         {% endfor %}
-
+      
+        <!-- Кнопка -->
         <div class="form-control mt-6">
           <button type="submit" class="btn btn-primary w-full">Сохранить</button>
         </div>
