@@ -83,10 +83,6 @@
             </form>
         </div>
 
-
-
-
-
         <!-- Документы -->
         <div id="documents" class="tab-pane hidden">
             <h2 class="text-lg font-semibold mb-3">Документы</h2>
@@ -209,14 +205,6 @@
                             <div class="collapse-content px-4 pb-2 text-sm text-base-content/80 space-y-1">
                                 <p>Username: {{ member.username }}</p>
                                 <p>Email: {{ member.email }}</p>
-                                <p>Группы:</p>
-                                <ul class="list-disc list-inside">
-                                    {% for g in member.studygroup_set.all %}
-                                    <li>{{ g.title }}</li>
-                                    {% empty %}
-                                    <li>Нет других групп</li>
-                                    {% endfor %}
-                                </ul>
                             </div>
                         </div>
 
@@ -265,14 +253,6 @@
                             <div class="collapse-content px-4 pb-2 text-sm text-base-content/80 space-y-1">
                                 <p>Username: {{ user.username }}</p>
                                 <p>Email: {{ user.email }}</p>
-                                <p>Группы:</p>
-                                <ul class="list-disc list-inside">
-                                    {% for g in user.studygroup_set.all %}
-                                    <li>{{ g.title }}</li>
-                                    {% empty %}
-                                    <li>Нет других групп</li>
-                                    {% endfor %}
-                                </ul>
                             </div>
                         </div>
 
@@ -285,7 +265,6 @@
                         </div>
                     </div>
                 </li>
-
                 {% empty %}
                 <li class="text-base-content/60">Нет запросов на доступ.</li>
                 {% endfor %}
