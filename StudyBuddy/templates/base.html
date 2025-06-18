@@ -38,6 +38,12 @@
                 <a href="{% url 'questions:question_list' %}" class="btn btn-neutral w-full">Вопросы</a>
             </div>
             <div class="mt-8 space-y-2">
+                {% if request.user == group.owner %}
+  <a href="{% url 'groups:kill_group' group.pk %}" class="btn btn-outline btn-error w-full mt-2">
+    Удалить группу
+  </a>
+{% endif %}
+
                 {% include "sidebar_extra.html" %}
                 <a href="{% url 'accounts:logout' %}" class="btn btn-error w-full">Выход</a>
             </div>
@@ -85,6 +91,12 @@
                 <!-- Spacer для выталкивания action-кнопок вниз -->
                 <div class="flex-grow"></div>
                 <div class="space-y-2 mb-2">
+                    {% if request.user == group.owner %}
+  <a href="{% url 'groups:kill_group' group.pk %}" class="btn btn-outline btn-error w-full mt-2">
+    Удалить группу
+  </a>
+{% endif %}
+
                     {% include "sidebar_extra.html" %}
                     <a href="{% url 'accounts:logout' %}" class="btn btn-error w-full">Выход</a>
                 </div>
