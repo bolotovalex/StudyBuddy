@@ -240,3 +240,5 @@ def leave_group_confirm(request, pk):
             group.delete()
         return redirect('groups:group_list')
     return render(request, "groups/leave_group_confirm.html", {"group": group})
+
+

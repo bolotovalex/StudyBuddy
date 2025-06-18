@@ -145,3 +145,11 @@ def user_profile_view(request, user_id):
     profile = user.profile
     is_own_profile = (request.user == user)
     return render(request, 'accounts/profile.html', {'profile': profile, 'is_own_profile': is_own_profile})
+
+@login_required
+def my_groups_view(request):
+    """
+    Показывает список групп, в которых состоит текущий пользователь.
+    """
+    user_groups = request.user.study_groups.all()
+    return render(request, 'accounts/my_groups.html', {'groups': user_groups})

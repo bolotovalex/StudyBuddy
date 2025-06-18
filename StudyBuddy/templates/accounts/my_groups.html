@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои группы{% endblock %}
+{% block page_title %}Мои группы{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl w-full">
+    {% if groups %}
+        <ul class="space-y-2">
+            {% for group in groups %}
+                <li class="p-4 bg-base-100 rounded shadow">
+                    <a href="{% url 'groups:group_detail' group.pk %}" class="text-lg font-semibold hover:underline">
+                        {{ group.name }}
+                    </a>
+                    <p class="text-sm text-gray-500">{{ group.description|default:"(без описания)" }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Вы ещё не состоите ни в одной группе.</p>
+    {% endif %}
+</div>
+{% endblock %}
