@@ -192,15 +192,20 @@
                     <div class="flex justify-between items-center px-4 pt-2">
                         <div class="collapse collapse-arrow w-full">
                             <input type="checkbox" />
-                            <div class="collapse-title flex items-center gap-2 p-0">
-                                <span>{{ member.last_name }} {{ member.first_name }}</span>
-                                <svg class="w-4 h-4 transition-transform duration-200 group-open:rotate-90"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
+                            <div class="collapse-title flex items-center gap-3 p-2">
+                                {% if member.profile.photo %}
+                                  <div class="w-8 h-8 rounded-full overflow-hidden ring ring-primary shrink-0">
+                                    <img src="{{ member.profile.photo.url }}" alt="Аватар"
+                                         class="w-full h-full object-cover object-center">
+                                  </div>
+                                {% else %}
+                                  <div class="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-xs font-bold ring ring-primary shrink-0">
+                                    {{ member.profile.first_name|first }}{{ member.profile.last_name|first }}
+                                  </div>
+                                {% endif %}
+                                <span class="text-sm leading-none">{{ member.last_name }} {{ member.first_name }}</span>
+                              </div>
+                              
                             <div class="collapse-content px-4 pb-2 text-sm text-base-content/80 space-y-1">
                                 <p>Username: {{ member.username }}</p>
                                 <p>Email: {{ member.email }}</p>
@@ -243,15 +248,20 @@
                     <div class="flex justify-between items-center px-4 pt-2">
                         <div class="collapse collapse-arrow w-full">
                             <input type="checkbox" />
-                            <div class="collapse-title flex items-center gap-2 p-0">
-                                <span>{{ user.last_name }} {{ user.first_name }}</span>
-                                <svg class="w-4 h-4 transition-transform duration-200 group-open:rotate-90"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
+                            <div class="collapse-title flex items-center gap-3 p-2">
+                                {% if member.profile.photo %}
+                                  <div class="w-8 h-8 rounded-full overflow-hidden ring ring-primary shrink-0">
+                                    <img src="{{ member.profile.photo.url }}" alt="Аватар"
+                                         class="w-full h-full object-cover object-center">
+                                  </div>
+                                {% else %}
+                                  <div class="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-xs font-bold ring ring-primary shrink-0">
+                                    {{ member.profile.first_name|first }}{{ member.profile.last_name|first }}
+                                  </div>
+                                {% endif %}
+                                <span class="text-sm leading-none">{{ member.last_name }} {{ member.first_name }}</span>
+                              </div>
+                              
                             <div class="collapse-content px-4 pb-2 text-sm text-base-content/80 space-y-1">
                                 <p>Username: {{ user.username }}</p>
                                 <p>Email: {{ user.email }}</p>
