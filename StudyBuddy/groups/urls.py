@@ -13,4 +13,6 @@ urlpatterns = [
     path('<int:pk>/leave/confirm/', views.leave_group_confirm, name='leave_group_confirm'),
     path('<int:pk>/edit/', views.edit_group_view, name='edit_group'),
     path('<int:pk>/leave/', views.leave_group_confirm, name='leave_group_confirm'),
+    path('<int:pk>/delete/', views.delete_group_view, name='kill_group'),
+
 ]

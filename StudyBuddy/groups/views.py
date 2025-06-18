@@ -44,25 +44,18 @@ def create_group_view(request):
     return render(request, 'groups/create_group.html', {'form': form})
 
 
+@login_required
 def delete_group_view(request, pk):
-    """
-    Удаляет группу, если текущий пользователь - владелец.
-    Если в группе остаются пользователи, они становятся владельцами.
-    Если пользователей не остаётся, группа удаляется.
-    """
     group = get_object_or_404(StudyGroup, pk=pk)
 
-    # Проверяем, что текущий пользователь — владелец
     if group.owner != request.user:
         messages.error(request, 'У вас нет прав на удаление этой группы.')
         return redirect('groups:group_list')
 
     if request.method == 'POST':
-        # Получаем всех пользователей группы, кроме текущего владельца
         remaining_members = group.members.exclude(pk=request.user.pk)
 
         if remaining_members.exists():
-            # Если есть оставшиеся пользователи, выбираем нового владельца
             new_owner = remaining_members.first()
             group.owner = new_owner  # Назначаем нового владельца
             group.save()
@@ -241,4 +234,20 @@ def leave_group_confirm(request, pk):
         return redirect('groups:group_list')
     return render(request, "groups/leave_group_confirm.html", {"group": group})
 
+@login_required
+def kill_group_view(request, pk):
+    group = get_object_or_404(StudyGroup, pk=pk)
 
+    # Только владелец может удалять
+    if request.user != group.owner:
+        messages.error(request, "Вы не являетесь владельцем этой группы.")
+        return redirect('groups:group_detail', pk=pk)
+
+    if request.method == "POST":
+        # Удалить всех участников
+        group.members.clear()
+        group.delete()
+        messages.success(request, "Группа была успешно удалена.")
+        return redirect('groups:list')
+
+    return render(request, 'groups/confirm_delete.html', {'group': group})
