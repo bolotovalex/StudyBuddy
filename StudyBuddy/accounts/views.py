@@ -22,7 +22,7 @@ def auth_form_view(request):
             user = form.get_user()
             login(request, user)
             # profile = user.profile
-            return redirect('groups:group_list')
+            return redirect('announcements:list')
             # return render(request, 'accounts/profile.html', {'profile': profile, 'is_own_profile': True})
             # return redirect('accounts:profile')
     else:
@@ -54,7 +54,7 @@ def register_view(request):
                 study_group=form.cleaned_data['study_group'],
             )
             login(request, user)  # Сразу авторизуем пользователя
-            return redirect('groups:group_list')  # Перенаправляем на список групп
+            return redirect('announcements:list')  # Перенаправляем на список групп
     else:
         form = UserRegistrationForm()
 
@@ -100,8 +100,7 @@ def profile_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('accounts:home')
-
+    return redirect('accounts:login') 
 
 @login_required
 def delete_account_view(request):
