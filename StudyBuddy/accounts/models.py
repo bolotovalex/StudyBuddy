@@ -1,5 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from ckeditor.fields import RichTextField
+
+content = RichTextField(verbose_name="Текст объявления")
+
 
 
 class User(AbstractUser):

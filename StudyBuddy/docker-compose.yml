@@ -11,6 +11,8 @@ services:
              daphne -b 0.0.0.0 -p 8000 StudyBuddy.asgi:application"
     volumes:
       - .:/app
+      - static_data:/app/staticfiles
+      - media_data:/app/media
     expose:
       - "8000"
     networks:
@@ -28,6 +30,8 @@ services:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/certs:/etc/letsencrypt
       - ./docker/nginx/html:/var/www/html
+      - static_data:/app/staticfiles
+      - media_data:/app/media
     networks:
       - app-network
 
@@ -49,6 +53,8 @@ services:
 
 volumes:
   etherpad-data:
+  static_data:
+  media_data:
 
 networks:
   app-network:

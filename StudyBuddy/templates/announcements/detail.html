@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ announcement.title }}{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto w-full">
+    <button onclick="window.history.back()" class="btn btn-outline mb-4">&larr; Назад</button>
+    <div class="card bg-base-100 shadow p-6">
+        <h2 class="text-2xl font-semibold mb-3">{{ announcement.title }}</h2>
+        <div class="clearfix">
+        {% if announcement.image %}
+        <img src="{{ announcement.image.url }}"
+            class="w-40 max-h-40 rounded float-left mr-4 mb-2 cursor-pointer transition-transform duration-200 hover:scale-105"
+            alt="Объявление" id="announcement-img">
+        {% endif %}
+        <div>
+            {{ announcement.content|safe }}
+        </div></div>
+        <div class="text-sm text-base-content/60 mt-4">
+            {{ announcement.created_at|date:"d.m.Y H:i" }}
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для увеличенной картинки -->
+<div id="modal-img" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/0 transition-colors duration-200">
+    <img id="modal-img-src"
+         src=""
+         class="rounded shadow-lg max-h-[90vh] max-w-full transition-transform transition-opacity duration-200 scale-95 opacity-0"
+         alt="Объявление">
+</div>
+<script>
+const cardImg = document.getElementById('announcement-img');
+const modal = document.getElementById('modal-img');
+const modalImg = document.getElementById('modal-img-src');
+
+if (cardImg) {
+    cardImg.addEventListener('click', () => {
+        modalImg.src = cardImg.src;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('bg-black/0');
+            modal.classList.add('bg-black/70');
+            modalImg.classList.remove('scale-95', 'opacity-0');
+            modalImg.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    });
+}
+modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target === modalImg) {
+        modal.classList.remove('bg-black/70');
+        modal.classList.add('bg-black/0');
+        modalImg.classList.remove('scale-100', 'opacity-100');
+        modalImg.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 200);
+    }
+});
+</script>
+
+
+{% endblock %}

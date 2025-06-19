@@ -6,4 +6,6 @@ app_name = 'announcements'
 urlpatterns = [
     path('', views.list_announcements, name='list'),
     path('create/', views.create_announcement, name='create'),
+    path('<int:pk>/', views.announcement_detail, name='detail'),
+
 ]

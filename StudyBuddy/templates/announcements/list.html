@@ -2,19 +2,29 @@
 {% block title %}Объявления{% endblock %}
 {% block page_title %}Объявления{% endblock %}
 {% block content %}
-  <div class="w-full max-w-2xl mx-auto">
+<div class="w-full max-w-2xl mx-auto">
     {% if announcements %}
-      <ul class="space-y-4">
+    <ul class="space-y-4">
         {% for a in announcements %}
-          <li class="bg-base-100 p-4 rounded shadow">
-            <div class="font-semibold text-lg">{{ a.title }}</div>
-            <div class="text-base-content/80 text-sm mb-2">{{ a.created_at|date:"d.m.Y H:i" }}</div>
-            <div class="mt-2">{{ a.content }}</div>
-          </li>
+        <a href="{% url 'announcements:detail' a.pk %}" class="block mb-4">
+            <div class="bg-base-100 p-4 rounded shadow">
+                <div class="font-semibold text-lg mb-1">{{ a.title }}</div>
+                <div class="flex flex-row items-start gap-4">
+                    {% if a.image %}
+                    <img src="{{ a.image.url }}" class="w-32 h-auto rounded shrink-0 float-left" alt="Объявление">
+                    {% endif %}
+                    <div class="line-clamp-4 text-base-content/80 text-sm mb-2">
+                        {{ a.content|safe }}
+                    </div>
+                </div>
+                <div class="text-xs text-gray-500 mt-2">{{ a.created_at|date:"d.m.Y H:i" }}</div>
+            </div>
+        </a>
+
         {% endfor %}
-      </ul>
+    </ul>
     {% else %}
-      <div class="text-center text-base-content/60 py-8">Пока нет объявлений.</div>
+    <div class="text-center text-base-content/60 py-8">Пока нет объявлений.</div>
     {% endif %}
-  </div>
+</div>
 {% endblock %}
