@@ -18,7 +18,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'  # URL, по которому файлы доступны в браузере
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Папка, где хранятся загруженные файлы
-LOGIN_REDIRECT_URL = '/groups/'
+LOGIN_REDIRECT_URL = '/announcements/'
 CAPTCHA_FONT_SIZE = 42
 CAPTCHA_LENGTH = 5
 CAPTCHA_TIMEOUT = 5  # в минутах

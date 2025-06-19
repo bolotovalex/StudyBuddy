@@ -25,7 +25,8 @@ import accounts
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('announcements/', include('announcements.urls', namespace='announcements')),
-    path('', include('accounts.urls', namespace='accounts')),
+    path('', include('announcements.urls', namespace='announcements')), 
+    path('accounts/', include('accounts.urls', namespace='accounts')),
     path('groups/', include('groups.urls', namespace='groups')),
     path('meetings/', include('meetings.urls')),
     path('documents/', include('documents.urls')),
