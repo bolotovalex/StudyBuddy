@@ -8,8 +8,17 @@ def question_list(request):
     Отображает список вопросов. Если задан параметр поиска, фильтрует вопросы по тексту.
     """
     query = request.GET.get('q', '')
-    questions = Question.objects.filter(question_text__icontains=query) if query else Question.objects.all()
-    return render(request, 'questions/question_list.html', {'questions': questions, 'query': query})
+    only_mine = request.GET.get('only_mine') == 'on'
+    questions = Question.objects.all()
+    if query:
+        questions = questions.filter(question_text__icontains=query)
+    if only_mine:
+        questions = questions.filter(created_by=request.user)
+    return render(request, 'questions/question_list.html', {
+        'questions': questions,
+        'query': query,
+        'only_mine': only_mine,
+    })
 
 @login_required
 def create_question(request):

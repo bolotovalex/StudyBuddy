@@ -4,37 +4,76 @@
 
 {% block content %}
 <div class="w-full max-w-2xl mx-auto">
-    <form method="get" class="flex flex-col sm:flex-row gap-2 mb-4">
+    <form id="question-filter-form" method="get"
+        class="flex flex-col sm:flex-row gap-2 mb-4 items-center w-full max-w-2xl mx-auto">
+
         <input type="text" name="q" value="{{ query }}" placeholder="Поиск вопроса"
-               class="input input-bordered w-full flex-grow" />
-        <button type="submit" class="btn btn-primary">Поиск</button>
+            class="input input-bordered w-full" />
+
+        <input type="hidden" name="only_mine" id="only-mine-input" value="{% if only_mine %}on{% endif %}">
+        <button type="button" id="only-mine-toggle" class="btn transition-all duration-150
+                   {% if only_mine %}btn-primary text-white{% else %}btn-outline{% endif %}
+                   w-full sm:w-auto">
+            {% if only_mine %}
+            Все вопросы
+            {% else %}
+            Мои вопросы
+            {% endif %}
+        </button>
+
+        <button type="submit" class="btn btn-primary w-full sm:w-auto">Поиск</button>
+
         {% if query %}
-            <a href="{% url 'questions:question_list' %}" class="btn btn-outline">Сброс</a>
+        <a href="{% url 'questions:question_list' %}" class="btn btn-outline w-full sm:w-auto">Сброс</a>
         {% endif %}
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('question-filter-form');
+            const toggle = document.getElementById('only-mine-toggle');
+            const onlyMineInput = document.getElementById('only-mine-input');
+            let active = onlyMineInput.value === 'on';
+
+            toggle.addEventListener('click', function () {
+                active = !active;
+                onlyMineInput.value = active ? 'on' : '';
+                toggle.classList.toggle('btn-primary', active);
+                toggle.classList.toggle('btn-outline', !active);
+                toggle.textContent = active ? 'Все вопросы' : 'Мои вопросы';
+                form.submit();
+            });
+        });
+    </script>
+
+
+
     <a href="{% url 'questions:create_question' %}" class="btn btn-success w-full mb-4">Создать вопрос</a>
     <ul class="space-y-3">
         {% for question in questions %}
-            <li>
-                <a href="{% url 'questions:question_detail' question.pk %}"
-                   class="block group rounded-xl bg-base-100 shadow-md hover:shadow-lg transition-shadow duration-200 p-4 focus:outline-none hover:bg-base-200 cursor-pointer">
-                    <div class="flex flex-col">
-                        <div class="text-base font-semibold break-words group-hover:text-primary transition">
-                            {{ question.question_text|truncatechars:100 }}
-                        </div>
-                        <div class="text-xs text-base-content/60 mt-1">
-                            Создано: <span class="font-medium">{{ question.created_by.username }}</span>
-                            {% if question.created_at %}
-                            | {{ question.created_at|date:"d.m.Y H:i" }}
-                            {% endif %}
-                        </div>
+        <li>
+            <a href="{% url 'questions:question_detail' question.pk %}"
+                class="block group rounded-xl bg-base-100 shadow-md hover:shadow-lg transition-shadow duration-200 p-4 focus:outline-none hover:bg-base-200 cursor-pointer">
+                <div class="flex flex-col">
+                    <div class="text-base font-semibold break-words group-hover:text-primary transition">
+                        {{ question.question_text|truncatechars:100 }}
                     </div>
-                </a>
-            </li>
+                    <div class="text-xs text-base-content/60 mt-1">
+                        Создано: <span class="font-medium">
+                            {{ question.created_by.profile.last_name }} {{ question.created_by.profile.first_name }}({{
+                            question.created_by.username }})
+                        </span>
+                        {% if question.created_at %}
+                        | {{ question.created_at|date:"d.m.Y H:i" }}
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </li>
         {% empty %}
-            <li class="text-base-content/60 text-center py-8">Нет вопросов</li>
+        <li class="text-base-content/60 text-center py-8">Нет вопросов</li>
         {% endfor %}
     </ul>
-    
+
 </div>
 {% endblock %}

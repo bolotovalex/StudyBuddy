@@ -40,9 +40,9 @@ SECRET_KEY = 'django-insecure-)g6)9-sdqk!7im-plqs2c14r0u1dgj_#8nswen!)$19ce%vg-!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['study.ilexx-tech.ru']
+ALLOWED_HOSTS = ['study.ilexx-tech.ru','localhost']
 
-CSRF_TRUSTED_ORIGINS = ['https://study.ilexx-tech.ru']
+CSRF_TRUSTED_ORIGINS = ['https://study.ilexx-tech.ru', 'https://localhost']
 
 AUTH_USER_MODEL = 'accounts.User'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

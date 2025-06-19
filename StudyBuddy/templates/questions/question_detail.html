@@ -7,7 +7,9 @@
     <div class="card bg-base-100 shadow-md p-6 mb-6">
         <h2 class="text-xl font-semibold mb-2 break-words">{{ question.question_text }}</h2>
         <p class="text-sm text-base-content/60 mb-2">
-            Создано: <span class="font-medium">{{ question.created_by.username }}</span>
+            Создано: <span class="font-medium">
+                {{ question.created_by.profile.last_name }} {{ question.created_by.profile.first_name }}({{ question.created_by.username }})
+            </span>
             | {{ question.created_at|date:"d.m.Y H:i" }}
         </p>
         {% if request.user == question.created_by %}
@@ -20,7 +22,9 @@
                 <li class="bg-base-200 rounded p-3">
                     {{ answer.answer_text }}
                     <br>
-                    <small class="text-xs text-base-content/60">Ответил: {{ answer.created_by.username }} | {{ answer.created_at|date:"d.m.Y H:i" }}</small>
+                    <small class="text-xs text-base-content/60">Ответил: 
+                        {{ answer.created_by.profile.last_name }} {{answer.created_by.profile.first_name}} ({{answer.created_by.username}}) | {{ answer.created_at|date:"d.m.Y H:i" }}
+                    </small>
                 </li>
             {% empty %}
                 <li class="text-base-content/60">Нет ответов</li>
