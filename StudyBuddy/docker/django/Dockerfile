@@ -11,7 +11,6 @@ WORKDIR /app
 COPY docker/django/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-
 # Копирование проекта
 COPY . .
 
