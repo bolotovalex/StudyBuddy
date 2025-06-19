@@ -273,3 +273,4 @@ StudyBuddy/notes/migrations/__pycache__/
 StudyBuddy/announcements/__pycache__/
 StudyBuddy/announcements/migrations/__pycache__/
 StudyBuddy/staticfiles/
+StudyBuddy/db.sqlite3
