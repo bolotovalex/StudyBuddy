@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'announcements',
     'ckeditor',
+    'pwa',
 ]
 
 
@@ -170,3 +171,24 @@ ETHERPAD_API_URL = 'http://etherpad:9001/api/1'
 ETHERPAD_BASE_URL = 'http://etherpad:9001'
 
 ETHERPAD_API_KEY = os.getenv('ETHERPAD_API_KEY', 'changeme')
+
+
+PWA_APP_NAME = 'StudyBuddy'
+PWA_APP_DESCRIPTION = "StudyBuddy PWA"
+PWA_APP_THEME_COLOR = '#0d6efd'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/icons/icon-192x192.png',
+        'sizes': '192x192'
+    },
+    {
+        'src': '/static/icons/icon-512x512.png',
+        'sizes': '512x512'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'ru-RU'

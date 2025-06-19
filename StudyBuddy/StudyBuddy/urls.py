@@ -45,6 +45,7 @@ urlpatterns = [
     path('chat/', include('chat.urls', namespace='chat')),
     path('questions/', include('questions.urls', namespace='questions')),
     path('captcha/', include('captcha.urls')),
+    path('', include('pwa.urls')),
 ]
 
 if settings.DEBUG:
