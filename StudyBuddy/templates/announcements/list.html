@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Объявления{% endblock %}
+{% block page_title %}Объявления{% endblock %}
+{% block content %}
+  <div class="w-full max-w-2xl mx-auto">
+    {% if announcements %}
+      <ul class="space-y-4">
+        {% for a in announcements %}
+          <li class="bg-base-100 p-4 rounded shadow">
+            <div class="font-semibold text-lg">{{ a.title }}</div>
+            <div class="text-base-content/80 text-sm mb-2">{{ a.created_at|date:"d.m.Y H:i" }}</div>
+            <div class="mt-2">{{ a.content }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="text-center text-base-content/60 py-8">Пока нет объявлений.</div>
+    {% endif %}
+  </div>
+{% endblock %}

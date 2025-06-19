@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'questions',
     'captcha',
     'widget_tweaks',
+    'announcements'
 ]
 
 
