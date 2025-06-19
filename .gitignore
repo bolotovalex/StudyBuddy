@@ -268,3 +268,14 @@ StudyBuddy/jitsi-docker-jitsi-meet-fe160b6/web/rootfs/etc/services.d/cron/run
 StudyBuddy/jitsi-docker-jitsi-meet-fe160b6/web/rootfs/etc/services.d/jaas-account/run
 StudyBuddy/jitsi-docker-jitsi-meet-fe160b6/web/rootfs/etc/services.d/nginx/run
 StudyBuddy/stable-10314
+StudyBuddy/accounts/migrations/__pycache__/0002_profile_photo.cpython-313.pyc
+StudyBuddy/notes/migrations/__pycache__/0003_note_description.cpython-313.pyc
+StudyBuddy/notes/migrations/__pycache__/0003_note_description.cpython-313.pyc
+StudyBuddy/announcements/migrations/__pycache__/__init__.cpython-313.pyc
+StudyBuddy/notes/migrations/__pycache__/0003_note_description.cpython-313.pyc
+StudyBuddy/announcements/__pycache__/__init__.cpython-313.pyc
+StudyBuddy/announcements/__pycache__/admin.cpython-313.pyc
+StudyBuddy/announcements/__pycache__/apps.cpython-313.pyc
+StudyBuddy/announcements/__pycache__/models.cpython-313.pyc
+StudyBuddy/announcements/__pycache__/urls.cpython-313.pyc
+StudyBuddy/announcements/__pycache__/views.cpython-313.pyc
