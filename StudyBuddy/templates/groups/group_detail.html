@@ -111,10 +111,10 @@
                         {{ document.description|default:"Нет описания" }}
                     </div>
                     <!-- Кнопки в строку -->
-                    <div class="flex flex-row gap-2">
-                        <a href="{{ document.file.url }}" target="_blank" class="btn btn-primary btn-sm w-full sm:w-auto">Открыть</a>
+                    <div class="flex flex-row gap-2 justify-center">
+                        <a href="{{ document.file.url }}" target="_blank" class="btn btn-primary btn-sm">Открыть</a>
                         <a href="{% url 'documents:delete_document' document.id %}"
-                            class="btn btn-error btn-sm w-full sm:w-auto">Удалить</a>
+                            class="btn btn-error btn-sm">Удалить</a>
                     </div>
                 </div>
                 {% empty %}
@@ -156,10 +156,10 @@
                     </div>
 
                     <!-- Кнопки -->
-                    <div class="flex flex-row gap-2">
+                    <div class="flex flex-row gap-2 justify-center">
                         <a href="{% url 'notes:note_etherpad_redirect' pad_id=note.etherpad_id %}" target="_blank"
-                            class="btn btn-primary btn-sm w-full sm:w-auto">Открыть</a>
-                        <a href="{% url 'notes:delete_note' note.id %}" class="btn btn-error btn-sm w-full sm:w-auto">Удалить</a>
+                            class="btn btn-primary btn-sm">Открыть</a>
+                        <a href="{% url 'notes:delete_note' note.id %}" class="btn btn-error btn-sm">Удалить</a>
                     </div>
                 </div>
                 {% empty %}
