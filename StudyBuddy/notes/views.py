@@ -53,3 +53,12 @@ def note_etherpad_redirect(request, pad_id):
     user_name = quote(user.get_full_name() or user.username)
     url = f"{settings.ETHERPAD_BASE_URL}/p/{pad_id}#userName={user_name}"
     return redirect(url)
+
+@login_required
+def delete_note_view(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+    if request.method == "POST":
+        group_id = note.group.id
+        note.delete()
+        return redirect('groups:group_detail', group_id)
+    return render(request, 'notes/confirm_delete.html', {'note': note})

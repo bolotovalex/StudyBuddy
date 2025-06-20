@@ -9,17 +9,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="w-full max-w-3xl mx-auto">
+<div class="w-full max-w-6xl mx-auto px-4">
 
-    <!-- ВКЛАДКИ: теперь внутри блока контента, сверху -->
-    <div class="sticky top-0 z-10 bg-base-200 mb-4">
-        <div role="tablist" class="tabs tabs-bordered flex-nowrap overflow-x-auto no-scrollbar px-1">
-            <a role="tab" class="tab tab-bordered tab-active" href="#announcements">Объявления</a>
-            <a role="tab" class="tab tab-bordered" href="#documents">Документы</a>
-            <a role="tab" class="tab tab-bordered" href="#notes">Конспекты</a>
-            <a role="tab" class="tab tab-bordered" href="#meetings">Видеовстречи</a>
-            <a role="tab" href="#members"
-                class="tab tab-bordered {% if group.access_requests.exists %}tab-active text-warning{% endif %}">
+    <div class="sticky top-0 z-10 bg-base-200 border-b border-base-300">
+        <div role="tablist" class="tabs tabs-lifted px-4 justify-start text-[15px] font-medium">
+            <a role="tab" class="tab tab-lifted tab-active -mb-px" href="#announcements">Объявления</a>
+            <a role="tab" class="tab tab-lifted" href="#documents">Документы</a>
+            <a role="tab" class="tab tab-lifted" href="#notes">Конспекты</a>
+            <a role="tab" class="tab tab-lifted" href="#meetings">Видеовстречи</a>
+            <a role="tab"
+                class="tab tab-lifted {% if group.access_requests.exists %}tab-active -mb-px text-warning{% endif %}"
+                href="#members">
                 Участники группы
                 {% if group.access_requests.count > 0 %}
                 <span class="ml-1 badge badge-warning badge-sm align-top">+{{ group.access_requests.count }}</span>
@@ -27,6 +27,9 @@
             </a>
         </div>
     </div>
+
+
+
 
     <style>
         .no-scrollbar::-webkit-scrollbar {
@@ -44,10 +47,10 @@
     </style>
 
     <!-- Контейнер контента вкладок -->
-    <div class="tab-content-fixed-height relative mb-6">
+    <div class="relative mb-6 h-[75vh] overflow-hidden rounded-lg bg-base-100">
 
         <!-- Объявления -->
-        <div id="announcements" class="tab-pane h-[80vh] flex flex-col">
+        <div id="announcements" class="tab-pane h-full overflow-y-auto px-4 py-2 h-[80vh] flex flex-col">
 
             <!-- Шапка -->
             <div class="bg-base-100 px-4 py-2 border-b shrink-0 sticky top-0 z-10">
@@ -84,7 +87,7 @@
         </div>
 
         <!-- Документы -->
-        <div id="documents" class="tab-pane hidden">
+        <div id="documents" class="tab-pane h-full overflow-y-auto px-4 py-2 hidden">
             <h2 class="text-lg font-semibold mb-3">Документы</h2>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
                 {% for document in documents %}
@@ -133,24 +136,43 @@
 
 
         <!-- Конспекты -->
-        <div id="notes" class="tab-pane hidden">
+        <div id="notes" class="tab-pane h-full overflow-y-auto px-4 py-2 hidden">
             <h2 class="text-lg font-semibold mb-3">Конспекты</h2>
-            <ul class="space-y-2">
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
                 {% for note in notes %}
-                <li class="bg-base-200 rounded p-2">
-                    <a href="{% url 'notes:note_etherpad_redirect' pad_id=note.etherpad_id %}" target="_blank"
-                        class="link">{{ note.title }}</a>
-                </li>
+                <div class="flex flex-col items-center bg-base-200 rounded p-3">
+                    <!-- Иконка (кликабельная) -->
+                    <div class="mb-2 cursor-pointer" onclick="toggleDescription(this)">
+                        <span class="text-5xl text-primary">📝</span>
+                    </div>
+
+                    <!-- Название конспекта -->
+                    <div class="mb-2 font-medium break-all text-center">{{ note.title }}</div>
+
+                    <!-- Описание (по желанию) -->
+                    <div class="text-xs text-base-content/70 mb-2 hidden">
+                        {{ note.description|default:"Нет описания" }}
+                    </div>
+
+                    <!-- Кнопки -->
+                    <div class="flex flex-row gap-2">
+                        <a href="{% url 'notes:note_etherpad_redirect' pad_id=note.etherpad_id %}" target="_blank"
+                            class="btn btn-primary btn-sm">Открыть</a>
+                        <a href="{% url 'notes:delete_note' note.id %}" class="btn btn-error btn-sm">Удалить</a>
+                    </div>
+                </div>
                 {% empty %}
-                <li class="text-base-content/60">Нет конспектов</li>
+                <p class="text-base-content/60 col-span-full">Нет конспектов</p>
                 {% endfor %}
-            </ul>
-            <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline btn-primary mt-4 w-full">Создать
+            </div>
+
+            <a href="{% url 'notes:add_note' group.id %}" class="btn btn-outline btn-primary w-full">Создать
                 конспект</a>
         </div>
 
         <!-- Видеовстречи -->
-        <div id="meetings" class="tab-pane hidden">
+        <div id="meetings" class="tab-pane h-full overflow-y-auto px-4 py-2 hidden">
             <h2 class="text-lg font-semibold mb-3">Видеовстречи</h2>
             <ul class="space-y-2">
                 {% for meeting in meetings %}
@@ -180,7 +202,7 @@
         </div>
 
         <!-- Участники группы -->
-        <div id="members" class="tab-pane hidden">
+        <div id="members" class="tab-pane h-full overflow-y-auto px-4 py-2 hidden">
             <h2 class="text-lg font-semibold mb-3">Участники группы</h2>
             <ul class="space-y-2">
                 {% for member in members %}
@@ -190,18 +212,19 @@
                             <input type="checkbox" />
                             <div class="collapse-title flex items-center gap-3 p-2">
                                 {% if member.profile.photo %}
-                                  <div class="w-8 h-8 rounded-full overflow-hidden ring ring-primary shrink-0">
+                                <div class="w-8 h-8 rounded-full overflow-hidden ring ring-primary shrink-0">
                                     <img src="{{ member.profile.photo.url }}" alt="Аватар"
-                                         class="w-full h-full object-cover object-center">
-                                  </div>
+                                        class="w-full h-full object-cover object-center">
+                                </div>
                                 {% else %}
-                                  <div class="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-xs font-bold ring ring-primary shrink-0">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-xs font-bold ring ring-primary shrink-0">
                                     {{ member.profile.first_name|first }}{{ member.profile.last_name|first }}
-                                  </div>
+                                </div>
                                 {% endif %}
                                 <span class="text-sm leading-none">{{ member.last_name }} {{ member.first_name }}</span>
-                              </div>
-                              
+                            </div>
+
                             <div class="collapse-content px-4 pb-2 text-sm text-base-content/80 space-y-1">
                                 <p>Username: {{ member.username }}</p>
                                 <p>Email: {{ member.email }}</p>
@@ -238,18 +261,19 @@
                             <input type="checkbox" />
                             <div class="collapse-title flex items-center gap-3 p-2">
                                 {% if member.profile.photo %}
-                                  <div class="w-8 h-8 rounded-full overflow-hidden ring ring-primary shrink-0">
+                                <div class="w-8 h-8 rounded-full overflow-hidden ring ring-primary shrink-0">
                                     <img src="{{ member.profile.photo.url }}" alt="Аватар"
-                                         class="w-full h-full object-cover object-center">
-                                  </div>
+                                        class="w-full h-full object-cover object-center">
+                                </div>
                                 {% else %}
-                                  <div class="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-xs font-bold ring ring-primary shrink-0">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-xs font-bold ring ring-primary shrink-0">
                                     {{ member.profile.first_name|first }}{{ member.profile.last_name|first }}
-                                  </div>
+                                </div>
                                 {% endif %}
                                 <span class="text-sm leading-none">{{ member.last_name }} {{ member.first_name }}</span>
-                              </div>
-                              
+                            </div>
+
                             <div class="collapse-content px-4 pb-2 text-sm text-base-content/80 space-y-1">
                                 <p>Username: {{ user.username }}</p>
                                 <p>Email: {{ user.email }}</p>
