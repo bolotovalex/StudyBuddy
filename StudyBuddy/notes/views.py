@@ -31,25 +31,19 @@ def add_note_view(request, group_id):
                 etherpad_id=pad_id,
                 created_by=request.user
             )
-            return redirect(note.get_etherpad_url())
+            user_name = request.user.get_full_name() or request.user.username
+            return redirect(f"{settings.ETHERPAD_BASE_URL}/p/{pad_id}/?userName={quote(user_name)}")
     return render(request, 'notes/add_note.html', {'group': group})
+
 
 
 @login_required
 def edit_note_view(request, note_id):
-    """
-    Редактируем существующий конспект.
-    """
     note = get_object_or_404(Note, id=note_id)
-    if request.method == 'POST':
-        note.title = request.POST.get('title')
-        note.content = request.POST.get('content')
-        note.save()
-        # Перенаправляем на страницу группы после редактирования конспекта
-        return redirect('groups:group_detail', pk=note.group.id)
-    
-    # Отображаем форму редактирования конспекта
-    return render(request, 'notes/edit_note.html', {'note': note})
+    user_name = request.user.get_full_name() or request.user.username
+    from urllib.parse import quote
+    return redirect(f"{settings.ETHERPAD_BASE_URL}/p/{note.etherpad_id}/?userName={quote(user_name)}")
+
 
 def create_pad(pad_id):
     response = requests.get(
@@ -61,6 +55,6 @@ def create_pad(pad_id):
 @login_required
 def note_etherpad_redirect(request, pad_id):
     user = request.user
-    user_name = user.get_full_name() or user.username
-    url = f"/notes/p/{pad_id}/?userName={quote(user_name)}"
-    return redirect(url)   
+    user_name = quote(user.get_full_name() or user.username)
+    url = f"{settings.ETHERPAD_BASE_URL}/p/{pad_id}/?userName={user_name}"
+    return redirect(url)

@@ -4,6 +4,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.conf import settings
+from urllib.parse import quote
 
 from groups.models import StudyGroup
 
@@ -19,6 +20,10 @@ class Note(models.Model):
     def __str__(self):
         # Возвращает название конспекта
         return self.title
+    def get_etherpad_url(self):
+        user_name = quote(self.created_by.get_full_name() or self.created_by.username)
+        return f"{settings.ETHERPAD_BASE_URL}/p/{self.etherpad_id}/?userName={user_name}"
+
 
 @login_required
 def add_note_view(request, group_id):
@@ -33,7 +38,8 @@ def add_note_view(request, group_id):
             Note.objects.create(
                 group=group,
                 title=title,
-                content=content,
+                description=description,
+                etherpad_id=pad_id,
                 created_by=request.user
             )
             messages.success(request, "Конспект успешно создан.")
@@ -42,5 +48,4 @@ def add_note_view(request, group_id):
             messages.error(request, "Название и содержимое не могут быть пустыми.")
     return render(request, 'notes/add_note.html', {'group': group})
 
-def get_etherpad_url(self):
-    return f"{settings.ETHERPAD_BASE_URL}/p/{self.etherpad_id}"
+    

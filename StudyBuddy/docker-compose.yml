@@ -41,6 +41,7 @@ services:
     restart: unless-stopped
     environment:
       - AUTHENTICATION_METHOD=apikey
+      - TRUST_PROXY=true
     ports:
       - "9001:9001"
     volumes:
