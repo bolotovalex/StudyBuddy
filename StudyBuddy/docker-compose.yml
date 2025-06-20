@@ -42,10 +42,10 @@ services:
     environment:
       - AUTHENTICATION_METHOD=apikey
       - TRUST_PROXY=true
-    ports:
-      - "9001:9001"
+      - PUBLIC_URL=http://localhost/etherpad
     volumes:
       - ./etherpad-api-key.txt:/opt/etherpad-lite/APIKEY.txt:ro
+      # - ./etherpad-settings.json:/opt/etherpad-lite/settings.json:ro
     networks:
       - app-network
 

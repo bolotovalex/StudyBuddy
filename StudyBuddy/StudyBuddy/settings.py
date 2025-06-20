@@ -167,7 +167,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ETHERPAD_BASE_URL = 'https://study.ilexx-tech.ru/etherpad'
+ETHERPAD_BASE_URL = 'http://localhost/etherpad'
 ETHERPAD_API_URL = 'http://etherpad:9001/api/1'
 
 
