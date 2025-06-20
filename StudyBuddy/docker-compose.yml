@@ -46,8 +46,7 @@ services:
       - ADMIN_PASSWORD=s98dsf7gh9d87jg0s8d7fgh0987t87h98aft
       - TRUST_PROXY=true
       - DEFAULT_PAD_TEXT=Welcome to Etherpad!
-    volumes:
-      - etherpad-data:/opt/etherpad-lite/var
+      - ETHERPAD_API_KEY=dc8f76db946f14e6917539314b76ac5106fa6fd1a58f9d8cf09a1351b1728473
     networks:
       - app-network
 

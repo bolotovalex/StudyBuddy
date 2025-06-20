@@ -1,4 +1,8 @@
 {
-    "apiKey": "changeme",
-    "trustProxy": true
-  }
+  "ip": "0.0.0.0",
+  "port": 9001,
+  "apiKey": "dc8f76db946f14e6917539314b76ac5106fa6fd1a58f9d8cf09a1351b1728473",
+  "trustProxy": true,
+  "defaultPadText": "Welcome to Etherpad!",
+  "title": "StudyBuddy Etherpad"
+}

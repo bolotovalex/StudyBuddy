@@ -42,6 +42,5 @@ def add_note_view(request, group_id):
             messages.error(request, "Название и содержимое не могут быть пустыми.")
     return render(request, 'notes/add_note.html', {'group': group})
 
-@login_required
 def get_etherpad_url(self):
     return f"{settings.ETHERPAD_BASE_URL}/p/{self.etherpad_id}"
