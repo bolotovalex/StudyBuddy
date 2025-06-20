@@ -17,6 +17,10 @@
         });
     }
   </script>
+  <!-- Для iOS -->
+  <link rel="apple-touch-icon" href="{% static 'icon-180x180.png' %}">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   {% block extra_head %}{% endblock %}
 
@@ -50,11 +54,11 @@
         <hr class="my-2" />
         <a href="{% url 'groups:group_list' %}" class="btn btn-neutral w-full mb-2">Список групп</a>
         <a href="{% url 'questions:question_list' %}" class="btn btn-neutral w-full">Вопросы</a>
-        
+
         <p id="install-text" class="text-sm text-blue-500 underline cursor-pointer hidden">
           Установить приложение
         </p>
-        
+
       </div>
       <div class="mt-8 space-y-2">
         {% if request.user == group.owner %}
@@ -121,11 +125,11 @@
             Удалить группу
           </a>
           {% endif %}
-         
+
           {% include "sidebar_extra.html" %}
           <a href="{% url 'accounts:logout' %}" class="btn btn-error w-full">Выход</a>
-          
-          
+
+
 
         </div>
       </div>
