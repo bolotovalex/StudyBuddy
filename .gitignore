@@ -274,3 +274,8 @@ StudyBuddy/announcements/__pycache__/
 StudyBuddy/announcements/migrations/__pycache__/
 StudyBuddy/staticfiles/
 StudyBuddy/db.sqlite3
+.idea/misc.xml
+.idea/modules.xml
+.idea/StudyBuddy.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml

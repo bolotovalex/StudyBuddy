@@ -42,7 +42,7 @@ services:
     environment:
       - AUTHENTICATION_METHOD=apikey
       - TRUST_PROXY=true
-      - PUBLIC_URL=http://localhost/etherpad
+      - PUBLIC_URL=http://study.olexx-tech.ru/etherpad
     volumes:
       - ./etherpad-api-key.txt:/opt/etherpad-lite/APIKEY.txt:ro
       # - ./etherpad-settings.json:/opt/etherpad-lite/settings.json:ro
