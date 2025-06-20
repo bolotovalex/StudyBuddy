@@ -12,7 +12,7 @@
 <div class="w-full max-w-6xl mx-auto px-4">
 
     <div class="sticky top-0 z-10 bg-base-200 border-b border-base-300">
-        <div role="tablist" class="tabs tabs-lifted px-4 justify-start text-[15px] font-medium">
+        <div role="tablist" class="tabs tabs-lifted overflow-x-auto no-scrollbar whitespace-nowrap px-2 text-sm">
             <a role="tab" class="tab tab-lifted tab-active -mb-px" href="#announcements">Объявления</a>
             <a role="tab" class="tab tab-lifted" href="#documents">Документы</a>
             <a role="tab" class="tab tab-lifted" href="#notes">Конспекты</a>
@@ -91,7 +91,7 @@
             <h2 class="text-lg font-semibold mb-3">Документы</h2>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
                 {% for document in documents %}
-                <div class="flex flex-col items-center bg-base-200 rounded p-3">
+                <div class="flex flex-col sm:flex-row gap-2 w-full justify-center mt-2">
                     <!-- Кликабельная иконка -->
                     <div class="mb-2 cursor-pointer" onclick="toggleDescription(this)">
                         {% if document.get_file_type == 'pdf' %}
@@ -112,9 +112,9 @@
                     </div>
                     <!-- Кнопки в строку -->
                     <div class="flex flex-row gap-2">
-                        <a href="{{ document.file.url }}" target="_blank" class="btn btn-primary btn-sm">Открыть</a>
+                        <a href="{{ document.file.url }}" target="_blank" class="btn btn-primary btn-sm w-full sm:w-auto">Открыть</a>
                         <a href="{% url 'documents:delete_document' document.id %}"
-                            class="btn btn-error btn-sm">Удалить</a>
+                            class="btn btn-error btn-sm w-full sm:w-auto">Удалить</a>
                     </div>
                 </div>
                 {% empty %}
@@ -158,8 +158,8 @@
                     <!-- Кнопки -->
                     <div class="flex flex-row gap-2">
                         <a href="{% url 'notes:note_etherpad_redirect' pad_id=note.etherpad_id %}" target="_blank"
-                            class="btn btn-primary btn-sm">Открыть</a>
-                        <a href="{% url 'notes:delete_note' note.id %}" class="btn btn-error btn-sm">Удалить</a>
+                            class="btn btn-primary btn-sm w-full sm:w-auto">Открыть</a>
+                        <a href="{% url 'notes:delete_note' note.id %}" class="btn btn-error btn-sm w-full sm:w-auto">Удалить</a>
                     </div>
                 </div>
                 {% empty %}
