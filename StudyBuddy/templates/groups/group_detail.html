@@ -255,23 +255,24 @@
             <ul class="space-y-2">
                 {% for user in group.access_requests.all %}
 
+                {% for user in group.access_requests.all %}
                 <li class="group bg-base-200 rounded">
                     <div class="flex justify-between items-center px-4 pt-2">
                         <div class="collapse collapse-arrow w-full">
                             <input type="checkbox" />
                             <div class="collapse-title flex items-center gap-3 p-2">
-                                {% if member.profile.photo %}
+                                {% if user.profile.photo %}
                                 <div class="w-8 h-8 rounded-full overflow-hidden ring ring-primary shrink-0">
-                                    <img src="{{ member.profile.photo.url }}" alt="Аватар"
+                                    <img src="{{ user.profile.photo.url }}" alt="Аватар"
                                         class="w-full h-full object-cover object-center">
                                 </div>
                                 {% else %}
                                 <div
                                     class="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-xs font-bold ring ring-primary shrink-0">
-                                    {{ member.profile.first_name|first }}{{ member.profile.last_name|first }}
+                                    {{ user.profile.first_name|first }}{{ user.profile.last_name|first }}
                                 </div>
                                 {% endif %}
-                                <span class="text-sm leading-none">{{ member.last_name }} {{ member.first_name }}</span>
+                                <span class="text-sm leading-none">{{ user.last_name }} {{ user.first_name }}</span>
                             </div>
 
                             <div class="collapse-content px-4 pb-2 text-sm text-base-content/80 space-y-1">
@@ -292,6 +293,7 @@
                 {% empty %}
                 <li class="text-base-content/60">Нет запросов на доступ.</li>
                 {% endfor %}
+
             </ul>
             {% endif %}
 
