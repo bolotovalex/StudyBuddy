@@ -168,10 +168,9 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ETHERPAD_API_URL = 'http://etherpad:9001/api/1'
-ETHERPAD_BASE_URL = 'http://etherpad:9001'
+ETHERPAD_BASE_URL = 'http://localhost:9001'
 
-ETHERPAD_API_KEY = os.getenv('ETHERPAD_API_KEY', 'changeme')
-
+ETHERPAD_API_KEY = 'dc8f76db946f14e6917539314b76ac5106fa6fd1a58f9d8cf09a1351b172847'
 
 PWA_APP_NAME = 'StudyBuddy'
 PWA_APP_DESCRIPTION = "StudyBuddy PWA"

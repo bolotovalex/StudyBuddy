@@ -1,0 +1,15 @@
+{
+  "ip": "0.0.0.0",
+  "port": 9001,
+  "trustProxy": true,
+  "defaultPadText": "Welcome to Etherpad!",
+  "title": "StudyBuddy Etherpad",
+
+
+  "users": {
+    "admin": {
+      "password": "adminpass",
+      "is_admin": true
+    }
+  }
+}

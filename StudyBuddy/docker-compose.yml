@@ -39,16 +39,30 @@ services:
     image: etherpad/etherpad:latest
     container_name: etherpad
     restart: unless-stopped
+    environment:
+      - AUTHENTICATION_METHOD=apikey
     ports:
       - "9001:9001"
-    environment:
-      - TITLE=StudyBuddy Etherpad
-      - ADMIN_PASSWORD=s98dsf7gh9d87jg0s8d7fgh0987t87h98aft
-      - TRUST_PROXY=true
-      - DEFAULT_PAD_TEXT=Welcome to Etherpad!
-      - ETHERPAD_API_KEY=dc8f76db946f14e6917539314b76ac5106fa6fd1a58f9d8cf09a1351b1728473
+    volumes:
+      - ./etherpad-api-key.txt:/opt/etherpad-lite/APIKEY.txt:ro
     networks:
       - app-network
+
+  
+  # etherpad:
+  #   image: etherpad/etherpad:latest
+  #   container_name: etherpad
+  #   restart: unless-stopped
+  #   ports:
+  #     - "9001:9001"
+  #   environment:
+  #     - TITLE=StudyBuddy Etherpad
+  #     - ADMIN_PASSWORD=s98dsf7gh9d87jg0s8d7fgh0987t87h98aft
+  #     - TRUST_PROXY=true
+  #     - DEFAULT_PAD_TEXT=Welcome to Etherpad!
+  #     - ETHERPAD_API_KEY=dc8f76db946f14e6917539314b76ac5106fa6fd1a58f9d8cf09a1351b1728473
+  #   networks:
+  #     - app-network
 
 volumes:
   etherpad-data:
